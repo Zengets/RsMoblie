@@ -1,16 +1,21 @@
-
+import { login } from '../services/index'
 
 export default {
     namespace: 'index',
-    state: { count: 1 },
+    state: { 
+        count: 1,
+        res:{},
+    
+    },
     effects: {
-        *test({ payload }, { call, put }) {//data
-            //const responese = yield call(loanReturn, payload);
+        *login({ payload }, { call, put }) {//data
+            const responese = yield call( login, payload );
             yield put({
                 type: 'updateState',
-                payload: { count: 10 }
+                payload: { res: responese }
             })
-            return true //responese.code == "0000"
+            console.log(responese)
+            return responese.code == "0000"
         },
     },
     reducers: {
