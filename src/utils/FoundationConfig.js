@@ -2,12 +2,12 @@ import { Colors, Typography, Spacings } from 'react-native-ui-lib';
 
 export default function setTheme() {
     Colors.loadColors({
-        primaryColor: '#2364AA',
+        primaryColor: '#468fff',
         secondaryColor: '#81C3D7',
-        textColor: '##221D23',
+        textColor: '#221D23',
         errorColor: '#E63B2E',
         successColor: '#ADC76F',
-        warnColor: '##FF963C'
+        warnColor: '#FF963C'
     });
 
     Typography.loadTypographies({

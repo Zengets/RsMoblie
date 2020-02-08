@@ -3,8 +3,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { create } from 'dva-core';
 import indexModel from './models'
-import { setConfig,setTheme } from './utils/index';
-
+import { setConfig, setTheme } from './utils/index';
+import SplashScreen from 'react-native-splash-screen'
 setConfig();
 setTheme();
 
@@ -22,10 +22,13 @@ const store = app._store; // 获取redux的store对象供react-redux使用
 
 
 class Container extends React.Component {
+  componentDidMount() {
+    SplashScreen.hide();//关闭启动屏幕
+  }
   render() {
     return (
       <Provider store={store}>
-        <App/>
+        <App />
       </Provider>
     );
   }
