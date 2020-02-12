@@ -1,3 +1,10 @@
-import Home from './Home/index'
-import Login from './Login/index'
-export {Home,Login}
+import Home from './Home'
+import Login from './Login'
+import Info from './Info'
+import Usage from './Usage'
+import Knowledge from './Knowledge'
+import Mine from './Mine'
+import SettingMenu from './SettingMenu'
+import PerCenter from './PerCenter'
+import Scan from './Scan'
+export {Home,Login,Info,Usage,Knowledge,Mine,SettingMenu,PerCenter,Scan}

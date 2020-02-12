@@ -53,6 +53,8 @@ export default class SafeAreaViewPlus extends Component {
         return enablePlus ? this.genSafeAreaViewPlus() : this.genSafeAreaView();
     }
 }
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1

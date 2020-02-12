@@ -5,10 +5,10 @@ import {
     update,
     uploadFile
 } from '../utils/index'
-let ipandport = 'http://172.21.3.124:8080'
+let ipandport = 'http://2622536c3m.zicp.vip:16591'
 
-export async function login(params) {
-    return post(`${ipandport}/sysUser/sendVerificationCode`, params);
+export async function test(params) {
+    return post(`${ipandport}/test/query`, params);
 }
 
 
