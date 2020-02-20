@@ -17,8 +17,12 @@ function checkStatus(response) {
 }
 
 function parseJSON(response) {
-  return response.json()
+  let res = response.json()
+  return res.then((data)=>{
+    return data
+  })
 }
+
 
 async function get(url, params) {
   if (params) {
@@ -34,11 +38,10 @@ async function get(url, params) {
     }
     return fetch(url, {
       headers: headers
-    })
+    }) 
       .then(checkStatus)
       .then(parseJSON)
       .catch(error => {
-        console.log(error);
         return "error"
       })
   } catch (e) {
@@ -49,13 +52,16 @@ async function get(url, params) {
 
 async function post(url, body) {
   try {
-    let Access_Token = await Storage.get('Access_Token');
+    let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
+    if(Access_Token){
+      TOKEN = JSON.parse(Access_Token).token
+    }
     let fetchOptions = {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=utf-8',
-        'Access_Token': Access_Token ? Access_Token : '',
+        'token': TOKEN,
         'Connection':"close",
         'UserAgent': os
       },
@@ -65,7 +71,6 @@ async function post(url, body) {
       .then(checkStatus)
       .then(parseJSON)
       .catch(error => {
-        console.log(error);
         return "error"
       })
   } catch (e) {

@@ -1,9 +1,13 @@
 import { ThemeManager } from 'react-native-ui-lib';
-
+import colors from './ThemeColor'
 export default function setConfig() {
     // with plain object
     ThemeManager.setComponentTheme('Card', {
-        borderRadius: 8
+        borderRadius: 8,
+    });
+
+    ThemeManager.setComponentTheme('TextField', {
+        underlineColor: { default: '#dddddd', error: 'red', focus: colors.primaryColor, disabled: 'grey' }
     });
 
     // with a dynamic function
@@ -12,7 +16,7 @@ export default function setConfig() {
         // be used to create different variations of buttons in your app
         if (props.square) {
             return {
-                borderRadius: 0
+                borderRadius: 60,
             };
         }
     });

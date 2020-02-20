@@ -35,7 +35,9 @@ class Knowledge extends React.Component {
         </Card>
         <Button label="Button" body bg-primaryColor square onPress={() => {
           this.login()
-        }}></Button>
+        }}>
+          
+        </Button>
       </View>
     </SafeAreaViewPlus>
 

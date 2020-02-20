@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast,Header } from '../../components';
+import { SafeAreaViewPlus, OpenToast, Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 @connect(({ index }) => ({ index }))
@@ -13,8 +13,11 @@ class Info extends React.Component {
     dispatch({
       type: 'index/' + type,
       payload: values
-    }).then(() => {
-      OpenToast("success")
+    }).then((res) => {
+      if (!res) {
+        return
+      }
+      fn ? fn() : null
     })
   }
 
@@ -23,7 +26,7 @@ class Info extends React.Component {
 
 
   render() {
-    const { index } = this.props
+    const { index, navigation } = this.props
 
     return <SafeAreaViewPlus>
       <Header title="信息">
@@ -33,8 +36,11 @@ class Info extends React.Component {
         <Card height={100} center padding-card marginB-s4>
           <Text body>This is an Info card {index.count}</Text>
         </Card>
-        <Button label="Button" body bg-primaryColor square onPress={() => {
-          this.login()
+        <Button label="Devices" body bg-primaryColor square onPress={() => {
+          navigation.navigate("InfoDevice")
+        }}></Button>
+        <Button label="User" marginT-24 body bg-primaryColor square onPress={() => {
+          navigation.navigate("UserList")
         }}></Button>
       </View>
     </SafeAreaViewPlus>

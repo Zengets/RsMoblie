@@ -7,17 +7,22 @@ import {
     update,
     uploadFile
 } from './request'
-
+import colors from './ThemeColor';
+import { ConvertPinyin } from './ConvertPinyin'
 
 export { default as Storage } from './storage'
 export const delay = time => new Promise(resolve => setTimeout(resolve, time))
 
 export {
-    setConfig, setTheme, 
+    setConfig, 
+    setTheme,
+    colors, 
     get,
     post,
     del,
     update,
-    uploadFile
+    uploadFile,
+    ConvertPinyin
+
 }
 

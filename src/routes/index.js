@@ -1,10 +1,21 @@
 import React from 'react';
-import { Scan, Login } from '../pages/index';
-import { createAppContainer } from 'react-navigation';
+import { Scan, Login,InfoDevice,InfoDeviceDetail,UserList } from '../pages/index';
 import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import Drawer from './Drawer'
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Transition } from 'react-native-reanimated';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
+let currentUser = {};
+let getItem = async () => {
+    currentUser = await AsyncStorage.getItem('@MyApp_user')
+}
+
+getItem();
+
 
 function getCurrentRouteName(navigationState) {
     if (!navigationState) {
@@ -24,15 +35,17 @@ const AppNavigator = createStackNavigator(
             screen: gestureHandlerRootHOC(Drawer),
             navigationOptions: ({ navigation }) => (
                 {
-                    headerShown:false
+                    headerShown: false
                 }
             )
         },
-        Scan:Scan,
-        Login: Login
+        Scan: Scan,
+        InfoDevice:InfoDevice,
+        InfoDeviceDetail:InfoDeviceDetail,
+        UserList:UserList
     },
     {
-        initialRouteName: 'Login',
+        initialRouteName: 'Home',
         headerMode: "screen",
         defaultNavigationOptions: {
             headerShown: false,
@@ -42,25 +55,38 @@ const AppNavigator = createStackNavigator(
     }
 );
 
-const MyAppRouter = {
-    ...AppNavigator,
-    getStateForAction(action, state) {
-        if (
-            state &&
-            action.type === NavigationActions.BACK &&
-            getCurrentRouteName(state) == "Login"
-        ) {
-            // Returning null from getStateForAction means that the action
-            // has been handled/blocked, but there is not a new state
-            return null;
+let Main = createAppContainer(AppNavigator);
+
+
+
+const App = createAppContainer(
+    createAnimatedSwitchNavigator(
+        {
+            Login: Login,
+            Main: Main
+        },
+        {
+            initialRouteName: currentUser.token?"Main":"Login",
+            transition: (
+                <Transition.Together>
+                    <Transition.Out
+                        type="slide-left"
+                        durationMs={200}
+                        interpolation="easeIn"
+                    />
+                    <Transition.In
+                        type="slide-right"
+                        durationMs={200}
+                        interpolation="easeIn"
+                    />
+                </Transition.Together>
+            ),
         }
-        return AppNavigator.getStateForAction(action, state);
-    },
-};
+    )
+)
 
 
 
-const App = createAppContainer(AppNavigator);
 
 export default App
 

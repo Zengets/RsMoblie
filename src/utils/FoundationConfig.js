@@ -1,19 +1,12 @@
 import { Colors, Typography, Spacings } from 'react-native-ui-lib';
-
+import colors from './ThemeColor';
 export default function setTheme() {
-    Colors.loadColors({
-        primaryColor: '#468fff',
-        secondaryColor: '#81C3D7',
-        textColor: '#221D23',
-        errorColor: '#E63B2E',
-        successColor: '#ADC76F',
-        warnColor: '#FF963C'
-    });
-
+    Colors.loadColors(colors);
     Typography.loadTypographies({
-        heading: { fontSize: 36, fontWeight: '600' },
-        subheading: { fontSize: 20, fontWeight: '500' },
-        body: { fontSize: 18, fontWeight: '400' },
+        heading: { fontSize: 22, fontWeight: '600' },
+        subheading: { fontSize: 18, fontWeight: '500' },
+        body: { fontSize: 16, fontWeight: 'normal' },
+        subbody: { fontSize: 14, fontWeight: 'normal' },
     });
 
     Spacings.loadSpacings({

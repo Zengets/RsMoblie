@@ -4,7 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-
+import {colors} from '../utils'
 import React from 'react';
 
 let RouteConfigs = {
@@ -83,7 +83,10 @@ const BottomTab = createBottomTabNavigator(RouteConfigs, {
     tabBarPosition: 'bottom',
     swipeEnabled: true,
     animationEnabled: true,
-    backBehavior: "none"
+    backBehavior: "none",
+    tabBarOptions:{
+        activeTintColor:colors.primaryColor
+    },
 });
 
 export default createAppContainer(BottomTab) 

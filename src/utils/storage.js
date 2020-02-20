@@ -4,14 +4,16 @@ function clear() {
   return AsyncStorage.clear()
 }
 
-function get(key, defaultValue = null) {
-  return AsyncStorage.getItem(key).then(
-    value => (value !== null ? JSON.parse(value) : defaultValue)
+let get = async (key) => {
+  return await AsyncStorage.getItem(key).then(
+    value => {
+      return value
+    }
   )
 }
 
 function set(key, value) {
-  return AsyncStorage.setItem(key, JSON.stringify(value))
+  return AsyncStorage.setItem(key, value)
 }
 
 function remove(key) {

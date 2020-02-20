@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native-ui-lib';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
+
 
 @connect(({ index }) => ({ index }))
 class Header extends Component {
@@ -9,18 +10,18 @@ class Header extends Component {
         let { headerLeft, title, navigation,headerRight,backgroundColor } = this.props;
 
         return <View style={{ height: 44, flexDirection: "row", alignItems: "center", backgroundColor:backgroundColor?backgroundColor:"#fff" }}>
-            <View style={{ width: 56 }} center>
+            <View style={{ width: 40 }} right>
                 {
-                    navigation ? <Ionicons name={"ios-arrow-back"} size={24} color={"#666"} onPress={() => {
+                    navigation ? <AntIcons name={"left"} size={20} color={"#666"} onPress={() => {
                         navigation.goBack()
-                    }}></Ionicons> :
+                    }}></AntIcons> :
                         headerLeft ? headerLeft() : null
                 }
             </View>
             <View flex-1 center>
                 <Text subheading dark style={{ fontWeight: "bold" }}>{title}</Text>
             </View>
-            <View style={{ width: 56 }} center>
+            <View style={{ width: 40 }} left>
                 {
                     headerRight ? headerRight() : null
                 }
