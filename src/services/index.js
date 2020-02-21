@@ -33,7 +33,9 @@ export async function userlist(params) {
     return post(`${ipandport}/sysUser/queryList`, params);
 }
 
-
+export async function userlistdetail(params) {
+    return post(`${ipandport}/sysUser/queryByUserId`, params);
+}
 
 
 

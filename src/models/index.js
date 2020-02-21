@@ -1,4 +1,5 @@
-import { test, login, logout, infodevice, infodevicedetail, userlist } from '../services/index'
+import {    test, login, logout, 
+            infodevice, infodevicedetail, userlist,userlistdetail } from '../services/index'
 export default {
     namespace: 'index',
     state: {
@@ -8,9 +9,9 @@ export default {
         userAccount: {},
         userTime: 1,
         token: 1,
-
         infodevice: {},
         infodevicedetail: {},
+        userlistdetail:{},
         userlist: {},
         res: {},
     },
@@ -63,15 +64,26 @@ export default {
             })
             return responese.code == "0000"
         },
+        
         *userlist({ payload }, { call, put }) {//data
             const responese = yield call(userlist, payload);
-            console.log(responese.data.dataList)
             yield put({
                 type: 'updateState',
                 payload: { userlist: responese.data.dataList ? responese.data.dataList : {} }
             })
             return responese.code == "0000"
         },
+        *userlistdetail({ payload }, { call, put }) {//data
+            console.log(payload)
+            const responese = yield call(userlistdetail, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { userlistdetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *test({ payload }, { call, put }) {//data
             const responese = yield call(test, payload);
             yield put({

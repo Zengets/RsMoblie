@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast,Header } from '../../components';
+import { SafeAreaViewPlus, OneToast, Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 
@@ -14,13 +14,16 @@ class Home extends React.Component {
     dispatch({
       type: 'index/' + type,
       payload: values
-    }).then(() => {
-      OpenToast("success")
+    }).then((res) => {
+      if (!res) {
+        return
+      }
+      fn ? fn() : null
     })
   }
 
   componentDidMount() {
-    this.setNewState("test")
+    this.setNewState("test",null)
   }
 
   login() {
@@ -34,20 +37,20 @@ class Home extends React.Component {
 
 
   render() {
-    const { index,navigation } = this.props
+    const { index, navigation } = this.props
 
     return <SafeAreaViewPlus>
       <Header
         title="首页"
-        headerLeft={()=>{
+        headerLeft={() => {
           return <AntIcons name={'menuunfold'} size={20} style={{ color: "#666", paddingLeft: 20 }} onPress={() => {
-              navigation.openDrawer()
+            navigation.openDrawer()
           }}></AntIcons>
         }}
-        headerRight={()=>{
+        headerRight={() => {
           return <Ionicons name={'ios-qr-scanner'} size={22} onPress={() => {
-              navigation.navigate("Scan")
-          }}></Ionicons> 
+            navigation.navigate("Scan")
+          }}></Ionicons>
         }}
       >
       </Header>

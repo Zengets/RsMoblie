@@ -1,6 +1,6 @@
 import { ImageBackground } from 'react-native';
 import React from 'react';
-import { SafeAreaViewPlus, OpenToast } from '../../components';
+import { SafeAreaViewPlus, OneToast } from '../../components';
 import { Button, TextField, Text, View, Avatar } from 'react-native-ui-lib';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -60,7 +60,7 @@ class Login extends React.Component {
         if (parseInt(currentUser.userTime) < parseInt(now)) {
           await AsyncStorage.clear();
           this.setNewState("settoken", 1);
-          OpenToast("您的登录已过期，请重新登录...");
+          OneToast("您的登录已过期，请重新登录...");
         } else {
           let { username, password } = currentUser;
           this.setNewState("settoken", currentUser.token);
@@ -136,7 +136,7 @@ class Login extends React.Component {
 
 
 
-    return <SafeAreaViewPlus style={{ backgroundColor: "#fff", flex: 1 }}>
+    return <SafeAreaViewPlus navigation = { this.props.navigation} style={{ backgroundColor: "#fff", flex: 1 }}>
       {
         token === 1 ?
           <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button, Badge } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast, Header } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { colors } from '../../../utils';
@@ -23,6 +23,7 @@ class InfoDeviceDetail extends React.Component {
             fn ? fn() : null
         })
     }
+
 
     componentDidMount() {
         this.setNewState("infodevicedetail", {
@@ -233,8 +234,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 8,
         paddingBottom: 8,
-        paddingLeft: 8,
-        paddingRight: 8
+        paddingLeft: 12,
+        paddingRight: 12
     },
     items: {
         borderColor: "#f0f0f0",
@@ -243,8 +244,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 8,
         paddingBottom: 8,
-        paddingLeft: 8,
-        paddingRight: 8
+        paddingLeft: 12,
+        paddingRight: 12
     },
 })
 

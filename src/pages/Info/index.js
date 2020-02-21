@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast, Header } from '../../components';
+import { SafeAreaViewPlus, OneToast, Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 @connect(({ index }) => ({ index }))
@@ -22,6 +22,7 @@ class Info extends React.Component {
   }
 
   componentDidMount() {
+    this.setNewState("test", null)
   }
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Alert, FlatList } from 'react-native';
 import { View, Text, Card, AnimatableManager, ThemeManager, Colors, BorderRadiuses, ListItem } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast } from '../../components';
+import { SafeAreaViewPlus, OneToast } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AsyncStorage } from 'react-native'
 @connect(({ index }) => ({ index }))
@@ -26,7 +26,7 @@ class PerCenter extends React.Component {
   }
 
   componentDidMount() {
-
+    this.setNewState("test", null)
   }
 
   logout() {

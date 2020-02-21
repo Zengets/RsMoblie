@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RNCamera } from "react-native-camera"
-import { SafeAreaViewPlus, OpenToast,Header } from '../../components';
+import { SafeAreaViewPlus, OneToast,Header } from '../../components';
 import {
     Animated,
     StyleSheet,

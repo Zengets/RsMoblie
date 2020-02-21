@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast, Header, Modal, TitleSearch } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch,DeviceItem } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
@@ -14,11 +14,10 @@ class InfoDevice extends React.Component {
         super(props);
         this.state = {
             isLoadMore: false,
-            height: new Animated.Value(0),
+            height: new Animated.Value(45),
             refreshing: true,
             postUrl: "infodevice",
-            search: false,
-            visible: false,
+            search: true,
             showbtn: false,
             postData: {
                 "pageIndex": 1,
@@ -51,6 +50,7 @@ class InfoDevice extends React.Component {
             fn ? fn() : null
         })
     }
+
 
     //获取数据
     getData() {
@@ -130,7 +130,7 @@ class InfoDevice extends React.Component {
 
     render() {
         let { index, navigation } = this.props,
-            { refreshing, search, postData, height, isLoadMore, visible, showbtn } = this.state;
+            { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let getColor = (item) => {
             let color = colors.primaryColor;
@@ -178,69 +178,10 @@ class InfoDevice extends React.Component {
         }
 
         let renderItem = ({ item, index }) => {
-            return <Card marginB-8 enableShadow={false} padding-12 onPress={() => {
-                navigation.navigate("InfoDeviceDetail", {
-                    id: item.id,
-                    name: item.equipmentName
-                })
-            }}>
-                <View row>
-                    <ImageBackground style={{ borderRadius: 4, width: 48, height: 48 }} source={item.pictureUrl ? { uri: item.pictureUrl } : require("../../../assets/404.png")} />
-                    <View paddingL-12 flex-1>
-                        <View row spread top flex-1>
-                            <View>
-                                <Text body dark10>{item.equipmentName}</Text>
-                            </View>
-                            <View row center>
-                                <Text subbody dark100 marginR-3 marginT-3 style={{ color: getColor(item) }}>{item.statusName}</Text>
-                                <Badge size='small' backgroundColor={getColor(item)}></Badge>
-                            </View>
-                        </View>
-                        <View flex-1 bottom>
-                            <View row spread>
-                                <View flex-1>
-                                    <Text subbody >编号:{item.equipmentNo}</Text>
-                                </View>
-                                <View flex-1 right>
-                                    <Text subbody >位置:{item.positionNo}</Text>
-                                </View>
-
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-
-            </Card>
+            return <DeviceItem item={item} navigation={this.props.navigation}></DeviceItem>
         }
 
         return <SafeAreaViewPlus>
-            <Modal
-                title='筛选设备'
-                visible={visible}
-                hide={() => {
-                    this.setState({
-                        visible: false
-                    })
-                }}
-                height={"90%"}
-            >
-                <View padding-page>
-                    <Text>
-                        筛选条件...
-                    </Text>
-                </View>
-                <View padding-page flex-1 right bottom>
-                    <Text blue20 text60 onPress={() => {
-                        this.setState({
-                            visible: false
-                        })
-                    }}>
-                        Done
-                    </Text>
-
-                </View>
-            </Modal>
             <Header
                 navigation={navigation}
                 title="设备信息"
@@ -257,8 +198,8 @@ class InfoDevice extends React.Component {
                 </Text>}
             >
             </Header>
-            <View style={{ paddingBottom: search ? 112 : 45 }}>
-                <View style={{ padding: search ? 12 : 0 }}>
+            <View style={{ paddingBottom: search ? 100 : 45 }}>
+                <View style={{ padding: search ? 12 : 0,paddingBottom:0 }}>
                     <TitleSearch {...searchprops}></TitleSearch>
                 </View>
                 <FlatList
@@ -284,7 +225,7 @@ class InfoDevice extends React.Component {
                     }}
                     ref={(FlatList) => this._FlatList = FlatList}
                     showsVerticalScrollIndicator={false}
-                    style={{ paddingLeft: 12, paddingRight: 12, paddingTop: search ? 0 : 12 }}
+                    style={{ padding: 0,marginTop:-3 }}
                     data={this.state.resData}
                     onRefresh={() => { this.onRefresh() }} //刷新操作
                     refreshing={refreshing} //等待加载出现加载的符号是否显示
@@ -294,7 +235,7 @@ class InfoDevice extends React.Component {
                     ListEmptyComponent={() => <View center><Text style={styles.item}>{refreshing ? "数据加载中..." : "暂无更多..."}</Text></View>}
                     onEndReached={({ distanceFromEnd }) => this.pullUpLoading(distanceFromEnd)}
                     onEndReachedThreshold={0.5}
-                    ListFooterComponent={() => { return !this.props.index.infodevice.hasNextPage && !refreshing && this.state.resData.length > 0 ? <View center paddingB-24><Text>暂无更多...</Text></View> : this.state.isLoadMore ? <View center paddingB-24><Text>正在加载...</Text></View> : null }}
+                    ListFooterComponent={() => { return !this.props.index.infodevice.hasNextPage && !refreshing && this.state.resData.length > 0 ? <View center paddingV-12><Text>暂无更多...</Text></View> : this.state.isLoadMore ? <View center paddingV-12><Text>正在加载...</Text></View> : null }}
                 />
             </View>
             {

@@ -9,7 +9,7 @@ import { PropTypes } from 'prop-types';
 
 @connect(({ index }) => ({ index }))
 class TitleSearch extends React.Component {
-    
+
     static defaultProps = {
         height: 45,
         navigation: {},

@@ -35,4 +35,9 @@ let HideToast = () => {
     null
 } 
 
-export { OpenToast,HideToast }
+let OneToast = ( title,backgroundColor,onShow,onShown,onHide,onHidden )=>{
+    HideToast();
+    OpenToast(title,backgroundColor,onShow,onShown,onHide,onHidden);
+}
+
+export { OpenToast,HideToast,OneToast }

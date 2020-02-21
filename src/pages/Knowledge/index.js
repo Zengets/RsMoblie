@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OpenToast,Header } from '../../components';
+import { SafeAreaViewPlus, OneToast,Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 @connect(({ index }) => ({ index }))
@@ -13,8 +13,12 @@ class Knowledge extends React.Component {
     dispatch({
       type: 'index/' + type,
       payload: values
-    }).then(() => {
-      OpenToast("success")
+    }).then((res) => {
+      
+      if (!res) {
+        return
+      }
+      fn ? fn() : null
     })
   }
 

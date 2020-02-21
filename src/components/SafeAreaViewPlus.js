@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { DeviceInfo, SafeAreaView, StyleSheet, View, ViewPropTypes, StatusBar } from 'react-native';
+import { DeviceInfo, SafeAreaView, StyleSheet, ViewPropTypes, StatusBar } from 'react-native';
 import { PropTypes } from 'prop-types';
-export default class SafeAreaViewPlus extends Component {
+import { View, Text} from 'react-native-ui-lib';
+import { connect } from 'react-redux';
+
+
+@connect(({ index }) => ({ index }))
+class SafeAreaViewPlus extends Component {
 
     static propTypes = {
         ...ViewPropTypes,
@@ -31,7 +36,7 @@ export default class SafeAreaViewPlus extends Component {
     }
 
     genSafeAreaViewPlus() {
-        const { children, topColor, bottomColor, topInset, bottomInset } = this.props;
+        const { children, topColor, bottomColor, topInset, bottomInset,index } = this.props;
         return <View style={[styles.container, this.props.style]}>
             <StatusBar hidden={false} backgroundColor={topColor} animated={true} barStyle='dark-content'></StatusBar>
             {this.getTopArea(topColor, topInset)}
@@ -66,3 +71,5 @@ const styles = StyleSheet.create({
         height: 34,
     },
 });
+
+export default SafeAreaViewPlus

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scan, Login,InfoDevice,InfoDeviceDetail,UserList } from '../pages/index';
+import { Scan, Login,InfoDevice,InfoDeviceDetail,UserList,UserListDetail } from '../pages/index';
 import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
@@ -42,7 +42,8 @@ const AppNavigator = createStackNavigator(
         Scan: Scan,
         InfoDevice:InfoDevice,
         InfoDeviceDetail:InfoDeviceDetail,
-        UserList:UserList
+        UserList:UserList,
+        UserListDetail:UserListDetail
     },
     {
         initialRouteName: 'Home',

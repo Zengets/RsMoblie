@@ -4,6 +4,7 @@ import Info from './Info'
 import InfoDevice from './Info/Childern/InfoDevice'
 import InfoDeviceDetail from './Info/Childern/InfoDeviceDetail'
 import UserList from './Info/Childern/UserList'
+import UserListDetail from './Info/Childern/UserListDetail'
 
 import Usage from './Usage'
 import Knowledge from './Knowledge'
@@ -14,4 +15,16 @@ import Scan from './Scan'
 
 
 
-export {Home,Login,Info,InfoDevice,InfoDeviceDetail,UserList,Usage,Knowledge,Mine,SettingMenu,PerCenter,Scan}
+export {
+    Home,
+    Login,
+    Info,
+    InfoDevice,InfoDeviceDetail,
+    UserList,UserListDetail,
+    
+    Usage,
+    Knowledge,
+    Mine,
+    SettingMenu,
+    PerCenter,
+    Scan}

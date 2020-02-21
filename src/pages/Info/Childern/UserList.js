@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Linking, TouchableOpacity } from "react-native";
 import { LargeList } from "react-native-largelist-v3";
-import { SafeAreaViewPlus, HideToast, OpenToast, Header, Atoz, TitleSearch } from '../../../components';
+import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch } from '../../../components';
 import { ConvertPinyin } from '../../../utils';
 import { contacts } from './mock';
 import { connect } from 'react-redux';
@@ -118,18 +118,6 @@ class UserList extends React.Component {
     })
   }
 
-  //拨打电话
-  linking(url) {
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-
-      } else {
-        return Linking.openURL(url);
-      }
-    }).catch(err => console.error('An error occurred', err));
-
-  }
-
 
   _renderSection = (section) => {
     return (
@@ -153,7 +141,9 @@ class UserList extends React.Component {
         style={{ alignItems: "center", borderBottomWidth: 1, borderColor: "#f9f9f9" }}
         paddingL-page paddingR-page
         onPress={() => {
-          //OpenToast(0)
+          this.props.navigation.navigate("UserListDetail", {
+            id: item.id,
+          })
         }}
       >
         <Avatar {...avatar}></Avatar>
@@ -179,12 +169,12 @@ class UserList extends React.Component {
         height: 45,
         navigation,
         placeholder: "输入姓名查询...",
-        value: postData.accountName,
+        value: postData.userName,
         onChangeText: (val) => {
           this.setState({
             postData: {
               ...postData,
-              accountName: val
+              userName: val
             }
           })
         },
@@ -200,10 +190,10 @@ class UserList extends React.Component {
       <SafeAreaViewPlus>
         <Header title="用户列表">
         </Header>
-        <View padding-12 style={{paddingBottom:0}}>
+        <View padding-12 style={{ paddingBottom: 0 }}>
           <TitleSearch {...searchprops}></TitleSearch>
         </View>
-        <View style={{ position: "relative", flex: 1,marginTop:-3 }} row center>
+        <View style={{ position: "relative", flex: 1, marginTop: -3 }} row center>
           <LargeList
             ref={ref => (this._scrollView = ref)}
             style={styles.container}
