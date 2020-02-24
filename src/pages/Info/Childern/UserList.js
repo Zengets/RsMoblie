@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Linking, TouchableOpacity } from "react-native";
 import { LargeList } from "react-native-largelist-v3";
-import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch } from '../../../components';
+import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch,UserItem } from '../../../components';
 import { ConvertPinyin } from '../../../utils';
 import { contacts } from './mock';
 import { connect } from 'react-redux';
@@ -137,21 +137,9 @@ class UserList extends React.Component {
         imageSource: require("../../../assets/user.png"),
       }
     return (
-      <Card borderRadius={0} enableShadow={false} bg-white row
-        style={{ alignItems: "center", borderBottomWidth: 1, borderColor: "#f9f9f9" }}
-        paddingL-page paddingR-page
-        onPress={() => {
-          this.props.navigation.navigate("UserListDetail", {
-            id: item.id,
-          })
-        }}
-      >
-        <Avatar {...avatar}></Avatar>
-        <View paddingL-12 spread>
-          <Text dark20 subheading>{item.userName}</Text>
-          <Text body marginT-4>{item.departmentName}</Text>
-        </View>
-      </Card>
+      <View>
+        <UserItem key={section+""+row} avatar={avatar} item={item} navigation={this.props.navigation}></UserItem> 
+      </View>
     );
   };
 

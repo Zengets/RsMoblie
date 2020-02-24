@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch,DeviceItem } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, DeviceItem } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
-import { FlatList, StyleSheet, ImageBackground, Animated } from 'react-native';
+import { StyleSheet, ImageBackground, Animated } from 'react-native';
+import { LargeList } from "react-native-largelist-v3";
+import { ChineseWithLastDateHeader, ChineseWithLastDateFooter } from "react-native-spring-scrollview/Customize";
 import ActionButton from 'react-native-action-button';
 
 @connect(({ index }) => ({ index }))
@@ -31,8 +33,7 @@ class InfoDevice extends React.Component {
                 "departmentId": "",//部门id，筛选条件
                 "status": ""//状态，筛选条件
             },
-            resData: [
-            ]
+            resData: [{ items: [] }]
         }
     }
 
@@ -61,18 +62,19 @@ class InfoDevice extends React.Component {
             }
         }, () => {
             let { postUrl, postData, refreshing } = this.state;
-            console.log(postData)
-
             this.setNewState(postUrl, postData, () => {
+                this._list.endRefresh();//结束刷新状态
+                this._list.endLoading();
+
                 if (refreshing) {
                     this.setState({
-                        resData: this.props.index.infodevice.list,
+                        resData: [{ items: this.props.index.infodevice.list }],
                         refreshing: false,
                         isLoadMore: false
                     })
                 } else {
                     this.setState({
-                        resData: this.state.resData.concat(this.props.index.infodevice.list),
+                        resData: this.state.resData.concat([{ items: this.props.index.infodevice.list }]),
                         isLoadMore: false
                     })
                 }
@@ -102,13 +104,12 @@ class InfoDevice extends React.Component {
     onRefresh() {
         this.setState({
             refreshing: true,
-            resData: []
         }, () => {
             this.getData();
         });
     }
-
-    pullUpLoading(distanceFromEnd) {
+    //上拉加载
+    pullUpLoading = () => {
         if (!this.state.isLoadMore && this.props.index.infodevice.hasNextPage) {
             this.setState({
                 isLoadMore: true,
@@ -124,7 +125,7 @@ class InfoDevice extends React.Component {
 
     //返回顶部
     scrollToTop = () => {
-        this._FlatList.scrollToOffset({ animated: true, viewPosition: 0, index: 0 }); //跳转到顶部
+        this._list && this._list.scrollTo({ x: 0, y: 0 }).then().catch();
     }
 
 
@@ -177,8 +178,10 @@ class InfoDevice extends React.Component {
 
         }
 
-        let renderItem = ({ item, index }) => {
-            return <DeviceItem item={item} navigation={this.props.navigation}></DeviceItem>
+        let renderItem = ({ section: section, row: row }) => {
+            let item = this.state.resData[section].items[row];
+            console.log(item)
+            return item ? <DeviceItem item={item} navigation={this.props.navigation}></DeviceItem> : <View></View>
         }
 
         return <SafeAreaViewPlus>
@@ -198,14 +201,13 @@ class InfoDevice extends React.Component {
                 </Text>}
             >
             </Header>
-            <View style={{ paddingBottom: search ? 100 : 45 }}>
-                <View style={{ padding: search ? 12 : 0,paddingBottom:0 }}>
+            <View flex >
+                <View style={{ padding: search ? 12 : 0, paddingBottom: 0 }}>
                     <TitleSearch {...searchprops}></TitleSearch>
                 </View>
-                <FlatList
-                    onScroll={(e) => {
-                        let y = e.nativeEvent.contentOffset.y;
-                        if (y > 200) {
+                <LargeList
+                    onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
+                        if (y > 400) {
                             if (showbtn) {
                             } else {
                                 this.setState({
@@ -223,19 +225,17 @@ class InfoDevice extends React.Component {
                         }
 
                     }}
-                    ref={(FlatList) => this._FlatList = FlatList}
-                    showsVerticalScrollIndicator={false}
-                    style={{ padding: 0,marginTop:-3 }}
-                    data={this.state.resData}
+                    ref={ref => (this._list = ref)}
                     onRefresh={() => { this.onRefresh() }} //刷新操作
-                    refreshing={refreshing} //等待加载出现加载的符号是否显示
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    initialNumToRender={10}
-                    ListEmptyComponent={() => <View center><Text style={styles.item}>{refreshing ? "数据加载中..." : "暂无更多..."}</Text></View>}
-                    onEndReached={({ distanceFromEnd }) => this.pullUpLoading(distanceFromEnd)}
-                    onEndReachedThreshold={0.5}
-                    ListFooterComponent={() => { return !this.props.index.infodevice.hasNextPage && !refreshing && this.state.resData.length > 0 ? <View center paddingV-12><Text>暂无更多...</Text></View> : this.state.isLoadMore ? <View center paddingV-12><Text>正在加载...</Text></View> : null }}
+                    refreshHeader={ChineseWithLastDateHeader}
+                    showsVerticalScrollIndicator={false}
+                    style={{ padding: 0, marginTop: -3 }}
+                    data={this.state.resData}
+                    renderIndexPath={renderItem}//每行
+                    heightForIndexPath={() => 77}
+                    allLoaded={!this.props.index.infodevice.hasNextPage}
+                    loadingFooter={ChineseWithLastDateFooter}
+                    onLoading={this.pullUpLoading}
                 />
             </View>
             {

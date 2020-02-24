@@ -1,5 +1,7 @@
 import {    test, login, logout, 
-            infodevice, infodevicedetail, userlist,userlistdetail } from '../services/index'
+            infodevice, infodevicedetail, deviceuser,
+            
+            userlist,userlistdetail } from '../services/index'
 export default {
     namespace: 'index',
     state: {
@@ -13,6 +15,7 @@ export default {
         infodevicedetail: {},
         userlistdetail:{},
         userlist: {},
+        deviceuser:{},
         res: {},
     },
     effects: {
@@ -56,6 +59,15 @@ export default {
             })
             return responese.code == "0000"
         },
+        *deviceuser({ payload }, { call, put }) {//data
+            const responese = yield call(deviceuser, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { deviceuser: responese.data.dataList ? responese.data.dataList : {} }
+            })
+            return responese.code == "0000"
+        },
         *infodevicedetail({ payload }, { call, put }) {//data
             const responese = yield call(infodevicedetail, payload);
             yield put({
@@ -74,9 +86,7 @@ export default {
             return responese.code == "0000"
         },
         *userlistdetail({ payload }, { call, put }) {//data
-            console.log(payload)
             const responese = yield call(userlistdetail, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { userlistdetail: responese.data.data ? responese.data.data : {} }

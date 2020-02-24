@@ -14,31 +14,29 @@ class SafeAreaViewPlus extends Component {
         bottomColor: PropTypes.string,
         enablePlus: PropTypes.bool,
         topInset: PropTypes.bool,
-        bottomInset: PropTypes.bool
+        bottomInset: PropTypes.bool,
     };
 
     static defaultProps = {
         topColor: "#fff",
         bottomColor: '#fff',
         enablePlus: true,
-        topInset: false,
-        bottomInset: true
+        topInset: true,
+        bottomInset: false
     };
 
     getTopArea(topColor, topInset) {
-        return !DeviceInfo.isIPhoneX_deprecated || !topInset ? null
-            : <View style={[styles.topArea, { backgroundColor: topColor }]} />
+        return DeviceInfo.isIPhoneX_deprecated || topInset ? <View style={[styles.topArea, { backgroundColor: topColor }]} /> : null
     }
 
     getBottomArea(bottomColor, bottomInset) {
-        return !DeviceInfo.isIPhoneX_deprecated || !bottomInset ? null
-            : <View style={[styles.bottomArea, { backgroundColor: bottomColor }]} />
+        return DeviceInfo.isIPhoneX_deprecated || bottomInset ? <View style={[styles.bottomArea, { backgroundColor: bottomColor }]} /> :null
     }
 
     genSafeAreaViewPlus() {
         const { children, topColor, bottomColor, topInset, bottomInset,index } = this.props;
         return <View style={[styles.container, this.props.style]}>
-            <StatusBar hidden={false} backgroundColor={topColor} animated={true} barStyle='dark-content'></StatusBar>
+            <StatusBar translucent ={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
             {this.getTopArea(topColor, topInset)}
             {children}
             {this.getBottomArea(bottomColor, bottomInset)}
@@ -48,7 +46,7 @@ class SafeAreaViewPlus extends Component {
 
     genSafeAreaView() {
         return <SafeAreaView style={[styles.container, this.props.style]} {...this.props}>
-            <StatusBar hidden={false} backgroundColor={topColor} animated={true} barStyle='dark-content'></StatusBar>
+            <StatusBar translucent ={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
             {this.props.children}
         </SafeAreaView>
     }
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     topArea: {
-        height: 44,
+        height: 34,
     },
     bottomArea: {
         height: 34,

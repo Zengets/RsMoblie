@@ -7,9 +7,9 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 @connect(({ index }) => ({ index }))
 class Header extends Component {
     render() {
-        let { headerLeft, title, navigation,headerRight,backgroundColor } = this.props;
+        let { headerLeft, title, navigation,headerRight,backgroundColor,style } = this.props;
 
-        return <View style={{ height: 44, flexDirection: "row", alignItems: "center", backgroundColor:backgroundColor?backgroundColor:"#fff" }}>
+        return <View style={[style,{ height: 44, flexDirection: "row", alignItems: "center", backgroundColor:backgroundColor?backgroundColor:"#fff" }]}>
             <View style={{ width: 40 }} right>
                 {
                     navigation ? <AntIcons name={"left"} size={20} color={"#666"} onPress={() => {

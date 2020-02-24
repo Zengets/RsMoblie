@@ -48,16 +48,21 @@ class UserListDetail extends React.Component {
 
   render() {
 
-    const { index, navigation } = this.props,
+    let { index, navigation } = this.props,
       { userName, gender, jobNum, jobTitle, accountName, telephone, groupName, shiftName, mailNo,
-        departmentName, shopName, parentName, academicCareer, university, major, check, maintain, verification, repair } = index.userlistdetail
+        departmentName, shopName, parentName, academicCareer, university, major, check, maintain, verification, repair } = index.userlistdetail;
+    check = check ? check : [];
+    maintain = maintain ? maintain : [];
+    verification = verification ? verification : [];
+    repair = repair ? repair : [];
+
     let avatarprops = {
       title: 'Custom Background',
       label: userName ? ConvertPinyin(userName).substring(0, 1).toUpperCase() : "",
       labelColor: Colors.white,
       backgroundColor: "#ddd",
       size: 80
-    },arr = [check.length, maintain.length, verification.length, repair.length];
+    }, arr = [check.length, maintain.length, verification.length, repair.length];
 
     return <SafeAreaViewPlus>
       <Header title={`用户信息`} navigation={navigation}>
@@ -242,7 +247,7 @@ class UserListDetail extends React.Component {
                       }}
                     />
                   </TabBar>
-                  <View style={[styles.inter,{height:77*Math.max(...arr),minHeight:height}]} >
+                  <View style={[styles.inter, { height: 77 * Math.max(...arr), minHeight: height }]} >
                     {
                       this.state.selectedIndex == 0 && repair.map((item, i) => (
                         <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>

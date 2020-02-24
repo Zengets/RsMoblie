@@ -5,7 +5,7 @@ import {
     update,
     uploadFile
 } from '../utils/index'
-let ipandport = 'http://2622536c3m.zicp.vip:16591' //liziyuan 'http://29i2k99452.zicp.vip' //xiangzige 
+let ipandport = 'http://29i2k99452.zicp.vip' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
 
 
 export async function test(params) {
@@ -28,6 +28,11 @@ export async function infodevice(params) {
 export async function infodevicedetail(params) {
     return post(`${ipandport}/equipment/queryById`, params);
 }
+
+export async function deviceuser(params) {
+    return post(`${ipandport}/userEquipment/queryAppByEquipId`, params);
+}
+
 
 export async function userlist(params) {
     return post(`${ipandport}/sysUser/queryList`, params);

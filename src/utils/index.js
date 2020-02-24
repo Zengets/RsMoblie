@@ -22,7 +22,6 @@ export {
     del,
     update,
     uploadFile,
-    ConvertPinyin
-
+    ConvertPinyin,
 }
 

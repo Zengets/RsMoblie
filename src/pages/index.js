@@ -5,6 +5,7 @@ import InfoDevice from './Info/Childern/InfoDevice'
 import InfoDeviceDetail from './Info/Childern/InfoDeviceDetail'
 import UserList from './Info/Childern/UserList'
 import UserListDetail from './Info/Childern/UserListDetail'
+import DeviceUser from './Info/Childern/DeviceUser'
 
 import Usage from './Usage'
 import Knowledge from './Knowledge'
@@ -20,7 +21,7 @@ export {
     Login,
     Info,
     InfoDevice,InfoDeviceDetail,
-    UserList,UserListDetail,
+    UserList,UserListDetail,DeviceUser,
     
     Usage,
     Knowledge,
