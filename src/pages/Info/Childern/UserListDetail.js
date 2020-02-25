@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, DeviceItem } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, DeviceItem,Empty } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
@@ -65,7 +65,7 @@ class UserListDetail extends React.Component {
     }, arr = [check.length, maintain.length, verification.length, repair.length];
 
     return <SafeAreaViewPlus>
-      <Header title={`用户信息`} navigation={navigation}>
+      <Header title={`用户详情`} navigation={navigation}>
       </Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -248,29 +248,28 @@ class UserListDetail extends React.Component {
                     />
                   </TabBar>
                   <View style={[styles.inter, { height: 77 * Math.max(...arr), minHeight: height }]} >
-                    {
-                      this.state.selectedIndex == 0 && repair.map((item, i) => (
-                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
-                      ))
-                    }
-                    {
-                      this.state.selectedIndex == 1 && verification.map((item, i) => (
-                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
-                      ))
-                    }
-                    {
-                      this.state.selectedIndex == 2 && check.map((item, i) => (
-                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
-                      ))
-                    }
-                    {
-                      this.state.selectedIndex == 3 && maintain.map((item, i) => (
-                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
-                      ))
-                    }
 
-
-
+                    {
+                      this.state.selectedIndex == 0 ? repair.length > 0 ? repair.map((item, i) => (
+                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
+                      )) : <Empty /> : null
+                    }
+                    {
+                      this.state.selectedIndex == 1 ? verification.length > 0 ? verification.map((item, i) => (
+                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
+                      )) : <Empty /> : null
+                    }
+                    {
+                      this.state.selectedIndex == 2 ? check.length > 0 ? check.map((item, i) => (
+                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
+                      )) : <Empty /> : null
+                    }
+                    {
+                      this.state.selectedIndex == 3 ? maintain.length > 0 ? maintain.map((item, i) => (
+                        <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
+                      )) : <Empty /> : null
+                    }
+                   
                   </View>
                 </View>
 

@@ -39,28 +39,28 @@ class InfoDeviceDetail extends React.Component {
 
     render() {
         let { index, navigation } = this.props, { showHint } = this.state,
-            { id,pictureUrl, equipmentName, equipmentNo, statusName, status, positionNo, equipmentTypeName, equipmentModel, groupName,
+            { id, pictureUrl, equipmentName, equipmentNo, statusName, status, positionNo, equipmentTypeName, equipmentModel, groupName,
                 departmentName, shopName, energyConsumption, equipmentWorth, purchaseDate, brand, parameters, qrCodeUrl } = index.infodevicedetail
         let getColor = (status) => {
             let color = colors.primaryColor;
             switch (status) {
                 case "0":
-                    color = "orange";
+                    color = "#ffcb01";
                     break;
                 case "1":
-                    color = "lightblue";
+                    color = "#5477ff";
                     break;
                 case "2":
-                    color = "red";
+                    color = "#cc0d01";
                     break;
                 case "3":
-                    color = "bule";
+                    color = "#43c4cc";
                     break;
                 case "4":
-                    color = "grey";
+                    color = "#54bbff";
                     break;
                 case "5":
-                    color = "green";
+                    color = "#999999";
                     break;
                 case "6":
                     color = colors.primaryColor;
@@ -113,16 +113,16 @@ class InfoDeviceDetail extends React.Component {
                             <Hint
                                 visible={showHint}
                                 color={colors.primaryColor}
-                                message={<Text style={{ lineHeight:28}}>
-                                    <Text  onPress={() => {
+                                message={<Text style={{ lineHeight: 28 }}>
+                                    <Text onPress={() => {
                                         OneToast("0")
-                                        navigation.navigate("DeviceUser",{id:id})
+                                        navigation.navigate("DeviceUser", { id: id })
 
                                     }}>
                                         查看设备负责人
                                     </Text>
                                     {'\n'}
-                                    <Text  onPress={() => {}}>
+                                    <Text onPress={() => { }}>
                                         查看设备日志
                                     </Text>
                                 </Text>}
@@ -131,12 +131,12 @@ class InfoDeviceDetail extends React.Component {
                                 borderRadius={4}
                                 edgeMargins={10}
                                 offset={1}
-                                onBackgroundPress={() => this.setState({ showHint: !showHint },()=>{
-                                    navigation.navigate("DeviceUser",{id:id})
+                                onBackgroundPress={() => this.setState({ showHint: !showHint }, () => {
+                                    navigation.navigate("DeviceUser", { id: id })
                                 })}
                             >
                                 <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
-                                    <AntdIcons name="ellipsis1" size={22} style={{color:colors.primaryColor}}/>
+                                    <AntdIcons name="ellipsis1" size={22} style={{ color: colors.primaryColor }} />
                                 </Card>
                             </Hint>
                         </View>

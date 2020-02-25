@@ -33,6 +33,9 @@ export async function deviceuser(params) {
     return post(`${ipandport}/userEquipment/queryAppByEquipId`, params);
 }
 
+export async function deviceuserlist(params) {
+    return post(`${ipandport}/userEquipment/queryAppList`, params);
+}
 
 export async function userlist(params) {
     return post(`${ipandport}/sysUser/queryList`, params);
@@ -42,8 +45,13 @@ export async function userlistdetail(params) {
     return post(`${ipandport}/sysUser/queryByUserId`, params);
 }
 
+export async function infospare(params) {
+    return post(`${ipandport}/spareParts/queryList`, params);
+}
 
-
+export async function infosparedetail(params) {
+    return post(`${ipandport}/spareParts/queryById`, params);
+}
 
 
 

@@ -22,28 +22,25 @@ class DeviceItem extends Component {
         let { item,navigation } = this.props;
 
         let getColor = (item) => {
-            let color = colors.primaryColor;
+            let color = "#43c4cc"
             switch (item.status) {
                 case "0":
-                    color = "orange";
+                    color = "#ffcb01";
                     break;
                 case "1":
-                    color = "lightblue";
+                    color = "#5477ff";
                     break;
                 case "2":
-                    color = "red";
+                    color = "#cc0d01";
                     break;
                 case "3":
-                    color = "bule";
+                    color = "#43c4cc";
                     break;
                 case "4":
-                    color = "grey";
+                    color = "#54bbff";
                     break;
                 case "5":
-                    color = "green";
-                    break;
-                case "6":
-                    color = colors.primaryColor;
+                    color = "#999999";
                     break;
             }
             return color
@@ -54,8 +51,9 @@ class DeviceItem extends Component {
             activeOpacity={0.3}
             height={77}
             onPress={() => {
+                console.log(item)
                 navigation.navigate("InfoDeviceDetail", {
-                    id: item.id,
+                    id: item.equipmentId?item.equipmentId:item.id,
                     name: item.equipmentName
                 })
             }}

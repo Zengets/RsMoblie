@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, UserItem } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
@@ -56,12 +56,12 @@ class DeviceUser extends React.Component {
         repair = repair ? repair : [];
 
         let arr = [check.length, maintain.length, verification.length, repair.length],
-        avatar = {
-            title: 'Initials with Color',
-            imageSource: require("../../../assets/user.png"),
-          }
+            avatar = {
+                title: 'Initials with Color',
+                imageSource: require("../../../assets/user.png"),
+            }
 
-        return <SafeAreaViewPlus style={{backgroundColor:"#fff"}}>
+        return <SafeAreaViewPlus style={{ backgroundColor: "#fff" }}>
             <Header title={`设备负责人`} navigation={navigation}>
             </Header>
             <TabBar
@@ -109,24 +109,24 @@ class DeviceUser extends React.Component {
                 <View style={{ width: "100%" }}>
                     <View style={[styles.inter, { height: 77 * Math.max(...arr), minHeight: height }]} >
                         {
-                            this.state.selectedIndex == 0 && repair.map((item, i) => (
+                            this.state.selectedIndex == 0 ? repair.length > 0 ? repair.map((item, i) => (
                                 <UserItem key={i} avatar={avatar} navigation={this.props.navigation} item={item}></UserItem>
-                            ))
+                            )) : <Empty /> : null
                         }
                         {
-                            this.state.selectedIndex == 1 && verification.map((item, i) => (
+                            this.state.selectedIndex == 1 ? verification.length > 0 ? verification.map((item, i) => (
                                 <UserItem key={i} avatar={avatar} navigation={this.props.navigation} item={item}></UserItem>
-                            ))
+                            )) : <Empty /> : null
                         }
                         {
-                            this.state.selectedIndex == 2 && check.map((item, i) => (
+                            this.state.selectedIndex == 2 ? check.length > 0 ? check.map((item, i) => (
                                 <UserItem key={i} avatar={avatar} navigation={this.props.navigation} item={item}></UserItem>
-                            ))
+                            )) : <Empty /> : null
                         }
                         {
-                            this.state.selectedIndex == 3 && maintain.map((item, i) => (
+                            this.state.selectedIndex == 3 ? maintain.length > 0 ? maintain.map((item, i) => (
                                 <UserItem key={i} avatar={avatar} navigation={this.props.navigation} item={item}></UserItem>
-                            ))
+                            )) : <Empty /> : null
                         }
                     </View>
                 </View>

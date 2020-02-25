@@ -1,7 +1,10 @@
-import {    test, login, logout, 
-            infodevice, infodevicedetail, deviceuser,
-            
-            userlist,userlistdetail } from '../services/index'
+import {
+    test, login, logout,
+    infodevice, infodevicedetail, deviceuser, deviceuserlist,
+    infospare, infosparedetail,
+
+    userlist, userlistdetail
+} from '../services/index'
 export default {
     namespace: 'index',
     state: {
@@ -12,10 +15,13 @@ export default {
         userTime: 1,
         token: 1,
         infodevice: {},
+        infospare: {},
         infodevicedetail: {},
-        userlistdetail:{},
+        userlistdetail: {},
+        infosparedetail: {},
         userlist: {},
-        deviceuser:{},
+        deviceuser: {},
+        deviceuserlist: {},
         res: {},
     },
     effects: {
@@ -59,6 +65,15 @@ export default {
             })
             return responese.code == "0000"
         },
+        *infospare({ payload }, { call, put }) {//data
+            const responese = yield call(infospare, payload);
+            yield put({
+                type: 'updateState',
+                payload: { infospare: responese.data.page ? responese.data.page : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *deviceuser({ payload }, { call, put }) {//data
             const responese = yield call(deviceuser, payload);
             console.log(responese)
@@ -68,6 +83,7 @@ export default {
             })
             return responese.code == "0000"
         },
+
         *infodevicedetail({ payload }, { call, put }) {//data
             const responese = yield call(infodevicedetail, payload);
             yield put({
@@ -76,7 +92,7 @@ export default {
             })
             return responese.code == "0000"
         },
-        
+
         *userlist({ payload }, { call, put }) {//data
             const responese = yield call(userlist, payload);
             yield put({
@@ -85,11 +101,30 @@ export default {
             })
             return responese.code == "0000"
         },
+
+        *deviceuserlist({ payload }, { call, put }) {//data
+            const responese = yield call(deviceuserlist, payload);
+            yield put({
+                type: 'updateState',
+                payload: { deviceuserlist: responese.data.dataList ? responese.data.dataList : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *userlistdetail({ payload }, { call, put }) {//data
             const responese = yield call(userlistdetail, payload);
             yield put({
                 type: 'updateState',
                 payload: { userlistdetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
+        *infosparedetail({ payload }, { call, put }) {//data
+            const responese = yield call(infosparedetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { infosparedetail: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },

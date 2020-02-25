@@ -37,12 +37,26 @@ class Info extends React.Component {
         <Card height={100} center padding-card marginB-s4>
           <Text body>This is an Info card {index.count}</Text>
         </Card>
-        <Button label="Devices" body bg-primaryColor square onPress={() => {
+        <Button label="设备列表" body bg-primaryColor square onPress={() => {
           navigation.navigate("InfoDevice")
         }}></Button>
-        <Button label="User" marginT-24 body bg-primaryColor square onPress={() => {
-          navigation.navigate("UserList")
+        <Button label="用户列表" marginT-24 body bg-primaryColor square onPress={() => {
+          navigation.navigate("UserList");
         }}></Button>
+
+        <View row style={{ height: 40 }} spread marginT-24>
+          <Button flex-1 label="设备负责人" body bg-primaryColor square onPress={() => {
+            navigation.navigate("DeviceUserList");
+          }}></Button>
+          <Button label="预警负责人" body bg-primaryColor square onPress={() => {
+            navigation.navigate("UserList")
+          }}></Button>
+        </View>
+        
+        <Button label="备件列表" marginT-24 body bg-primaryColor square onPress={() => {
+          navigation.navigate("InfoSpare");
+        }}></Button>
+
       </View>
     </SafeAreaViewPlus>
 
