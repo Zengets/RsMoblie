@@ -23,7 +23,7 @@ class UserItem extends Component {
     let { item, navigation, avatar, device } = this.props;
     return <Card borderRadius={0} enableShadow={false} bg-white row
       style={{ alignItems: "center", borderBottomWidth: 1, borderColor: "#f9f9f9", height: 77 }}
-      paddingL-page paddingR-page
+      paddingL-12 paddingR-12
       onPress={() => {
         console.log(item)
         navigation.navigate("UserListDetail", {

@@ -10,12 +10,15 @@ import { LargeList } from "react-native-largelist-v3";
 import { ChineseWithLastDateHeader, ChineseWithLastDateFooter } from "react-native-spring-scrollview/Customize";
 import ActionButton from 'react-native-action-button';
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+    index,
+    submitting: loading.effects['index/infodevice'],
+}))
 class InfoDevice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoadMore: false,
+            isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
             postUrl: "infodevice",
@@ -65,7 +68,6 @@ class InfoDevice extends React.Component {
             this.setNewState(postUrl, postData, () => {
                 this._list.endRefresh();//结束刷新状态
                 this._list.endLoading();
-
                 if (refreshing) {
                     this.setState({
                         resData: [{ items: this.props.index.infodevice.list }],
@@ -78,14 +80,60 @@ class InfoDevice extends React.Component {
                         isLoadMore: false
                     })
                 }
+                this.setNewState("done","0")
             })
         })
 
     }
 
+    resetData = (yuan) =>{
+        let { index: { done, formdata } } = yuan
+        function getVal(key){
+            let one = {};
+            formdata.map((item)=>{
+                if(item.key==key){
+                    one = item
+                }
+            });
+            if(one.type.indexOf("select")==-1 && one.type.indexOf("icker")==-1){
+                return one.value&&one.value
+            }else{
+                return one.value&&one.value.id
+            }
+        }
+        if (done=="1"&&formdata.length>0) {
+            this.setState({
+                postData: {
+                    "pageIndex": 1,
+                    "pageSize": 10,
+                    "equipmentName": getVal("equipmentName"),//设备名，筛选条件
+                    "equipmentNo": getVal("equipmentNo"),//设备编号，筛选条件
+                    "positionNo": getVal("positionNo"),//位置号，筛选条件
+                    "equipmentTypeId": getVal("equipmentTypeId"),//设备类型id，筛选条件
+                    "equipmentModel": getVal("equipmentModel"),//型号，筛选条件
+                    "shopId": getVal("shopId"),//车间id，筛选条件
+                    "departmentId": getVal("departmentId"),//部门id，筛选条件
+                    "status": getVal("status") //状态，筛选条件
+                },
+            }, () => {
+                this.onRefresh()
+            })
+        } else {
+            this.getData()
+        }
+
+    } 
+
+    UNSAFE_componentWillReceiveProps(np){
+        if(this.props.index.done !== np.index.done){
+            this.resetData(np);
+            console.log("0") 
+        }
+
+    }
 
     componentDidMount() {
-        this.getData()
+        this.resetData(this.props) 
     }
     //动态改变搜索
     UNSAFE_componentWillUpdate(nextProps, nextState) {
@@ -101,12 +149,12 @@ class InfoDevice extends React.Component {
     }
 
     //下拉刷新,更改状态，重新获取数据
-    onRefresh() {
+    onRefresh(draw) {
         this.setState({
             refreshing: true,
+            isLoadMore:draw?false:true
         }, () => {
             this.getData();
-            console.log(this.state.resData)
         });
     }
     //上拉加载
@@ -129,9 +177,23 @@ class InfoDevice extends React.Component {
         this._list && this._list.scrollTo({ x: 0, y: 0 }).then().catch();
     }
 
+    changeData = (key, value) => {
+        let { index: { formdata } } = this.props;
+        let newformdata = formdata.map((item, i) => {
+            if (item.key == key) {
+                item.value = value
+            } else {
+
+            }
+
+            return item
+        })
+        this.setNewState("formdata", newformdata)
+    }
+
 
     render() {
-        let { index, navigation } = this.props,
+        let { index: { res,formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let searchprops = {
@@ -139,27 +201,97 @@ class InfoDevice extends React.Component {
             navigation,
             placeholder: "输入设备名称查询...",
             value: postData.equipmentName,
-            onChangeText: (val) => {
+            onChangeText: (val,ifs) => {
                 this.setState({
                     postData: {
                         ...postData,
                         equipmentName: val
                     }
+                },()=>{
+                    this.changeData("equipmentName",val)
+                    if(ifs){
+                        this.onRefresh()
+                    }    
                 })
             },
             onSubmitEditing: () => {
                 this.onRefresh()
+            },
+            handleFormData: (fn) => {
+                let formdatas = [{
+                        key: "equipmentName",
+                        type: "input",
+                        require: false,
+                        value: postData.equipmentName,
+                        hidden:false,
+                        placeholder: "请输入设备名称"
+                    },{
+                        key: "equipmentNo",
+                        type: "input",
+                        require: false,
+                        value: "",
+                        placeholder: "请输入设备编号"
+
+                    }, {
+                        key: "positionNo",
+                        type: "input",
+                        require: false,
+                        value: "",
+                        placeholder: "请输入设备位置号"
+                    }, {
+                        key: "equipmentModel",
+                        type: "input",
+                        require: false,
+                        value: "",
+                        placeholder: "请输入设备型号"
+                    }, {
+                        key: "equipmentTypeId",
+                        type: "treeselect",
+                        require: false,
+                        value: "",
+                        placeholder: "请选择设备类型",
+                        option: res.equipmentTypeTreeList
+                    }, {
+                        key: "departmentId",
+                        type: "treeselect",
+                        require: false,
+                        value: "",
+                        placeholder: "请选择部门",
+                        option: res.departmentTreeList
+                    }, {
+                        key: "shopId",
+                        type: "select",
+                        require: false,
+                        value: "",
+                        placeholder: "请选择车间",
+                        option: res.shopList && res.shopList.map((item) => {
+                            return {
+                                dicName: item.shopName,
+                                dicKey: item.id
+                            }
+                        })
+                    }, {
+                        key: "status",
+                        type: "select",
+                        require: false,
+                        value: "",
+                        placeholder: "请选择设备状态",
+                        option: res.equipmentStatusList && res.equipmentStatusList
+                    }
+                ]
+                this.setNewState("formdata", formdata.length>0?formdata:formdatas, () => {
+                    fn ? fn() : null
+                })
             }
 
         }
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            console.log(item)
             return item ? <DeviceItem item={item} navigation={this.props.navigation}></DeviceItem> : <View></View>
         }
 
-        return <SafeAreaViewPlus>
+        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
                 title="设备列表"
@@ -201,7 +333,7 @@ class InfoDevice extends React.Component {
 
                     }}
                     ref={ref => (this._list = ref)}
-                    onRefresh={() => { this.onRefresh() }} //刷新操作
+                    onRefresh={() => { this.onRefresh("0") }} //刷新操作
                     refreshHeader={ChineseWithLastDateHeader}
                     showsVerticalScrollIndicator={false}
                     style={{ padding: 0, marginTop: -3 }}

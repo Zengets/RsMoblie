@@ -9,7 +9,10 @@ import { colors, ConvertPinyin } from '../../../utils';
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+    index,
+    submitting: loading.effects['index/deviceuser'],
+}))
 class DeviceUser extends React.Component {
 
     state = {
@@ -48,7 +51,7 @@ class DeviceUser extends React.Component {
 
     render() {
 
-        let { index, navigation } = this.props,
+        let { index, navigation,submitting } = this.props,
             { check, maintain, verification, repair } = index.deviceuser;
         check = check ? check : [];
         maintain = maintain ? maintain : [];
@@ -61,7 +64,7 @@ class DeviceUser extends React.Component {
                 imageSource: require("../../../assets/user.png"),
             }
 
-        return <SafeAreaViewPlus style={{ backgroundColor: "#fff" }}>
+        return <SafeAreaViewPlus style={{ backgroundColor: "#fff" }} loading={submitting}>
             <Header title={`设备负责人`} navigation={navigation}>
             </Header>
             <TabBar

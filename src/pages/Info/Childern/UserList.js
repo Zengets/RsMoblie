@@ -36,7 +36,10 @@ let getPinyin = () => {
 }
 
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+  index,
+  submitting: loading.effects['index/userlist'],
+}))
 class UserList extends React.Component {
   _scrollView = null;
   constructor(props) {
@@ -122,7 +125,7 @@ class UserList extends React.Component {
   _renderSection = (section) => {
     return (
       <View row spread style={styles.section}>
-        <Text style={{ paddingLeft: 24 }}>
+        <Text style={{ paddingLeft: 32 }}>
           {this.state.contacts[section].header}
         </Text>
 
@@ -152,7 +155,7 @@ class UserList extends React.Component {
 
   render() {
     let { cur, contacts, isSpin, postData, pinyin } = this.state,
-      { navigation } = this.props,
+      { navigation,submitting } = this.props,
       searchprops = {
         height: 45,
         navigation,
@@ -175,7 +178,7 @@ class UserList extends React.Component {
 
 
     return (
-      <SafeAreaViewPlus>
+      <SafeAreaViewPlus loading={submitting}>
         <Header title="用户列表">
         </Header>
         <View padding-12 style={{ paddingBottom: 0 }}>

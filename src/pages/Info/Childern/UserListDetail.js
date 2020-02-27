@@ -9,7 +9,10 @@ import { colors, ConvertPinyin } from '../../../utils';
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+  index,
+  submitting: loading.effects['index/userlistdetail'],
+}))
 class UserListDetail extends React.Component {
 
   state = {
@@ -48,7 +51,7 @@ class UserListDetail extends React.Component {
 
   render() {
 
-    let { index, navigation } = this.props,
+    let { index, navigation,submitting } = this.props,
       { userName, gender, jobNum, jobTitle, accountName, telephone, groupName, shiftName, mailNo,
         departmentName, shopName, parentName, academicCareer, university, major, check, maintain, verification, repair } = index.userlistdetail;
     check = check ? check : [];
@@ -64,7 +67,7 @@ class UserListDetail extends React.Component {
       size: 80
     }, arr = [check.length, maintain.length, verification.length, repair.length];
 
-    return <SafeAreaViewPlus>
+    return <SafeAreaViewPlus loading={submitting}>
       <Header title={`用户详情`} navigation={navigation}>
       </Header>
       <ScrollView

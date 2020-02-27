@@ -36,7 +36,10 @@ let getPinyin = () => {
 }
 
 
-@connect(({ index }) => ({ index }))
+@connect(({ index,loading }) => ({ 
+  index,
+  submitting: loading.effects['index/deviceuserlist'],
+}))
 class DeviceUserList extends React.Component {
   _scrollView = null;
   constructor(props) {
@@ -149,7 +152,7 @@ class DeviceUserList extends React.Component {
 
   render() {
     let { cur, contacts, isSpin, postData, pinyin } = this.state,
-      { navigation } = this.props,
+      { navigation,submitting } = this.props,
       searchprops = {
         height: 45,
         navigation,
@@ -188,10 +191,9 @@ class DeviceUserList extends React.Component {
 
 
 
-
     return (
-      <SafeAreaViewPlus>
-        <Header title={getTitle}>
+      <SafeAreaViewPlus loading={submitting}>
+        <Header title={getTitle()}>
         </Header>
         <View padding-12 style={{ paddingBottom: 0 }}>
           <TitleSearch {...searchprops}></TitleSearch>

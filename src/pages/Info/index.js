@@ -44,17 +44,16 @@ class Info extends React.Component {
           navigation.navigate("UserList");
         }}></Button>
 
-        <View row style={{ height: 40 }} spread marginT-24>
-          <Button flex-1 label="设备负责人" body bg-primaryColor square onPress={() => {
-            navigation.navigate("DeviceUserList");
-          }}></Button>
-          <Button label="预警负责人" body bg-primaryColor square onPress={() => {
-            navigation.navigate("UserList")
-          }}></Button>
-        </View>
-        
+        <Button label="设备负责人" marginT-24 body bg-primaryColor square onPress={() => {
+          navigation.navigate("DeviceUserList");
+        }}></Button>
+
         <Button label="备件列表" marginT-24 body bg-primaryColor square onPress={() => {
           navigation.navigate("InfoSpare");
+        }}></Button>
+
+        <Button label="部门列表" marginT-24 body bg-primaryColor square onPress={() => {
+          navigation.navigate("DepartMent");
         }}></Button>
 
       </View>

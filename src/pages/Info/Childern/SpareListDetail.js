@@ -9,7 +9,10 @@ import { colors, ConvertPinyin } from '../../../utils';
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+  index,
+  submitting: loading.effects['index/infosparedetail'],
+}))
 class SpareListDetail extends React.Component {
 
   state = {
@@ -42,11 +45,11 @@ class SpareListDetail extends React.Component {
     // "warnNoticeUserName": "小豪",--------------------------预警联系人名
 
 
-    let { index, navigation } = this.props,
+    let { index, navigation ,submitting} = this.props,
       { sparePartsName, sparePartsTypeName, sparePartsNo, sparePartsValue, spartPartsSerialNo, totalStock, availableStock, warnStock, warnNoticeUserName,warnNoticeUserId } = index.infosparedetail;
 
 
-    return <SafeAreaViewPlus>
+    return <SafeAreaViewPlus loading={submitting}>
       <Header title={`备件详情`} navigation={navigation}>
       </Header>
       <ScrollView

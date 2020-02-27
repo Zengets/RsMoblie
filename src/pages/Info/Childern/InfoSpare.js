@@ -10,12 +10,15 @@ import { LargeList } from "react-native-largelist-v3";
 import { ChineseWithLastDateHeader, ChineseWithLastDateFooter } from "react-native-spring-scrollview/Customize";
 import ActionButton from 'react-native-action-button';
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+    index,
+    submitting: loading.effects['index/infospare'],
+}))
 class InfoSpare extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoadMore: false,
+            isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
             postUrl: "infospare",
@@ -126,7 +129,7 @@ class InfoSpare extends React.Component {
 
 
     render() {
-        let { index, navigation } = this.props,
+        let { index, navigation,submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let getColor = (item) => {
@@ -180,7 +183,7 @@ class InfoSpare extends React.Component {
             return item ? <SpareItem item={item} navigation={this.props.navigation}></SpareItem> : <View></View>
         }
 
-        return <SafeAreaViewPlus>
+        return <SafeAreaViewPlus loading={submitting&&isLoadMore&&refreshing}>
             <Header
                 navigation={navigation}
                 title="备件列表"

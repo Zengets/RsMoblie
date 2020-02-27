@@ -9,8 +9,8 @@ import DeviceUser from './Info/Childern/DeviceUser'
 import DeviceUserList from './Info/Childern/DeviceUserList'
 import InfoSpare from './Info/Childern/InfoSpare'
 import SpareListDetail from './Info/Childern/SpareListDetail'
-
-
+import DepartMent from './Info/Childern/DepartMent'
+import DepartMentChild from './Info/Childern/DepartMentChild'
 
 import Usage from './Usage'
 import Knowledge from './Knowledge'
@@ -18,7 +18,7 @@ import Mine from './Mine'
 import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
 import Scan from './Scan'
-
+import SearchForm from './SearchForm'
 
 
 export {
@@ -26,7 +26,7 @@ export {
     Login,
     Info,
     InfoDevice,InfoDeviceDetail,
-    UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,SpareListDetail,
+    UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,SpareListDetail,DepartMent,DepartMentChild,SearchForm,
     
     Usage,
     Knowledge,

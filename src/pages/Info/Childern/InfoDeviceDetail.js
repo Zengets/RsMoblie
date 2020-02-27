@@ -7,7 +7,10 @@ import { ImageBackground, Dimensions, StyleSheet, ScrollView } from 'react-nativ
 import { colors } from '../../../utils';
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+    index,
+    submitting: loading.effects['index/infodevicedetail'],
+}))
 class InfoDeviceDetail extends React.Component {
 
     //设置新状态
@@ -38,7 +41,7 @@ class InfoDeviceDetail extends React.Component {
 
 
     render() {
-        let { index, navigation } = this.props, { showHint } = this.state,
+        let { index, navigation,submitting } = this.props, { showHint } = this.state,
             { id, pictureUrl, equipmentName, equipmentNo, statusName, status, positionNo, equipmentTypeName, equipmentModel, groupName,
                 departmentName, shopName, energyConsumption, equipmentWorth, purchaseDate, brand, parameters, qrCodeUrl } = index.infodevicedetail
         let getColor = (status) => {
@@ -78,7 +81,7 @@ class InfoDeviceDetail extends React.Component {
 
 
 
-        return <SafeAreaViewPlus topInset={false} backgroundColor="transparent" topColor='transparent'>
+        return <SafeAreaViewPlus topInset={false} backgroundColor="transparent" topColor='transparent' loading={submitting}>
             <Modal {...modalprops}>
                 <ImageBackground
                     style={{ width: width * 0.9, height: width * 0.9 }}

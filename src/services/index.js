@@ -53,8 +53,13 @@ export async function infosparedetail(params) {
     return post(`${ipandport}/spareParts/queryById`, params);
 }
 
+export async function department(params) {
+    return post(`${ipandport}/sysDepartment/queryFirstTree`, params);
+}
 
-
+export async function departmentmore(params) {
+    return post(`${ipandport}/sysDepartment/queryChildrenById`, params);
+}
 
 
 

@@ -7,7 +7,8 @@ export default function setConfig() {
     });
 
     ThemeManager.setComponentTheme('TextField', {
-        underlineColor: { default: '#dddddd', error: 'red', focus: colors.primaryColor, disabled: 'grey' }
+        underlineColor: { default: '#dddddd', error: 'red', focus: colors.primaryColor, disabled: 'grey' },
+        style:{color:"#666"}
     });
 
     // with a dynamic function

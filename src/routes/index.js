@@ -1,6 +1,6 @@
 import React from 'react';
-import { Scan, Login,
-    InfoDevice,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,SpareListDetail 
+import { Scan, Login,SearchForm,
+    InfoDevice,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,SpareListDetail,DepartMent,DepartMentChild 
 
 
 
@@ -53,7 +53,10 @@ const AppNavigator = createStackNavigator(
         DeviceUser:DeviceUser,
         DeviceUserList:DeviceUserList,
         InfoSpare:InfoSpare,
-        SpareListDetail:SpareListDetail
+        SpareListDetail:SpareListDetail,
+        DepartMent:DepartMent,
+        DepartMentChild:DepartMentChild,
+        SearchForm:SearchForm
     },
     {
         initialRouteName: 'Home',

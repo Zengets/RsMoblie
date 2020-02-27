@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { DeviceInfo, SafeAreaView, StyleSheet, ViewPropTypes, StatusBar } from 'react-native';
 import { PropTypes } from 'prop-types';
-import { View, Text} from 'react-native-ui-lib';
+import { View, Text } from 'react-native-ui-lib';
 import { connect } from 'react-redux';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 @connect(({ index }) => ({ index }))
 class SafeAreaViewPlus extends Component {
@@ -30,13 +30,20 @@ class SafeAreaViewPlus extends Component {
     }
 
     getBottomArea(bottomColor, bottomInset) {
-        return DeviceInfo.isIPhoneX_deprecated || bottomInset ? <View style={[styles.bottomArea, { backgroundColor: bottomColor }]} /> :null
+        return DeviceInfo.isIPhoneX_deprecated || bottomInset ? <View style={[styles.bottomArea, { backgroundColor: bottomColor }]} /> : null
     }
 
     genSafeAreaViewPlus() {
-        const { children, topColor, bottomColor, topInset, bottomInset,index } = this.props;
+        const { children, topColor, bottomColor, topInset, bottomInset, index } = this.props;
         return <View style={[styles.container, this.props.style]}>
-            <StatusBar translucent ={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
+            <Spinner
+                visible={this.props.loading}
+                textContent={'加载中...'}
+                textStyle={styles.spinnerTextStyle}
+                animation="fade"
+                overlayColor={"rgba(0,0,0,0.2)"}
+            />
+            <StatusBar translucent={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
             {this.getTopArea(topColor, topInset)}
             {children}
             {this.getBottomArea(bottomColor, bottomInset)}
@@ -46,7 +53,14 @@ class SafeAreaViewPlus extends Component {
 
     genSafeAreaView() {
         return <SafeAreaView style={[styles.container, this.props.style]} {...this.props}>
-            <StatusBar translucent ={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
+            <Spinner
+                visible={this.props.loading}
+                textContent={'加载中...'}
+                textStyle={styles.spinnerTextStyle}
+                animation="fade"
+                overlayColor={"rgba(0,0,0,0.2)"}
+            />
+            <StatusBar translucent={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
             {this.props.children}
         </SafeAreaView>
     }
@@ -67,6 +81,10 @@ const styles = StyleSheet.create({
     },
     bottomArea: {
         height: 34,
+    },
+    spinnerTextStyle: {
+        color: '#FFF',
+        fontWeight:"normal"
     },
 });
 
