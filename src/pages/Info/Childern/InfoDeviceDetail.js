@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Card, Button, Badge, Hint, Colors, BorderRadiuses } from 'react-native-ui-lib';
+import { View, Text, Card, Button, Badge, Hint, Colors, ActionSheet } from 'react-native-ui-lib';
 import { SafeAreaViewPlus, OneToast, Header, Modal } from '../../../components';
 import AntdIcons from 'react-native-vector-icons/AntDesign';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView } from 'react-native';
@@ -41,7 +41,7 @@ class InfoDeviceDetail extends React.Component {
 
 
     render() {
-        let { index, navigation,submitting } = this.props, { showHint } = this.state,
+        let { index, navigation, submitting } = this.props, { showHint } = this.state,
             { id, pictureUrl, equipmentName, equipmentNo, statusName, status, positionNo, equipmentTypeName, equipmentModel, groupName,
                 departmentName, shopName, energyConsumption, equipmentWorth, purchaseDate, brand, parameters, qrCodeUrl } = index.infodevicedetail
         let getColor = (status) => {
@@ -106,44 +106,36 @@ class InfoDeviceDetail extends React.Component {
                 </View>
             </Modal>
 
+            <ActionSheet
+                useSafeArea={true}
+                message='更多内容'
+                useNativeIOS={true}
+                containerStyle={{borderRadius:8,borderBottomLeftRadius: 0,borderBottomRightRadius: 0,}}
+                options={[
+                    { label: '查看设备负责人', onPress: () => {
+                        navigation.navigate("DeviceUser", { id: id })
+                    } },
+                    { label: '查看设备日志', onPress: () => {
+                        //navigation.navigate("DeviceUser", { id: id })
+                    } },
+                    { label: '取消', onPress: () => {
+                        this.setState({ showHint: false })
+                    } },
+                ]}
+                visible={showHint}
+                onDismiss={() => this.setState({ showHint: false })}
+            />
+
+
             <View style={{ position: "relative" }}>
                 <Header
                     style={{ position: "absolute", top: 34, width: "100%", zIndex: 99999 }}
                     backgroundColor="transparent"
                     navigation={navigation}
                     headerRight={() => (
-                        <View>
-                            <Hint
-                                visible={showHint}
-                                color={colors.primaryColor}
-                                message={<Text style={{ lineHeight: 28 }}>
-                                    <Text onPress={() => {
-                                        OneToast("0")
-                                        navigation.navigate("DeviceUser", { id: id })
-
-                                    }}>
-                                        查看设备负责人
-                                    </Text>
-                                    {'\n'}
-                                    <Text onPress={() => { }}>
-                                        查看设备日志
-                                    </Text>
-                                </Text>}
-                                position={Hint.positions.BOTTOM}
-                                useSideTip={false}
-                                borderRadius={4}
-                                edgeMargins={10}
-                                offset={1}
-                                onBackgroundPress={() => this.setState({ showHint: !showHint }, () => {
-                                    navigation.navigate("DeviceUser", { id: id })
-                                })}
-                            >
-                                <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
-                                    <AntdIcons name="ellipsis1" size={22} style={{ color: colors.primaryColor }} />
-                                </Card>
-                            </Hint>
-                        </View>
-
+                        <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
+                            <AntdIcons name="ellipsis1" size={22} style={{ color: "#000" }} />
+                        </Card>
 
                     )}
                 >

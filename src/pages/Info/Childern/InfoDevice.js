@@ -66,42 +66,44 @@ class InfoDevice extends React.Component {
         }, () => {
             let { postUrl, postData, refreshing } = this.state;
             this.setNewState(postUrl, postData, () => {
-                this._list.endRefresh();//结束刷新状态
-                this._list.endLoading();
-                if (refreshing) {
-                    this.setState({
-                        resData: [{ items: this.props.index.infodevice.list }],
-                        refreshing: false,
-                        isLoadMore: false
-                    })
-                } else {
-                    this.setState({
-                        resData: this.state.resData.concat([{ items: this.props.index.infodevice.list }]),
-                        isLoadMore: false
-                    })
-                }
-                this.setNewState("done","0")
+                this.setNewState("done", "0", () => {
+                    this._list.endRefresh();//结束刷新状态
+                    this._list.endLoading();
+                    if (refreshing) {
+                        this.setState({
+                            resData: [{ items: this.props.index.infodevice.list }],
+                            refreshing: false,
+                            isLoadMore: false
+                        })
+                    } else {
+                        console.log(refreshing)
+                        this.setState({
+                            resData: this.state.resData.concat([{ items: this.props.index.infodevice.list }]),
+                            isLoadMore: false
+                        })
+                    }
+                })
             })
         })
 
     }
 
-    resetData = (yuan) =>{
+    resetData = (yuan) => {
         let { index: { done, formdata } } = yuan
-        function getVal(key){
+        function getVal(key) {
             let one = {};
-            formdata.map((item)=>{
-                if(item.key==key){
+            formdata.map((item) => {
+                if (item.key == key) {
                     one = item
                 }
             });
-            if(one.type.indexOf("select")==-1 && one.type.indexOf("icker")==-1){
-                return one.value&&one.value
-            }else{
-                return one.value&&one.value.id
+            if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+                return one.value && one.value
+            } else {
+                return one.value && one.value.id
             }
         }
-        if (done=="1"&&formdata.length>0) {
+        if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
                     "pageIndex": 1,
@@ -122,18 +124,17 @@ class InfoDevice extends React.Component {
             this.getData()
         }
 
-    } 
-
-    UNSAFE_componentWillReceiveProps(np){
-        if(this.props.index.done !== np.index.done){
-            this.resetData(np);
-            console.log("0") 
-        }
-
     }
 
+    UNSAFE_componentWillReceiveProps(np) {
+        if (this.props.index.done !== np.index.done) {
+            this.resetData(np);
+        }
+    }
+
+
     componentDidMount() {
-        this.resetData(this.props) 
+        this.resetData(this.props)
     }
     //动态改变搜索
     UNSAFE_componentWillUpdate(nextProps, nextState) {
@@ -152,7 +153,7 @@ class InfoDevice extends React.Component {
     onRefresh(draw) {
         this.setState({
             refreshing: true,
-            isLoadMore:draw?false:true
+            isLoadMore: draw ? false : true
         }, () => {
             this.getData();
         });
@@ -183,9 +184,7 @@ class InfoDevice extends React.Component {
             if (item.key == key) {
                 item.value = value
             } else {
-
             }
-
             return item
         })
         this.setNewState("formdata", newformdata)
@@ -193,7 +192,7 @@ class InfoDevice extends React.Component {
 
 
     render() {
-        let { index: { res,formdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let searchprops = {
@@ -201,17 +200,17 @@ class InfoDevice extends React.Component {
             navigation,
             placeholder: "输入设备名称查询...",
             value: postData.equipmentName,
-            onChangeText: (val,ifs) => {
+            onChangeText: (val, ifs) => {
                 this.setState({
                     postData: {
                         ...postData,
                         equipmentName: val
                     }
-                },()=>{
-                    this.changeData("equipmentName",val)
-                    if(ifs){
+                }, () => {
+                    this.changeData("equipmentName", val)
+                    if (ifs) {
                         this.onRefresh()
-                    }    
+                    }
                 })
             },
             onSubmitEditing: () => {
@@ -219,67 +218,67 @@ class InfoDevice extends React.Component {
             },
             handleFormData: (fn) => {
                 let formdatas = [{
-                        key: "equipmentName",
-                        type: "input",
-                        require: false,
-                        value: postData.equipmentName,
-                        hidden:false,
-                        placeholder: "请输入设备名称"
-                    },{
-                        key: "equipmentNo",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备编号"
+                    key: "equipmentName",
+                    type: "input",
+                    require: false,
+                    value: postData.equipmentName,
+                    hidden: false,
+                    placeholder: "请输入设备名称"
+                }, {
+                    key: "equipmentNo",
+                    type: "input",
+                    require: false,
+                    value: "",
+                    placeholder: "请输入设备编号"
 
-                    }, {
-                        key: "positionNo",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备位置号"
-                    }, {
-                        key: "equipmentModel",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备型号"
-                    }, {
-                        key: "equipmentTypeId",
-                        type: "treeselect",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择设备类型",
-                        option: res.equipmentTypeTreeList
-                    }, {
-                        key: "departmentId",
-                        type: "treeselect",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择部门",
-                        option: res.departmentTreeList
-                    }, {
-                        key: "shopId",
-                        type: "select",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择车间",
-                        option: res.shopList && res.shopList.map((item) => {
-                            return {
-                                dicName: item.shopName,
-                                dicKey: item.id
-                            }
-                        })
-                    }, {
-                        key: "status",
-                        type: "select",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择设备状态",
-                        option: res.equipmentStatusList && res.equipmentStatusList
-                    }
+                }, {
+                    key: "positionNo",
+                    type: "input",
+                    require: false,
+                    value: "",
+                    placeholder: "请输入设备位置号"
+                }, {
+                    key: "equipmentModel",
+                    type: "input",
+                    require: false,
+                    value: "",
+                    placeholder: "请输入设备型号"
+                }, {
+                    key: "equipmentTypeId",
+                    type: "treeselect",
+                    require: false,
+                    value: "",
+                    placeholder: "请选择设备类型",
+                    option: res.equipmentTypeTreeList
+                }, {
+                    key: "departmentId",
+                    type: "treeselect",
+                    require: false,
+                    value: "",
+                    placeholder: "请选择部门",
+                    option: res.departmentTreeList
+                }, {
+                    key: "shopId",
+                    type: "select",
+                    require: false,
+                    value: "",
+                    placeholder: "请选择车间",
+                    option: res.shopList && res.shopList.map((item) => {
+                        return {
+                            dicName: item.shopName,
+                            dicKey: item.id
+                        }
+                    })
+                }, {
+                    key: "status",
+                    type: "select",
+                    require: false,
+                    value: "",
+                    placeholder: "请选择设备状态",
+                    option: res.equipmentStatusList && res.equipmentStatusList
+                }
                 ]
-                this.setNewState("formdata", formdata.length>0?formdata:formdatas, () => {
+                this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
                     fn ? fn() : null
                 })
             }

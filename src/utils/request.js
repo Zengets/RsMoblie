@@ -7,6 +7,7 @@ import {
 const os = Platform.OS;
 
 function checkStatus(response) {
+  console.log(response.status)
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
@@ -45,12 +46,13 @@ async function get(url, params) {
         return "error"
       })
   } catch (e) {
-    throw new Error('get error')
+    console.log('get error')
   }
 
 }
 
 async function post(url, body) {
+  console.log(url,body)
   try {
     let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
     if(Access_Token){
@@ -74,7 +76,7 @@ async function post(url, body) {
         return "error"
       })
   } catch (e) {
-    throw new Error('get error')
+    console.log('get error')
   }
 }
 

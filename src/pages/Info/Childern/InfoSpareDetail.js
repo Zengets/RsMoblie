@@ -13,7 +13,7 @@ let { height, width } = Dimensions.get('window');
   index,
   submitting: loading.effects['index/infosparedetail'],
 }))
-class SpareListDetail extends React.Component {
+class InfoSpareDetail extends React.Component {
 
   state = {
     selectedIndex: 0
@@ -138,7 +138,7 @@ class SpareListDetail extends React.Component {
             }}>
               <View row spread style={styles.item}>
                 <Text subheading style={{color:colors.primaryColor}}>
-                  预警联系人：
+                  备件负责人：
                 </Text>
                 <Text body style={{color:colors.primaryColor}}>
                   <Text>{warnNoticeUserName} </Text>
@@ -202,4 +202,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default SpareListDetail
+export default InfoSpareDetail

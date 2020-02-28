@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Linking, TouchableOpacity } from "react-native";
 import { LargeList } from "react-native-largelist-v3";
-import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch,UserItem } from '../../../components';
+import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch, UserItem } from '../../../components';
 import { ConvertPinyin } from '../../../utils';
 import { contacts } from './mock';
 import { connect } from 'react-redux';
@@ -78,46 +78,99 @@ class UserList extends React.Component {
   }
 
 
+  resetData = (yuan) => {
+    let { index: { done, formdata } } = yuan
+    function getVal(key) {
+      let one = {};
+      formdata.map((item) => {
+        if (item.key == key) {
+          one = item
+        }
+      });
+      if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+        return one.value && one.value
+      } else {
+        return one.value && one.value.id
+      }
+    }
+    if (done == "1" && formdata.length > 0) {
+      this.setState({
+        postData: {
+          "accountName": getVal("accountName"),   //---------用户名
+          "departmentId": getVal("departmentId"),   //--------部门id
+          "groupId": getVal("groupId"),    //-------分组id
+          "jobTitle": getVal("jobTitle"),   //--------职责
+          "parentName": getVal("parentName"),   //-------直属领导姓名
+          "shopId": getVal("shopId"),   //-------车间id
+          "userName": getVal("userName")  //--------姓名
+        },
+      }, () => {
+        this.getData()
+      })
+    } else {
+      this.getData()
+    }
+
+  }
+
+  UNSAFE_componentWillReceiveProps(np) {
+    if (this.props.index.done !== np.index.done) {
+      np.index.done=="1"?
+      this.resetData(np):
+      null
+    }
+  }
+
+
   componentDidMount() {
-    this.genData()
+    this.resetData(this.props)
   }
   //获取数据整理格式
-  genData() {
+  getData() {
     this.setState({
       isSpin: true
     })
     let { postData, postUrl } = this.state;
-    console.log(postData)
+
     this.setNewState(postUrl, postData, () => {
-      let newdata = [],
-        res = this.props.index.userlist,
-        postdata = res.map((item, i) => {
-          item.header = ConvertPinyin(item.userName).substring(0, 1).toUpperCase();
-          return item
-        }),
-        letterarr = getPinyin();
-      letterarr.map((item, i) => {
-        let items = [], itemz = [];
-        postdata.map((list, index) => {
-          if (item == list.header) {
-            items.push(list)
-          } else if (letterarr.indexOf(list.header) == -1) {
-            itemz.push(list)
+      this.setNewState("done", "0", () => {
+        let newdata = [],
+          res = this.props.index.userlist,
+          postdata = res.map((item, i) => {
+            item.header = ConvertPinyin(item.userName).substring(0, 1).toUpperCase();
+            return item
+          }),
+          letterarr = getPinyin();
+        letterarr.map((item, i) => {
+          let items = [], itemz = [];
+          postdata.map((list, index) => {
+            if (item == list.header) {
+              items.push(list)
+            } else if (letterarr.indexOf(list.header) == -1) {
+              itemz.push(list)
+            }
+          })
+          let curitem = {
+            header: item,
+            items: item == "#" ? itemz : items
           }
+          curitem.items.length == 0 ? null : newdata.push(curitem);
         })
-        let curitem = {
-          header: item,
-          items: item == "#" ? itemz : items
-        }
-        curitem.items.length == 0 ? null : newdata.push(curitem);
+        this.setState({
+          contacts: newdata,
+          pinyin: newdata.map((item) => {
+            return item.header
+          }),
+          isSpin: false
+        })
+
+
       })
-      this.setState({
-        contacts: newdata,
-        pinyin: newdata.map((item) => {
-          return item.header
-        }),
-        isSpin: false
-      })
+
+
+
+
+
     })
   }
 
@@ -141,7 +194,7 @@ class UserList extends React.Component {
       }
     return (
       <View>
-        <UserItem key={section+""+row} avatar={avatar} item={item} navigation={this.props.navigation}></UserItem> 
+        <UserItem key={section + "" + row} avatar={avatar} item={item} navigation={this.props.navigation}></UserItem>
       </View>
     );
   };
@@ -152,25 +205,107 @@ class UserList extends React.Component {
   }
 
 
+  changeData = (key, value) => {
+    let { index: { formdata } } = this.props;
+    let newformdata = formdata.map((item, i) => {
+      if (item.key == key) {
+        item.value = value
+      } else {
+      }
+      return item
+    })
+    this.setNewState("formdata", newformdata)
+  }
+
 
   render() {
     let { cur, contacts, isSpin, postData, pinyin } = this.state,
-      { navigation,submitting } = this.props,
+      { navigation, submitting, index: { res, formdata }, } = this.props,
       searchprops = {
-        height: 45,
         navigation,
         placeholder: "输入姓名查询...",
         value: postData.userName,
-        onChangeText: (val) => {
+        onChangeText: (val, ifs) => {
           this.setState({
             postData: {
               ...postData,
               userName: val
             }
+          }, () => {
+            this.changeData("userName", val)
+            if (ifs) {
+              this.getData()
+            }
           })
         },
         onSubmitEditing: () => {
-          this.genData()
+          this.getData()
+        },
+        handleFormData: (fn) => {
+          let formdatas = [{
+            key: "userName",
+            type: "input",
+            require: false,
+            value: postData.userName,
+            hidden: false,
+            placeholder: "请输入姓名"
+          }, {
+            key: "accountName",
+            type: "input",
+            require: false,
+            value: postData.accountName,
+            hidden: false,
+            placeholder: "请输入用户名(账号)"
+          }, {
+            key: "jobTitle",
+            type: "input",
+            require: false,
+            value: postData.jobTitle,
+            hidden: false,
+            placeholder: "请输入职责"
+          }, {
+            key: "parentName",
+            type: "input",
+            require: false,
+            value: postData.parentName,
+            placeholder: "直属领导姓名"
+          }, {
+            key: "shopId",
+            type: "select",
+            require: false,
+            value: postData.shopId,
+            placeholder: "请选择车间",
+            linked:{
+              key:"groupId",
+              posturl:"getshoplist",
+              format:{dicKey:"id",dicName:"groupName"},
+              postkey:"shopId"
+            },
+            option: res.shopList && res.shopList.map((item, i) => {
+              return {
+                dicName: item.shopName,
+                dicKey: item.id
+              }
+            })
+          }, {
+            key: "groupId",
+            type: "select",
+            require: false,
+            value: postData.groupId,
+            placeholder: "请选择分组",
+            option: []
+          }, {
+            key: "departmentId",
+            type: "treeselect",
+            require: false,
+            value: postData.departmentId,
+            placeholder: "请选择部门",
+            option: res.departmentDataList
+          }
+          ]
+          this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
+            fn ? fn() : null
+          })
         }
       }
 

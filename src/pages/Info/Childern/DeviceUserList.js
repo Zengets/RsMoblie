@@ -36,7 +36,7 @@ let getPinyin = () => {
 }
 
 
-@connect(({ index,loading }) => ({ 
+@connect(({ index, loading }) => ({
   index,
   submitting: loading.effects['index/deviceuserlist'],
 }))
@@ -75,46 +75,94 @@ class DeviceUserList extends React.Component {
   }
 
 
+  resetData = (yuan) => {
+    let { index: { done, formdata } } = yuan
+    function getVal(key) {
+      let one = {};
+      formdata.map((item) => {
+        if (item.key == key) {
+          one = item
+        }
+      });
+      if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+        return one.value && one.value
+      } else {
+        return one.value && one.value.id
+      }
+    }
+    if (done == "1" && formdata.length > 0) {
+      this.setState({
+        postData: {
+          "chargeType": getVal("chargeType"), //---负责类型 *  {0点检,1保养,2验证,3维修}
+          "equipmentNo": getVal("equipmentNo"),  //--------设备编号
+          "equipmentName": getVal("equipmentName"),   //----------设备名称
+          "userName": getVal("userName") //-------负责人名称
+        },
+      }, () => {
+        this.getData()
+      })
+    } else {
+      this.getData()
+    }
+
+  }
+
+  UNSAFE_componentWillReceiveProps(np) {
+    if (this.props.index.done !== np.index.done) {
+      this.resetData(np);
+    }
+  }
+
+
   componentDidMount() {
-    this.genData()
+    this.resetData(this.props)
   }
   //获取数据整理格式
-  genData() {
+  getData() {
     this.setState({
       isSpin: true
     })
     let { postData, postUrl } = this.state;
-    console.log(postData)
+
     this.setNewState(postUrl, postData, () => {
-      let newdata = [],
-        res = this.props.index.deviceuserlist,
-        postdata = res.map((item, i) => {
-          item.header = ConvertPinyin(item.userName).substring(0, 1).toUpperCase();
-          return item
-        }),
-        letterarr = getPinyin();
-      letterarr.map((item, i) => {
-        let items = [], itemz = [];
-        postdata.map((list, index) => {
-          if (item == list.header) {
-            items.push(list)
-          } else if (letterarr.indexOf(list.header) == -1) {
-            itemz.push(list)
+      this.setNewState("done", "0", () => {
+        let newdata = [],
+          res = this.props.index.deviceuserlist,
+          postdata = res.map((item, i) => {
+            item.header = ConvertPinyin(item.userName).substring(0, 1).toUpperCase();
+            return item
+          }),
+          letterarr = getPinyin();
+        letterarr.map((item, i) => {
+          let items = [], itemz = [];
+          postdata.map((list, index) => {
+            if (item == list.header) {
+              items.push(list)
+            } else if (letterarr.indexOf(list.header) == -1) {
+              itemz.push(list)
+            }
+          })
+          let curitem = {
+            header: item,
+            items: item == "#" ? itemz : items
           }
+          curitem.items.length == 0 ? null : newdata.push(curitem);
         })
-        let curitem = {
-          header: item,
-          items: item == "#" ? itemz : items
-        }
-        curitem.items.length == 0 ? null : newdata.push(curitem);
+        this.setState({
+          contacts: newdata,
+          pinyin: newdata.map((item) => {
+            return item.header
+          }),
+          isSpin: false
+        })
+
+
       })
-      this.setState({
-        contacts: newdata,
-        pinyin: newdata.map((item) => {
-          return item.header
-        }),
-        isSpin: false
-      })
+
+
+
+
+
     })
   }
 
@@ -148,26 +196,87 @@ class DeviceUserList extends React.Component {
     this._scrollView.scrollToIndexPath({ section: index, row: 0 }, false);
   }
 
+  changeData = (key, value) => {
+    let { index: { formdata } } = this.props;
+    let newformdata = formdata.map((item, i) => {
+      if (item.key == key) {
+        item.value = value
+      } else {
+      }
+      return item
+    })
+    this.setNewState("formdata", newformdata)
+  }
 
 
   render() {
     let { cur, contacts, isSpin, postData, pinyin } = this.state,
-      { navigation,submitting } = this.props,
+      { navigation, submitting, index: { res, formdata } } = this.props,
       searchprops = {
-        height: 45,
         navigation,
         placeholder: "输入姓名查询...",
         value: postData.userName,
-        onChangeText: (val) => {
+        onChangeText: (val, ifs) => {
           this.setState({
             postData: {
               ...postData,
               userName: val
             }
+          }, () => {
+            this.changeData("userName", val)
+            if (ifs) {
+              this.getData()
+            }
           })
         },
         onSubmitEditing: () => {
-          this.genData()
+          this.getData()
+        },
+        handleFormData: (fn) => {
+          let formdatas = [{
+            key: "userName",
+            type: "input",
+            require: false,
+            value: postData.userName,
+            hidden: false,
+            placeholder: "请输入姓名"
+          }, {
+            key: "equipmentNo",
+            type: "input",
+            require: false,
+            value: postData.equipmentNo,
+            hidden: false,
+            placeholder: "请输入设备编号"
+          }, {
+            key: "equipmentName",
+            type: "input",
+            require: false,
+            value: postData.equipmentName,
+            hidden: false,
+            placeholder: "请输入设备名称"
+          }, {
+            key: "chargeType",
+            type: "select",
+            require: false,
+            value: "3",
+            placeholder: "请选择负责类型",
+            option: [{
+              dicName: "点检",
+              dicKey: "0"
+            }, {
+              dicName: "保养",
+              dicKey: "1"
+            }, {
+              dicName: "验证",
+              dicKey: "2"
+            }, {
+              dicName: "维修",
+              dicKey: "3"
+            }]
+          }]
+          this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
+            fn ? fn() : null
+          })
         }
       }, getTitle = () => {
         let title = "设备负责人"
@@ -186,10 +295,7 @@ class DeviceUserList extends React.Component {
             break;
         }
         return title
-
       }
-
-
 
     return (
       <SafeAreaViewPlus loading={submitting}>

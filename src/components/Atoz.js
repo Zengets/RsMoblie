@@ -90,9 +90,7 @@ export default class Atoz extends Component {
 
     //给最外层的view增加一个
     render() {
-
         return (
-
             <View ref="view" style={styles.container}
                 onStartShouldSetResponder={returnTrue}
                 onMoveShouldSetResponder={returnTrue}
@@ -101,7 +99,7 @@ export default class Atoz extends Component {
             >
                 {
                     this.props.pinyin.map((item) => {
-                        return <View style={styles.oit} ref={item}><Text style={styles.text}>{item}</Text></View>
+                        return <View style={styles.oit} ref={item}><Text dark style={styles.text}>{item}</Text></View>
                     })
                 }
             </View>
@@ -113,16 +111,19 @@ const styles = StyleSheet.create({
     container: {
         width: 24,
         position: "absolute",
-        right: 6,
+        right: 0,
         zIndex: 99999,
     },
     oit: {
+        width: 24,
         height: 16,
         justifyContent: 'center',
         alignItems: 'center',
     },
     text: {
-        fontSize: 10
+        fontSize: 10,
+        color:"#000",
+        fontWeight:"bold"
     }
 
 });

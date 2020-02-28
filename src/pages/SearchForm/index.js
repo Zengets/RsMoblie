@@ -47,20 +47,22 @@ class SearchForm extends React.Component {
     }
 
     componentDidMount() {
+
+
     }
 
-    changeData = (key, value) => {
+    changeData = (key, value,fn) => {
         let { index: { formdata } } = this.props;
         let newformdata = formdata.map((item, i) => {
             if (item.key == key) {
                 item.value = value
             } else {
-
             }
-
             return item
         })
-        this.setNewState("formdata", newformdata)
+        this.setNewState("formdata", newformdata,()=>{
+            fn?fn():null
+        })
     }
 
     resetData = () => {
@@ -70,6 +72,29 @@ class SearchForm extends React.Component {
             return item
         })
         this.setNewState("formdata", newformdata)
+    }
+
+    changeOption = (val,linked) => {
+        let {key,posturl,format,postkey} = linked
+        console.log(posturl)
+        this.setNewState(posturl,{ [postkey]:val },()=>{
+            let res = this.props.index[posturl];
+            let { index: { formdata } } = this.props;
+            let newformdata = formdata.map((item, i) => {
+                if (item.key == key) {
+                    item.option =  res?res.map((item)=>{
+                        return {
+                            dicName:item[format.dicName],
+                            dicKey:item[format.dicKey]
+                        }
+                    }):[];
+                    item.value = undefined
+                } else {
+                }
+                return item
+            })
+            this.setNewState("formdata", newformdata)
+        })
     }
 
 
@@ -213,11 +238,16 @@ class SearchForm extends React.Component {
 
                                     <View row paddingT-8 style={{ height: curkey == item.key ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
                                         {
+                                            item.option&&
                                             item.option.map((it, i) => (
                                                 <Card width={(width - 36) / 3} padding-12 margin-2 style={{ minHeight: 60, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" }} center key={i} enableShadow={false} onPress={() => {
                                                     this.changeData(item.key, {
                                                         id: it.dicKey,
                                                         name: it.dicName
+                                                    },()=>{
+                                                        item.linked?
+                                                        this.changeOption(it.dicKey,item.linked):
+                                                        null
                                                     })
                                                 }}>
                                                     <Text subbody style={{ color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" }}>{it.dicName}</Text>

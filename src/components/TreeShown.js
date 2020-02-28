@@ -101,14 +101,15 @@ class TreeShown extends Component {
         let renderCard = (item, i) => {
             return <Animated.View key={i}  style={{ marginTop: margin, opacity: opacitys,transform: [{ rotateX: rotatecha }] }}>
                 <Card padding-12 enableShadow={false} style={{ marginBottom: -8, borderColor: "#f0f0f0", borderWidth: 1,backgroundColor:!item.children?"#f9f9f9":"#f0f0f0" }} onPress={()=>{
+                   
+                    if(!clickable){
+                       return
+                    }
                     if(!item.children){
                         OneToast("没有下级部门了");
                         return
                     }
-                    if(clickable){
-                       navigation.navigate("DepartMentChild",{title:item.title,key:item.key}) 
-                    }
-                    
+                    navigation.navigate("DepartMentChild",{title:item.title,key:item.key}) 
                 }}>
                     <View row spread>
                         <Text body style={{ color: colors.primaryColor }}>{item.title}</Text>

@@ -1,8 +1,8 @@
 import {
     test, login, logout,
-    infodevice, infodevicedetail, deviceuser, deviceuserlist,
-    infospare, infosparedetail, department, departmentmore,
-    userlist, userlistdetail
+    infodevice, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
+    infospare, infosparedetail, department, shopgrouplist, departmentmore,
+    userlist, userlistdetail, getuserspare
 } from '../services/index'
 export default {
     namespace: 'index',
@@ -22,9 +22,12 @@ export default {
         deviceuser: [],
         deviceuserlist: {},
         department: [],
+        shopgrouplist: [],
         departmentmore: [],
         res: {},
         formdata: [],
+        getshoplist: [],
+        getuserspare: [],
         done: "0",
     },
     effects: {
@@ -78,6 +81,10 @@ export default {
                 type: 'updateState',
                 payload: { infospare: responese.data.page ? responese.data.page : {} }
             })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
             return responese.code == "0000"
         },
 
@@ -105,11 +112,17 @@ export default {
                 type: 'updateState',
                 payload: { userlist: responese.data.dataList ? responese.data.dataList : [] }
             })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : [] }
+            })
             return responese.code == "0000"
         },
 
         *deviceuserlist({ payload }, { call, put }) {//data
+            console.log(payload)
             const responese = yield call(deviceuserlist, payload);
+            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { deviceuserlist: responese.data.dataList ? responese.data.dataList : [] }
@@ -125,7 +138,15 @@ export default {
             })
             return responese.code == "0000"
         },
-
+        *getuserspare({ payload }, { call, put }) {//data
+            console.log(payload)
+            const responese = yield call(getuserspare, payload);
+            yield put({
+                type: 'updateState',
+                payload: { getuserspare: responese.data.dataList ? responese.data.dataList : [] }
+            })
+            return responese.code == "0000"
+        },
         *infosparedetail({ payload }, { call, put }) {//data
             const responese = yield call(infosparedetail, payload);
             yield put({
@@ -142,6 +163,15 @@ export default {
             })
             return responese.code == "0000"
         },
+        *shopgrouplist({ payload }, { call, put }) {//data
+            const responese = yield call(shopgrouplist, payload);
+            yield put({
+                type: 'updateState',
+                payload: { shopgrouplist: responese.data.dataList ? responese.data.dataList : [] }
+            })
+            return responese.code == "0000"
+        },
+
         *departmentmore({ payload }, { call, put }) {//data
             const responese = yield call(departmentmore, payload);
             yield put({
@@ -150,6 +180,17 @@ export default {
             })
             return responese.code == "0000"
         },
+        *getshoplist({ payload }, { call, put }) {//data
+            console.log(payload)
+
+            const responese = yield call(getshoplist, payload);
+            yield put({
+                type: 'updateState',
+                payload: { getshoplist: responese.data.dataList ? responese.data.dataList : [] }
+            })
+            return responese.code == "0000"
+        },
+
 
         *done({ payload }, { call, put }) {//data
             yield put({

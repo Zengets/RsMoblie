@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, DeviceItem,Empty } from '../../../components';
+import { View, Text, Card, Colors, ActionSheet, Badge, Avatar, TabBar } from 'react-native-ui-lib';
+import { SafeAreaViewPlus, Header, OneToast, DeviceItem, Empty } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntdIcons from 'react-native-vector-icons/AntDesign';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
 
@@ -16,7 +17,8 @@ let { height, width } = Dimensions.get('window');
 class UserListDetail extends React.Component {
 
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
+    showHint: false
   }
 
   //设置新状态
@@ -51,8 +53,8 @@ class UserListDetail extends React.Component {
 
   render() {
 
-    let { index, navigation,submitting } = this.props,
-      { userName, gender, jobNum, jobTitle, accountName, telephone, groupName, shiftName, mailNo,
+    let { index, navigation, submitting } = this.props, { showHint } = this.state,
+      { userName, gender, jobNum, jobTitle, accountName, telephone, groupName, shiftName, mailNo, id,
         departmentName, shopName, parentName, academicCareer, university, major, check, maintain, verification, repair } = index.userlistdetail;
     check = check ? check : [];
     maintain = maintain ? maintain : [];
@@ -68,8 +70,40 @@ class UserListDetail extends React.Component {
     }, arr = [check.length, maintain.length, verification.length, repair.length];
 
     return <SafeAreaViewPlus loading={submitting}>
-      <Header title={`用户详情`} navigation={navigation}>
+      <Header title={`用户详情`} navigation={navigation}
+        headerRight={() => (
+          <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
+            <AntdIcons name="ellipsis1" size={22} style={{ color: "#000" }} />
+          </Card>
+
+        )}
+      >
       </Header>
+      <ActionSheet
+        useSafeArea={true}
+        message='更多内容'
+        useNativeIOS={true}
+        containerStyle={{ borderRadius: 8, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, }}
+        options={[
+          {
+            label: '查看负责的备件', onPress: () => {
+              navigation.navigate("UserMore", { id: id,title:`${userName}负责的备件`,posturl:"getuserspare",key:"warnNoticeUserId" })
+            }
+          },
+          {
+            label: '查看设备日志', onPress: () => {
+              //navigation.navigate("DeviceUser", { id: id })
+            }
+          },
+          {
+            label: '取消', onPress: () => {
+              this.setState({ showHint: false })
+            }
+          },
+        ]}
+        visible={showHint}
+        onDismiss={() => this.setState({ showHint: false })}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         ref={(scrollview) => this.scrollview = scrollview}
@@ -272,7 +306,7 @@ class UserListDetail extends React.Component {
                         <DeviceItem key={i} navigation={this.props.navigation} item={item}></DeviceItem>
                       )) : <Empty /> : null
                     }
-                   
+
                   </View>
                 </View>
 

@@ -24,7 +24,16 @@ class Info extends React.Component {
   componentDidMount() {
     this.setNewState("test", null)
   }
+  componentWillUnmount() {
+    // 在页面消失的时候，取消监听
+    this.setNewState("formdata", [])
+  }
 
+  jumpToUrl(url,data) {
+    this.setNewState("formdata", [], () => {
+      this.props.navigation.navigate(url,data)
+    })
+  }
 
   render() {
     const { index, navigation } = this.props
@@ -38,24 +47,27 @@ class Info extends React.Component {
           <Text body>This is an Info card {index.count}</Text>
         </Card>
         <Button label="设备列表" body bg-primaryColor square onPress={() => {
-          navigation.navigate("InfoDevice")
+          this.jumpToUrl("InfoDevice")
         }}></Button>
         <Button label="用户列表" marginT-24 body bg-primaryColor square onPress={() => {
-          navigation.navigate("UserList");
+          this.jumpToUrl("UserList");
         }}></Button>
 
         <Button label="设备负责人" marginT-24 body bg-primaryColor square onPress={() => {
-          navigation.navigate("DeviceUserList");
+          this.jumpToUrl("DeviceUserList");
         }}></Button>
 
         <Button label="备件列表" marginT-24 body bg-primaryColor square onPress={() => {
-          navigation.navigate("InfoSpare");
+          this.jumpToUrl("InfoSpare");
         }}></Button>
 
         <Button label="部门列表" marginT-24 body bg-primaryColor square onPress={() => {
-          navigation.navigate("DepartMent");
+          this.jumpToUrl("DepartMent");
         }}></Button>
 
+        <Button label="车间分组" marginT-24 body bg-primaryColor square onPress={() => {
+          this.jumpToUrl("DepartMent",{posturl:"shopgrouplist",title:"车间分组",can:"0"});
+        }}></Button>
       </View>
     </SafeAreaViewPlus>
 

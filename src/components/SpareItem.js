@@ -28,7 +28,7 @@ class SpareItem extends Component {
       paddingL-page paddingR-page
       onPress={() => {
         console.log(item)
-        navigation.navigate("SpareListDetail", {
+        navigation.navigate("InfoSpareDetail", {
           id: item.userId ? item.userId : item.id,
         })
       }}

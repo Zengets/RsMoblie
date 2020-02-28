@@ -37,7 +37,7 @@ class UserItem extends Component {
         <Text dark40 body marginT-4>{item.departmentName}</Text>
       </View>
       {
-        device ? <View spread flex-1 right>
+        device ? <View spread flex-1 right paddingR-12>
           <Text dark40 subbody>{item.equipmentName}</Text>
           <Text dark40 subbody marginT-8>{item.equipmentNo}</Text>
         </View> : null
