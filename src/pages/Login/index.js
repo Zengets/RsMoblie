@@ -15,8 +15,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: "A888",
-      password: "123456",
+      username: "",
+      password: "",
       see: false,
     }
   }
@@ -56,11 +56,19 @@ class Login extends React.Component {
     let getItem = async () => {
       let currentUser = await AsyncStorage.getItem('@MyApp_user'), now = new Date().getTime();
       currentUser = JSON.parse(currentUser ? currentUser : "{}");
+
+
+
       if (currentUser.token) {
         if (parseInt(currentUser.userTime) < parseInt(now)) {
           await AsyncStorage.clear();
           this.setNewState("settoken", 1);
           OneToast("您的登录已过期，请重新登录...");
+          let { username, password } = this.props.index.userInfo;
+          this.setState({
+            username, 
+            password
+          })
         } else {
           let { username, password } = currentUser;
           this.setNewState("settoken", currentUser.token);
@@ -72,6 +80,11 @@ class Login extends React.Component {
           })
         }
       } else {
+        let { username, password } = this.props.index.userInfo;
+        this.setState({
+          username, 
+          password
+        })
       }
     }
 
@@ -110,7 +123,7 @@ class Login extends React.Component {
       ...textfieldprops,
       rightButtonProps: {
         iconSource: see ? require("../../assets/nosee.png") : require("../../assets/see.png"),
-        iconColor: colors.primaryColor,
+        iconColor: "#666",
         onPress: () => {
           this.setState({
             see: !see

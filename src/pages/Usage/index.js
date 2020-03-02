@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
 import { SafeAreaViewPlus, OneToast,Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 @connect(({ index }) => ({ index }))
 class Usage extends React.Component {
@@ -28,11 +29,22 @@ class Usage extends React.Component {
 
 
   render() {
-    const { index } = this.props
+    const { index,navigation } = this.props
 
     return <SafeAreaViewPlus>
-      <Header title="应用">
-      </Header>
+     <Header
+        title="应用"
+        headerLeft={() => {
+          return <AntIcons name={'menuunfold'} size={20} style={{ color: "#666", paddingLeft: 20 }} onPress={() => {
+            navigation.openDrawer()
+          }}></AntIcons>
+        }}
+        headerRight={() => {
+          return <Ionicons name={'ios-qr-scanner'} size={22} onPress={() => {
+            navigation.navigate("Scan")
+          }}></Ionicons>
+        }}
+      />
       <View flex padding-page>
         <Text heading marginB-s4>Usage</Text>
         <Card height={100} center padding-card marginB-s4>

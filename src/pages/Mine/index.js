@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast,Header } from '../../components';
+import { SafeAreaViewPlus, OneToast, Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 @connect(({ index }) => ({ index }))
 class Mine extends React.Component {
@@ -14,7 +15,7 @@ class Mine extends React.Component {
       type: 'index/' + type,
       payload: values
     }).then((res) => {
-      
+
       if (!res) {
         return
       }
@@ -31,16 +32,27 @@ class Mine extends React.Component {
     const { index } = this.props
 
     return <SafeAreaViewPlus>
-      <Header title="我的">
-      </Header>
+      <Header
+        title="我的"
+        headerLeft={ () => {
+          return <AntIcons name={ 'menuunfold' } size={ 20 } style={ { color: "#666", paddingLeft: 20 } } onPress={ () => {
+            navigation.openDrawer()
+          } }></AntIcons>
+        } }
+        headerRight={ () => {
+          return <Ionicons name={ 'ios-qr-scanner' } size={ 22 } onPress={ () => {
+            navigation.navigate("Scan")
+          } }></Ionicons>
+        } }
+      />
       <View flex padding-page>
         <Text heading marginB-s4>Mine</Text>
-        <Card height={100} center padding-card marginB-s4>
-          <Text body>This is an Mine card {index.count}</Text>
+        <Card height={ 100 } center padding-card marginB-s4>
+          <Text body>This is an Mine card { index.count }</Text>
         </Card>
-        <Button label="Button" body bg-primaryColor square onPress={() => {
+        <Button label="Button" body bg-primaryColor square onPress={ () => {
           this.login()
-        }}></Button>
+        } }></Button>
       </View>
     </SafeAreaViewPlus>
 

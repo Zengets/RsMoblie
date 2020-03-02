@@ -9,7 +9,8 @@ import UserItem from './UserItem';
 import Empty from './Empty';
 import SpareItem from './SpareItem';
 import TreeShown from './TreeShown';
+import AuthBase from './AuthBase';
 export {
     OpenToast,HideToast,OneToast,
-    SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,UserItem,Empty,SpareItem,TreeShown
+    SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,UserItem,Empty,SpareItem,TreeShown,AuthBase
 }

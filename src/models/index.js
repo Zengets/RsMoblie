@@ -33,9 +33,12 @@ export default {
     effects: {
         *login({ payload }, { call, put }) {//data
             const responese = yield call(login, payload);
+            let userInfo = responese.data.user ? responese.data.user : {};
+            userInfo.username = payload.accountName;
+            userInfo.password = payload.password;
             yield put({
                 type: 'updateState',
-                payload: { userInfo: responese.data.user ? responese.data.user : {} }
+                payload: { userInfo: userInfo }
             })
             yield put({
                 type: 'updateState',
