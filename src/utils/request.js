@@ -52,7 +52,6 @@ async function get(url, params) {
 }
 
 async function post(url, body) {
-  console.log(url,body)
   try {
     let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
     if(Access_Token){
@@ -118,31 +117,21 @@ async function update(url, body) {
     .then(parseJSON)
 }
 
-async function uploadFile(url, params, fileUrl, fileName) {
-  let Access_Token = await Storage.get('Access_Token');
-  let data = new FormData();
-  data.append('file', {
-    uri: fileUrl,
-    name: fileName,
-    type: 'image/jpeg'
-  });
-
-  Object.keys(params).forEach((key) => {
-    if (params[key] instanceof Date) {
-      data.append(key, value.toISOString())
-    } else {
-      data.append(key, String(params[key]))
-    }
-  });
+async function uploadFile(url, params) {
+  let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
+  if(Access_Token){
+    TOKEN = JSON.parse(Access_Token).token
+  }
+  console.log(params)
   const fetchOptions = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Connection':"close",
-      'Access_Token': Access_Token ? Access_Token : '',
+      'token': TOKEN,
       'UserAgent': os
     },
-    body: data
+    body: params
   };
   return fetch(url, fetchOptions)
     .then(checkStatus)

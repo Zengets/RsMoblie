@@ -4,24 +4,7 @@ import { View, Text, Card, Button } from 'react-native-ui-lib';
 import { SafeAreaViewPlus, AuthBase, Header } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-
-function getItem(mainname, name, data) {
-  let curitem = {}, thisitem = {};
-  data.map((item, i) => {
-    if (item.name == mainname) {
-      curitem = item
-    }
-  })
-  if (curitem.routes) {
-    curitem.routes.map((item) => {
-      if (item.name == name) {
-        thisitem = item
-      }
-    })
-  }
-
-  return thisitem
-}
+import {getItem} from '../../utils'
 
 
 @connect(({ index }) => ({ index }))

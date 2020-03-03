@@ -25,6 +25,10 @@ export async function infodevice(params) {
     return post(`${ipandport}/equipment/queryList`, params);
 }
 
+export async function infodevicecan(params) {
+    return post(`${ipandport}/equipment/queryAppApplyRepairList`, params);
+}
+
 export async function infodevicedetail(params) {
     return post(`${ipandport}/equipment/queryById`, params);
 }
@@ -73,10 +77,17 @@ export async function getuserspare(params) {
     return post(`${ipandport}/spareParts/queryListByWarnNoticeUserId`, params);
 }
 
+export async function repairstep(params) {
+    return post(`${ipandport}/equipmentRepair/queryByEquipmentId`, params);
+}
 
+export async function getChildren(params) {
+    return post(`${ipandport}/equipmentRepair/getChildren`, params);
+}
 
-
-
+export async function uploadImg(params) {
+    return uploadFile(`${ipandport}/common/uploadImg`, params);
+}
 
 
 

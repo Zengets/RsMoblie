@@ -2,6 +2,7 @@ import Home from './Home'
 import Login from './Login'
 import Info from './Info'
 import InfoDevice from './Info/Childern/InfoDevice'
+import InfoDeviceCan from './Info/Childern/InfoDeviceCan'
 import InfoDeviceDetail from './Info/Childern/InfoDeviceDetail'
 import UserList from './Info/Childern/UserList'
 import UserListDetail from './Info/Childern/UserListDetail'
@@ -21,14 +22,15 @@ import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
 import Scan from './Scan'
 import SearchForm from './SearchForm'
+import SubmitForm from './SubmitForm'
 
 
 export {
     Home,
     Login,
     Info,
-    InfoDevice,InfoDeviceDetail,
-    UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,DepartMentChild,SearchForm,UserMore,
+    InfoDevice,InfoDeviceCan,InfoDeviceDetail,
+    UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,DepartMentChild,SearchForm,SubmitForm,UserMore,
     
     Usage,
     Knowledge,

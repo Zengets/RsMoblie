@@ -1,6 +1,6 @@
 import React from 'react';
-import { Scan, Login,SearchForm,
-    InfoDevice,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,DepartMentChild,UserMore 
+import { Scan, Login,SearchForm,SubmitForm,
+    InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,DepartMentChild,UserMore 
 
 
 
@@ -47,6 +47,7 @@ const AppNavigator = createStackNavigator(
         },
         Scan: Scan,
         InfoDevice:InfoDevice,
+        InfoDeviceCan:InfoDeviceCan,
         InfoDeviceDetail:InfoDeviceDetail,
         UserList:UserList,
         UserListDetail:UserListDetail,
@@ -57,6 +58,7 @@ const AppNavigator = createStackNavigator(
         DepartMent:DepartMent,
         DepartMentChild:DepartMentChild,
         SearchForm:SearchForm,
+        SubmitForm:SubmitForm,
         UserMore:UserMore
     },
     {

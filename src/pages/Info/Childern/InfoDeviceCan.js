@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, DeviceItem } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, DeviceItemSwipe } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
@@ -12,16 +12,17 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/infodevice'],
+    submitting: loading.effects['index/infodevicecan'],
 }))
-class InfoDevice extends React.Component {
+class InfoDeviceCan extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
-            postUrl: "infodevice",
+            scrollY: 0,
+            postUrl: "infodevicecan",
             search: true,
             showbtn: false,
             postData: {
@@ -34,7 +35,6 @@ class InfoDevice extends React.Component {
                 "equipmentModel": "",//型号，筛选条件
                 "shopId": "",//车间id，筛选条件
                 "departmentId": "",//部门id，筛选条件
-                "status": ""//状态，筛选条件
             },
             resData: [{ items: [] }]
         }
@@ -71,13 +71,13 @@ class InfoDevice extends React.Component {
                     this._list.endLoading();
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.infodevice.list }],
+                            resData: [{ items: this.props.index.infodevicecan.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.infodevice.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.infodevicecan.list }]),
                             isLoadMore: false
                         })
                     }
@@ -113,7 +113,6 @@ class InfoDevice extends React.Component {
                     "equipmentModel": getVal("equipmentModel"),//型号，筛选条件
                     "shopId": getVal("shopId"),//车间id，筛选条件
                     "departmentId": getVal("departmentId"),//部门id，筛选条件
-                    "status": getVal("status") //状态，筛选条件
                 },
             }, () => {
                 this.onRefresh()
@@ -158,12 +157,12 @@ class InfoDevice extends React.Component {
     }
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.infodevice.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.infodevicecan.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.infodevice.pageNum + 1
+                    pageIndex: this.props.index.infodevicecan.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -190,7 +189,7 @@ class InfoDevice extends React.Component {
 
 
     render() {
-        let { index: { res, formdata }, navigation, submitting } = this.props,
+        let { index: { res, res2, formdata, submitdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let searchprops = {
@@ -267,15 +266,7 @@ class InfoDevice extends React.Component {
                             dicKey: item.id
                         }
                     })
-                }, {
-                    key: "status",
-                    type: "select",
-                    require: false,
-                    value: "",
-                    placeholder: "请选择设备状态",
-                    option: res.equipmentStatusList && res.equipmentStatusList
-                }
-                ]
+                }]
                 this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
                     fn ? fn() : null
                 })
@@ -285,32 +276,106 @@ class InfoDevice extends React.Component {
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <DeviceItem item={item} navigation={this.props.navigation}></DeviceItem> : <View></View>
+            return item ? <DeviceItemSwipe onSwipePress={ () => {
+                this.setNewState("repairstep", { id: item.equipmentId ? item.equipmentId : item.id }, () => {
+                    console.log(res2.faultTypeList.map((item) => {
+                        return {
+                            dicName: item.faultName,
+                            dicKey: item.id
+                        }
+                    }))
+                    let submitdatas = [
+                        {
+                            key: "faultTypehide",
+                            type: "select",
+                            require: true,
+                            value: "",
+                            linked: {
+                                key: "faultType",
+                                posturl: "getChildren",
+                                format: { dicKey: "id", dicName: "faultName" },
+                                postkey: "id"
+                            },
+                            placeholder: "请选择故障分类",
+                            option: res2.faultTypeList&& res2.faultTypeList.map((item) => {
+                                return {
+                                    dicName: item.faultName,
+                                    dicKey: item.id
+                                }
+                            })
+                        }, {
+                            key: "faultType",
+                            type: "select",
+                            require: true,
+                            value: "",
+                            placeholder: "请选择故障名称",
+                            option: []
+                        }, {
+                            key: "repairUserId",
+                            type: "select",
+                            require: false,
+                            value: "",
+                            placeholder: "请选择维修工",
+                            option: res2.workerList && res2.workerList.map((item) => {
+                                return {
+                                    dicName: item.userName,
+                                    dicKey: item.id
+                                }
+                            })
+                        },{
+                            key: "faultDesc",
+                            type: "textarea",
+                            require: false,
+                            value: "",
+                            placeholder: "请填写故障描述",
+
+                        },{
+                            key: "faultPicUrl",
+                            type: "image",
+                            require: false,
+                            value: "",
+                            placeholder: "请上传故障图片",
+                        }]
+                    this.setNewState("submitdata", submitdatas, () => {
+                        navigation.navigate("SubmitForm", { title: "设备报修" })
+                    })
+
+
+
+
+
+                })
+
+
+
+
+
+            } } scrollY={ this.state.scrollY } item={ item } navigation={ this.props.navigation }></DeviceItemSwipe> : <View></View>
         }
 
-        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
+        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
             <Header
-                navigation={navigation}
-                title="设备列表"
-                headerRight={() => !search ? <AntIcons name="search1" size={22} onPress={() => {
+                navigation={ navigation }
+                title="可报修设备"
+                headerRight={ () => !search ? <AntIcons name="search1" size={ 22 } onPress={ () => {
                     this.setState({
                         search: !search
                     })
-                }} /> : <Text onPress={() => {
+                } } /> : <Text onPress={ () => {
                     this.setState({
                         search: !search
                     })
-                }}>
+                } }>
                         取消
-                </Text>}
+                </Text> }
             >
             </Header>
             <View flex >
-                <View style={{ padding: search ? 12 : 0, paddingBottom: 0 }}>
-                    <TitleSearch {...searchprops}></TitleSearch>
+                <View style={ { padding: search ? 12 : 0, paddingBottom: 0 } }>
+                    <TitleSearch { ...searchprops }></TitleSearch>
                 </View>
                 <LargeList
-                    onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
+                    onScroll={ ({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {
                             if (showbtn) {
                             } else {
@@ -327,30 +392,33 @@ class InfoDevice extends React.Component {
 
                             }
                         }
+                        this.setState({
+                            scrollY: y
+                        })
 
-                    }}
-                    ref={ref => (this._list = ref)}
-                    onRefresh={() => { this.onRefresh("0") }} //刷新操作
-                    refreshHeader={ChineseWithLastDateHeader}
-                    showsVerticalScrollIndicator={false}
-                    style={{ padding: 0, marginTop: -3 }}
-                    data={this.state.resData}
-                    renderIndexPath={renderItem}//每行
-                    heightForIndexPath={() => 77}
-                    allLoaded={!this.props.index.infodevice.hasNextPage}
-                    loadingFooter={ChineseWithLastDateFooter}
-                    onLoading={this.pullUpLoading}
+                    } }
+                    ref={ ref => (this._list = ref) }
+                    onRefresh={ () => { this.onRefresh("0") } } //刷新操作
+                    refreshHeader={ ChineseWithLastDateHeader }
+                    showsVerticalScrollIndicator={ false }
+                    style={ { padding: 0, marginTop: -3 } }
+                    data={ this.state.resData }
+                    renderIndexPath={ renderItem }//每行
+                    heightForIndexPath={ () => 77 }
+                    allLoaded={ !this.props.index.infodevicecan.hasNextPage }
+                    loadingFooter={ ChineseWithLastDateFooter }
+                    onLoading={ this.pullUpLoading }
                 />
             </View>
             {
                 showbtn && <ActionButton
-                    size={38}
-                    hideShadow={true}
-                    bgColor={"transparent"}
-                    buttonColor={colors.primaryColor}
-                    offsetX={10}
-                    onPress={this.scrollToTop}
-                    renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
+                    size={ 38 }
+                    hideShadow={ true }
+                    bgColor={ "transparent" }
+                    buttonColor={ colors.primaryColor }
+                    offsetX={ 10 }
+                    onPress={ this.scrollToTop }
+                    renderIcon={ () => <AntIcons name='up' style={ { color: Colors.white } } size={ 16 } /> }
                 />
             }
 
@@ -371,4 +439,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default InfoDevice
+export default InfoDeviceCan

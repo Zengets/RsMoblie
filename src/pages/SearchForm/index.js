@@ -136,7 +136,12 @@ class SearchForm extends React.Component {
             <Header title={`筛选`} navigation={navigation}
                 headerRight={() => (<Card enableShadow={false} paddingV-12 onPress={() => {
                     this.setNewState("done", "1", () => {
-                        navigation.goBack()
+                        let { backurl } = navigation.state.params ? navigation.state.params : { backurl: undefined };
+                        if(backurl){
+                            navigation.navigate(backurl)
+                        }else{
+                            navigation.goBack()
+                        }
                     })
                 }}>
                     <Text>确定</Text>
