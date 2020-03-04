@@ -5,6 +5,7 @@ import Modal from './Modal';
 import Atoz from './Atoz';
 import TitleSearch from './TitleSearch';
 import DeviceItem from './DeviceItem';
+import RepairItem from './RepairItem';
 import DeviceItemSwipe from './DeviceItemSwipe';
 import UserItem from './UserItem';
 import Empty from './Empty';
@@ -13,5 +14,5 @@ import TreeShown from './TreeShown';
 import AuthBase from './AuthBase';
 export {
     OpenToast,HideToast,OneToast,
-    SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,DeviceItemSwipe,UserItem,Empty,SpareItem,TreeShown,AuthBase
+    SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,Empty,SpareItem,TreeShown,AuthBase
 }

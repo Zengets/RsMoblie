@@ -95,6 +95,9 @@ class InfoDevice extends React.Component {
                     one = item
                 }
             });
+            if(!one.type){
+                return
+              }
             if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
                 return one.value && one.value
             } else {

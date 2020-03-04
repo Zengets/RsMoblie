@@ -1,6 +1,10 @@
 import React from 'react';
 import { Scan, Login,SearchForm,SubmitForm,
-    InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,DepartMentChild,UserMore 
+    InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
+    InfoSpareDetail,DepartMent,DepartMentChild,UserMore,DevicerRepair,Success,
+    
+    
+    ToRepair,Repaired 
 
 
 
@@ -59,7 +63,10 @@ const AppNavigator = createStackNavigator(
         DepartMentChild:DepartMentChild,
         SearchForm:SearchForm,
         SubmitForm:SubmitForm,
-        UserMore:UserMore
+        DevicerRepair:DevicerRepair,
+        UserMore:UserMore,
+        ToRepair:ToRepair,
+        Repaired:Repaired
     },
     {
         initialRouteName: 'Home',
@@ -80,7 +87,8 @@ const App = createAppContainer(
     createAnimatedSwitchNavigator(
         {
             Login: Login,
-            Main: Main
+            Main: Main,
+            Success:Success
         },
         {
             initialRouteName: currentUser.token?"Main":"Login",

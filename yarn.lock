@@ -5516,13 +5516,6 @@ react-native-camera@^3.17.0:
   dependencies:
     prop-types "^15.6.2"
 
-react-native-collapsible@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.5.1.tgz#da2937b509921b28bf1b0f9eb8e50ad61c3ffb5d"
-  integrity sha1-2ik3tQmSGyi/Gw+euOUK1hw/+10=
-  dependencies:
-    prop-types "^15.6.2"
-
 react-native-color@0.0.10:
   version "0.0.10"
   resolved "https://registry.npm.taobao.org/react-native-color/download/react-native-color-0.0.10.tgz#9cbc0da191c67ae4fc3a04bef7bc54a685784c7d"

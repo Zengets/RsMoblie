@@ -25,7 +25,6 @@
     "react-native": "0.61.5",
     "react-native-action-button": "^2.8.5",
     "react-native-camera": "^3.17.0",
-    "react-native-collapsible": "^1.5.1",
     "react-native-gesture-handler": "^1.5.3",
     "react-native-image-picker": "^2.3.1",
     "react-native-interactable": "^2.0.1",

@@ -6,9 +6,10 @@ import { colors } from '../../utils';
 import { ActivityIndicator, Animated, Dimensions } from 'react-native';
 import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown } from '../../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Collapsible from 'react-native-collapsible';
 import ImagePicker from 'react-native-image-picker';
 import TreeSelect from 'react-native-tree-select';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 const options = {
     title: 'Select Avatar',
@@ -33,7 +34,7 @@ const loop = (data) => {
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({ index, loading }))
 class SubmitForm extends React.Component {
 
     state = {
@@ -57,8 +58,8 @@ class SubmitForm extends React.Component {
 
     componentDidMount() {
 
-
     }
+
 
     changeData = (key, value, fn) => {
         let { index: { submitdata } } = this.props;
@@ -77,7 +78,7 @@ class SubmitForm extends React.Component {
     resetData = () => {
         let { index: { submitdata } } = this.props;
         let newsubmitdata = submitdata.map((item, i) => {
-            item.value = undefined
+            item.value = item.type=="multinput"?[]:undefined
             return item
         })
         this.setNewState("submitdata", newsubmitdata)
@@ -107,8 +108,8 @@ class SubmitForm extends React.Component {
 
 
     render() {
-        let { index: { submitdata, uploadImg }, navigation } = this.props, { curkey, rotate } = this.state, { title } = navigation.state.params ? navigation.state.params : { title: "提交" };
-
+        let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation, loading } = this.props,
+            { curkey, rotate } = this.state, { title, type } = navigation.state.params ? navigation.state.params : { title: "提交", type: "" };
         let inputprops = (item) => {
             let { value, placeholder, key } = item;
             return {
@@ -128,7 +129,7 @@ class SubmitForm extends React.Component {
                     focus: colors.primaryColor,
                     disabled: 'grey'
                 },
-                placeholder: placeholder,
+                placeholder: item.require?`* ${placeholder}`: placeholder,
                 value: value,
                 onChangeText: (val) => {
                     this.changeData(key, val)
@@ -147,27 +148,102 @@ class SubmitForm extends React.Component {
                     this.changeData(key, val)
                 }
             }
-        }
+        },inserprops = (item, curkey) => {
+                let { value, placeholder, key, format } = item;
+                if (!value) {
+                    value = []
+                }
+                let inputval = 0;
+                value.map((items) => {
+                    if (items[format.id] == curkey) {
+                        inputval = items[format.value]
+                    }
+                })
+                return {
+                    keyboardType:'numeric',
+                    rightButtonProps: inputval ? {
+                        iconSource: require("../../assets/close.png"),
+                        iconColor: '#fff',
+                        onPress: () => {
+                            let newvalue = value.map((itemz) => {
+                                if (itemz[format.id] == curkey) {
+                                    itemz[format.value] = 0
+                                }
+                                return itemz
+                            })
+                            this.changeData(key, newvalue)
+                        },
+                        style: { paddingTop: 10 },
+                    } : null,
+                    underlineColor: { default: 'transparent', error: 'transparent', focus: "transparent", disabled: 'transparent' },
+                    value: inputval ? inputval.replace(/[^0-9]*/g,'') : 0,
+                    placeholder: "请填写数量",
+                    onChangeText: (val) => {
+                        let newvalue = value.map((itemz) => {
+                            if (itemz[format.id] == curkey) {
+                                itemz[format.value] = val.replace(/[^0-9]*/g,'')
+                            }
+                            return itemz
+                        })
+                        this.changeData(key, newvalue)
+                    }
+                }
+            },
+            getdisabled = () => {
+                let bools = true;
+                if (repairstep) {
+                    if (repairstep.status == "1" || repairstep.status == "2") {
+                        bools = repairstep.repairUserId == userInfo.id
+                    }
+                    if (repairstep.status == "3") {
+                        bools = repairstep.confirmUserId == userInfo.id
+                    }
+                }
+
+
+                return !bools
+
+
+            }
 
 
         return <SafeAreaViewPlus>
             <Header title={ title } navigation={ navigation }
-                headerRight={ () => (<Card enableShadow={ false } paddingV-12 onPress={ () => {
-                    this.setNewState("done", "1", () => {
-                        let { backurl } = navigation.state.params ? navigation.state.params : { backurl: undefined };
-                        if (backurl) {
-                            navigation.navigate(backurl)
-                        } else {
-                            navigation.goBack()
-                        }
-                    })
-                } }>
-                    <Text>确定</Text>
+                headerRight={ () => (<Card enableShadow={ false } paddingV-12 onPress={ this.resetData }>
+                    <Text dark40>重置</Text>
                 </Card>) }
             >
             </Header>
             <KeyboardAwareScrollView style={ { padding: 12 } } contentContainerStyle={ { flexGrow: 1 } } keyboardShouldPersistTaps="handled">
                 <View paddingB-12>
+                    {
+                        type == "repair" ?
+                            <View row paddingV-12 paddingT-6>
+                                <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
+                                    navigation.navigate("InfoDeviceDetail", { id: res2.data.id })
+                                } }>
+                                    <Text>
+                                        设备{ res2.data.equipmentName }详情
+                            </Text>
+                                </Card>
+                                {
+                                    repairstep && <View padding-6></View>
+                                }
+                                {
+                                    repairstep && <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
+                                        navigation.navigate("DevicerRepair", { id: res2.data.id })
+                                    } }>
+                                        <Text>
+                                            查看维修记录
+                            </Text>
+                                    </Card>
+                                }
+
+                            </View> :
+                            null
+                    }
+
+
                     {
                         submitdata.map((item, i) => {
                             if (item.type == "input" && !item.hidden) {
@@ -176,9 +252,9 @@ class SubmitForm extends React.Component {
                                 </Card>
                             } else if (item.type == "textarea" && !item.hidden) {
                                 return <Card bottom padding-12 marginB-12 enableShadow={ false }>
-                                    <Text marginB-10>{ item.placeholder }</Text>
+                                    <Text marginB-10>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
                                     <View style={ { padding: 8, backgroundColor: "#f9f9f9" } }>
-                                        <TextArea { ...textareaprops(item)}></TextArea>
+                                        <TextArea { ...textareaprops(item) }></TextArea>
                                     </View>
 
                                 </Card>
@@ -197,7 +273,7 @@ class SubmitForm extends React.Component {
                                         ).start()
 
                                     } }>
-                                        <Text white body>{ item.placeholder }</Text>
+                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
 
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
@@ -249,6 +325,26 @@ class SubmitForm extends React.Component {
                                 </Card>
                             } else if (item.type == "select" && !item.hidden) {
                                 return <Card marginB-12 enableShadow={ false }>
+                                    <Spinner
+                                        visible={ item.linked ? loading.effects[`index/${item.linked.posturl}`] : false }
+                                        textContent={ '加载中...' }
+                                        textStyle={ {
+                                            color: '#FFF',
+                                            fontWeight: "normal"
+                                        } }
+                                        animation="fade"
+                                        overlayColor={ "rgba(0,0,0,0.2)" }
+                                    />
+                                    <Spinner
+                                        visible={ loading.effects[`index/repairApply`] }
+                                        textContent={ '提交中...' }
+                                        textStyle={ {
+                                            color: '#FFF',
+                                            fontWeight: "normal"
+                                        } }
+                                        animation="fade"
+                                        overlayColor={ "rgba(0,0,0,0.2)" }
+                                    />
                                     <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
                                         this.setState({
                                             curkey: curkey !== item.key ? item.key : ""
@@ -262,7 +358,7 @@ class SubmitForm extends React.Component {
                                         ).start()
 
                                     } }>
-                                        <Text white body>{ item.placeholder }{ `(${item.option && item.option.length})` }</Text>
+                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
 
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
@@ -271,7 +367,7 @@ class SubmitForm extends React.Component {
                                         {
                                             item.option &&
                                             item.option.map((it, i) => (
-                                                <Card width={ (width - 36) / 3 } padding-12 margin-2 style={ { minHeight: 60, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" } } center key={ i } enableShadow={ false } onPress={ () => {
+                                                <Card width={ (width - 36) / 3 } padding-12 margin-2 style={ { minHeight: 70, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" } } center key={ i } enableShadow={ false } onPress={ () => {
                                                     this.changeData(item.key, {
                                                         id: it.dicKey,
                                                         name: it.dicName
@@ -317,7 +413,7 @@ class SubmitForm extends React.Component {
                                             data.append('file', {
                                                 uri: response.uri,
                                                 name: response.fileName,
-                                                type:  response.type
+                                                type: response.type
                                             });
                                             this.setNewState("uploadImg", data, () => {
                                                 //this.changeData(item.key, uploadImg.dataList[0]);
@@ -326,27 +422,216 @@ class SubmitForm extends React.Component {
                                         }
                                     });
                                 } }>
-                                     <Text marginB-10>{ item.placeholder }</Text>
+                                    <Text marginB-10>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
                                     <AnimatedImage
-                                        containerStyle={ { width: "100%", height: 200, borderRadius: 8,backgroundColor:"#f9f9f9" } }
+                                        containerStyle={ { width: "100%", height: 200, borderRadius: 8, backgroundColor: "#f9f9f9" } }
                                         style={ { resizeMode: 'contain', height: 200, width: "100%" } }
                                         source={ item.value ? { uri: item.value } : require("../../assets/404.png") }
                                         loader={ <ActivityIndicator /> }
                                     />
                                 </Card>
+                            } else if (item.type == "multinput") {
+                                return <Card marginB-12 enableShadow={ false }>
+                                    <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
+                                        this.setState({
+                                            curkey: curkey !== item.key ? item.key : ""
+                                        })
+                                        Animated.timing(
+                                            this.state.rotate,
+                                            {
+                                                toValue: curkey !== item.key ? 0 : 1,
+                                                duration: 1000,
+                                            }
+                                        ).start()
+                                    } }>
+                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
+                                        <Text white>({ item.value && item.value.length })</Text>
+                                    </Card>
+
+                                    <View row paddingT-8 style={ { height: curkey == item.key ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+                                        {
+                                            item.option &&
+                                            item.option.map((it, i) => (
+                                                <Card flex-1 padding-12 margin-12 style={ { 
+                                                    backgroundColor:
+                                                        item.value && item.value.length > 0 ?
+                                                            item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
+                                                                "lightblue" :
+                                                                "#999" :
+                                                            "#999"
+                                                } } key={ i } enableShadow={ false } onPress={ () => {
+                                                    let { value, key, format } = item;
+                                                    if (value && value.length > 0) {
+                                                        let idarr = value.map((on) => { return on[format.id] }), newvalue = [];
+                                                        if (idarr.indexOf(it.dicKey) !== -1) {
+                                                            newvalue = value.filter((its) => {
+                                                                return its[format.id] !== it.dicKey
+                                                            })
+                                                        } else {
+                                                            newvalue = value;
+                                                            newvalue.push({
+                                                                [format.id]: it.dicKey,
+                                                                [format.value]: 0
+                                                            })
+
+                                                        }
+                                                        this.changeData(key, newvalue)
+
+                                                    } else {
+                                                        this.changeData(key, [{
+                                                            [format.id]: it.dicKey,
+                                                            [format.value]: 0
+                                                        }])
+
+                                                    }
+                                                } }>
+                                                    <View row>
+                                                        {
+                                                            item.subs.map((k, j) => {
+                                                                return <View center flex-1><Text white>{ k.name }:{ it[k.key] }</Text></View>
+                                                            })
+                                                        }
+                                                    </View>
+                                                    {
+                                                        item.value && item.value.length > 0 ?
+                                                            item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
+                                                                <View flex-1 padding-8 marginT-12 style={ {
+                                                                    height: 40, overflow: "hidden", backgroundColor: "#fff", borderRadius: 8
+                                                                } }>
+                                                                    <TextField
+                                                                        { ...inserprops(item, it.dicKey) }
+                                                                    ></TextField>
+
+                                                                </View>
+                                                                : null 
+                                                                : null
+
+                                                    }
+                                                </Card>
+                                            ))
+                                        }
+                                    </View>
+                                    <Card padding-4 center enableShadow={ false } onPress={ () => {
+                                        this.setState({
+                                            curkey: curkey !== item.key ? item.key : ""
+                                        })
+                                        Animated.timing(
+                                            this.state.rotate,
+                                            {
+                                                toValue: curkey !== item.key ? 0 : 1,
+                                                duration: 1000,
+                                            }
+                                        ).start()
+
+                                    } }>
+                                        <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
+                                    </Card>
+                                </Card>
+
+
                             }
                         })
                     }
 
-                    <Button onPress={ this.resetData } marginB-12 backgroundColor={ "#b9b9b9" }>
-                        <Text white>重置</Text>
+                    <Button disabled={ getdisabled() } onPress={ () => {
+                        let _it = this;
+                        function getVal(key) {
+                            let one = {};
+                            _it.props.index.submitdata.map((item) => {
+                                if (item.key == key) {
+                                    one = item
+                                }
+                            });
+                            if (!one.type) {
+                                return
+                            }
+                            if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+                                return one.value && one.value
+                            } else {
+                                return one.value && one.value.id
+                            }
+                        }
+                        if (type == "repair") {
+                            let { status } = repairstep ? repairstep : { status: "4" };
+                            if (status == "4") {
+                                let postData = {
+                                    "equipmentId": res2.data.id ? res2.data.id : null,//设备id，必填
+                                    "repairUserId": getVal("repairUserId"),//维修人id，必填
+                                    "faultType": getVal("faultType"),//故障名称id，必填
+                                    "faultDesc": getVal("faultDesc"),//故障描述，非必填
+                                    "faultPicUrl": getVal("faultPicUrl")//故障图片，非必填
+                                }
+                                this.setNewState("repairApply", postData, () => {
+                                    _it.resetData()
+                                    navigation.navigate("Success", {
+                                        btn: [{
+                                            name: "返回报修",
+                                            url: "Scan",
+                                            params: { type: ["repair"] }
+                                        }, {
+                                            name: "跳转到我的报修",
+                                            url: "Mine",
+                                            params: {}
+                                        }],
+                                        description: `${res2.data.equipmentName}已报修成功！`
+                                    })
+                                })
+                            } else if (status == "1") {
+                                this.setNewState("repairStart", { id: repairstep.id ? repairstep.id : null }, () => {
+                                    navigation.navigate("Success", {
+                                        btn: [{
+                                            name: "返回维修单列表",
+                                            url: "ToRepair",
+                                        }, {
+                                            name: "跳转到我的维修单",
+                                            url: "Mine",
+                                            params: {}
+                                        }],
+                                        description: `${res2.data.equipmentName}已开始维修！`
+                                    })
+                                })
+                            }else if(status == 2) {
+    
+                                let postData = {
+                                    "id": repairstep.id ? repairstep.id : null ,
+                                    "faultReason":getVal("faultReason"),//故障原因，必填
+                                    "repairContent":getVal("repairContent"),//维修内容，必填
+                                    "repairType":getVal("repairType"),//维修类型，必填
+                                    "faultLevel":getVal("faultLevel"),//故障等级，必填
+                                    "spare":getVal("spare") //消耗备件，非必填
+                                }
+    
+                                this.setNewState("repairFinish", postData, () => {
+                                    _it.resetData()
+                                    navigation.navigate("Success", {
+                                        btn: [{
+                                            name: "返回维修单列表",
+                                            url: "ToRepair",
+                                        }, {
+                                            name: "跳转到我的维修单",
+                                            url: "Mine",
+                                            params: {}
+                                        }],
+                                        description: `${res2.data.equipmentName}已完成维修！`
+                                    })
+                                })
+    
+    
+                            }
+
+                        } 
+
+
+
+
+
+
+                    } } marginB-page backgroundColor={ colors.primaryColor }>
+                        <Text white marginV-4 body>{ getdisabled() ? "您没有操作权限" : "确定" }</Text>
                     </Button>
+
+
                 </View>
-
-
-
-
-
             </KeyboardAwareScrollView>
 
 

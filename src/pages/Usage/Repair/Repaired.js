@@ -13,9 +13,8 @@ import ActionButton from 'react-native-action-button';
 @connect(({ index, loading }) => ({
   index,
   submitting: loading.effects['index/repairList'],
-  submittings: loading.effects['index/repairstep'],
 }))
-class ToRepair extends React.Component {
+class Repaired extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -190,7 +189,7 @@ class ToRepair extends React.Component {
 
 
   render() {
-    let { index: { res, formdata }, navigation, submitting,submittings } = this.props,
+    let { index: { res, formdata }, navigation, submitting } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
     let searchprops = {
@@ -304,9 +303,9 @@ class ToRepair extends React.Component {
                 option: res2.faultLevelList && res2.faultLevelList
               }, {
                 key: "spare",
-                type: "multinput",
-                require: false,
-                value: [],
+                type: "multiselect",
+                require: true,
+                value: "",
                 format: {
                   "id": "userSparePartsId",//备件id
                   "value": "consumeCount" //使用数量
@@ -324,14 +323,7 @@ class ToRepair extends React.Component {
                 ],
 
                 placeholder: "请选择消耗备件",
-                option: res2.spareList && res2.spareList.map((item,i)=>{
-                  return {
-                    ...item,
-                    dicName:item.sparePartsName,
-                    dicKey:item.id
-                  }
-
-                })
+                option: res2.spareList && res2.spareList
               }
             ]
             this.setNewState("submitdata", submitdatas, () => {
@@ -353,7 +345,7 @@ class ToRepair extends React.Component {
       } } item={ item } navigation={ this.props.navigation }></RepairItem> : <View></View>
     }
 
-    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing||submittings }>
+    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
       <Header
         navigation={ navigation }
         title="待处理维修单列表"
@@ -436,4 +428,4 @@ const styles = StyleSheet.create({
     color: "#666"
   },
 })
-export default ToRepair
+export default Repaired

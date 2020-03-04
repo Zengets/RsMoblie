@@ -3,6 +3,7 @@ import Storage from './storage'
 import {
   Platform
 } from 'react-native'
+import { OneToast } from '../components';
 
 const os = Platform.OS;
 
@@ -20,6 +21,10 @@ function checkStatus(response) {
 function parseJSON(response) {
   let res = response.json()
   return res.then((data)=>{
+    if(data.code!=="0000"){
+      OneToast(data.msg,"rgba(254,162,0,0.6)")
+    }
+
     return data
   })
 }

@@ -40,10 +40,6 @@ class Info extends React.Component {
 
   render() {
     const { index, navigation } = this.props;
-    console.log(getItem("message", "equipment",index.userAccount))
-
-
-
 
     return <SafeAreaViewPlus>
        <Header

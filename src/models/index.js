@@ -1,8 +1,8 @@
 import {
     test, login, logout,
     infodevice, infodevicecan, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
-    infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep,uploadImg,
-    userlist, userlistdetail, getuserspare,getChildren
+    infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
+    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairStart,repairCheck,repairFinish
 } from '../services/index'
 export default {
     namespace: 'index',
@@ -25,15 +25,16 @@ export default {
         department: [],
         shopgrouplist: [],
         departmentmore: [],
-        repairstep: {},
+        repairstep: null,
+        repairList: {},
         res: {},
-        res2:{},
+        res2: {},
         formdata: [],
         submitdata: [],
         getshoplist: [],
-        getChildren:[],
+        getChildren: [],
         getuserspare: [],
-        uploadImg:[],
+        uploadImg: [],
         done: "0",
     },
     effects: {
@@ -212,7 +213,7 @@ export default {
             })
             return responese.code == "0000"
         },
-       *getChildren({ payload }, { call, put }) {//data
+        *getChildren({ payload }, { call, put }) {//data
             const responese = yield call(getChildren, payload);
             console.log(responese)
             yield put({
@@ -220,19 +221,67 @@ export default {
                 payload: { getChildren: responese.data.dataList ? responese.data.dataList : [] }
             })
             return responese.code == "0000"
-        }, 
+        },
         *repairstep({ payload }, { call, put }) {//data
             const responese = yield call(repairstep, payload);
             yield put({
                 type: 'updateState',
-                payload: { repairstep: responese.data.repair ? responese.data.repair : {} }//维修信息
+                payload: { res2: responese.data ? responese.data : {} }
             })
             yield put({
                 type: 'updateState',
-                payload: { res2: responese.data ? responese.data : {} }
+                payload: { repairstep: responese.data.repair ? responese.data.repair : null }//维修信息
+            })
+
+            return responese.code == "0000"
+        },
+        *repairApply({ payload }, { call, put }) {//data
+            const responese = yield call(repairApply, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
             })
             return responese.code == "0000"
         },
+        *repairStart({ payload }, { call, put }) {//data
+            const responese = yield call(repairStart, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *repairFinish({ payload }, { call, put }) {//data
+            const responese = yield call(repairFinish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *repairCheck({ payload }, { call, put }) {//data 
+            const responese = yield call(repairCheck, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
+        *repairList({ payload }, { call, put }) {//data
+            const responese = yield call(repairList, payload);
+            yield put({
+                type: 'updateState',
+                payload: { repairList: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
+
         *uploadImg({ payload }, { call, put }) {//data
             const responese = yield call(uploadImg, payload);
             yield put({

@@ -72,13 +72,17 @@ class Usage extends React.Component {
           </Card>
 
 
-          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false } >
+          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false }  onPress={()=>{
+             this.jumpToUrl("ToRepair")
+          }}>
             <View center style={ { width: 48, height: 48 } }>
               <EntypoIcons name='clipboard' size={ 33 }  style={{color:colors.primaryColor}}></EntypoIcons>
             </View>
             <Text subbody>维修任务</Text>
           </Card>
-          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } >
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false }   onPress={()=>{
+             this.jumpToUrl("Repaired")
+          }}>
             <View center style={ { width: 48, height: 48 } }>
               <MaterialIcons name='history' size={ 33 }  style={{color:colors.primaryColor}}></MaterialIcons>
             </View>

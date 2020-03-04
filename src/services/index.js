@@ -89,14 +89,25 @@ export async function uploadImg(params) {
     return uploadFile(`${ipandport}/common/uploadImg`, params);
 }
 
+export async function repairApply(params) {
+    return post(`${ipandport}/equipmentRepair/repairApply`, params);
+}
 
+export async function repairList(params) {
+    return post(`${ipandport}/equipmentRepair/queryList`, params);
+}
 
+export async function repairStart(params) {
+    return post(`${ipandport}/equipmentRepair/repairStart`, params);
+}
 
+export async function repairFinish(params) {
+    return post(`${ipandport}/equipmentRepair/repairFinish`, params);
+}
 
-
-
-
-
+export async function repairCheck(params) {
+    return post(`${ipandport}/equipmentRepair/repairCheck`, params);
+}
 
 
 

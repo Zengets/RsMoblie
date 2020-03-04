@@ -25,12 +25,6 @@ class DeviceItemSwipe extends Component {
     swipeable = null;
 
 
-    UNSAFE_componentWillReceiveProps(np) {
-        if (this.props.scrollY - np.scrollY>30||this.props.scrollY - np.scrollY<30) {
-            this.swipeable.recenter();
-        }
-    }
-
 
     render() {
         let { item, navigation,onSwipePress } = this.props;
@@ -72,9 +66,6 @@ class DeviceItemSwipe extends Component {
 
         return <Swipeable 
             rightButtons={ rightButtons } 
-            onRef={ ref => this.swipeable = ref }
-            rightActionActivationDistance={1}
-            leftActionActivationDistance = {1}
         >
             <ListItem
                 activeBackgroundColor={ Colors.dark60 }
@@ -86,6 +77,7 @@ class DeviceItemSwipe extends Component {
                         name: item.equipmentName
                     })
                 }}
+                
             >
                 <ListItem.Part left>
                     <AnimatedImage

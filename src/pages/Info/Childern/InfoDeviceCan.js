@@ -13,6 +13,7 @@ import ActionButton from 'react-native-action-button';
 @connect(({ index, loading }) => ({
     index,
     submitting: loading.effects['index/infodevicecan'],
+    submittings: loading.effects['index/repairstep'],
 }))
 class InfoDeviceCan extends React.Component {
     constructor(props) {
@@ -95,6 +96,9 @@ class InfoDeviceCan extends React.Component {
                     one = item
                 }
             });
+            if(!one.type){
+                return
+              }
             if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
                 return one.value && one.value
             } else {
@@ -189,7 +193,7 @@ class InfoDeviceCan extends React.Component {
 
 
     render() {
-        let { index: { res, res2, formdata, submitdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata, repairstep }, navigation, submitting,submittings } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let searchprops = {
@@ -271,19 +275,15 @@ class InfoDeviceCan extends React.Component {
                     fn ? fn() : null
                 })
             }
-
         }
+
+
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
             return item ? <DeviceItemSwipe onSwipePress={ () => {
-                this.setNewState("repairstep", { id: item.equipmentId ? item.equipmentId : item.id }, () => {
-                    console.log(res2.faultTypeList.map((item) => {
-                        return {
-                            dicName: item.faultName,
-                            dicKey: item.id
-                        }
-                    }))
+                this.setNewState("repairstep", { id:item.id }, () => {
+                    let res2 = this.props.index.res2;
                     let submitdatas = [
                         {
                             key: "faultTypehide",
@@ -337,23 +337,13 @@ class InfoDeviceCan extends React.Component {
                             placeholder: "请上传故障图片",
                         }]
                     this.setNewState("submitdata", submitdatas, () => {
-                        navigation.navigate("SubmitForm", { title: "设备报修" })
+                        navigation.navigate("SubmitForm", { title: "设备报修",type:"repair" })
                     })
-
-
-
-
-
                 })
-
-
-
-
-
             } } scrollY={ this.state.scrollY } item={ item } navigation={ this.props.navigation }></DeviceItemSwipe> : <View></View>
         }
 
-        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
+        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing || submittings }>
             <Header
                 navigation={ navigation }
                 title="可报修设备"
