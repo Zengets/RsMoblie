@@ -63,7 +63,7 @@ class Usage extends React.Component {
           </AuthBase> */}
 
           <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={()=>{
-             this.jumpToUrl("Scan",{type:["repair"]})
+             this.jumpToUrl("Scan",{type:"repair"})
           }}>
             <View center style={ { width: 48, height: 48 } }>
               <EntypoIcons name='tools' size={ 33 }  style={{color:colors.primaryColor}}></EntypoIcons>

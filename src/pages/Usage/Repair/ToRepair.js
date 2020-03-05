@@ -341,6 +341,36 @@ class ToRepair extends React.Component {
 
           } else if (item.status == 3) {//状态待待验证，点击后验证
 
+            
+            submitdatas = [
+              {
+                key: "confirmIsPass",
+                type: "select",
+                require: true,
+                value: "",
+                placeholder: "请选择验证结果",
+                option: [{
+                  dicName:"通过",
+                  dicKey:"1"
+                },{
+                  dicName:"不通过",
+                  dicKey:"2"
+                }]
+              },
+              {
+                key: "confirmDesc",
+                type: "textarea",
+                require: false,
+                value: "",
+                placeholder: "请填写验证说明",
+              },
+            ]
+            this.setNewState("submitdata", submitdatas, () => {
+              navigation.navigate("SubmitForm", { title: "验证维修", type: "repair" })
+            })
+
+
+
           } else { //已完成
             return
           }

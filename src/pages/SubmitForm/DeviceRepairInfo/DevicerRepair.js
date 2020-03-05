@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Card, TabBar, AnimatedImage } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, SpareItem } from '../../../components';
 import { ScrollView } from 'react-native';
 import { colors } from '../../../utils';
 
@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         borderColor: "#f0f0f0",
         borderBottomWidth: 1,
         width: "100%",
-        alignItems: "center",
         marginTop: 8,
         paddingBottom: 8,
         paddingLeft: 12,
@@ -41,6 +40,30 @@ const styles = StyleSheet.create({
         borderRadius: 0
     },
 })
+
+class Rows extends Component{
+    render(){
+        let {name,values} = this.props;
+
+        return  <View row top style={ styles.item }>
+        <View>
+            <Text subheading>
+                {name}:
+            </Text>
+        </View>
+        <View flex-1 paddingL-6 style={{overflow:"hidden"}} right>
+            <Text body >
+                { values }
+            </Text>
+        </View>
+
+
+    </View>
+
+    }
+
+}
+
 
 @connect(({ index }) => ({ index }))
 class DevicerRepair extends Component {
@@ -72,62 +95,20 @@ class DevicerRepair extends Component {
 
 
     render() {
-        let { navigation, index: { res2, repairstep } } = this.props;
+        let { navigation, index: { repairstep,spareData } } = this.props;
         let { applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
             confirmTime, confirmResult, confirmDesc
-
-
-
         } = repairstep ? repairstep : {};
-
+        console.log(repairstep)
 
 
         let baoxiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        报修时间:
-            </Text>
-                    <Text body>
-                        { applyRepairTime }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        故障分类:
-            </Text>
-                    <Text body>
-                        { faultClassifyName }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        故障名称:
-            </Text>
-                    <Text body>
-                        { faultTypeName }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        维修人:
-            </Text>
-                    <Text body>
-                        { repairUserName }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        故障描述:
-            </Text>
-                    <Text body>
-                        { faultDesc }
-                    </Text>
-                </View>
+                <Rows name="报修时间" values={applyRepairTime}/>
+                <Rows name="故障分类" values={faultClassifyName}/>
+                <Rows name="故障名称" values={faultTypeName}/>
+                <Rows name="维修人" values={repairUserName}/>
+                <Rows name="故障描述" values={faultDesc}/>
                 <View left padding-12>
                     <Text subheading>
                         故障图片:
@@ -142,134 +123,30 @@ class DevicerRepair extends Component {
             </Card>
         ), weixiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        开始维修时间:
-                    </Text>
-                    <Text body>
-                        { repairStartTime }
-                    </Text>
-                </View>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        结束维修时间:
-                    </Text>
-                    <Text body>
-                        { repairEndTime }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        故障等级:
-                    </Text>
-                    <Text body>
-                        { faultLevelName }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        故障原因:
-                    </Text>
-                    <Text body>
-                        { faultReason }
-                    </Text>
-                </View>
-
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        维修类型:
-                    </Text>
-                    <Text body>
-                        { repairTypeName }
-                    </Text>
-                </View>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        维修内容:
-                    </Text>
-                    <Text body>
-                        { repairContent }
-                    </Text>
-                </View>
-
+                <Rows name="开始维修时间" values={repairStartTime}/>
+                <Rows name="结束维修时间" values={repairEndTime}/>
+                <Rows name="故障等级" values={faultLevelName}/>
+                <Rows name="故障原因" values={faultReason}/>
+                <Rows name="维修类型" values={repairTypeName}/>
+                <Rows name="维修内容" values={repairContent}/>
                 <View left padding-12>
                     <Text subheading>
                         消耗备件:
                     </Text>
-                    <View>
-
-
-
+                    <View style={{width:"100%",backgroundColor:"#f0f0f0"}} flex-1 padding-12 marginT-10>
+                        {
+                            spareData.map((item,i)=>{
+                                return <SpareItem item={item} navigation={navigation} lastRender={{name:"消耗数量",key:"consumeCount"}}/>
+                            })
+                        }
                     </View>
                 </View>
-                {/* "taskNo": "RP20200107000006",--------------------------------任务单号
-                    "equipmentId": "2020010728858334701",---------------------设备id
-                    "equipmentNo": "ccc",--------------------------------------设备编号
-                    "equipmentName": "74",------------------------------------设备名
-                    "equipmentModel": "1",--------------------------------------设备型号
-                    "applyRepairUserId": "2020010728152209873",-----------报修人id
-                    "applyRepairUserName": "自动报修",---------------------报修人名
-                    "applyRepairTime": "2020-01-07 16:30:00",---------------------报修时间
-                    "faultType": "2020010327546081076",----------------------故障名id
-                    "faultCode": "123",--------------------------------------------故障代码
-                    "faultTypeName": "自动报修故障",------------------------------故障名称
-                    "repairTypeName": null,------------------------------------维修类型名
-                    "repairType": null,--------------------------------------维修类型id
-                    "repairStartTime": null,---------------------------------------开始维修时间
-                    "repairEndTime": null,------------------------------------------结束维修时间
-                    "repairUserId": "2019071129337332471",------------------维修人id
-                    "repairUserName": "小涛子",---------------------------维修人名
-                    "statusName": "待维修",-------------------------------状态名
-                    "status": 1,-------------------------------------------------状态key
-                    "faultTime": "2020-01-07 16:27:15",-----------------------故障时间
-                    "faultLevel": null,------------------------------故障级别key
-                    "faultLevelName": null,--------------------------------故障级别名
-                    "faultDesc": "自动报修",-------------------------------------故障描述
-                    "faultPicUrl": null,---------------------------------------故障图
-                    "faultReason": null,------------------------------------故障原因
-                    "repairContent": null,-------------------------------------维修内容
-                    "confirmUserId": null,---------------------------------验证人id
-                    "confirmUserName": null,-------------------------------验证人名
-                    "confirmIsPass": null,------------------------------------验证是否通过key
-                    "confirmResult": null,----------------------------------验证结果
-                    "confirmDesc": null,-------------------------------------验证描述
-                    "confirmTime": null,-------------------------------------验证时间
-                    "startTime": null,
-                    "endTime": null,
-                    "faultClassify": 1,-------------------------------------------故障类型key
-                    "faultClassifyName": "维修故障",------------------------------故障类型名
-                    "spare": null, */}
             </Card>
         ), yanzheng = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        验证时间:
-                </Text>
-                    <Text body>
-                        { confirmTime }
-                    </Text>
-                </View>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        验证结果:
-                    </Text>
-                    <Text body>
-                        { confirmResult }
-                    </Text>
-                </View>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        验证描述:
-                    </Text>
-                    <Text body>
-                        { confirmDesc }
-                    </Text>
-                </View>
-
-
+                <Rows name="验证时间" values={confirmTime}/>
+                <Rows name="验证结果" values={confirmResult}/>
+                <Rows name="验证描述" values={confirmDesc}/>
 
             </Card>
         )
@@ -316,11 +193,11 @@ class DevicerRepair extends Component {
 
                 <View padding-12>
                     <Card marginB-12 paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                        navigation.navigate("InfoDeviceDetail", { id: res2.data.id })
+                        navigation.navigate("InfoDeviceDetail", { id: repairstep.equipmentId })
                     } }>
                         <Text>
-                            设备{ res2.data.equipmentName }详情
-                            </Text>
+                            设备{ repairstep.equipmentName }详情
+                        </Text>
                     </Card>
                     {
                         this.state.selectedIndex == 0 && baoxiu()
@@ -331,23 +208,7 @@ class DevicerRepair extends Component {
                     {
                         this.state.selectedIndex == 2 && yanzheng()
                     }
-
-
                 </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </ScrollView>
 
 

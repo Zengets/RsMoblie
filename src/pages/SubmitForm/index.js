@@ -78,7 +78,7 @@ class SubmitForm extends React.Component {
     resetData = () => {
         let { index: { submitdata } } = this.props;
         let newsubmitdata = submitdata.map((item, i) => {
-            item.value = item.type=="multinput"?[]:undefined
+            item.value = item.type == "multinput" ? [] : undefined
             return item
         })
         this.setNewState("submitdata", newsubmitdata)
@@ -129,7 +129,7 @@ class SubmitForm extends React.Component {
                     focus: colors.primaryColor,
                     disabled: 'grey'
                 },
-                placeholder: item.require?`* ${placeholder}`: placeholder,
+                placeholder: item.require ? `* ${placeholder}` : placeholder,
                 value: value,
                 onChangeText: (val) => {
                     this.changeData(key, val)
@@ -148,47 +148,47 @@ class SubmitForm extends React.Component {
                     this.changeData(key, val)
                 }
             }
-        },inserprops = (item, curkey) => {
-                let { value, placeholder, key, format } = item;
-                if (!value) {
-                    value = []
+        }, inserprops = (item, curkey) => {
+            let { value, placeholder, key, format } = item;
+            if (!value) {
+                value = []
+            }
+            let inputval = 0;
+            value.map((items) => {
+                if (items[format.id] == curkey) {
+                    inputval = items[format.value]
                 }
-                let inputval = 0;
-                value.map((items) => {
-                    if (items[format.id] == curkey) {
-                        inputval = items[format.value]
-                    }
-                })
-                return {
-                    keyboardType:'numeric',
-                    rightButtonProps: inputval ? {
-                        iconSource: require("../../assets/close.png"),
-                        iconColor: '#fff',
-                        onPress: () => {
-                            let newvalue = value.map((itemz) => {
-                                if (itemz[format.id] == curkey) {
-                                    itemz[format.value] = 0
-                                }
-                                return itemz
-                            })
-                            this.changeData(key, newvalue)
-                        },
-                        style: { paddingTop: 10 },
-                    } : null,
-                    underlineColor: { default: 'transparent', error: 'transparent', focus: "transparent", disabled: 'transparent' },
-                    value: inputval ? inputval.replace(/[^0-9]*/g,'') : 0,
-                    placeholder: "请填写数量",
-                    onChangeText: (val) => {
+            })
+            return {
+                keyboardType: 'numeric',
+                rightButtonProps: inputval ? {
+                    iconSource: require("../../assets/close.png"),
+                    iconColor: '#fff',
+                    onPress: () => {
                         let newvalue = value.map((itemz) => {
                             if (itemz[format.id] == curkey) {
-                                itemz[format.value] = val.replace(/[^0-9]*/g,'')
+                                itemz[format.value] = 0
                             }
                             return itemz
                         })
                         this.changeData(key, newvalue)
-                    }
+                    },
+                    style: { paddingTop: 10 },
+                } : null,
+                underlineColor: { default: 'transparent', error: 'transparent', focus: "transparent", disabled: 'transparent' },
+                value: inputval ? inputval.replace(/[^0-9]*/g, '') : 0,
+                placeholder: "请填写数量",
+                onChangeText: (val) => {
+                    let newvalue = value.map((itemz) => {
+                        if (itemz[format.id] == curkey) {
+                            itemz[format.value] = val.replace(/[^0-9]*/g, '')
+                        }
+                        return itemz
+                    })
+                    this.changeData(key, newvalue)
                 }
-            },
+            }
+        },
             getdisabled = () => {
                 let bools = true;
                 if (repairstep) {
@@ -231,11 +231,11 @@ class SubmitForm extends React.Component {
                                 }
                                 {
                                     repairstep && <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                                        navigation.navigate("DevicerRepair", { id: res2.data.id })
+                                        navigation.navigate("DevicerRepair")
                                     } }>
                                         <Text>
                                             查看维修记录
-                            </Text>
+                                        </Text>
                                     </Card>
                                 }
 
@@ -252,7 +252,7 @@ class SubmitForm extends React.Component {
                                 </Card>
                             } else if (item.type == "textarea" && !item.hidden) {
                                 return <Card bottom padding-12 marginB-12 enableShadow={ false }>
-                                    <Text marginB-10>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
+                                    <Text marginB-10>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
                                     <View style={ { padding: 8, backgroundColor: "#f9f9f9" } }>
                                         <TextArea { ...textareaprops(item) }></TextArea>
                                     </View>
@@ -273,7 +273,7 @@ class SubmitForm extends React.Component {
                                         ).start()
 
                                     } }>
-                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
+                                        <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
 
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
@@ -336,7 +336,7 @@ class SubmitForm extends React.Component {
                                         overlayColor={ "rgba(0,0,0,0.2)" }
                                     />
                                     <Spinner
-                                        visible={ loading.effects[`index/repairApply`] }
+                                        visible={ loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] }
                                         textContent={ '提交中...' }
                                         textStyle={ {
                                             color: '#FFF',
@@ -358,7 +358,7 @@ class SubmitForm extends React.Component {
                                         ).start()
 
                                     } }>
-                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
+                                        <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
 
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
@@ -422,7 +422,7 @@ class SubmitForm extends React.Component {
                                         }
                                     });
                                 } }>
-                                    <Text marginB-10>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }</Text>
+                                    <Text marginB-10>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
                                     <AnimatedImage
                                         containerStyle={ { width: "100%", height: 200, borderRadius: 8, backgroundColor: "#f9f9f9" } }
                                         style={ { resizeMode: 'contain', height: 200, width: "100%" } }
@@ -444,7 +444,7 @@ class SubmitForm extends React.Component {
                                             }
                                         ).start()
                                     } }>
-                                        <Text white body>{item.require?<Text style={{color:colors.warnColor}}>*</Text>:null} { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
+                                        <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
                                         <Text white>({ item.value && item.value.length })</Text>
                                     </Card>
 
@@ -452,7 +452,7 @@ class SubmitForm extends React.Component {
                                         {
                                             item.option &&
                                             item.option.map((it, i) => (
-                                                <Card flex-1 padding-12 margin-12 style={ { 
+                                                <Card flex-1 padding-12 margin-12 style={ {
                                                     backgroundColor:
                                                         item.value && item.value.length > 0 ?
                                                             item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
@@ -503,8 +503,8 @@ class SubmitForm extends React.Component {
                                                                     ></TextField>
 
                                                                 </View>
-                                                                : null 
                                                                 : null
+                                                            : null
 
                                                     }
                                                 </Card>
@@ -567,7 +567,7 @@ class SubmitForm extends React.Component {
                                         btn: [{
                                             name: "返回报修",
                                             url: "Scan",
-                                            params: { type: ["repair"] }
+                                            params: { type:"repair" }
                                         }, {
                                             name: "跳转到我的报修",
                                             url: "Mine",
@@ -590,17 +590,15 @@ class SubmitForm extends React.Component {
                                         description: `${res2.data.equipmentName}已开始维修！`
                                     })
                                 })
-                            }else if(status == 2) {
-    
+                            } else if (status == "2") {
                                 let postData = {
-                                    "id": repairstep.id ? repairstep.id : null ,
-                                    "faultReason":getVal("faultReason"),//故障原因，必填
-                                    "repairContent":getVal("repairContent"),//维修内容，必填
-                                    "repairType":getVal("repairType"),//维修类型，必填
-                                    "faultLevel":getVal("faultLevel"),//故障等级，必填
-                                    "spare":getVal("spare") //消耗备件，非必填
+                                    "id": repairstep.id ? repairstep.id : null,
+                                    "faultReason": getVal("faultReason"),//故障原因，必填
+                                    "repairContent": getVal("repairContent"),//维修内容，必填
+                                    "repairType": getVal("repairType"),//维修类型，必填
+                                    "faultLevel": getVal("faultLevel"),//故障等级，必填
+                                    "spare": getVal("spare") //消耗备件，非必填
                                 }
-    
                                 this.setNewState("repairFinish", postData, () => {
                                     _it.resetData()
                                     navigation.navigate("Success", {
@@ -615,11 +613,34 @@ class SubmitForm extends React.Component {
                                         description: `${res2.data.equipmentName}已完成维修！`
                                     })
                                 })
-    
-    
+
+
+                            } else if (status == "3") {
+                                let postData = {
+                                    "id": repairstep.id ? repairstep.id : null,
+                                    "confirmIsPass": getVal("confirmIsPass"),//故障原因，必填
+                                    "confirmDesc": getVal("confirmDesc"),//维修内容，必填
+                                }
+
+                                this.setNewState("repairCheck", postData, () => {
+                                    _it.resetData()
+                                    navigation.navigate("Success", {
+                                        btn: [{
+                                            name: "返回维修单列表",
+                                            url: "ToRepair",
+                                        }, {
+                                            name: "跳转到我的维修单",
+                                            url: "Mine",
+                                            params: {}
+                                        }],
+                                        description: `${res2.data.equipmentName}已完成验证！`
+                                    })
+                                })
+
+
                             }
 
-                        } 
+                        }
 
 
 

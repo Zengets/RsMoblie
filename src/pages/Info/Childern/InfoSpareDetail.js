@@ -36,15 +36,13 @@ class InfoSpareDetail extends React.Component {
   componentDidMount() {
     this.setNewState("infosparedetail", {
       id: this.props.navigation.state.params.id
+    },()=>{
+      console.log(this.props.index.infosparedetail,"214564564564")
     })
   }
 
 
   render() {
-    // "warnNoticeUserId": "2019071823690900342",--------预警联系人id
-    // "warnNoticeUserName": "小豪",--------------------------预警联系人名
-
-
     let { index, navigation ,submitting} = this.props,
       { sparePartsName, sparePartsTypeName, sparePartsNo, sparePartsValue, spartPartsSerialNo, totalStock, availableStock, warnStock, warnNoticeUserName,warnNoticeUserId } = index.infosparedetail;
 

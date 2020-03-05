@@ -12,7 +12,8 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
   index,
-  submitting: loading.effects['index/repairList'],
+  submitting: loading.effects['index/repairHisList'],
+  submittings: loading.effects['index/getRepairDetail'],
 }))
 class Repaired extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Repaired extends React.Component {
       isLoadMore: true,
       height: new Animated.Value(45),
       refreshing: true,
-      postUrl: "repairList",
+      postUrl: "repairHisList",
       search: true,
       showbtn: false,
       postData: {
@@ -32,7 +33,6 @@ class Repaired extends React.Component {
         "taskNo": "",//工单号，筛选条件
         "repairType": "",//维修类型，筛选条件
         "faultLevel": "",//故障级别，筛选条件
-        "status": ""//维修状态，筛选条件
       },
       resData: [{ items: [] }]
     }
@@ -69,13 +69,13 @@ class Repaired extends React.Component {
           this._list.endLoading();
           if (refreshing) {
             this.setState({
-              resData: [{ items: this.props.index.repairList.list }],
+              resData: [{ items: this.props.index.repairHisList.list }],
               refreshing: false,
               isLoadMore: false
             })
           } else {
             this.setState({
-              resData: this.state.resData.concat([{ items: this.props.index.repairList.list }]),
+              resData: this.state.resData.concat([{ items: this.props.index.repairHisList.list }]),
               isLoadMore: false
             })
           }
@@ -112,7 +112,6 @@ class Repaired extends React.Component {
           "taskNo": getVal("taskNo"),//工单号，筛选条件
           "repairType": getVal("repairType"),//维修类型，筛选条件
           "faultLevel": getVal("faultLevel"),//故障级别，筛选条件
-          "status": getVal("status")//维修状态，筛选条件
         },
       }, () => {
         this.onRefresh()
@@ -157,12 +156,12 @@ class Repaired extends React.Component {
   }
   //上拉加载
   pullUpLoading = () => {
-    if (!this.state.isLoadMore && this.props.index.repairList.hasNextPage) {
+    if (!this.state.isLoadMore && this.props.index.repairHisList.hasNextPage) {
       this.setState({
         isLoadMore: true,
         postData: {
           ...this.state.postData,
-          pageIndex: this.props.index.repairList.pageNum + 1
+          pageIndex: this.props.index.repairHisList.pageNum + 1
         }
       }, () => {
         this.getData()
@@ -189,7 +188,7 @@ class Repaired extends React.Component {
 
 
   render() {
-    let { index: { res, formdata }, navigation, submitting } = this.props,
+    let { index: { res, formdata }, navigation, submitting,submittings } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
     let searchprops = {
@@ -241,13 +240,6 @@ class Repaired extends React.Component {
           value: "",
           placeholder: "请选择故障级别",
           option: res.faultLevelList && res.faultLevelList
-        }, {
-          key: "status",
-          type: "select",
-          require: false,
-          value: "",
-          placeholder: "请选择维修状态",
-          option: res.statusList && res.statusList
         }
         ]
         this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
@@ -260,95 +252,16 @@ class Repaired extends React.Component {
     let renderItem = ({ section: section, row: row }) => {
       let item = this.state.resData[section].items[row];
       return item ? <RepairItem pressfn={ () => {
-        this.setNewState("repairstep", { id: item.equipmentId }, () => {
-          let res2 = this.props.index.res2, submitdatas = [];
-
-          if (item.status == 1) {//状态待维修，点击后开始维修
-
-
-            this.setNewState("submitdata", submitdatas, () => {
-              navigation.navigate("SubmitForm", { title: "开始维修", type: "repair" })
-            })
-
-          } else if (item.status == 2) {//状态待维修中，点击后完成维修
-
-            submitdatas = [
-              {
-                key: "faultReason",
-                type: "input",
-                require: true,
-                value: "",
-                placeholder: "请填写故障原因",
-              },
-              {
-                key: "repairContent",
-                type: "input",
-                require: true,
-                value: "",
-                placeholder: "请填写维修内容",
-              },
-              {
-                key: "repairType",
-                type: "select",
-                require: true,
-                value: "",
-                placeholder: "请选择维修类型",
-                option: res2.repairTypeList && res2.repairTypeList
-              }, {
-                key: "faultLevel",
-                type: "select",
-                require: true,
-                value: "",
-                placeholder: "请选择故障等级",
-                option: res2.faultLevelList && res2.faultLevelList
-              }, {
-                key: "spare",
-                type: "multiselect",
-                require: true,
-                value: "",
-                format: {
-                  "id": "userSparePartsId",//备件id
-                  "value": "consumeCount" //使用数量
-                },
-                subs: [{
-                  name: "备件名",
-                  key: "sparePartsName"
-                }, {
-                  name: "备件类型",
-                  key: "sparePartsTypeName"
-                }, {
-                  name: "可用库存",
-                  key: "availableStock"
-                }
-                ],
-
-                placeholder: "请选择消耗备件",
-                option: res2.spareList && res2.spareList
-              }
-            ]
-            this.setNewState("submitdata", submitdatas, () => {
-              navigation.navigate("SubmitForm", { title: "完成维修", type: "repair" })
-            })
-
-
-          } else if (item.status == 3) {//状态待待验证，点击后验证
-
-          } else { //已完成
-            return
-          }
-
-
-
+        this.setNewState("getRepairDetail", { id: item.equipmentRepairId }, () => {
+          navigation.navigate("DevicerRepair")
         })
-
-
       } } item={ item } navigation={ this.props.navigation }></RepairItem> : <View></View>
     }
 
-    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
+    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing||submittings }>
       <Header
         navigation={ navigation }
-        title="待处理维修单列表"
+        title="已完成维修单列表"
         headerRight={ () => !search ? <AntIcons name="search1" size={ 22 } onPress={ () => {
           this.setState({
             search: !search
@@ -394,7 +307,7 @@ class Repaired extends React.Component {
           data={ this.state.resData }
           renderIndexPath={ renderItem }//每行
           heightForIndexPath={ () => 100 }
-          allLoaded={ !this.props.index.repairList.hasNextPage }
+          allLoaded={ !this.props.index.repairHisList.hasNextPage }
           loadingFooter={ ChineseWithLastDateFooter }
           onLoading={ this.pullUpLoading }
         />

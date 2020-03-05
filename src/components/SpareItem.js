@@ -20,26 +20,26 @@ const styles = StyleSheet.create({
 
 class SpareItem extends Component {
   render() {
-    let { item, navigation, avatar, device } = this.props;
-    return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 90 }}
+    let { item, navigation, avatar, lastRender } = this.props;
+    return <Card borderRadius={ 0 } enableShadow={ false } bg-white
+      style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 90 } }
       spread
       padding-12
       paddingL-page paddingR-page
-      onPress={() => {
+      onPress={ () => {
         console.log(item)
         navigation.navigate("InfoSpareDetail", {
-          id: item.userId ? item.userId : item.id,
+          id: item.sparePartsId ? item.sparePartsId : item.id,
         })
-      }}
+      } }
     >
       <View row spread>
-        <View style={{ borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.warnColor ,borderLeftWidth:2,height:6 }} marginT-6 marginB-12 paddingL-6 center>
-          <Text subheading dark>{item.sparePartsName}</Text>
+        <View style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.warnColor, borderLeftWidth: 2, height: 6 } } marginT-6 marginB-12 paddingL-6 center>
+          <Text subheading dark>{ item.sparePartsName }</Text>
         </View>
         {
           item.availableStock > item.warnStock ?
-            null : <View center style={{ width: 64, height: 20, backgroundColor: colors.warnColor, marginTop: -12, marginRight: -20 }}>
+            null : <View center style={ { width: 64, height: 20, backgroundColor: colors.warnColor, marginTop: -12, marginRight: -20 } }>
               <Text white>
                 低库存
               </Text>
@@ -49,13 +49,17 @@ class SpareItem extends Component {
       </View>
 
       <View row spread>
-        <Text subbody dark40><Text >料号:</Text>{item.sparePartsNo}</Text>
-        <Text subbody style={{ color: item.availableStock > item.warnStock ? "#999" : colors.warnColor }}><Text >库存:</Text><Text >{item.availableStock}</Text></Text>
+        <Text subbody dark40><Text >料号:</Text>{ item.sparePartsNo }</Text>
+        <Text subbody style={ { color: item.availableStock > item.warnStock ? "#999" : colors.warnColor } }><Text >库存:</Text><Text >{ item.availableStock }</Text></Text>
       </View>
 
-      <View row spread>
-        <Text subbody dark40><Text >规格:</Text>{item.sparePartsTypeName}</Text>
-        <Text subbody dark40><Text >负责人:</Text>{item.warnNoticeUserName}</Text>
+      <View row spread marginT-4>
+        <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
+        {
+          lastRender ?
+            <Text subbody dark40 style={ { color:colors.warnColor } }><Text >{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
+            : <Text subbody dark40><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
+        }
       </View>
 
 
