@@ -186,7 +186,7 @@ class SubmitForm extends React.Component {
         }
 
 
-        return <KeyboardAwareScrollView style={ { padding: 12 } } contentContainerStyle={ { flexGrow: 1 } } keyboardShouldPersistTaps="handled">
+        return <KeyboardAwareScrollView style={ { padding: 12,paddingTop:0 } } contentContainerStyle={ { flexGrow: 1 } } keyboardShouldPersistTaps="handled">
             <View paddingB-12>
                 {
                     submitdata.map((item, i) => {

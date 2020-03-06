@@ -249,7 +249,7 @@ class RepairAction extends React.Component {
             >
             </Header>
 
-            <View row padding-12 paddingB-0>
+            <View row padding-12 paddingB-0 marginB-12>
                 <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
                     navigation.navigate("InfoDeviceDetail", { id: repairstep.equipmentId })
                 } }>

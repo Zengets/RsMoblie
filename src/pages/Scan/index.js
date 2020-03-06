@@ -66,8 +66,12 @@ class Scan extends Component {
 
     componentDidMount() {
         this.startAnimation();
-        let { postUrl, postData } = this.state;
-        this.setNewState(postUrl, postData)
+        let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined }; 
+        if(type){
+            let { postUrl, postData } = this.state;
+            this.setNewState(postUrl, postData)
+        }
+        
     }
 
     startAnimation = () => {
