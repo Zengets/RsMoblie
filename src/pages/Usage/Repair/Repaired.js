@@ -13,7 +13,6 @@ import ActionButton from 'react-native-action-button';
 @connect(({ index, loading }) => ({
   index,
   submitting: loading.effects['index/repairHisList'],
-  submittings: loading.effects['index/getRepairDetail'],
 }))
 class Repaired extends React.Component {
   constructor(props) {
@@ -188,7 +187,7 @@ class Repaired extends React.Component {
 
 
   render() {
-    let { index: { res, formdata }, navigation, submitting,submittings } = this.props,
+    let { index: { res, formdata }, navigation, submitting } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
     let searchprops = {
@@ -252,13 +251,11 @@ class Repaired extends React.Component {
     let renderItem = ({ section: section, row: row }) => {
       let item = this.state.resData[section].items[row];
       return item ? <RepairItem pressfn={ () => {
-        this.setNewState("getRepairDetail", { id: item.equipmentRepairId }, () => {
-          navigation.navigate("DevicerRepair")
-        })
+        navigation.navigate("DevicerRepair",{id: item.equipmentRepairId})
       } } item={ item } navigation={ this.props.navigation }></RepairItem> : <View></View>
     }
 
-    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing||submittings }>
+    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
       <Header
         navigation={ navigation }
         title="已完成维修单列表"

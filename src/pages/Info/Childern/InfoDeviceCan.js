@@ -13,7 +13,6 @@ import ActionButton from 'react-native-action-button';
 @connect(({ index, loading }) => ({
     index,
     submitting: loading.effects['index/infodevicecan'],
-    submittings: loading.effects['index/repairstep'],
 }))
 class InfoDeviceCan extends React.Component {
     constructor(props) {
@@ -193,7 +192,7 @@ class InfoDeviceCan extends React.Component {
 
 
     render() {
-        let { index: { res, formdata, repairstep }, navigation, submitting,submittings } = this.props,
+        let { index: { res, formdata, repairstep }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
         let searchprops = {
@@ -282,68 +281,11 @@ class InfoDeviceCan extends React.Component {
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
             return item ? <DeviceItemSwipe onSwipePress={ () => {
-                this.setNewState("repairstep", { id:item.id }, () => {
-                    let res2 = this.props.index.res2;
-                    let submitdatas = [
-                        {
-                            key: "faultTypehide",
-                            type: "select",
-                            require: true,
-                            value: "",
-                            linked: {
-                                key: "faultType",
-                                posturl: "getChildren",
-                                format: { dicKey: "id", dicName: "faultName" },
-                                postkey: "id"
-                            },
-                            placeholder: "请选择故障分类",
-                            option: res2.faultTypeList&& res2.faultTypeList.map((item) => {
-                                return {
-                                    dicName: item.faultName,
-                                    dicKey: item.id
-                                }
-                            })
-                        }, {
-                            key: "faultType",
-                            type: "select",
-                            require: true,
-                            value: "",
-                            placeholder: "请选择故障名称",
-                            option: []
-                        }, {
-                            key: "repairUserId",
-                            type: "select",
-                            require: false,
-                            value: "",
-                            placeholder: "请选择维修工",
-                            option: res2.workerList && res2.workerList.map((item) => {
-                                return {
-                                    dicName: item.userName,
-                                    dicKey: item.id
-                                }
-                            })
-                        },{
-                            key: "faultDesc",
-                            type: "textarea",
-                            require: false,
-                            value: "",
-                            placeholder: "请填写故障描述",
-
-                        },{
-                            key: "faultPicUrl",
-                            type: "image",
-                            require: false,
-                            value: "",
-                            placeholder: "请上传故障图片",
-                        }]
-                    this.setNewState("submitdata", submitdatas, () => {
-                        navigation.navigate("SubmitForm", { title: "设备报修",type:"repair" })
-                    })
-                })
-            } } scrollY={ this.state.scrollY } item={ item } navigation={ this.props.navigation }></DeviceItemSwipe> : <View></View>
+                navigation.navigate("RepairAction", { title: "设备报修",type:"0",id:item.id }) //设备id
+            }} scrollY={ this.state.scrollY } item={ item } navigation={ this.props.navigation }></DeviceItemSwipe> : <View></View>
         }
 
-        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing || submittings }>
+        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing  }>
             <Header
                 navigation={ navigation }
                 title="可报修设备"

@@ -10,7 +10,6 @@ let { height, width } = Dimensions.get('window');
 @connect(({ index, loading }) => ({
     index,
     submitting: loading.effects['index/infodevicedetail'],
-    submittings: loading.effects['index/repairstep'],
 }))
 class InfoDeviceDetail extends React.Component {
 
@@ -42,7 +41,7 @@ class InfoDeviceDetail extends React.Component {
 
 
     render() {
-        let { index, navigation, submitting,submittings } = this.props, { showHint } = this.state,
+        let { index, navigation, submitting } = this.props, { showHint } = this.state,
             { id, pictureUrl, equipmentName, equipmentNo, statusName, status, positionNo, equipmentTypeName, equipmentModel, groupName,
                 departmentName, shopName, energyConsumption, equipmentWorth, purchaseDate, brand, parameters, qrCodeUrl } = index.infodevicedetail
         let getColor = (status) => {
@@ -93,66 +92,7 @@ class InfoDeviceDetail extends React.Component {
                     },
                     {
                         label: '报修设备', onPress: () => {
-                            this.setNewState("repairstep", { id:id }, () => {
-                                let res2 = this.props.index.res2;
-                                let submitdatas = [
-                                    {
-                                        key: "faultTypehide",
-                                        type: "select",
-                                        require: true,
-                                        value: "",
-                                        linked: {
-                                            key: "faultType",
-                                            posturl: "getChildren",
-                                            format: { dicKey: "id", dicName: "faultName" },
-                                            postkey: "id"
-                                        },
-                                        placeholder: "请选择故障分类",
-                                        option: res2.faultTypeList&& res2.faultTypeList.map((item) => {
-                                            return {
-                                                dicName: item.faultName,
-                                                dicKey: item.id
-                                            }
-                                        })
-                                    }, {
-                                        key: "faultType",
-                                        type: "select",
-                                        require: true,
-                                        value: "",
-                                        placeholder: "请选择故障名称",
-                                        option: []
-                                    }, {
-                                        key: "repairUserId",
-                                        type: "select",
-                                        require: false,
-                                        value: "",
-                                        placeholder: "请选择维修工",
-                                        option: res2.workerList && res2.workerList.map((item) => {
-                                            return {
-                                                dicName: item.userName,
-                                                dicKey: item.id
-                                            }
-                                        })
-                                    },{
-                                        key: "faultDesc",
-                                        type: "textarea",
-                                        require: false,
-                                        value: "",
-                                        placeholder: "请填写故障描述",
-            
-                                    },{
-                                        key: "faultPicUrl",
-                                        type: "image",
-                                        require: false,
-                                        value: "",
-                                        placeholder: "请上传故障图片",
-                                    }]
-                                this.setNewState("submitdata", submitdatas, () => {
-                                    navigation.navigate("SubmitForm", { title: "设备报修",type:"repair" })
-                                })
-                            })
-
-
+                           navigation.navigate("RepairAction", { title: "设备报修",type:"0",id:id }) //设备id
                         }
                     },
 
@@ -187,7 +127,7 @@ class InfoDeviceDetail extends React.Component {
 
 
 
-        return <SafeAreaViewPlus topInset={ false } backgroundColor="transparent" topColor='transparent' loading={ submitting||submittings }>
+        return <SafeAreaViewPlus topInset={ false } backgroundColor="transparent" topColor='transparent' loading={ submitting}>
             <Modal { ...modalprops }>
                 <ImageBackground
                     style={ { width: width * 0.9, height: width * 0.9 } }

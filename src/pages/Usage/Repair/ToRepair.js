@@ -13,7 +13,6 @@ import ActionButton from 'react-native-action-button';
 @connect(({ index, loading }) => ({
   index,
   submitting: loading.effects['index/repairList'],
-  submittings: loading.effects['index/repairstep'],
 }))
 class ToRepair extends React.Component {
   constructor(props) {
@@ -190,7 +189,7 @@ class ToRepair extends React.Component {
 
 
   render() {
-    let { index: { res, formdata }, navigation, submitting,submittings } = this.props,
+    let { index: { res, formdata }, navigation, submitting } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
 
     let searchprops = {
@@ -261,129 +260,11 @@ class ToRepair extends React.Component {
     let renderItem = ({ section: section, row: row }) => {
       let item = this.state.resData[section].items[row];
       return item ? <RepairItem pressfn={ () => {
-        this.setNewState("repairstep", { id: item.equipmentId }, () => {
-          let res2 = this.props.index.res2, submitdatas = [];
-
-          if (item.status == 1) {//状态待维修，点击后开始维修
-
-
-            this.setNewState("submitdata", submitdatas, () => {
-              navigation.navigate("SubmitForm", { title: "开始维修", type: "repair" })
-            })
-
-          } else if (item.status == 2) {//状态待维修中，点击后完成维修
-
-            submitdatas = [
-              {
-                key: "faultReason",
-                type: "input",
-                require: true,
-                value: "",
-                placeholder: "请填写故障原因",
-              },
-              {
-                key: "repairContent",
-                type: "input",
-                require: true,
-                value: "",
-                placeholder: "请填写维修内容",
-              },
-              {
-                key: "repairType",
-                type: "select",
-                require: true,
-                value: "",
-                placeholder: "请选择维修类型",
-                option: res2.repairTypeList && res2.repairTypeList
-              }, {
-                key: "faultLevel",
-                type: "select",
-                require: true,
-                value: "",
-                placeholder: "请选择故障等级",
-                option: res2.faultLevelList && res2.faultLevelList
-              }, {
-                key: "spare",
-                type: "multinput",
-                require: false,
-                value: [],
-                format: {
-                  "id": "userSparePartsId",//备件id
-                  "value": "consumeCount" //使用数量
-                },
-                subs: [{
-                  name: "备件名",
-                  key: "sparePartsName"
-                }, {
-                  name: "备件类型",
-                  key: "sparePartsTypeName"
-                }, {
-                  name: "可用库存",
-                  key: "availableStock"
-                }
-                ],
-
-                placeholder: "请选择消耗备件",
-                option: res2.spareList && res2.spareList.map((item,i)=>{
-                  return {
-                    ...item,
-                    dicName:item.sparePartsName,
-                    dicKey:item.id
-                  }
-
-                })
-              }
-            ]
-            this.setNewState("submitdata", submitdatas, () => {
-              navigation.navigate("SubmitForm", { title: "完成维修", type: "repair" })
-            })
-
-
-          } else if (item.status == 3) {//状态待待验证，点击后验证
-
-            
-            submitdatas = [
-              {
-                key: "confirmIsPass",
-                type: "select",
-                require: true,
-                value: "",
-                placeholder: "请选择验证结果",
-                option: [{
-                  dicName:"通过",
-                  dicKey:"1"
-                },{
-                  dicName:"不通过",
-                  dicKey:"2"
-                }]
-              },
-              {
-                key: "confirmDesc",
-                type: "textarea",
-                require: false,
-                value: "",
-                placeholder: "请填写验证说明",
-              },
-            ]
-            this.setNewState("submitdata", submitdatas, () => {
-              navigation.navigate("SubmitForm", { title: "验证维修", type: "repair" })
-            })
-
-
-
-          } else { //已完成
-            return
-          }
-
-
-
-        })
-
-
+        navigation.navigate("RepairAction", { title: "开始维修", type: item.status.toString(), id: item.equipmentId  })
       } } item={ item } navigation={ this.props.navigation }></RepairItem> : <View></View>
     }
 
-    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing||submittings }>
+    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
       <Header
         navigation={ navigation }
         title="待处理维修单列表"

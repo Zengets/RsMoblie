@@ -34,11 +34,11 @@ class SafeAreaViewPlus extends Component {
     }
 
     genSafeAreaViewPlus() {
-        const { children, topColor, bottomColor, topInset, bottomInset, index } = this.props;
-        return <View style={[styles.container, this.props.style]}>
+        const { children, topColor, bottomColor, topInset, bottomInset,textContent, style,loading } = this.props;
+        return <View style={[styles.container, style]}>
             <Spinner
-                visible={this.props.loading}
-                textContent={'加载中...'}
+                visible={loading}
+                textContent={textContent?textContent:'加载中...'}
                 textStyle={styles.spinnerTextStyle}
                 animation="fade"
                 overlayColor={"rgba(0,0,0,0.2)"}
@@ -52,16 +52,18 @@ class SafeAreaViewPlus extends Component {
     }
 
     genSafeAreaView() {
-        return <SafeAreaView style={[styles.container, this.props.style]} {...this.props}>
+        const { style, children, topColor, bottomColor, topInset, bottomInset,textContent, index,loading } = this.props;
+
+        return <SafeAreaView style={[styles.container, style]} {...this.props}>
             <Spinner
-                visible={this.props.loading}
-                textContent={'加载中...'}
+                visible={loading}
+                textContent={textContent?textContent:'加载中...'}
                 textStyle={styles.spinnerTextStyle}
                 animation="fade"
                 overlayColor={"rgba(0,0,0,0.2)"}
             />
             <StatusBar translucent={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
-            {this.props.children}
+            {children}
         </SafeAreaView>
     }
 

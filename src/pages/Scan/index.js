@@ -17,14 +17,21 @@ import { colors,getQueryString } from '../../utils';
 import { connect } from 'react-redux';
 
 
-@connect(({ index }) => ({ index }))
+@connect(({ index,loading }) => ({ index,loading }))
 class Scan extends Component {
     constructor(props) {
         super(props);
+        let { type } = props.navigation.state.params ? props.navigation.state.params : { type: undefined };
         this.state = {
             moveAnim: new Animated.Value(-18),
-            postUrl: "infodevice",
-            postData: {
+            postUrl:type? 
+                type=="repair"?"infodevice":"" 
+                
+                
+                
+                :"",
+            postData:type? 
+            type=="repair"?{
                 "pageIndex": 1,
                 "pageSize": 10,
                 "equipmentName": "",//设备名，筛选条件
@@ -35,7 +42,10 @@ class Scan extends Component {
                 "shopId": "",//车间id，筛选条件
                 "departmentId": "",//部门id，筛选条件
                 "status": ""//状态，筛选条件
-            },
+            }:{} 
+            :{},
+            
+            
         };
     }
 
@@ -94,7 +104,7 @@ class Scan extends Component {
     };
 
     render() {
-        let { navigation,index:{res,formdata} } = this.props,{postData} =this.state;
+        let { navigation,index:{res,formdata},loading } = this.props,{postData,postUrl} =this.state;
 
         let headerRight = () => {
             let { type } = navigation.state.params ? navigation.state.params : { type: undefined };
@@ -168,7 +178,7 @@ class Scan extends Component {
         }
 
 
-        return (<SafeAreaViewPlus>
+        return (<SafeAreaViewPlus loading={loading.effects[`index/${postUrl}`]}>
             <Header
                 navigation={ navigation }
                 title="扫描二维码"

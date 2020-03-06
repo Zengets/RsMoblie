@@ -18,8 +18,8 @@ import UserMore from './Info/UserMore'
 import Usage from './Usage'
 import ToRepair from './Usage/Repair/ToRepair'
 import Repaired from './Usage/Repair/Repaired'
-import DevicerRepair from './SubmitForm/DeviceRepairInfo/DevicerRepair'
-
+import DevicerRepair from './Usage/Repair/DevicerRepair'
+import RepairAction from './Usage/Repair/RepairAction'
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -27,7 +27,7 @@ import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
 import Scan from './Scan'
 import SearchForm from './SearchForm'
-import SubmitForm from './SubmitForm'
+
 import Success from './Public/Success'
 
 
@@ -38,7 +38,7 @@ export {
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
-    DepartMentChild,SearchForm,SubmitForm,UserMore,DevicerRepair,Success,
+    DepartMentChild,SearchForm,RepairAction,UserMore,DevicerRepair,Success,
     
     Usage,ToRepair,Repaired,
     Knowledge,

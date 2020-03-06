@@ -12,7 +12,8 @@ import Empty from './Empty';
 import SpareItem from './SpareItem';
 import TreeShown from './TreeShown';
 import AuthBase from './AuthBase';
+import SubmitForm from './SubmitForm'
 export {
-    OpenToast,HideToast,OneToast,
+    OpenToast,HideToast,OneToast,SubmitForm,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,Empty,SpareItem,TreeShown,AuthBase
 }

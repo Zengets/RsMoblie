@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Colors, View, Text, ListItem, AnimatedImage, ThemeManager, BorderRadiuses, Badge,Card } from 'react-native-ui-lib';
-import Swipeable from 'react-native-swipeable';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { ActivityIndicator, StyleSheet, TouchableHighlight } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -54,20 +53,9 @@ class DeviceItemSwipe extends Component {
             return color
         }
 
-        const rightButtons = [
-            <Card center style={{width:74,height:"100%",backgroundColor:colors.warnColor}} borderRadius={0} enableShadow={false} onPress={()=>{
-                onSwipePress()
-            }}>
-                <Text white>报修</Text>
-            </Card>
-        ];
 
 
-
-        return <Swipeable 
-            rightButtons={ rightButtons } 
-        >
-            <ListItem
+        return <ListItem
                 activeBackgroundColor={ Colors.dark60 }
                 activeOpacity={ 0.3 }
                 height={ 77 }
@@ -76,6 +64,9 @@ class DeviceItemSwipe extends Component {
                         id: item.equipmentId ? item.equipmentId : item.id,
                         name: item.equipmentName
                     })
+                }}
+                onLongPress={()=>{
+                    onSwipePress()
                 }}
                 
             >
@@ -112,7 +103,6 @@ class DeviceItemSwipe extends Component {
                     </View>
                 </ListItem.Part>
             </ListItem>
-        </ Swipeable>
     }
 }
 

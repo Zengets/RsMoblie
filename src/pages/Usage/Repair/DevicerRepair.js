@@ -41,31 +41,35 @@ const styles = StyleSheet.create({
     },
 })
 
-class Rows extends Component{
-    render(){
-        let {name,values} = this.props;
+class Rows extends Component {
+    render() {
+        let { name, values } = this.props;
 
-        return  <View row top style={ styles.item }>
-        <View>
-            <Text subheading>
-                {name}:
+        return <View row top style={ styles.item }>
+            <View>
+                <Text subheading>
+                    { name }:
             </Text>
-        </View>
-        <View flex-1 paddingL-6 style={{overflow:"hidden"}} right>
-            <Text body >
-                { values }
-            </Text>
-        </View>
+            </View>
+            <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
+                <Text body >
+                    { values }
+                </Text>
+            </View>
 
 
-    </View>
+        </View>
 
     }
 
 }
 
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({
+    index,
+    submitting: loading.effects['index/getRepairDetail'],
+
+}))
 class DevicerRepair extends Component {
 
     state = {
@@ -91,24 +95,29 @@ class DevicerRepair extends Component {
 
     componentDidMount() {
         //getRepairDetail
+        let id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
+        console.log(id)
+        if (id) {
+            this.setNewState("getRepairDetail", { id: id })
+        }
+
     }
 
 
     render() {
-        let { navigation, index: { repairstep,spareData } } = this.props;
-        let { applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
+        let { navigation, index: { repairstep, spareData }, submitting } = this.props;
+        let { equipmentId,equipmentName,applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
             confirmTime, confirmResult, confirmDesc
         } = repairstep ? repairstep : {};
-        console.log(repairstep)
 
 
         let baoxiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="报修时间" values={applyRepairTime}/>
-                <Rows name="故障分类" values={faultClassifyName}/>
-                <Rows name="故障名称" values={faultTypeName}/>
-                <Rows name="维修人" values={repairUserName}/>
-                <Rows name="故障描述" values={faultDesc}/>
+                <Rows name="报修时间" values={ applyRepairTime } />
+                <Rows name="故障分类" values={ faultClassifyName } />
+                <Rows name="故障名称" values={ faultTypeName } />
+                <Rows name="维修人" values={ repairUserName } />
+                <Rows name="故障描述" values={ faultDesc } />
                 <View left padding-12>
                     <Text subheading>
                         故障图片:
@@ -123,20 +132,20 @@ class DevicerRepair extends Component {
             </Card>
         ), weixiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="开始维修时间" values={repairStartTime}/>
-                <Rows name="结束维修时间" values={repairEndTime}/>
-                <Rows name="故障等级" values={faultLevelName}/>
-                <Rows name="故障原因" values={faultReason}/>
-                <Rows name="维修类型" values={repairTypeName}/>
-                <Rows name="维修内容" values={repairContent}/>
+                <Rows name="开始维修时间" values={ repairStartTime } />
+                <Rows name="结束维修时间" values={ repairEndTime } />
+                <Rows name="故障等级" values={ faultLevelName } />
+                <Rows name="故障原因" values={ faultReason } />
+                <Rows name="维修类型" values={ repairTypeName } />
+                <Rows name="维修内容" values={ repairContent } />
                 <View left padding-12>
                     <Text subheading>
                         消耗备件:
                     </Text>
-                    <View style={{width:"100%",backgroundColor:"#f0f0f0"}} flex-1 padding-12 marginT-10>
+                    <View style={ { width: "100%", backgroundColor: "#f0f0f0" } } flex-1 padding-12 marginT-10>
                         {
-                            spareData.map((item,i)=>{
-                                return <SpareItem item={item} navigation={navigation} lastRender={{name:"消耗数量",key:"consumeCount"}}/>
+                            spareData.map((item, i) => {
+                                return <SpareItem item={ item } navigation={ navigation } lastRender={ { name: "消耗数量", key: "consumeCount" } } />
                             })
                         }
                     </View>
@@ -144,9 +153,9 @@ class DevicerRepair extends Component {
             </Card>
         ), yanzheng = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="验证时间" values={confirmTime}/>
-                <Rows name="验证结果" values={confirmResult}/>
-                <Rows name="验证描述" values={confirmDesc}/>
+                <Rows name="验证时间" values={ confirmTime } />
+                <Rows name="验证结果" values={ confirmResult } />
+                <Rows name="验证描述" values={ confirmDesc } />
 
             </Card>
         )
@@ -155,7 +164,7 @@ class DevicerRepair extends Component {
 
 
 
-        return <SafeAreaViewPlus>
+        return <SafeAreaViewPlus loading={ submitting }>
             <Header title={ "维修记录" } navigation={ navigation }>
             </Header>
             <ScrollView ref={ (scrollview) => this.scrollview = scrollview }>
@@ -193,10 +202,10 @@ class DevicerRepair extends Component {
 
                 <View padding-12>
                     <Card marginB-12 paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                        navigation.navigate("InfoDeviceDetail", { id: repairstep.equipmentId })
+                        navigation.navigate("InfoDeviceDetail", { id: equipmentId })
                     } }>
                         <Text>
-                            设备{ repairstep.equipmentName }详情
+                            设备{ equipmentName }详情
                         </Text>
                     </Card>
                     {

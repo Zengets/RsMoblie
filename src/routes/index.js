@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scan, Login,SearchForm,SubmitForm,
+import { Scan, Login,SearchForm,RepairAction,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
     InfoSpareDetail,DepartMent,DepartMentChild,UserMore,DevicerRepair,Success,
     
@@ -62,7 +62,7 @@ const AppNavigator = createStackNavigator(
         DepartMent:DepartMent,
         DepartMentChild:DepartMentChild,
         SearchForm:SearchForm,
-        SubmitForm:SubmitForm,
+        RepairAction:RepairAction,
         DevicerRepair:DevicerRepair,
         UserMore:UserMore,
         ToRepair:ToRepair,
