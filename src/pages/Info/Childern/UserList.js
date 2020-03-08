@@ -314,7 +314,7 @@ class UserList extends React.Component {
 
     return (
       <SafeAreaViewPlus loading={submitting}>
-        <Header title="用户列表">
+        <Header title="用户列表" navigation={navigation}>
         </Header>
         <View padding-12 style={{ paddingBottom: 0 }}>
           <TitleSearch {...searchprops}></TitleSearch>

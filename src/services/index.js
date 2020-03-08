@@ -116,9 +116,13 @@ export async function repairCheck(params) {
     return post(`${ipandport}/equipmentRepair/repairCheck`, params);
 }
 
+export async function upkeeplan(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/queryAppOfMonth`, params);
+}
 
-
-
+export async function upkeeplandetail(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/queryAppById`, params);
+}
 
 
 

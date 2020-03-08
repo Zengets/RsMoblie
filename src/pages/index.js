@@ -20,6 +20,9 @@ import ToRepair from './Usage/Repair/ToRepair'
 import Repaired from './Usage/Repair/Repaired'
 import DevicerRepair from './Usage/Repair/DevicerRepair'
 import RepairAction from './Usage/Repair/RepairAction'
+import UpkeepPlan from './Usage/Upkeep/UpkeepPlan'
+import UpkeepChild from './Usage/Upkeep/UpkeepChild'
+
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -38,9 +41,12 @@ export {
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
-    DepartMentChild,SearchForm,RepairAction,UserMore,DevicerRepair,Success,
+    DepartMentChild,SearchForm,UserMore,Success,
     
-    Usage,ToRepair,Repaired,
+    Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,
+    DevicerRepair,
+    
+    
     Knowledge,
     Mine,
     SettingMenu,

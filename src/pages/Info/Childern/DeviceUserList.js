@@ -302,7 +302,7 @@ class DeviceUserList extends React.Component {
 
     return (
       <SafeAreaViewPlus loading={submitting}>
-        <Header title={getTitle()}>
+        <Header title={getTitle()} navigation={navigation}>
         </Header>
         <View padding-12 style={{ paddingBottom: 0 }}>
           <TitleSearch {...searchprops}></TitleSearch>

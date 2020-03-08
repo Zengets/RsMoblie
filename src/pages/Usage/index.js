@@ -6,6 +6,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
 import { Dimensions } from 'react-native';
 import { colors,getItem } from '../../utils';
 
@@ -55,13 +58,12 @@ class Usage extends React.Component {
           } }></Ionicons>
         } }
       />
-      <View flex padding-12>
+      <View padding-12 paddingB-0>
         <Text subheading marginB-s4 marginT-6 style={{color:colors.primaryColor}}>维修</Text>
         <View row spread style={{ width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden"}}>
           {/* <AuthBase>
             
           </AuthBase> */}
-
           <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={()=>{
              this.jumpToUrl("Scan",{type:"repair"})
           }}>
@@ -89,9 +91,46 @@ class Usage extends React.Component {
             <Text subbody>维修历史</Text>
           </Card>
         </View>
-
-
       </View>
+      <View padding-12 paddingV-0>
+        <Text subheading marginB-s4 marginT-6 style={{color:colors.warnColor}}>维保</Text>
+        <View row spread style={{ width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden"}}>
+          {/* <AuthBase>
+            
+          </AuthBase> */}
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={()=>{
+             this.jumpToUrl("UpkeepPlan")
+          }}>
+            <View center style={ { width: 48, height: 48 } }>
+              <MaterialCommunityIcons name='timer' size={ 33 }  style={{color:colors.warnColor}}></MaterialCommunityIcons>
+            </View>
+            <Text subbody>维保计划</Text>
+          </Card>
+          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false }  onPress={()=>{
+             this.jumpToUrl("ToRepair")
+          }}>
+            <View center style={ { width: 48, height: 48 } }>
+              <EntypoIcons name='clipboard' size={ 33 }  style={{color:colors.warnColor}}></EntypoIcons>
+            </View>
+            <Text subbody>维保任务</Text>
+          </Card>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false }   onPress={()=>{
+             this.jumpToUrl("Repaired")
+          }}>
+            <View center style={ { width: 48, height: 48 } }>
+              <MaterialIcons name='history' size={ 33 }  style={{color:colors.warnColor}}></MaterialIcons>
+            </View>
+            <Text subbody>维保历史</Text>
+          </Card>
+        </View>
+      </View>
+
+
+
+
+
+
+
     </SafeAreaViewPlus>
 
   }
