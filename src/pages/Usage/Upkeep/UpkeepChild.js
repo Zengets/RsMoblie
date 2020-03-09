@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown, Modal, SubmitForm } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
+import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, ActivityIndicator } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
 
 
@@ -71,6 +71,10 @@ class Rows extends Component {
 }))
 class UpkeepChild extends Component {
 
+    state = {
+        visible: false
+    }
+
     //设置新状态
     setNewState(type, values, fn) {
         const { dispatch } = this.props;
@@ -85,22 +89,29 @@ class UpkeepChild extends Component {
         })
     }
 
-    componentDidMount() {
-        let { posturl, postdata } = this.props.navigation.state.params ? this.props.navigation.state.params : { posturl: "", postdata: "" }
+    resetData() {
+        let { posturl, postdata, type } = this.props.navigation.state.params ? this.props.navigation.state.params : { posturl: "", postdata: "" };
         this.setNewState(posturl, postdata);
+    }
+
+    componentDidMount() {
+        this.resetData()
     }
 
 
     render() {
 
-        let { index, navigation, loading } = this.props;
-        let { posturl, postdata } = navigation.state.params ? navigation.state.params : { posturl: "", postdata: "" },
-            { taskNo, equipmentName, equipmentNo, equipmentTypeName, maintainPlanTypeName, status, planStartMaintainDate, maintainHours,
-                totalBudget, planMaintainUserName, remark, detail,executiveUserName,startMaintainTime,endMaintainTime,tatolMaintainCost
+        let { index, navigation, loading } = this.props, { visible } = this.state;
+        let { posturl, postdata, type } = navigation.state.params ? navigation.state.params : { posturl: "", postdata: "" },
+            { id, taskNo, equipmentName, equipmentNo, equipmentTypeName, maintainPlanTypeName, status, planStartMaintainDate, maintainHours, equipmentId,
+                totalBudget, planMaintainUserId, planMaintainUserName, remark, detail, executiveUserName, startMaintainTime, endMaintainTime, tatolMaintainCost
             } = index[posturl] ? index[posturl] : {
-                taskNo: "", equipmentName: "", equipmentNo: "", equipmentTypeName: "", maintainPlanTypeName: "", status: "", planStartMaintainDate: "", maintainHours: "",
-                totalBudget: "", planMaintainUserName: "", remark: "", detail: [],executiveUserName: "",startMaintainTime: "",endMaintainTime: "",tatolMaintainCost: ""
-            };
+                id: "", taskNo: "", equipmentName: "", equipmentNo: "", planMaintainUserId: "", equipmentTypeName: "", maintainPlanTypeName: "", status: "", planStartMaintainDate: "", maintainHours: "",
+                totalBudget: "", planMaintainUserName: "", remark: "", detail: [], executiveUserName: "", startMaintainTime: "", endMaintainTime: "", tatolMaintainCost: "", equipmentId: ""
+            }, getdisabled = () => {
+                let bools = planMaintainUserId == index.userInfo.id;
+                return !bools
+            }
 
 
 
@@ -134,7 +145,7 @@ class UpkeepChild extends Component {
         return <SafeAreaViewPlus loading={ loading.effects['index/' + posturl] }>
             <Header title={ `维保详情` } navigation={ navigation }>
             </Header>
-            <ScrollView style={ { padding: 12} }>
+            <ScrollView style={ { padding: 12 } }>
                 <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                     <Rows name="工单号" values={ taskNo } />
                     <Rows name="设备名称" values={ equipmentName } />
@@ -159,6 +170,108 @@ class UpkeepChild extends Component {
                     <Rows name="计划维保费用" values={ totalBudget ? `${totalBudget}元` : "" } />
                     <Rows name="负责人" values={ planMaintainUserName } />
                     <Rows name="备注" values={ remark } />
+                    {
+                        type == "mission" && status == 0 || type == "mission" && status == 2 ?
+                            <View style={ styles.items } row spread>
+                                <Button disabled={ getdisabled() } backgroundColor={ colors.warnColor } label="关闭维保" onPress={ () => {
+                                    //startAppMaintain,finishAppMaintain,closeAppMaintain,updateAppMaintainUser,queryAppByEqId
+                                    this.setNewState("closeAppMaintain", { id: id }, () => {
+                                        navigation.navigate("Success", {
+                                            btn: [{
+                                                name: "返回维保任务",
+                                                url: "UpkeepMission",
+                                            }, {
+                                                name: "跳转到我的维保",
+                                                url: "Mine",
+                                                params: {}
+                                            }],
+                                            description: `${equipmentName}已关闭维保！`
+                                        })
+                                    })
+                                } }>
+                                    {
+                                        loading.effects['index/closeAppMaintain'] ?
+                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            : null
+                                    }
+                                </Button>
+                                <Button disabled={ getdisabled() } label={ status == 0 ? "开始维保" : status == 2 ? "完成维保" : "" } onPress={ () => {
+                                    if (status == 0) {
+                                        this.setNewState("startAppMaintain", { id: id }, () => {
+                                            navigation.navigate("Success", {
+                                                btn: [{
+                                                    name: "返回维保任务",
+                                                    url: "UpkeepMission",
+                                                }, {
+                                                    name: "跳转到我的维保",
+                                                    url: "Mine",
+                                                    params: {}
+                                                }],
+                                                description: `${equipmentName}已开始维保！`
+                                            })
+                                        })
+                                    } else if (status == 2) {
+                                        this.setNewState("finishAppMaintain", { id: id }, () => {
+                                            navigation.navigate("Success", {
+                                                btn: [{
+                                                    name: "返回维保任务",
+                                                    url: "UpkeepMission",
+                                                }, {
+                                                    name: "跳转到我的维保",
+                                                    url: "Mine",
+                                                    params: {}
+                                                }],
+                                                description: `${equipmentName}已完成维保！`
+                                            })
+                                        })
+                                    }
+                                } }>
+                                    {
+                                        loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain'] ?
+                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            : null
+                                    }
+                                </Button>
+                                <Button label="修改负责人" backgroundColor={ colors.successColor } onPress={ () => {
+                                    this.setNewState("queryAppByEqId", {
+                                        "equipmentId": equipmentId,
+                                        "chargeType": "1"
+                                    }, () => {
+                                        let submitdata = [{
+                                            key: "userId",
+                                            type: "select",
+                                            require: true,
+                                            value: "",
+                                            placeholder: "请选择负责人",
+                                            option: index.queryAppByEqId && index.queryAppByEqId.map((item) => {
+                                                return {
+                                                    dicName: item.userName,
+                                                    dicKey: item.userId
+                                                }
+                                            })
+                                        }]
+                                        this.setNewState("submitdata", submitdata, () => {
+                                            this.setState({
+                                                visible: true
+                                            })
+                                        })
+                                    })
+                                } }>
+                                    {
+                                        loading.effects['index/queryAppByEqId'] ?
+                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            : null
+                                    }
+
+                                </Button>
+                            </View> : null
+
+                    }
+
+
+
+
+
                 </Card>
 
                 <Card marginV-12 padding-12 borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
@@ -172,28 +285,28 @@ class UpkeepChild extends Component {
                             {
                                 detail && detail.length > 0 ?
                                     detail.map((item, i) => (
-                                        <View style={ [i == detail.lenght - 1 ? styles.items : styles.item, {padding:8,backgroundColor:"#f0f0f0" }] }>
+                                        <View style={ [i == detail.lenght - 1 ? styles.items : styles.item, { padding: 8, backgroundColor: "#f0f0f0" }] }>
                                             <View row top>
                                                 <View>
                                                     <Text subbody dark>
-                                                        项目: { item.maintainItem  }
+                                                        项目: { item.maintainItem }
                                                     </Text>
                                                 </View>
                                                 <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
                                                     <Text subbody>
-                                                       费用:{ item.actualMaintainCost  }元
+                                                        费用:{ item.actualMaintainCost }元
                                                     </Text>
                                                 </View>
                                             </View>
                                             <View row top marginT-8>
                                                 <View>
                                                     <Text subbody>
-                                                    维保内容:
+                                                        维保内容:
                                                 </Text>
                                                 </View>
                                                 <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
                                                     <Text subbody>
-                                                        { item.maintainContent  }
+                                                        { item.maintainContent }
                                                     </Text>
                                                 </View>
                                             </View>
@@ -212,6 +325,58 @@ class UpkeepChild extends Component {
                     <Rows name="维保结束时间" values={ endMaintainTime } />
                     <Rows name="实际维保费用" values={ tatolMaintainCost ? `${tatolMaintainCost}元` : "" } />
                 </Card>
+
+                <Modal
+                    visible={ this.state.visible }
+                    height={ height * 0.8 }
+                    hide={ () => {
+                        this.setNewState({
+                            visible: false
+                        })
+                    } }
+                    title={ "修改维保负责人" }
+                >
+                    <View paddingV-12>
+                        <SubmitForm></SubmitForm>
+                        <Button margin-12 label={ "提交" } onPress={ () => {
+                            let _it = this;
+                            function getVal(key) {
+                                let one = {};
+                                _it.props.index.submitdata.map((item) => {
+                                    if (item.key == key) {
+                                        one = item
+                                    }
+                                });
+                                if (!one.type) {
+                                    return
+                                }
+                                if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+                                    return one.value && one.value
+                                } else {
+                                    return one.value && one.value.id
+                                }
+                            }
+                            this.setNewState("updateAppMaintainUser", {
+                                id,
+                                userId: getVal("userId")
+                            }, () => {
+                                OneToast("修改成功！");
+                                this.setState({ visible: false });
+                                this.resetData();
+
+                            })
+                        } }>
+                            {
+                                loading.effects['index/updateAppMaintainUser'] ?
+                                    <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                    : null
+                            }
+
+
+                        </Button>
+
+                    </View>
+                </Modal>
             </ScrollView>
 
 

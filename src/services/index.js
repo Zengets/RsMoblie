@@ -124,18 +124,42 @@ export async function upkeeplandetail(params) {
     return post(`${ipandport}/equipmentMaintainBillToExecute/queryAppById`, params);
 }
 
+export async function upkeepmission(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/queryAppList`, params);
+}
 
+export async function upkeepmissiondetail(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/queryAppToExcuteById`, params);
+}
 
+export async function upkeephistory(params) {
+    return post(`${ipandport}/equipmentMaintainBillExecute/queryAppList`, params);
+}
 
+export async function upkeephistorydetail(params) {
+    return post(`${ipandport}/equipmentMaintainBillExecute/queryAppToExcuteById`, params);
+}
 
+//startAppMaintain,finishAppMaintain,closeAppMaintain,updateAppMaintainUser,queryAppByEqId
+export async function startAppMaintain(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/startAppMaintain`, params);
+}
 
+export async function finishAppMaintain(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/finishAppMaintain`, params);
+}
 
+export async function closeAppMaintain(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/closeAppMaintain`, params);
+}
 
+export async function updateAppMaintainUser(params) {
+    return post(`${ipandport}/equipmentMaintainBillToExecute/updateAppMaintainUser`, params);
+}
 
-
-
-
-
+export async function queryAppByEqId(params) {
+    return post(`${ipandport}/userEquipment/queryAppByEqId`, params);
+}
 
 
 

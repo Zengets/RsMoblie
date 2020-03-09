@@ -22,7 +22,8 @@ import DevicerRepair from './Usage/Repair/DevicerRepair'
 import RepairAction from './Usage/Repair/RepairAction'
 import UpkeepPlan from './Usage/Upkeep/UpkeepPlan'
 import UpkeepChild from './Usage/Upkeep/UpkeepChild'
-
+import UpkeepMission from './Usage/Upkeep/UpkeepMission'
+import UpkeepHistory from './Usage/Upkeep/UpkeepHistory'
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -43,7 +44,8 @@ export {
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
     DepartMentChild,SearchForm,UserMore,Success,
     
-    Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,
+    Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,UpkeepMission,UpkeepHistory,
+
     DevicerRepair,
     
     

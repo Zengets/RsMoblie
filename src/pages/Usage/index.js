@@ -107,7 +107,7 @@ class Usage extends React.Component {
             <Text subbody>维保计划</Text>
           </Card>
           <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false }  onPress={()=>{
-             this.jumpToUrl("ToRepair")
+             this.jumpToUrl("UpkeepMission")
           }}>
             <View center style={ { width: 48, height: 48 } }>
               <EntypoIcons name='clipboard' size={ 33 }  style={{color:colors.warnColor}}></EntypoIcons>
@@ -115,7 +115,7 @@ class Usage extends React.Component {
             <Text subbody>维保任务</Text>
           </Card>
           <Card flex-1 center padding-12 marginB-12 enableShadow={ false }   onPress={()=>{
-             this.jumpToUrl("Repaired")
+             this.jumpToUrl("UpkeepHistory")
           }}>
             <View center style={ { width: 48, height: 48 } }>
               <MaterialIcons name='history' size={ 33 }  style={{color:colors.warnColor}}></MaterialIcons>

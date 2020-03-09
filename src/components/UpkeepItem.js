@@ -53,20 +53,28 @@ class UpkeepItem extends Component {
       style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 120 } }
       paddingL-12 paddingR-12
       onPress={ () => {
-        let postdata = {}
+        let postdata = {}, posturl = ""
         if (type == "plan") {
           postdata = {
             id: item.id,
             fromTable: item.fromTable
           }
-        }else if(type){
-
+          posturl = "upkeeplandetail"
+        } else if (type == "mission") {
+          postdata = {
+            id: item.id,
+          }
+          posturl = "upkeepmissiondetail"
+        }else if(type == "history"){
+           postdata = {
+            id: item.id,
+          }
+          posturl = "upkeephistorydetail"
         }
-
-
         navigation.navigate("UpkeepChild", {
-          posturl: "upkeeplandetail",
+          posturl,
           postdata,
+          type
         })
       } }
     >
@@ -86,7 +94,12 @@ class UpkeepItem extends Component {
           <Text subbody>设备:{ item.equipmentName }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody >计划日期:{ item.planStartMaintainDate }</Text>
+          {
+            type == "history" ?
+              <Text subbody >开始日期:{ item.startMaintainDate }</Text> :
+              <Text subbody >计划日期:{ item.planStartMaintainDate }</Text>
+          }
+
         </View>
       </View>
       <View row spread top paddingV-0 style={ { alignItems: "center" } }>
@@ -94,7 +107,12 @@ class UpkeepItem extends Component {
           <Text subbody>编号:{ item.equipmentNo }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody >维保类型:{ item.maintainPlanTypeName }</Text>
+          {
+            type == "history" ?
+              <Text subbody >结束日期:{ item.endMaintainDate }</Text> :
+              <Text subbody >维保类型:{ item.maintainPlanTypeName }</Text>
+
+          }
         </View>
       </View>
 

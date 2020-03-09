@@ -3,7 +3,8 @@ import {
     infodevice, infodevicecan, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
-    upkeeplan, upkeeplandetail,
+    upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId
 
 
 
@@ -35,6 +36,11 @@ export default {
         repairHisList: {},
         upkeeplan: {},
         upkeeplandetail: {},
+        upkeepmission: {},
+        upkeepmissiondetail: {},
+        upkeephistory: {},
+        upkeephistorydetail: {},
+        queryAppByEqId: {},
         res: {},
         res2: {},
         formdata: [],
@@ -330,15 +336,95 @@ export default {
             return responese.code == "0000"
         },
         *upkeeplandetail({ payload }, { call, put }) {//data
-            console.log(payload)
             const responese = yield call(upkeeplandetail, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { upkeeplandetail: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },
+        *upkeepmissiondetail({ payload }, { call, put }) {//data
+            const responese = yield call(upkeepmissiondetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { upkeepmissiondetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *upkeepmission({ payload }, { call, put }) {//data
+            const responese = yield call(upkeepmission, payload);
+            yield put({
+                type: 'updateState',
+                payload: { upkeepmission: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *upkeephistorydetail({ payload }, { call, put }) {//data
+            const responese = yield call(upkeephistorydetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { upkeephistorydetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *upkeephistory({ payload }, { call, put }) {//data
+            const responese = yield call(upkeephistory, payload);
+            yield put({
+                type: 'updateState',
+                payload: { upkeephistory: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
+        *startAppMaintain({ payload }, { call, put }) {//data
+            const responese = yield call(startAppMaintain, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *finishAppMaintain({ payload }, { call, put }) {//data
+            const responese = yield call(finishAppMaintain, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *closeAppMaintain({ payload }, { call, put }) {//data
+            const responese = yield call(closeAppMaintain, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *updateAppMaintainUser({ payload }, { call, put }) {//data
+            const responese = yield call(updateAppMaintainUser, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *queryAppByEqId({ payload }, { call, put }) {//data
+            const responese = yield call(queryAppByEqId, payload);
+            yield put({
+                type: 'updateState',
+                payload: { queryAppByEqId: responese.data.dataList ? responese.data.dataList : [] }
+            })
+            return responese.code == "0000"
+        },
+
 
 
         *uploadImg({ payload }, { call, put }) {//data
