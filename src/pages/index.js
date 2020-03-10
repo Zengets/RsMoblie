@@ -2,7 +2,6 @@ import Home from './Home'
 import Login from './Login'
 import Info from './Info'
 import InfoDevice from './Info/Childern/InfoDevice'
-import InfoDeviceCan from './Info/Childern/InfoDeviceCan'
 import InfoDeviceDetail from './Info/Childern/InfoDeviceDetail'
 import UserList from './Info/Childern/UserList'
 import UserListDetail from './Info/Childern/UserListDetail'
@@ -19,11 +18,14 @@ import Usage from './Usage'
 import ToRepair from './Usage/Repair/ToRepair'
 import Repaired from './Usage/Repair/Repaired'
 import DevicerRepair from './Usage/Repair/DevicerRepair'
+import InfoDeviceCan from './Usage/Repair/InfoDeviceCan'
 import RepairAction from './Usage/Repair/RepairAction'
 import UpkeepPlan from './Usage/Upkeep/UpkeepPlan'
 import UpkeepChild from './Usage/Upkeep/UpkeepChild'
 import UpkeepMission from './Usage/Upkeep/UpkeepMission'
 import UpkeepHistory from './Usage/Upkeep/UpkeepHistory'
+import InfoDeviceChe from './Usage/Check/InfoDeviceChe'
+import CheckAction from './Usage/Check/CheckAction'
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -46,7 +48,7 @@ export {
     
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,UpkeepMission,UpkeepHistory,
 
-    DevicerRepair,
+    DevicerRepair,InfoDeviceChe,CheckAction,
     
     
     Knowledge,

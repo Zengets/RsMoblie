@@ -92,10 +92,16 @@ class InfoDeviceDetail extends React.Component {
                     },
                     {
                         label: '报修设备', onPress: () => {
-                           navigation.navigate("RepairAction", { title: "设备报修",type:"0",id:id }) //设备id
+                           navigation.navigate("RepairAction", { title: "报修设备",type:"0",id:id }) //设备id
                         }
                     },
-
+                    {
+                        label: '点检设备', onPress: () => {
+                            this.setNewState("checkdetail", { equipmentId: id },()=>{
+                                navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
+                            })
+                        }
+                    },
                     {
                         label: '取消', onPress: () => {
                             this.setState({ showHint: false })
@@ -112,6 +118,13 @@ class InfoDeviceDetail extends React.Component {
                     {
                         label: '查看设备日志', onPress: () => {
                             //navigation.navigate("DeviceUser", { id: id })
+                        }
+                    },
+                    {
+                        label: '点检设备', onPress: () => {
+                            this.setNewState("checkdetail", { equipmentId: id },()=>{
+                                navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
+                            })
                         }
                     },
                     {

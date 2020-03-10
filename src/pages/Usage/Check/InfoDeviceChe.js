@@ -12,9 +12,9 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/infodevicecan'],
+    submitting: loading.effects['index/infodeviceche'],
 }))
-class InfoDeviceCan extends React.Component {
+class InfoDeviceChe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +22,7 @@ class InfoDeviceCan extends React.Component {
             height: new Animated.Value(45),
             refreshing: true,
             scrollY: 0,
-            postUrl: "infodevicecan",
+            postUrl: "infodeviceche",
             search: true,
             showbtn: false,
             postData: {
@@ -31,10 +31,10 @@ class InfoDeviceCan extends React.Component {
                 "equipmentName": "",//设备名，筛选条件
                 "equipmentNo": "",//设备编号，筛选条件
                 "positionNo": "",//位置号，筛选条件
-                "equipmentTypeId": "",//设备类型id，筛选条件
-                "equipmentModel": "",//型号，筛选条件
-                "shopId": "",//车间id，筛选条件
-                "departmentId": "",//部门id，筛选条件
+                // "equipmentTypeId": "",//设备类型id，筛选条件
+                // "equipmentModel": "",//型号，筛选条件
+                // "shopId": "",//车间id，筛选条件
+                // "departmentId": "",//部门id，筛选条件
             },
             resData: [{ items: [] }]
         }
@@ -71,13 +71,13 @@ class InfoDeviceCan extends React.Component {
                     this._list.endLoading();
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.infodevicecan.list }],
+                            resData: [{ items: this.props.index.infodeviceche.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.infodevicecan.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.infodeviceche.list }]),
                             isLoadMore: false
                         })
                     }
@@ -112,10 +112,10 @@ class InfoDeviceCan extends React.Component {
                     "equipmentName": getVal("equipmentName"),//设备名，筛选条件
                     "equipmentNo": getVal("equipmentNo"),//设备编号，筛选条件
                     "positionNo": getVal("positionNo"),//位置号，筛选条件
-                    "equipmentTypeId": getVal("equipmentTypeId"),//设备类型id，筛选条件
-                    "equipmentModel": getVal("equipmentModel"),//型号，筛选条件
-                    "shopId": getVal("shopId"),//车间id，筛选条件
-                    "departmentId": getVal("departmentId"),//部门id，筛选条件
+                    // "equipmentTypeId": getVal("equipmentTypeId"),//设备类型id，筛选条件
+                    // "equipmentModel": getVal("equipmentModel"),//型号，筛选条件
+                    // "shopId": getVal("shopId"),//车间id，筛选条件
+                    // "departmentId": getVal("departmentId"),//部门id，筛选条件
                 },
             }, () => {
                 this.onRefresh()
@@ -160,12 +160,12 @@ class InfoDeviceCan extends React.Component {
     }
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.infodevicecan.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.infodeviceche.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.infodevicecan.pageNum + 1
+                    pageIndex: this.props.index.infodeviceche.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -237,7 +237,7 @@ class InfoDeviceCan extends React.Component {
                     require: false,
                     value: "",
                     placeholder: "请输入设备位置号"
-                }, {
+                }/* , {
                     key: "equipmentModel",
                     type: "input",
                     require: false,
@@ -269,7 +269,7 @@ class InfoDeviceCan extends React.Component {
                             dicKey: item.id
                         }
                     })
-                }]
+                }*/]
                 this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
                     fn ? fn() : null
                 })
@@ -281,14 +281,14 @@ class InfoDeviceCan extends React.Component {
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
             return item ? <DeviceItemSwipe onSwipePress={ () => {
-                navigation.navigate("RepairAction", { title: "设备报修",type:"0",id:item.id }) //设备id
+                navigation.navigate("CheckAction", { title: "点检设备",id:item.equipmentId }) 
             }} scrollY={ this.state.scrollY } item={ item } navigation={ this.props.navigation }></DeviceItemSwipe> : <View></View>
         }
 
         return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing  }>
             <Header
                 navigation={ navigation }
-                title="可报修设备"
+                title="点检设备列表"
                 headerRight={ () => !search ? <AntIcons name="search1" size={ 22 } onPress={ () => {
                     this.setState({
                         search: !search
@@ -337,7 +337,7 @@ class InfoDeviceCan extends React.Component {
                     data={ this.state.resData }
                     renderIndexPath={ renderItem }//每行
                     heightForIndexPath={ () => 77 }
-                    allLoaded={ !this.props.index.infodevicecan.hasNextPage }
+                    allLoaded={ !this.props.index.infodeviceche.hasNextPage }
                     loadingFooter={ ChineseWithLastDateFooter }
                     onLoading={ this.pullUpLoading }
                 />
@@ -371,4 +371,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default InfoDeviceCan
+export default InfoDeviceChe

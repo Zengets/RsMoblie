@@ -24,14 +24,8 @@ class Scan extends Component {
         let { type } = props.navigation.state.params ? props.navigation.state.params : { type: undefined };
         this.state = {
             moveAnim: new Animated.Value(-18),
-            postUrl:type? 
-                type=="repair"?"infodevice":"" 
-                
-                
-                
-                :"",
-            postData:type? 
-            type=="repair"?{
+            postUrl:"infodevice",
+            postData:{
                 "pageIndex": 1,
                 "pageSize": 10,
                 "equipmentName": "",//设备名，筛选条件
@@ -42,10 +36,7 @@ class Scan extends Component {
                 "shopId": "",//车间id，筛选条件
                 "departmentId": "",//部门id，筛选条件
                 "status": ""//状态，筛选条件
-            }:{} 
-            :{},
-            
-            
+            },
         };
     }
 
@@ -66,11 +57,16 @@ class Scan extends Component {
 
     componentDidMount() {
         this.startAnimation();
-        let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined }; 
-        if(type){
-            let { postUrl, postData } = this.state;
-            this.setNewState(postUrl, postData)
-        }
+        // let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined }; 
+        // if(type){
+        //     let { postUrl, postData } = this.state;
+        //     this.setNewState(postUrl, postData)
+        // }
+
+        /*是否跳转点检 */
+        // this.setNewState("checkdetail", { equipmentId: id },()=>{
+        //     navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
+        // })
         
     }
 
@@ -134,7 +130,7 @@ class Scan extends Component {
                         require: false,
                         value: "",
                         placeholder: "请输入设备位置号"
-                    }, {
+                    }/*,{
                         key: "equipmentModel",
                         type: "input",
                         require: false,
@@ -166,10 +162,13 @@ class Scan extends Component {
                                 dicKey: item.id
                             }
                         })
-                    }]
+                    }*/]
 
                     this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
-                        navigation.navigate("SearchForm",{backurl:"InfoDeviceCan"})
+                        navigation.navigate("SearchForm",{
+                        backurl:type=="repair"?"InfoDeviceCan":
+                        type=="check"?"InfoDeviceChe":""
+                    })
                     })
 
 

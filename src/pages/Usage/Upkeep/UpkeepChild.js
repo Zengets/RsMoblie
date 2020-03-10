@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown, Modal, SubmitForm } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown, Modal, SubmitForm,Rows } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, ActivityIndicator } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
@@ -41,28 +41,6 @@ const styles = StyleSheet.create({
         borderRadius: 0
     },
 })
-class Rows extends Component {
-    render() {
-        let { name, values } = this.props;
-
-        return <View row top style={ styles.item }>
-            <View>
-                <Text subheading>
-                    { name }:
-            </Text>
-            </View>
-            <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                <Text body >
-                    { values }
-                </Text>
-            </View>
-
-
-        </View>
-
-    }
-
-}
 
 
 @connect(({ index, loading }) => ({

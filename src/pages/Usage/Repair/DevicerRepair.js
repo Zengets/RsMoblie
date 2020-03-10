@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Card, TabBar, AnimatedImage } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaViewPlus, Header, OneToast, SpareItem } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, SpareItem,Rows } from '../../../components';
 import { ScrollView } from 'react-native';
 import { colors } from '../../../utils';
 
@@ -40,29 +40,6 @@ const styles = StyleSheet.create({
         borderRadius: 0
     },
 })
-
-class Rows extends Component {
-    render() {
-        let { name, values } = this.props;
-
-        return <View row top style={ styles.item }>
-            <View>
-                <Text subheading>
-                    { name }:
-            </Text>
-            </View>
-            <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                <Text body >
-                    { values }
-                </Text>
-            </View>
-
-
-        </View>
-
-    }
-
-}
 
 
 @connect(({ index, loading }) => ({

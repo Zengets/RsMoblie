@@ -1,10 +1,10 @@
 import {
     test, login, logout,
-    infodevice, infodevicecan, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
+    infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
-    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail,checkaction
 
 
 
@@ -20,6 +20,7 @@ export default {
         token: 1,
         infodevice: {},
         infodevicecan: {},
+        infodeviceche: {},
         infospare: {},
         infodevicedetail: {},
         userlistdetail: {},
@@ -40,6 +41,7 @@ export default {
         upkeepmissiondetail: {},
         upkeephistory: {},
         upkeephistorydetail: {},
+        checkdetail: {},
         queryAppByEqId: {},
         res: {},
         res2: {},
@@ -111,7 +113,18 @@ export default {
             })
             return responese.code == "0000"
         },
-
+        *infodeviceche({ payload }, { call, put }) {//data
+            const responese = yield call(infodeviceche, payload);
+            yield put({
+                type: 'updateState',
+                payload: { infodeviceche: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *infospare({ payload }, { call, put }) {//data
             const responese = yield call(infospare, payload);
             yield put({
@@ -368,6 +381,22 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { upkeephistorydetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkdetail({ payload }, { call, put }) {//data
+            const responese = yield call(checkdetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { checkdetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkaction({ payload }, { call, put }) {//data
+            const responese = yield call(checkaction, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
             })
             return responese.code == "0000"
         },

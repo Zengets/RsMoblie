@@ -29,6 +29,10 @@ export async function infodevicecan(params) {
     return post(`${ipandport}/equipment/queryAppApplyRepairList`, params);
 }
 
+export async function infodeviceche(params) {
+    return post(`${ipandport}/equipmentPointCheckItemTask/queryAppList`, params);
+}
+
 export async function infodevicedetail(params) {
     return post(`${ipandport}/equipment/queryById`, params);
 }
@@ -161,8 +165,12 @@ export async function queryAppByEqId(params) {
     return post(`${ipandport}/userEquipment/queryAppByEqId`, params);
 }
 
-
-
+export async function checkdetail(params) {
+    return post(`${ipandport}/equipmentPointCheckItemTask/queryAppByEquipId`, params);
+}
+export async function checkaction(params) {
+    return post(`${ipandport}/equipmentPointCheckItemTask/checkApp`, params);
+}
 
 
 

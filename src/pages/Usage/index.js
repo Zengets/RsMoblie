@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header,AuthBase } from '../../components';
+import { SafeAreaViewPlus, OneToast, Header, AuthBase } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
@@ -10,7 +10,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 import { Dimensions } from 'react-native';
-import { colors,getItem } from '../../utils';
+import { colors, getItem } from '../../utils';
 
 let { height, width } = Dimensions.get('window');
 
@@ -59,71 +59,102 @@ class Usage extends React.Component {
         } }
       />
       <View padding-12 paddingB-0>
-        <Text subheading marginB-s4 marginT-6 style={{color:colors.primaryColor}}>维修</Text>
-        <View row spread style={{ width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden"}}>
+        <Text subheading marginB-s4 marginT-6 style={ { color: colors.primaryColor } }>维修</Text>
+        <View row spread style={ { width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
           {/* <AuthBase>
             
           </AuthBase> */}
-          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={()=>{
-             this.jumpToUrl("Scan",{type:"repair"})
-          }}>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("Scan", { type: "repair" })
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <EntypoIcons name='tools' size={ 33 }  style={{color:colors.primaryColor}}></EntypoIcons>
+              <EntypoIcons name='tools' size={ 33 } style={ { color: colors.primaryColor } }></EntypoIcons>
             </View>
-            <Text subbody>设备报修</Text>
+            <Text subbody>报修设备</Text>
           </Card>
 
 
-          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false }  onPress={()=>{
-             this.jumpToUrl("ToRepair")
-          }}>
+          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("ToRepair")
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <EntypoIcons name='clipboard' size={ 33 }  style={{color:colors.primaryColor}}></EntypoIcons>
+              <EntypoIcons name='clipboard' size={ 33 } style={ { color: colors.primaryColor } }></EntypoIcons>
             </View>
             <Text subbody>维修任务</Text>
           </Card>
-          <Card flex-1 center padding-12 marginB-12 enableShadow={ false }   onPress={()=>{
-             this.jumpToUrl("Repaired")
-          }}>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("Repaired")
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <MaterialIcons name='history' size={ 33 }  style={{color:colors.primaryColor}}></MaterialIcons>
+              <MaterialIcons name='history' size={ 33 } style={ { color: colors.primaryColor } }></MaterialIcons>
             </View>
             <Text subbody>维修历史</Text>
           </Card>
         </View>
       </View>
       <View padding-12 paddingV-0>
-        <Text subheading marginB-s4 marginT-6 style={{color:colors.warnColor}}>维保</Text>
-        <View row spread style={{ width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden"}}>
+        <Text subheading marginB-s4 marginT-6 style={ { color: colors.warnColor } }>维保</Text>
+        <View row spread style={ { width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
           {/* <AuthBase>
             
           </AuthBase> */}
-          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={()=>{
-             this.jumpToUrl("UpkeepPlan")
-          }}>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("UpkeepPlan")
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <MaterialCommunityIcons name='timer' size={ 33 }  style={{color:colors.warnColor}}></MaterialCommunityIcons>
+              <MaterialCommunityIcons name='timer' size={ 33 } style={ { color: colors.warnColor } }></MaterialCommunityIcons>
             </View>
             <Text subbody>维保计划</Text>
           </Card>
-          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false }  onPress={()=>{
-             this.jumpToUrl("UpkeepMission")
-          }}>
+          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("UpkeepMission")
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <EntypoIcons name='clipboard' size={ 33 }  style={{color:colors.warnColor}}></EntypoIcons>
+              <EntypoIcons name='clipboard' size={ 33 } style={ { color: colors.warnColor } }></EntypoIcons>
             </View>
             <Text subbody>维保任务</Text>
           </Card>
-          <Card flex-1 center padding-12 marginB-12 enableShadow={ false }   onPress={()=>{
-             this.jumpToUrl("UpkeepHistory")
-          }}>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("UpkeepHistory")
+          } }>
             <View center style={ { width: 48, height: 48 } }>
-              <MaterialIcons name='history' size={ 33 }  style={{color:colors.warnColor}}></MaterialIcons>
+              <MaterialIcons name='history' size={ 33 } style={ { color: colors.warnColor } }></MaterialIcons>
             </View>
             <Text subbody>维保历史</Text>
           </Card>
         </View>
       </View>
+
+      <View padding-12 paddingV-0>
+        <Text subheading marginB-s4 marginT-6 style={ { color: colors.secondaryColor } }>点检</Text>
+        <View row spread style={ { width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("Scan", { type: "check" })
+          } }>
+            <View center style={ { width: 48, height: 48 } }>
+              <MaterialCommunityIcons name='database-check' size={ 33 } style={ { color: colors.secondaryColor } }></MaterialCommunityIcons>
+            </View>
+            <Text subbody>点检设备</Text>
+          </Card>
+          <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("UpkeepMission")
+          } }>
+            <View center style={ { width: 48, height: 48 } }>
+              <MaterialIcons name='history' size={ 33 } style={ { color: colors.secondaryColor } }></MaterialIcons>
+            </View>
+            <Text subbody>点检历史</Text>
+          </Card>
+          <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
+            this.jumpToUrl("UpkeepHistory")
+          } }>
+            <View center style={ { width: 48, height: 48 } }>
+              <MaterialIcons name='error' size={ 33 } style={ { color: colors.secondaryColor } }></MaterialIcons>
+            </View>
+            <Text subbody>点检异常</Text>
+          </Card>
+        </View>
+      </View>
+
 
 
 

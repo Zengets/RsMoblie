@@ -8,15 +8,6 @@ import { SafeAreaViewPlus, Header, OneToast, SubmitForm } from '../../../compone
 
 
 
-const options = {
-    title: 'Select Avatar',
-    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images',
-    },
-};
-
 const loop = (data) => {
     let newdata = data.map((item) => {
         return {
@@ -239,8 +230,7 @@ class RepairAction extends React.Component {
 
 
         return <SafeAreaViewPlus
-            loading={ loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] || !loaded }
-            textContent={ loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] ? '正在提交...' : null }
+            loading={ !loaded }
         >
             <Header title={ title } navigation={ navigation }
                 headerRight={ () => (submitdata.length > 0 ? <Card enableShadow={ false } paddingV-12 onPress={ this.resetData }>
@@ -374,6 +364,12 @@ class RepairAction extends React.Component {
                     })
                 }
             } } margin-12 backgroundColor={ colors.primaryColor }>
+                {
+                    loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`]?
+                    <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                    : null
+                }
+
                 <Text white marginV-4 body>{ getdisabled() ? "您没有操作权限" : "确定" }</Text>
             </Button>
 
