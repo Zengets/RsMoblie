@@ -52,21 +52,24 @@ class CheckAction extends React.Component {
 
     componentDidMount() {
         let { navigation } = this.props,
-            { id } = navigation.state.params ? navigation.state.params : { id: "" };
-
+        { id } = navigation.state.params ? navigation.state.params : { id: "" };
         this.setNewState("checkdetail", { equipmentId: id }, () => {
             let { index: { checkdetail } } = this.props, { item, equipmentName, positionNo, equipmentNo, serialNo } = checkdetail ? checkdetail : {};
             this.setState({
-                item: item
+                item: item,
             })
         })
     }
 
     //清空提交
     resetData = () => {
-        let { checkdetail } = this.props.index;
-
-
+        this.setState({
+            item: this.state.item.map((it)=>{
+                it.pointCheckItemResultType = ""
+                it.exceptionRecord = ''
+                return it
+            })
+        })
     }
 
 
