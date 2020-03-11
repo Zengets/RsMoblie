@@ -35,7 +35,7 @@ class SpareItem extends Component {
     >
       <View row spread>
         <View style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.warnColor, borderLeftWidth: 2, height: 6 } } marginT-6 marginB-12 paddingL-6 center>
-          <Text subheading dark>{ item.sparePartsName }</Text>
+          <Text body dark>{ item.sparePartsName }</Text>
         </View>
         {
           item.availableStock > item.warnStock ?

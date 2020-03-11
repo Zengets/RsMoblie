@@ -5,7 +5,7 @@ import {
     update,
     uploadFile
 } from '../utils/index'
-let ipandport = 'http://29i2k99452.zicp.vip' //xiangzige  'http://2622536c3m.zicp.vip:16591' //liziyuan 
+let ipandport = 'http://29i2k99452.zicp.vip' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
 
 
 export async function test(params) {
@@ -168,15 +168,39 @@ export async function queryAppByEqId(params) {
 export async function checkdetail(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/queryAppByEquipId`, params);
 }
+
 export async function checkaction(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/checkApp`, params);
 }
 
+export async function checkhistory(params) {
+    return post(`${ipandport}/equipmentPointCheckItemDayTask/queryAppList`, params);
+}
 
+export async function checkhistorydetail(params) {
+    return post(`${ipandport}/equipmentPointCheckItemTask/queryAppHis`, params);
+}
 
+export async function checkerror(params) {
+    return post(`${ipandport}/equipmentPointCheckException/queryAppList`, params);
+}
 
+export async function checkerrordetail(params) {
+    return post(`${ipandport}/equipmentPointCheckException/queryAppById`, params);
+}
 
+export async function checkIgnore(params) {
+    return post(`${ipandport}/equipmentPointCheckException/checkIgnore`, params);
+}
 
+export async function checkRepair(params) {
+    return post(`${ipandport}/equipmentPointCheckException/checkRepair`, params);
+}
 
+export async function checkRepairAfter(params) {
+    return post(`${ipandport}/equipmentPointCheckException/checkRepairAfter`, params);
+}
 
-
+export async function errortohis(params) {
+    return post(`${ipandport}/equipmentPointCheckItemTask/queryAppExceptionToHis`, params);
+}

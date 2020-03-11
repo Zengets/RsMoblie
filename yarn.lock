@@ -5674,10 +5674,10 @@ react-native-tree-select@^2.0.9:
   resolved "https://registry.npm.taobao.org/react-native-tree-select/download/react-native-tree-select-2.0.9.tgz#6c3aa9c0acbdcd273d9602dcaaf681cf08354f3c"
   integrity sha1-bDqpwKy9zSc9lgLcqvaBzwg1Tzw=
 
-react-native-ui-lib@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/react-native-ui-lib/download/react-native-ui-lib-4.0.0.tgz#7d9993bfab43070f182f23c10dc605b553be7b42"
-  integrity sha1-fZmTv6tDBw8YLyPBDcYFtVO+e0I=
+react-native-ui-lib@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.npm.taobao.org/react-native-ui-lib/download/react-native-ui-lib-5.4.1.tgz#091b3450d12b13259e8bdb0801543f13dbd0fd01"
+  integrity sha1-CRs0UNErEyWei9sIAVQ/E9vQ/QE=
   dependencies:
     babel-plugin-transform-inline-environment-variables "^0.0.2"
     color "^3.1.0"
@@ -5685,6 +5685,7 @@ react-native-ui-lib@4.0.0:
     hoist-non-react-statics "^3.0.0"
     lodash "^4.0.0"
     memoize-one "^5.0.5"
+    moment "^2.24.0"
     prop-types "^15.5.10"
     react-native-animatable "^1.1.0"
     react-native-color "0.0.10"

@@ -98,7 +98,7 @@ class InfoSpare extends React.Component {
             if(!one.type){
                 return
               }
-            if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+            if (one.type.indexOf("select") == -1 ) {
                 return one.value && one.value
             } else {
                 return one.value && one.value.id

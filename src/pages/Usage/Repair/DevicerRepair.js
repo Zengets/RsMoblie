@@ -73,7 +73,6 @@ class DevicerRepair extends Component {
     componentDidMount() {
         //getRepairDetail
         let id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
-        console.log(id)
         if (id) {
             this.setNewState("getRepairDetail", { id: id })
         }
@@ -132,7 +131,7 @@ class DevicerRepair extends Component {
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                 <Rows name="验证时间" values={ confirmTime } />
                 <Rows name="验证结果" values={ confirmResult } />
-                <Rows name="验证描述" values={ confirmDesc } />
+                <Rows name="验证描述" values={ confirmDesc } noborder={ true }/>
 
             </Card>
         )

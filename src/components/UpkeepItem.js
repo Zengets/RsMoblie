@@ -81,7 +81,7 @@ class UpkeepItem extends Component {
       <View row spread paddingV-8 top>
 
         <View>
-          <Text subheading dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
+          <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
           <Text subbodybody dark40>负责人：{ item.planMaintainUserName }</Text>
         </View>
         <View row center>

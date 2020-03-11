@@ -36,6 +36,15 @@ class Success extends React.Component {
         })
     }
 
+    componentDidMount(){
+        const { index, navigation } = this.props
+        let { sendMessage } = navigation.state.params ? navigation.state.params : { sendMessage }
+        if(sendMessage){
+            alert(0)
+           let {posturl, postdata} = sendMessage?sendMessage:{};
+            this.setNewState(posturl, postdata);//执行成功回调
+        }
+    }
 
 
     render() {
@@ -54,10 +63,10 @@ class Success extends React.Component {
                 <View row>
                     {
                         btn.map((item, i) => {
-                            return <Card padding-page center margin-4 flex-1 key={ i } enableShadow={ false } onPress={ () => {
+                            return <Card padding-12 center margin-4 flex-1 key={ i } enableShadow={ false } onPress={ () => {
                                 this.jumpToUrl(item.url, item.params)
                             } }>
-                                <Text>{ item.name }</Text>
+                                <Text subbody center>{ item.name }</Text>
                             </Card>
                         })
                     }

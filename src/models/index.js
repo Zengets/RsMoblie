@@ -4,7 +4,8 @@ import {
     infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
-    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail,checkaction
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail,errortohis,
+    checkerror, checkerrordetail, checkIgnore, checkRepair,checkRepairAfter
 
 
 
@@ -23,6 +24,9 @@ export default {
         infodeviceche: {},
         infospare: {},
         infodevicedetail: {},
+        checkhistorydetail: {},
+        errortohis:{},
+        checkerrordetail: {},
         userlistdetail: {},
         infosparedetail: {},
         userlist: [],
@@ -40,9 +44,12 @@ export default {
         upkeepmission: {},
         upkeepmissiondetail: {},
         upkeephistory: {},
+        checkhistory: {},
+        checkerror: {},
         upkeephistorydetail: {},
         checkdetail: {},
         queryAppByEqId: {},
+        repairApply:"",
         res: {},
         res2: {},
         formdata: [],
@@ -152,6 +159,31 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { infodevicedetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkhistorydetail({ payload }, { call, put }) {//data
+            const responese = yield call(checkhistorydetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { checkhistorydetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *errortohis({ payload }, { call, put }) {//data
+            const responese = yield call(errortohis, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { errortohis: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkerrordetail({ payload }, { call, put }) {//data
+            const responese = yield call(checkerrordetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { checkerrordetail: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },
@@ -283,7 +315,7 @@ export default {
             const responese = yield call(repairApply, payload);
             yield put({
                 type: 'updateState',
-                payload: { res: responese.data ? responese.data : {} }
+                payload: { repairApply: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },
@@ -412,6 +444,31 @@ export default {
             })
             return responese.code == "0000"
         },
+        *checkhistory({ payload }, { call, put }) {//data
+            const responese = yield call(checkhistory, payload);
+            yield put({
+                type: 'updateState',
+                payload: { checkhistory: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkerror({ payload }, { call, put }) {//data
+            const responese = yield call(checkerror, payload);
+            yield put({
+                type: 'updateState',
+                payload: { checkerror: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
 
         *startAppMaintain({ payload }, { call, put }) {//data
             const responese = yield call(startAppMaintain, payload);
@@ -439,6 +496,30 @@ export default {
         },
         *updateAppMaintainUser({ payload }, { call, put }) {//data
             const responese = yield call(updateAppMaintainUser, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkIgnore({ payload }, { call, put }) {//data
+            const responese = yield call(checkIgnore, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkRepair({ payload }, { call, put }) {//data
+            const responese = yield call(checkRepair, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkRepairAfter({ payload }, { call, put }) {//data
+            const responese = yield call(checkRepairAfter, payload);
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

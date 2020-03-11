@@ -345,11 +345,12 @@ class SubmitForm extends React.Component {
                                     <Text white>({ item.value && item.value.length })</Text>
                                 </Card>
 
-                                <View row paddingT-8 style={ { height: curkey == item.key ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+                                <View padding-12 paddingT-8 flex-1 style={ { height: curkey == item.key ? "auto" : 0, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
                                     {
                                         item.option &&
                                         item.option.map((it, i) => (
-                                            <Card flex-1 padding-12 margin-12 style={ {
+                                            <Card flex padding-12 marginT-12 style={ {
+                                                width:"100%",    
                                                 backgroundColor:
                                                     item.value && item.value.length > 0 ?
                                                         item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
@@ -385,7 +386,7 @@ class SubmitForm extends React.Component {
                                                 <View row>
                                                     {
                                                         item.subs.map((k, j) => {
-                                                            return <View center flex-1><Text white>{ k.name }:{ it[k.key] }</Text></View>
+                                                        return <View left flex-1><Text white>{ k.name?`${k.name}:`:""}{ it[k.key] }</Text></View>
                                                         })
                                                     }
                                                 </View>

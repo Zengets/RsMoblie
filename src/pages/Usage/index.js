@@ -137,7 +137,7 @@ class Usage extends React.Component {
             <Text subbody>点检设备</Text>
           </Card>
           <Card flex-1 center padding-12 margin-12 marginT-0 enableShadow={ false } onPress={ () => {
-            this.jumpToUrl("UpkeepMission")
+            this.jumpToUrl("CheckHistory")
           } }>
             <View center style={ { width: 48, height: 48 } }>
               <MaterialIcons name='history' size={ 33 } style={ { color: colors.secondaryColor } }></MaterialIcons>
@@ -145,7 +145,7 @@ class Usage extends React.Component {
             <Text subbody>点检历史</Text>
           </Card>
           <Card flex-1 center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
-            this.jumpToUrl("UpkeepHistory")
+            this.jumpToUrl("CheckError")
           } }>
             <View center style={ { width: 48, height: 48 } }>
               <MaterialIcons name='error' size={ 33 } style={ { color: colors.secondaryColor } }></MaterialIcons>

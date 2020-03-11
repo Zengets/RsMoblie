@@ -45,7 +45,7 @@ class RepairAction extends React.Component {
 
     componentDidMount() {
         let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation, loading } = this.props, { } = this.state,
-            { title, type, id } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" };
+            { title, type, id} = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" };
 
         this.setNewState("repairstep", { id: id }, () => {
             let res2 = this.props.index.res2, submitdatas = [];
@@ -79,7 +79,7 @@ class RepairAction extends React.Component {
                     }, {
                         key: "repairUserId",
                         type: "select",
-                        require: false,
+                        require: true,
                         value: "",
                         placeholder: "请选择维修工",
                         option: res2.workerList && res2.workerList.map((item) => {
@@ -144,13 +144,13 @@ class RepairAction extends React.Component {
                             "value": "consumeCount" //使用数量
                         },
                         subs: [{
-                            name: "备件名",
+                            name: "名称",
                             key: "sparePartsName"
                         }, {
-                            name: "备件类型",
+                            name: "类型",
                             key: "sparePartsTypeName"
                         }, {
-                            name: "可用库存",
+                            name: "库存",
                             key: "availableStock"
                         }
                         ],
@@ -213,7 +213,13 @@ class RepairAction extends React.Component {
 
     render() {
         let { index: { submitdata, res2, repairstep, userInfo }, navigation, loading } = this.props, { loaded } = this.state,
-            { title, type, id } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" },
+            { title, type, id,todo  } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "",todo:{
+                url:"",
+                params:{
+                    posturl:"", 
+                    postdata:""
+                }
+            } },
             getdisabled = () => {
                 let bools = true;
                 if (repairstep) {
@@ -257,13 +263,13 @@ class RepairAction extends React.Component {
                     } }>
                         <Text>
                             查看维修记录
-                                </Text>
+                        </Text>
                     </Card>
                 }
             </View>
             <SubmitForm></SubmitForm>
 
-            <Button disabled={ getdisabled() } onPress={ () => {
+            <Button disabled={ getdisabled() ||loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] } onPress={ () => {
                 let _it = this;
                 function getVal(key) {
                     let one = {};
@@ -275,7 +281,7 @@ class RepairAction extends React.Component {
                     if (!one.type) {
                         return
                     }
-                    if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+                    if (one.type.indexOf("select") == -1 ) {
                         return one.value && one.value
                     } else {
                         return one.value && one.value.id
@@ -290,18 +296,34 @@ class RepairAction extends React.Component {
                         "faultPicUrl": getVal("faultPicUrl")//故障图片，非必填
                     }
                     this.setNewState("repairApply", postData, () => {
+                        let {sendMessage,url,params} = todo;
                         _it.resetData()
+                        let btn = [{
+                            name: "返回报修",
+                            url: "Scan",
+                            params: { type: "repair" }
+                        }, {
+                            name: "跳转到我的报修",
+                            url: "Mine",
+                            params: {}
+                        }]
+                        if(url){
+                            btn.push({
+                                name: "返回点检详情",
+                                url: url,
+                                params: params
+                            })
+                        }
+                        console.log(this.props.index.repairApply)
+                        sendMessage.postdata = {
+                            ...sendMessage.postdata,
+                            handleId:this.props.index.repairApply
+                        };//设置维修单号
+                        console.log(sendMessage)
                         navigation.navigate("Success", {
-                            btn: [{
-                                name: "返回报修",
-                                url: "Scan",
-                                params: { type: "repair" }
-                            }, {
-                                name: "跳转到我的报修",
-                                url: "Mine",
-                                params: {}
-                            }],
-                            description: `${res2.data.equipmentName}已报修成功！`
+                            btn,
+                            description: `${res2.data.equipmentName}已报修成功`,
+                            sendMessage: sendMessage?sendMessage:{}  //成功回调操作
                         })
                     })
                 } else if (type == "1") {
@@ -315,7 +337,7 @@ class RepairAction extends React.Component {
                                 url: "Mine",
                                 params: {}
                             }],
-                            description: `${res2.data.equipmentName}已开始维修！`
+                            description: `${res2.data.equipmentName}已开始维修！`,
                         })
                     })
                 } else if (type == "2") {

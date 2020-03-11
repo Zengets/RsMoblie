@@ -87,7 +87,7 @@ class UserList extends React.Component {
           one = item
         }
       });
-      if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+      if (one.type.indexOf("select") == -1 ) {
         return one.value && one.value
       } else {
         return one.value && one.value.id

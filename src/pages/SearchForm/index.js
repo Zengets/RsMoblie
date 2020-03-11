@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TextField, Text, Card, Button, Colors } from 'react-native-ui-lib';
+import { View, TextField, Text, Card, Button, Colors, DateTimePicker } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { colors } from '../../utils';
 import { ViewPropTypes, Animated, Dimensions } from 'react-native';
@@ -9,8 +9,10 @@ import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown } from '
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TreeSelect from 'react-native-tree-select';
 import Spinner from 'react-native-loading-spinner-overlay';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
-
+moment.locale("zh-cn")
 const loop = (data) => {
     let newdata = data.map((item) => {
         return {
@@ -25,12 +27,13 @@ const loop = (data) => {
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index,loading }) => ({ index,loading }))
+@connect(({ index, loading }) => ({ index, loading }))
 class SearchForm extends React.Component {
 
     state = {
         curkey: "",
-        rotate: new Animated.Value(0)
+        rotate: new Animated.Value(0),
+        rerender:true
     }
 
     //设置新状态
@@ -66,18 +69,58 @@ class SearchForm extends React.Component {
         })
     }
 
-    resetData = () => {
+    changeDateRange = (miankey,linked) => {
+        let { key,option } = linked;
         let { index: { formdata } } = this.props;
+        function getVal(key) {
+            let one = {};
+            formdata.map((item) => {
+                if (item.key == key) {
+                    one = item
+                }
+            });
+            if (!one.type) {
+                return
+            }
+            if (one.type.indexOf("select") == -1 ) {
+                return one.value && one.value
+            } else {
+                return one.value && one.value.id
+            }
+        }
         let newformdata = formdata.map((item, i) => {
-            item.value = undefined
+            if (item.key == key) {
+                item[option] = getVal(miankey)?moment(getVal(miankey)).valueOf():undefined
+            } else {
+            }
             return item
         })
         this.setNewState("formdata", newformdata)
     }
 
+    resetData = () => {
+        let { index: { formdata } } = this.props;
+        this.setState({
+            rerender:false
+        });
+        let newformdata = formdata.map((item, i) => {
+            item.value = null
+            if(item.type=='datetimepicker'){
+                item.maximumDate = undefined
+                item.minimumDate = undefined
+                item.value = ""
+            }
+            return item
+        })
+        this.setNewState("formdata", newformdata,()=>{
+            this.setState({
+                rerender:true
+            })
+        })
+    }
+
     changeOption = (val, linked) => {
         let { key, posturl, format, postkey } = linked
-        console.log(posturl)
         this.setNewState(posturl, { [postkey]: val }, () => {
             let res = this.props.index[posturl];
             let { index: { formdata } } = this.props;
@@ -100,7 +143,7 @@ class SearchForm extends React.Component {
 
 
     render() {
-        let { index: { formdata }, navigation,loading } = this.props, { curkey, rotate } = this.state;
+        let { index: { formdata }, navigation, loading } = this.props, { curkey, rotate } = this.state;
 
         let inputprops = (item) => {
             let { value, placeholder, key } = item;
@@ -127,13 +170,14 @@ class SearchForm extends React.Component {
                     this.changeData(key, val)
                 }
             }
-        }, rotatecha = rotate.interpolate({ // 旋转，使用插值函数做值映射
-            inputRange: [0, 1],
-            outputRange: ['-180deg', '0deg']
-        })
+        },
+            rotatecha = rotate.interpolate({ // 旋转，使用插值函数做值映射
+                inputRange: [0, 1],
+                outputRange: ['-180deg', '0deg']
+            })
 
 
-        return <SafeAreaViewPlus>
+        return <SafeAreaViewPlus loading={!this.state.rerender}>
             <Header title={ `筛选` } navigation={ navigation }
                 headerRight={ () => (<Card enableShadow={ false } paddingV-12 onPress={ this.resetData } >
                     <Text dark40>重置</Text>
@@ -143,10 +187,32 @@ class SearchForm extends React.Component {
             <KeyboardAwareScrollView style={ { padding: 12 } } contentContainerStyle={ { flexGrow: 1 } } keyboardShouldPersistTaps="handled">
                 <View paddingB-12>
                     {
+                        formdata&&formdata.length>0&&this.state.rerender?
                         formdata.map((item, i) => {
                             if (item.type == "input" && !item.hidden) {
                                 return <Card bottom padding-12 paddingB-0 marginB-12 enableShadow={ false }>
                                     <TextField { ...inputprops(item) }></TextField>
+                                </Card>
+                            } else if (item.type == "datetimepicker" && !item.hidden) {
+                                console.log(item.maximumDate,item.minimumDate)
+                                return <Card bottom padding-12 paddingB-0 marginB-12 enableShadow={ false }>
+                                    <DateTimePicker
+                                        locale='zh-CN'
+                                        title={ item.placeholder }
+                                        placeholder={ '请选择'}
+                                        dateFormat={ item.dateFormat }
+                                        value={item.value?moment(item.value):null}
+                                        mode = {item.mode}
+                                        maximumDate = {item.maximumDate?item.maximumDate:null}
+                                        minimumDate = {item.minimumDate?item.minimumDate:null}
+                                        onChange={(val) => {
+                                            this.changeData(item.key, val?moment(val).format("YYYY-MM-DD"):undefined,()=>{
+                                                item.linked?
+                                                this.changeDateRange(item.key,item.linked):
+                                                null
+                                            })
+                                        }}
+                                    />
                                 </Card>
                             } else if (item.type == "treeselect" && !item.hidden) {
                                 return <Card marginB-12 enableShadow={ false }>
@@ -214,17 +280,17 @@ class SearchForm extends React.Component {
                             } else if (item.type == "select" && !item.hidden) {
                                 return <Card marginB-12 enableShadow={ false }>
                                     <Spinner
-                                        visible={ item.linked?loading.effects[`index/${item.linked.posturl}`]:false }
+                                        visible={ item.linked ? loading.effects[`index/${item.linked.posturl}`] : false }
                                         textContent={ '加载中...' }
                                         textStyle={ {
                                             color: '#FFF',
-                                            fontWeight:"normal"
+                                            fontWeight: "normal"
                                         } }
                                         animation="fade"
                                         overlayColor={ "rgba(0,0,0,0.2)" }
                                     />
 
-                                    
+
                                     <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
                                         this.setState({
                                             curkey: curkey !== item.key ? item.key : ""
@@ -254,7 +320,7 @@ class SearchForm extends React.Component {
                                                     }, () => {
                                                         item.linked ?
                                                             this.changeOption(it.dicKey, item.linked) :
-                                                        null
+                                                            null
                                                     })
                                                 } }>
                                                     <Text subbody style={ { color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" } }>{ it.dicName }</Text>
@@ -279,7 +345,7 @@ class SearchForm extends React.Component {
                                     </Card>
                                 </Card>
                             }
-                        })
+                        }):<Empty/>
                     }
 
                     <Button onPress={ () => {

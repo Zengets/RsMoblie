@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown, Modal, SubmitForm,Rows } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, TreeShown, Modal, SubmitForm, Rows } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, ActivityIndicator } from 'react-native';
 import { colors, ConvertPinyin } from '../../../utils';
@@ -151,7 +151,7 @@ class UpkeepChild extends Component {
                     {
                         type == "mission" && status == 0 || type == "mission" && status == 2 ?
                             <View style={ styles.items } row spread>
-                                <Button disabled={ getdisabled() } backgroundColor={ colors.warnColor } label="关闭维保" onPress={ () => {
+                                <Button disabled={ getdisabled() || loading.effects['index/closeAppMaintain']} backgroundColor={ colors.warnColor } label="关闭维保" onPress={ () => {
                                     //startAppMaintain,finishAppMaintain,closeAppMaintain,updateAppMaintainUser,queryAppByEqId
                                     this.setNewState("closeAppMaintain", { id: id }, () => {
                                         navigation.navigate("Success", {
@@ -173,7 +173,7 @@ class UpkeepChild extends Component {
                                             : null
                                     }
                                 </Button>
-                                <Button disabled={ getdisabled() } label={ status == 0 ? "开始维保" : status == 2 ? "完成维保" : "" } onPress={ () => {
+                                <Button disabled={ getdisabled()||loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain'] } label={ status == 0 ? "开始维保" : status == 2 ? "完成维保" : "" } onPress={ () => {
                                     if (status == 0) {
                                         this.setNewState("startAppMaintain", { id: id }, () => {
                                             navigation.navigate("Success", {
@@ -210,7 +210,7 @@ class UpkeepChild extends Component {
                                             : null
                                     }
                                 </Button>
-                                <Button label="修改负责人" backgroundColor={ colors.successColor } onPress={ () => {
+                                <Button label="修改负责人" disabled={loading.effects['index/queryAppByEqId']} backgroundColor={ colors.successColor } onPress={ () => {
                                     this.setNewState("queryAppByEqId", {
                                         "equipmentId": equipmentId,
                                         "chargeType": "1"
@@ -229,6 +229,7 @@ class UpkeepChild extends Component {
                                             })
                                         }]
                                         this.setNewState("submitdata", submitdata, () => {
+                                            console.log(0)
                                             this.setState({
                                                 visible: true
                                             })
@@ -254,41 +255,21 @@ class UpkeepChild extends Component {
 
                 <Card marginV-12 padding-12 borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                     <View>
-                        <View>
-                            <Text subheading>
-                                维保明细:
+                        <View marginB-12>
+                            <Text subheading >
+                                维保明细
                             </Text>
                         </View>
                         <View>
                             {
                                 detail && detail.length > 0 ?
                                     detail.map((item, i) => (
-                                        <View style={ [i == detail.lenght - 1 ? styles.items : styles.item, { padding: 8, backgroundColor: "#f0f0f0" }] }>
-                                            <View row top>
-                                                <View>
-                                                    <Text subbody dark>
-                                                        项目: { item.maintainItem }
-                                                    </Text>
-                                                </View>
-                                                <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                                                    <Text subbody>
-                                                        费用:{ item.actualMaintainCost }元
-                                                    </Text>
-                                                </View>
+                                        <View  marginB-12 style={ { borderRadius: 8, overflow: "hidden", borderColor: "#f9f9f9", borderWidth: 1 } }>
+                                            <Rows name="项目" values={ item.maintainItem } noborder={ true } color={ colors.primaryColor }></Rows>
+                                            <View style={ { borderRadius: 0, overflow: "hidden", backgroundColor: "#F9F9F9" } }>
+                                                <Rows name="费用" values={item.actualMaintainCost? item.actualMaintainCost+"元" :""} noborder={ true }></Rows>
+                                                <Rows name="维保内容" values={ item.maintainContent } noborder={ true }></Rows>
                                             </View>
-                                            <View row top marginT-8>
-                                                <View>
-                                                    <Text subbody>
-                                                        维保内容:
-                                                </Text>
-                                                </View>
-                                                <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                                                    <Text subbody>
-                                                        { item.maintainContent }
-                                                    </Text>
-                                                </View>
-                                            </View>
-
                                         </View>
                                     )) : <Empty></Empty>
                             }
@@ -301,14 +282,14 @@ class UpkeepChild extends Component {
                     <Rows name="执行人" values={ executiveUserName } />
                     <Rows name="维保开始时间" values={ startMaintainTime } />
                     <Rows name="维保结束时间" values={ endMaintainTime } />
-                    <Rows name="实际维保费用" values={ tatolMaintainCost ? `${tatolMaintainCost}元` : "" } />
+                    <Rows name="实际维保费用" values={ tatolMaintainCost ? `${tatolMaintainCost}元` : "" }  noborder={ true }/>
                 </Card>
 
                 <Modal
                     visible={ this.state.visible }
                     height={ height * 0.8 }
                     hide={ () => {
-                        this.setNewState({
+                        this.setState({
                             visible: false
                         })
                     } }
@@ -316,7 +297,7 @@ class UpkeepChild extends Component {
                 >
                     <View paddingV-12>
                         <SubmitForm></SubmitForm>
-                        <Button margin-12 label={ "提交" } onPress={ () => {
+                        <Button margin-12 label={ "提交" } disabled={loading.effects['index/updateAppMaintainUser']} onPress={ () => {
                             let _it = this;
                             function getVal(key) {
                                 let one = {};
@@ -328,7 +309,7 @@ class UpkeepChild extends Component {
                                 if (!one.type) {
                                     return
                                 }
-                                if (one.type.indexOf("select") == -1 && one.type.indexOf("icker") == -1) {
+                                if (one.type.indexOf("select") == -1) {
                                     return one.value && one.value
                                 } else {
                                     return one.value && one.value.id

@@ -15,8 +15,8 @@ import TreeShown from './TreeShown';
 import AuthBase from './AuthBase';
 import SubmitForm from './SubmitForm';
 import Rows from './Rows';
-
+import CheckItem from './CheckItem';
 export {
-    OpenToast,HideToast,OneToast,SubmitForm,Rows,
+    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,UpkeepItem,Empty,SpareItem,TreeShown,AuthBase
 }

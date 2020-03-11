@@ -26,6 +26,12 @@ import UpkeepMission from './Usage/Upkeep/UpkeepMission'
 import UpkeepHistory from './Usage/Upkeep/UpkeepHistory'
 import InfoDeviceChe from './Usage/Check/InfoDeviceChe'
 import CheckAction from './Usage/Check/CheckAction'
+import CheckHistory from './Usage/Check/CheckHistory'
+import CheckHistoryDetail from './Usage/Check/CheckHistoryDetail'
+import CheckError from './Usage/Check/CheckError'
+import CheckErrorDetail from './Usage/Check/CheckErrorDetail'
+
+
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -48,7 +54,7 @@ export {
     
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,UpkeepMission,UpkeepHistory,
 
-    DevicerRepair,InfoDeviceChe,CheckAction,
+    DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     
     
     Knowledge,

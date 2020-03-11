@@ -185,12 +185,9 @@ class CheckAction extends React.Component {
                             <Empty />
                     }
 
-                    <Button disabled={ getdisabled() } onPress={ () => {
+                    <Button disabled={ getdisabled()||loading.effects[`index/checkaction`] } onPress={ () => {
                         let {item} = this.state,ifs=false,
                         postData = item.map((it,i)=>{
-                            if(!it.pointCheckItemResultType){
-                                ifs = true
-                            }
                             if(it.pointCheckItemResultType=="0"){
                                 it.exceptionRecord = ""
                             }else if(it.pointCheckItemResultType=="1" && !it.exceptionRecord){
@@ -199,14 +196,14 @@ class CheckAction extends React.Component {
                             return {
                                 pointCheckItemResultType:it.pointCheckItemResultType,
                                 exceptionRecord:it.exceptionRecord,
-                                equipmentPointCheckItemRelId:it.id
+                                equipmentPointCheckItemRelId:it.id,
+                                serialNo:serialNo
                             }
                         })
                         if(ifs){
-                            OneToast("请完成每项点检后提交...")
+                            OneToast("点检异常需要填写异常记录...")
                             return
                         }
-                        console.log(postData)
                         this.setNewState("checkaction", postData, () => {
                             navigation.navigate("Success", {
                                 btn: [{
