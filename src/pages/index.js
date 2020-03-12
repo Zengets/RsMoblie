@@ -30,7 +30,7 @@ import CheckHistory from './Usage/Check/CheckHistory'
 import CheckHistoryDetail from './Usage/Check/CheckHistoryDetail'
 import CheckError from './Usage/Check/CheckError'
 import CheckErrorDetail from './Usage/Check/CheckErrorDetail'
-
+import SpareAskfor from './Usage/Spare/SpareAskfor'
 
 
 import Knowledge from './Knowledge'
@@ -53,8 +53,8 @@ export {
     DepartMentChild,SearchForm,UserMore,Success,
     
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,UpkeepMission,UpkeepHistory,
-
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
+    SpareAskfor,
     
     
     Knowledge,

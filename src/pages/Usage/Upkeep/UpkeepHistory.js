@@ -267,17 +267,38 @@ class UpkeepHistory extends React.Component {
             <Header
                 navigation={ navigation }
                 title="维保历史"
-                headerRight={ () => !search ? <AntIcons name="search1" size={ 22 } onPress={ () => {
+                rightwidth={ 70 }
+                headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
+                    let postData = JSON.parse(JSON.stringify(this.state.postData));
+                    for (let i in postData) {
+                        if (i == "pageIndex") {
+                            postData[i] = 1
+                        }else if (i == "pageSize") {
+                            postData[i] = 10
+                        }else{
+                            postData[i] = ""
+                        }
+                    }
                     this.setState({
-                        search: !search
+                        postData
+                    },()=>{
+                        this.onRefresh()
                     })
-                } } /> : <Text onPress={ () => {
-                    this.setState({
-                        search: !search
+                    let { index: { formdata } } = this.props;
+                    let newformdata = formdata.map((item, i) => {
+                        item.value = null
+                        if(item.type=='datetimepicker'){
+                            item.maximumDate = undefined
+                            item.minimumDate = undefined
+                            item.value = ""
+                        }
+                        return item
                     })
+                    this.setNewState("formdata", newformdata)
                 } }>
-                        取消
-                </Text> }
+                    <AntIcons name="reload1" size={ 14 }/>
+                    <Text marginL-4>重置</Text>
+                </Card> }
             >
             </Header>
             <View flex >

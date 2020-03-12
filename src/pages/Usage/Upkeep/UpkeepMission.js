@@ -131,18 +131,7 @@ class UpkeepMission extends React.Component {
     componentDidMount() {
         this.resetData(this.props)
     }
-    //动态改变搜索
-    UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (nextState.search !== this.state.search) {
-            Animated.timing(
-                this.state.height,
-                {
-                    toValue: nextState.search ? 45 : 0,
-                    duration: 200,
-                }
-            ).start();
-        }
-    }
+    
 
     //下拉刷新,更改状态，重新获取数据
     onRefresh(draw) {
@@ -274,17 +263,38 @@ class UpkeepMission extends React.Component {
             <Header
                 navigation={ navigation }
                 title="维保任务"
-                headerRight={ () => !search ? <AntIcons name="search1" size={ 22 } onPress={ () => {
+                rightwidth={ 70 }
+                headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
+                    let postData = JSON.parse(JSON.stringify(this.state.postData));
+                    for (let i in postData) {
+                        if (i == "pageIndex") {
+                            postData[i] = 1
+                        }else if (i == "pageSize") {
+                            postData[i] = 10
+                        }else{
+                            postData[i] = ""
+                        }
+                    }
                     this.setState({
-                        search: !search
+                        postData
+                    },()=>{
+                        this.onRefresh()
                     })
-                } } /> : <Text onPress={ () => {
-                    this.setState({
-                        search: !search
+                    let { index: { formdata } } = this.props;
+                    let newformdata = formdata.map((item, i) => {
+                        item.value = null
+                        if(item.type=='datetimepicker'){
+                            item.maximumDate = undefined
+                            item.minimumDate = undefined
+                            item.value = ""
+                        }
+                        return item
                     })
+                    this.setNewState("formdata", newformdata)
                 } }>
-                        取消
-                </Text> }
+                    <AntIcons name="reload1" size={ 14 }/>
+                    <Text marginL-4>重置</Text>
+                </Card> }
             >
             </Header>
             <View flex >

@@ -4,7 +4,8 @@ import { Scan, Login,SearchForm,
     InfoSpareDetail,DepartMent,DepartMentChild,UserMore,Success,
     
     
-    ToRepair,Repaired,UpkeepPlan,UpkeepChild,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail
+    ToRepair,Repaired,UpkeepPlan,UpkeepChild,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
+    SpareAskfor
 
 
 
@@ -76,7 +77,10 @@ const AppNavigator = createStackNavigator(
         CheckHistory:CheckHistory,
         CheckHistoryDetail:CheckHistoryDetail,
         CheckError:CheckError,
-        CheckErrorDetail:CheckErrorDetail
+        CheckErrorDetail:CheckErrorDetail,
+        SpareAskfor:SpareAskfor
+
+        
     },
     {
         initialRouteName: 'Home',

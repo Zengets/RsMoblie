@@ -5,7 +5,7 @@ import {
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail,errortohis,
-    checkerror, checkerrordetail, checkIgnore, checkRepair,checkRepairAfter
+    checkerror, checkerrordetail, checkIgnore, checkRepair,checkRepairAfter,spareasksave
 
 
 
@@ -321,6 +321,16 @@ export default {
         },
         *repairStart({ payload }, { call, put }) {//data
             const responese = yield call(repairStart, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareasksave({ payload }, { call, put }) {//data
+            console.log(payload)
+            const responese = yield call(spareasksave, payload);
+            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

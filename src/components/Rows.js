@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import {StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     item: {
@@ -15,20 +15,23 @@ const styles = StyleSheet.create({
 
 
 class Rows extends Component {
-    
-    render() {
-        let { name, values,noborder,color } = this.props;
 
-        return <View row top style={[styles.item,{borderColor:noborder?"transparent":"#f0f0f0"}] }>
+    render() {
+        let { name, values, noborder, color, rightRender } = this.props;
+
+        return <View row top style={ [styles.item, { borderColor: noborder ? "transparent" : "#f0f0f0" }] }>
             <View>
-                <Text subbody style={{color:color?color:"#666"}}>
-                    { name }:
+                <Text subbody style={ { color: color ? color : "#666" } }>
+                    { name }{rightRender?"":":"}
                 </Text>
             </View>
             <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                <Text subbody style={{color:color?color:"#666"}}>
-                    { values }
-                </Text>
+                {
+                    rightRender ? rightRender : <Text subbody style={ { color: color ? color : "#666" } }>
+                        { values }
+                    </Text>
+                }
+
             </View>
 
 

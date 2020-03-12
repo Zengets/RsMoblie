@@ -60,13 +60,13 @@ class DeviceItemSwipe extends Component {
                 activeOpacity={ 0.3 }
                 height={ 77 }
                 onPress={() => {
+                    onSwipePress()
+                }}
+                onLongPress={()=>{
                     navigation.navigate("InfoDeviceDetail", {
                         id: item.equipmentId ? item.equipmentId : item.id,
                         name: item.equipmentName
                     })
-                }}
-                onLongPress={()=>{
-                    onSwipePress()
                 }}
                 
             >

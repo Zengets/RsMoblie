@@ -43,7 +43,7 @@ class Home extends React.Component {
       <Header
         title="首页"
         headerLeft={() => {
-          return <AntIcons name={'menuunfold'} size={20} style={{ color: "#666", paddingLeft: 20 }} onPress={() => {
+          return <AntIcons name={'menuunfold'} size={20} style={{ color: "#666" }} onPress={() => {
             navigation.openDrawer()
           }}></AntIcons>
         }}

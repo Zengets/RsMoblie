@@ -204,3 +204,56 @@ export async function checkRepairAfter(params) {
 export async function errortohis(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/queryAppExceptionToHis`, params);
 }
+
+export async function spareaskfor(params) {
+    return post(`${ipandport}/sparePartsApply/queryList`, params);
+}
+
+export async function spareasksave(params) {
+    return post(`${ipandport}/sparePartsApply/save`, params);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

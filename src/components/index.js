@@ -16,7 +16,8 @@ import AuthBase from './AuthBase';
 import SubmitForm from './SubmitForm';
 import Rows from './Rows';
 import CheckItem from './CheckItem';
+import SpareTakeItem from './SpareTakeItem';
 export {
-    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,
+    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,UpkeepItem,Empty,SpareItem,TreeShown,AuthBase
 }
