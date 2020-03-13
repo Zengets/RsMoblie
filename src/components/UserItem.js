@@ -25,7 +25,6 @@ class UserItem extends Component {
       style={{ alignItems: "center", borderBottomWidth: 1, borderColor: "#f9f9f9", height: 77 }}
       paddingL-12 paddingR-12
       onPress={() => {
-        console.log(item)
         navigation.navigate("UserListDetail", {
           id: item.userId ? item.userId : item.id,
         })

@@ -1,11 +1,11 @@
 import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
-    infospare, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
+    infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
-    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail,errortohis,
-    checkerror, checkerrordetail, checkIgnore, checkRepair,checkRepairAfter,spareasksave
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis,
+    checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner,spareownerdetail
 
 
 
@@ -23,9 +23,13 @@ export default {
         infodevicecan: {},
         infodeviceche: {},
         infospare: {},
+        sparerevert: {},
+        sparelog: {},
+        spareowner: {},
+        spareownerdetail:{},
         infodevicedetail: {},
         checkhistorydetail: {},
-        errortohis:{},
+        errortohis: {},
         checkerrordetail: {},
         userlistdetail: {},
         infosparedetail: {},
@@ -48,8 +52,9 @@ export default {
         checkerror: {},
         upkeephistorydetail: {},
         checkdetail: {},
+        sparelogdetail: {},
         queryAppByEqId: {},
-        repairApply:"",
+        repairApply: "",
         res: {},
         res2: {},
         formdata: [],
@@ -144,7 +149,56 @@ export default {
             })
             return responese.code == "0000"
         },
-
+        *sparerevert({ payload }, { call, put }) {//data
+            const responese = yield call(sparerevert, payload);
+            yield put({
+                type: 'updateState',
+                payload: { sparerevert: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparelog({ payload }, { call, put }) {//data
+            const responese = yield call(sparelog, payload);
+            yield put({
+                type: 'updateState',
+                payload: { sparelog: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareowner({ payload }, { call, put }) {//data
+            const responese = yield call(spareowner, payload);
+            yield put({
+                type: 'updateState',
+                payload: { spareowner: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareownerdetail({ payload }, { call, put }) {//data
+            console.log(payload)
+            const responese = yield call(spareownerdetail, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { spareownerdetail: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *deviceuser({ payload }, { call, put }) {//data
             const responese = yield call(deviceuser, payload);
             yield put({
@@ -172,7 +226,6 @@ export default {
         },
         *errortohis({ payload }, { call, put }) {//data
             const responese = yield call(errortohis, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { errortohis: responese.data.data ? responese.data.data : {} }
@@ -328,9 +381,7 @@ export default {
             return responese.code == "0000"
         },
         *spareasksave({ payload }, { call, put }) {//data
-            console.log(payload)
             const responese = yield call(spareasksave, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }
@@ -431,6 +482,14 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { checkdetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparelogdetail({ payload }, { call, put }) {//data
+            const responese = yield call(sparelogdetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { sparelogdetail: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },

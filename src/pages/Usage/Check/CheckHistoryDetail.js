@@ -133,7 +133,7 @@ class CheckHistoryDetail extends Component {
                                                     <Text subbody dark10><Text style={ { color: getColor(item) } }>| </Text>项目:{ item.pointCheckItem }</Text>
                                                 </View>
                                                 <View row center>
-                                                    <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(item) } }>{ statusName[item.pointCheckItemResultType] }</Text>
+                                                    <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.pointCheckItemResultType] }</Text>
                                                     <Badge size='small' backgroundColor={ getColor(item) }></Badge>
                                                 </View>
                                             </View>

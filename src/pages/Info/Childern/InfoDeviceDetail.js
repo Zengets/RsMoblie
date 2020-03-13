@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Button, Badge, Hint, Colors, ActionSheet } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, Rows } from '../../../components';
 import AntdIcons from 'react-native-vector-icons/AntDesign';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { colors } from '../../../utils';
@@ -92,13 +92,13 @@ class InfoDeviceDetail extends React.Component {
                     },
                     {
                         label: '报修设备', onPress: () => {
-                           navigation.navigate("RepairAction", { title: "报修设备",type:"0",id:id }) //设备id
+                            navigation.navigate("RepairAction", { title: "报修设备", type: "0", id: id }) //设备id
                         }
                     },
                     {
                         label: '点检设备', onPress: () => {
-                            this.setNewState("checkdetail", { equipmentId: id },()=>{
-                                navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
+                            this.setNewState("checkdetail", { equipmentId: id }, () => {
+                                navigation.navigate("CheckAction", { title: "点检设备", id: id }) //设备id
                             })
                         }
                     },
@@ -122,8 +122,8 @@ class InfoDeviceDetail extends React.Component {
                     },
                     {
                         label: '点检设备', onPress: () => {
-                            this.setNewState("checkdetail", { equipmentId: id },()=>{
-                                navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
+                            this.setNewState("checkdetail", { equipmentId: id }, () => {
+                                navigation.navigate("CheckAction", { title: "点检设备", id: id }) //设备id
                             })
                         }
                     },
@@ -140,29 +140,15 @@ class InfoDeviceDetail extends React.Component {
 
 
 
-        return <SafeAreaViewPlus topInset={ false } backgroundColor="transparent" topColor='transparent' loading={ submitting}>
+        return <SafeAreaViewPlus topInset={ false } backgroundColor="transparent" topColor='transparent' loading={ submitting }>
             <Modal { ...modalprops }>
                 <ImageBackground
                     style={ { width: width * 0.9, height: width * 0.9 } }
                     source={ qrCodeUrl ? { uri: qrCodeUrl } : require("../../../assets/404.png") }
                 >
                 </ImageBackground>
-                <View row spread style={ styles.item }>
-                    <Text subheading>
-                        设备编号：
-                    </Text>
-                    <Text body>
-                        { equipmentNo }
-                    </Text>
-                </View>
-                <View row spread style={ styles.items }>
-                    <Text subheading>
-                        设备位置号：
-                    </Text>
-                    <Text body>
-                        { positionNo }
-                    </Text>
-                </View>
+                <Rows name="设备编号" values={ equipmentNo } />
+                <Rows name="设备位置号" values={ positionNo } noborder={true}/>
             </Modal>
 
             <ActionSheet
@@ -196,161 +182,43 @@ class InfoDeviceDetail extends React.Component {
                         <View padding-15></View>
                         <View padding-44 flex bottom style={ { marginBottom: -99 } }>
                             <Card marginT-12 borderRadius={ 16 } style={ { width: "100%" } } enableShadow={ false }>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        设备名称：
-                                    </Text>
-                                    <Text body>
-                                        { equipmentName }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        设备编号：
-                                    </Text>
-                                    <Text body>
-                                        { equipmentNo }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.items }>
-                                    <Text subheading>
-                                        设备位置号：
-                                    </Text>
-                                    <Text body>
-                                        { positionNo }
-                                    </Text>
-                                </View>
+                                <Rows name="设备名称" values={ equipmentName } />
+                                <Rows name="设备编号" values={ equipmentNo } />
+                                <Rows name="设备位置号" values={ positionNo } noborder={true}/>
                             </Card>
                         </View>
-
-
                     </ImageBackground>
 
                     <View padding-12 marginT-45>
                         <View style={ { overflow: "hidden" } } row={ false } spread left>
                             <Text subheading marginT-12>
-                                设备详情：
+                                设备详情
                             </Text>
                             <Card marginT-12 style={ { width: "100%" } } enableShadow={ false }>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        设备类型：
-                                    </Text>
-                                    <Text body>
-                                        { equipmentTypeName }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        设备型号：
-                            </Text>
-                                    <Text body>
-                                        { equipmentModel }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        设备状态：
-                            </Text>
-                                    <View row center>
-                                        <Text body dark100 marginR-3 marginT-3 style={ { color: getColor(status) } }>{ statusName }</Text>
-                                        <Badge size='small' backgroundColor={ getColor(status) }></Badge>
-                                    </View>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        部门：
-                            </Text>
-                                    <Text body>
-                                        { departmentName }
-                                    </Text>
-                                </View>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        车间：
-                            </Text>
-                                    <Text body>
-                                        { shopName }
-                                    </Text>
-                                </View>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        分组：
-                            </Text>
-                                    <Text body>
-                                        { groupName }
-                                    </Text>
-                                </View>
+                                <Rows name="设备类型" values={ equipmentTypeName } />
+                                <Rows name="设备型号" values={ equipmentModel } />
+                                <Rows name="设备状态" rightRender={ <View row center>
+                                    <Text subbody dark100 marginR-3 style={ { color: getColor(status) } }>{ statusName }</Text>
+                                    <Badge size='small' backgroundColor={ getColor(status) }></Badge>
+                                </View> } />
+                                <Rows name="部门" values={ departmentName } />
+                                <Rows name="车间" values={ shopName } />
+                                <Rows name="分组" values={ groupName }  noborder={true}/>
                             </Card>
 
                             <Card marginT-12 style={ { width: "100%" } } enableShadow={ false }>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        能耗：
-                                    </Text>
-                                    <Text body>
-                                        { energyConsumption }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        价值：
-                            </Text>
-                                    <Text body>
-                                        { equipmentWorth }
-                                    </Text>
-                                </View>
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        购买日期：
-                            </Text>
-                                    <Text body>
-                                        { purchaseDate }
-                                    </Text>
-                                </View>
-
-                                <View row spread style={ styles.item }>
-                                    <Text subheading>
-                                        品牌：
-                            </Text>
-                                    <Text body>
-                                        { brand }
-                                    </Text>
-                                </View>
-                                <View row spread style={ styles.items }>
-                                    <Text subheading>
-                                        参数：
-                            </Text>
-                                    <Text body>
-                                        { parameters }
-                                    </Text>
-                                </View>
+                                <Rows name="能耗" values={ energyConsumption } />
+                                <Rows name="价值" values={ equipmentWorth } />
+                                <Rows name="购买日期" values={ purchaseDate } />
+                                <Rows name="品牌" values={ brand } />
+                                <Rows name="参数" values={ parameters }  noborder={true}/>
                             </Card>
-                            {/* <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
-                                <View row spread style={{ ...styles.items, alignItems: "flex-start" }}>
-                                    <Text subheading>
-                                        设备图片：
-                            </Text>
-                                    <Card.Image style={{ width: 60, height: 60, overflow: "hidden" }} imageSource={pictureUrl ? { uri: pictureUrl } : require("../../../assets/404.png")} />
-                                </View>
-                            </Card> */}
                             <Card marginT-12 style={ { width: "100%" } } enableShadow={ false }>
-                                <View row spread style={ { ...styles.items, alignItems: "flex-start" } }>
-                                    <Text subheading>
-                                        设备二维码：
-                                    </Text>
-                                    <Card right padding-2 enableShadow={ false } onPress={ () => {
+                                <Rows name="设备二维码" rightRender={<Card right padding-2 enableShadow={ false } onPress={ () => {
                                         this.setState({ visible: true })
                                     } }>
                                         <Card.Image style={ { width: 60, height: 60, overflow: "hidden" } } imageSource={ qrCodeUrl ? { uri: qrCodeUrl } : require("../../../assets/404.png") } />
-                                    </Card>
-                                </View>
+                                    </Card>}  noborder={true}/>
                             </Card>
                         </View>
                     </View>

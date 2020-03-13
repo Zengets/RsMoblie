@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Colors, ActionSheet, Badge, Avatar, TabBar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, Header, OneToast, DeviceItem, Empty } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, DeviceItem, Empty,Rows } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntdIcons from 'react-native-vector-icons/AntDesign';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
@@ -144,100 +144,17 @@ class UserListDetail extends React.Component {
                   </Card>
                 </View>
               </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  性别：
-                    </Text>
-                <Text subheading>
-                  {gender == "1" ? "男" : "女"}
-                </Text>
-              </View>
-
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  用户名：
-                </Text>
-                <Text body>
-                  {accountName}
-                </Text>
-              </View>
-
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  工号：
-                </Text>
-                <View row center>
-                  <Text subheading>{jobNum}</Text>
-                </View>
-              </View>
-
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  部门：
-                </Text>
-                <Text body>
-                  {departmentName}
-                </Text>
-              </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  车间：
-                </Text>
-                <Text body>
-                  {shopName}
-                </Text>
-              </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  分组：
-                </Text>
-                <Text body>
-                  {groupName}
-                </Text>
-              </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  班次：
-                </Text>
-                <Text body>
-                  {shiftName}
-                </Text>
-              </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  直属领导：
-                </Text>
-                <Text body>
-                  {parentName}
-                </Text>
-              </View>
-
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  学历：
-                </Text>
-                <Text body>
-                  {academicCareer}
-                </Text>
-              </View>
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  毕业院校：
-                </Text>
-                <Text body>
-                  {university}
-                </Text>
-              </View>
-
-              <View row spread style={styles.item}>
-                <Text subheading>
-                  专业：
-                </Text>
-                <Text body>
-                  {major}
-                </Text>
-              </View>
-
+              <Rows name="性别" values= {gender == "1" ? "男" : "女"} />
+              <Rows name="用户名" values={ accountName } />
+              <Rows name="工号" values={ jobNum } />
+              <Rows name="部门" values={ departmentName } />
+              <Rows name="车间" values={ shopName } />
+              <Rows name="分组" values={ groupName } />
+              <Rows name="班次" values={ shiftName } />
+              <Rows name="直属领导" values={ parentName } />
+              <Rows name="学历" values={ academicCareer } />
+              <Rows name="毕业院校" values={ university } />
+              <Rows name="专业" values={ major } noborder={true}/>
             </Card>
             {
               check.length == 0 && maintain.length == 0 && verification.length == 0 && repair.length == 0 ?
@@ -245,7 +162,7 @@ class UserListDetail extends React.Component {
                   暂无负责的设备...
                 </Text> :
                 <View style={{ width: "100%" }}>
-                  <Text marginV-12 body>所负责的设备：</Text>
+                  <Text marginV-12 body>所负责的设备</Text>
                   <TabBar
                     selectedIndex={this.state.selectedIndex}
                     onChangeIndex={index => {

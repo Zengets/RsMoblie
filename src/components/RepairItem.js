@@ -63,7 +63,7 @@ class RepairItem extends Component {
             <View row spread>
                 <Text body dark20>工单号：{ item.taskNo }</Text>
                 <View row center>
-                    <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(item) } }>{ item.statusName }</Text>
+                    <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ item.statusName }</Text>
                     <Badge size='small' backgroundColor={ getColor(item) }></Badge>
                 </View>
             </View>

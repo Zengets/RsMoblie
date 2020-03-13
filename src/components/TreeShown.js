@@ -109,7 +109,7 @@ class TreeShown extends Component {
                         OneToast("没有下级部门了");
                         return
                     }
-                    navigation.navigate("DepartMentChild",{title:item.title,key:item.key}) 
+                    navigation.navigate("DepartMentDetail",{title:item.title,key:item.key}) 
                 }}>
                     <View row spread>
                         <Text body style={{ color: colors.primaryColor }}>{item.title}</Text>

@@ -10,7 +10,7 @@ import DeviceUserList from './Info/Childern/DeviceUserList'
 import InfoSpare from './Info/Childern/InfoSpare'
 import InfoSpareDetail from './Info/Childern/InfoSpareDetail'
 import DepartMent from './Info/Childern/DepartMent'
-import DepartMentChild from './Info/Childern/DepartMentChild'
+import DepartMentDetail from './Info/Childern/DepartMentDetail'
 import UserMore from './Info/UserMore'
 
 
@@ -21,7 +21,7 @@ import DevicerRepair from './Usage/Repair/DevicerRepair'
 import InfoDeviceCan from './Usage/Repair/InfoDeviceCan'
 import RepairAction from './Usage/Repair/RepairAction'
 import UpkeepPlan from './Usage/Upkeep/UpkeepPlan'
-import UpkeepChild from './Usage/Upkeep/UpkeepChild'
+import UpkeepDetail from './Usage/Upkeep/UpkeepDetail'
 import UpkeepMission from './Usage/Upkeep/UpkeepMission'
 import UpkeepHistory from './Usage/Upkeep/UpkeepHistory'
 import InfoDeviceChe from './Usage/Check/InfoDeviceChe'
@@ -31,7 +31,11 @@ import CheckHistoryDetail from './Usage/Check/CheckHistoryDetail'
 import CheckError from './Usage/Check/CheckError'
 import CheckErrorDetail from './Usage/Check/CheckErrorDetail'
 import SpareAskfor from './Usage/Spare/SpareAskfor'
-
+import SpareRevert from './Usage/Spare/SpareRevert'
+import SpareLog from './Usage/Spare/SpareLog'
+import SpareLogDetail from './Usage/Spare/SpareLogDetail'
+import SpareOwner from './Usage/Spare/SpareOwner'
+import SpareOwnerDetail from './Usage/Spare/SpareOwnerDetail'
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -50,11 +54,11 @@ export {
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
-    DepartMentChild,SearchForm,UserMore,Success,
+    DepartMentDetail,SearchForm,UserMore,Success,
     
-    Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepChild,UpkeepMission,UpkeepHistory,
+    Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
-    SpareAskfor,
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,
     
     
     Knowledge,

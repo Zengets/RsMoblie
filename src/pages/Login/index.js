@@ -104,7 +104,7 @@ class Login extends React.Component {
       underlineColor: "#999",
       floatingPlaceholderColor: {
         default: 'black',
-        error: 'red',
+        error: 'black',
         focus: 'black',
         disabled: 'grey'
       }

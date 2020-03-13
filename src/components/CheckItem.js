@@ -67,7 +67,7 @@ class CheckItem extends Component {
                 <Text subbody>编号:{ item.equipmentNo }</Text>
               </View>
               <View row center>
-                <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
+                <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
                 <Badge size='small' backgroundColor={ getColor(item) }></Badge>
               </View>
             </View>
@@ -87,7 +87,7 @@ class CheckItem extends Component {
                 <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
               </View>
               <View row center>
-                <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
+                <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
                 <Badge size='small' backgroundColor={ getColor(item) }></Badge>
               </View>
             </View>

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     index,
     loading
 }))
-class UpkeepChild extends Component {
+class UpkeepDetail extends Component {
 
     state = {
         visible: false
@@ -138,7 +138,7 @@ class UpkeepChild extends Component {
                         </View>
                         <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
                             <View row center>
-                                <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(status) } }>{ statusName[status] }</Text>
+                                <Text subbody dark100 marginR-3  style={ { color: getColor(status) } }>{ statusName[status] }</Text>
                                 <Badge size='small' backgroundColor={ getColor(status) }></Badge>
                             </View>
                         </View>
@@ -346,4 +346,4 @@ class UpkeepChild extends Component {
 
 
 
-export default UpkeepChild
+export default UpkeepDetail

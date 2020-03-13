@@ -71,7 +71,7 @@ class UpkeepItem extends Component {
           }
           posturl = "upkeephistorydetail"
         }
-        navigation.navigate("UpkeepChild", {
+        navigation.navigate("UpkeepDetail", {
           posturl,
           postdata,
           type
@@ -85,7 +85,7 @@ class UpkeepItem extends Component {
           <Text subbodybody dark40>负责人：{ item.planMaintainUserName }</Text>
         </View>
         <View row center>
-          <Text subbody dark100 marginR-3 marginT-3 style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
+          <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
           <Badge size='small' backgroundColor={ getColor(item) }></Badge>
         </View>
       </View>

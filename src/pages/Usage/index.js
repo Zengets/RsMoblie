@@ -178,7 +178,7 @@ class Usage extends React.Component {
               <Text subbody>备件申请</Text>
             </Card>
             <Card width={ cardwidth } center padding-12 margin-12 marginT-0 enableShadow={ false } onPress={ () => {
-              this.jumpToUrl("CheckHistory")
+              this.jumpToUrl("SpareRevert")
             } }>
               <View center style={ { width: 48, height: 48 } }>
                 <MaterialCommunityIcons name='basket-unfill' size={ 33 } style={ { color: colors.thirdColor } }></MaterialCommunityIcons>
@@ -186,7 +186,7 @@ class Usage extends React.Component {
               <Text subbody>备件回冲</Text>
             </Card>
             <Card width={ cardwidth } center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
-              this.jumpToUrl("CheckError")
+              this.jumpToUrl("SpareLog")
             } }>
               <View center style={ { width: 48, height: 48 } }>
                 <AntIcons name='filetext1' size={ 26 } style={ { color: colors.thirdColor } }></AntIcons>
@@ -194,7 +194,7 @@ class Usage extends React.Component {
               <Text subbody>出入库记录</Text>
             </Card>
             <Card width={ cardwidth } center padding-12 marginB-12 enableShadow={ false } onPress={ () => {
-              this.jumpToUrl("SpareAskfor")
+              this.jumpToUrl("SpareOwner")
             } }>
               <View center style={ { width: 48, height: 48 } }>
                 <FontAwesome5 name='user-cog' size={ 25 } style={ { color: colors.thirdColor } }></FontAwesome5>

@@ -17,7 +17,11 @@ import SubmitForm from './SubmitForm';
 import Rows from './Rows';
 import CheckItem from './CheckItem';
 import SpareTakeItem from './SpareTakeItem';
+import SpareLogItem from './SpareLogItem';
+import SpareOwnerItem from './SpareOwnerItem';
+import SpareOwnerDetailItem from './SpareOwnerDetailItem';
+
 export {
-    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,
+    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,SpareLogItem,SpareOwnerItem,SpareOwnerDetailItem,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,UpkeepItem,Empty,SpareItem,TreeShown,AuthBase
 }

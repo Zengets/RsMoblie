@@ -1,11 +1,11 @@
 import React from 'react';
 import { Scan, Login,SearchForm,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
-    InfoSpareDetail,DepartMent,DepartMentChild,UserMore,Success,
+    InfoSpareDetail,DepartMent,DepartMentDetail,UserMore,Success,
     
     
-    ToRepair,Repaired,UpkeepPlan,UpkeepChild,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
-    SpareAskfor
+    ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail
 
 
 
@@ -61,11 +61,11 @@ const AppNavigator = createStackNavigator(
         InfoSpare:InfoSpare,
         InfoSpareDetail:InfoSpareDetail,
         DepartMent:DepartMent,
-        DepartMentChild:DepartMentChild,
+        DepartMentDetail:DepartMentDetail,
         SearchForm:SearchForm,
         RepairAction:RepairAction,
         UpkeepPlan:UpkeepPlan,
-        UpkeepChild:UpkeepChild,
+        UpkeepDetail:UpkeepDetail,
         DevicerRepair:DevicerRepair,
         UserMore:UserMore,
         ToRepair:ToRepair,
@@ -78,7 +78,12 @@ const AppNavigator = createStackNavigator(
         CheckHistoryDetail:CheckHistoryDetail,
         CheckError:CheckError,
         CheckErrorDetail:CheckErrorDetail,
-        SpareAskfor:SpareAskfor
+        SpareAskfor:SpareAskfor,
+        SpareRevert:SpareRevert,
+        SpareLog:SpareLog,
+        SpareLogDetail:SpareLogDetail,
+        SpareOwner:SpareOwner,
+        SpareOwnerDetail:SpareOwnerDetail
 
         
     },

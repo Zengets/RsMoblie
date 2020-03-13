@@ -13,7 +13,7 @@ let { height, width } = Dimensions.get('window');
     index,
     submitting: loading.effects['index/departmentmore'],
 }))
-class DepartMentChild extends React.Component {
+class DepartMentDetail extends React.Component {
 
     //设置新状态
     setNewState(type, values, fn) {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default DepartMentChild
+export default DepartMentDetail

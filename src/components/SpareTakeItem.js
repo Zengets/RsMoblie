@@ -42,7 +42,7 @@ class SpareTakeItem extends Component {
       paddingL-page paddingR-page
       onLongPress={ () => {
         navigation.navigate("InfoSpareDetail", {
-          id: item.id,
+          id:item.sparePartsId?item.sparePartsId:item.id,
         })
       } }
       onPress={ () => {

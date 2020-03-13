@@ -131,18 +131,6 @@ class UpkeepHistory extends React.Component {
     componentDidMount() {
         this.resetData(this.props)
     }
-    //动态改变搜索
-    UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (nextState.search !== this.state.search) {
-            Animated.timing(
-                this.state.height,
-                {
-                    toValue: nextState.search ? 45 : 0,
-                    duration: 200,
-                }
-            ).start();
-        }
-    }
 
     //下拉刷新,更改状态，重新获取数据
     onRefresh(draw) {

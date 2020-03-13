@@ -213,13 +213,25 @@ export async function spareasksave(params) {
     return post(`${ipandport}/sparePartsApply/save`, params);
 }
 
+export async function sparerevert(params) {
+    return post(`${ipandport}/userSpareParts/queryList`, params);
+}
 
+export async function sparelog(params) {
+    return post(`${ipandport}/sparePartsRecord/queryList`, params);
+}
 
+export async function sparelogdetail(params) {
+    return post(`${ipandport}/sparePartsRecord/queryById`, params);
+}
 
+export async function spareowner(params) {
+    return post(`${ipandport}/userSpareParts/queryAllList`, params);
+}
 
-
-
-
+export async function spareownerdetail(params) {
+    return post(`${ipandport}/sparePartsConsume/queryPageByUserIdAndSpareId`, params);
+}
 
 
 

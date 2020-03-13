@@ -12,17 +12,17 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/infospare'],
+    submitting: loading.effects['index/sparerevert'],
     submittings: loading.effects['index/spareasksave'],
 }))
-class SpareAskfor extends React.Component {
+class SpareRevert extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
-            postUrl: "infospare",
+            postUrl: "sparerevert",
             search: true,
             showbtn: false,
             remark: "",
@@ -31,7 +31,6 @@ class SpareAskfor extends React.Component {
                 "pageSize": 10,
                 "sparePartsNo": "",//备件料号，筛选条件
                 "sparePartsName": "",//备件名，筛选条件
-                "warnNoticeUserId": "",//预警人id，筛选条件
                 "sparePartsTypeId": ""//规格型号id，筛选条件
             },
             resData: [{ items: [] }],
@@ -72,13 +71,13 @@ class SpareAskfor extends React.Component {
 
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.infospare.list }],
+                            resData: [{ items: this.props.index.sparerevert.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.infospare.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.sparerevert.list }]),
                             isLoadMore: false
                         })
                     }
@@ -115,7 +114,6 @@ class SpareAskfor extends React.Component {
                     "pageSize": 10,
                     "sparePartsNo": getVal("sparePartsNo"),
                     "sparePartsName": getVal("sparePartsName"),
-                    "warnNoticeUserId": getVal("warnNoticeUserId"),
                     "sparePartsTypeId": getVal("sparePartsTypeId"),
                 },
             }, () => {
@@ -152,12 +150,12 @@ class SpareAskfor extends React.Component {
 
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.infospare.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.sparerevert.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.infospare.pageNum + 1
+                    pageIndex: this.props.index.sparerevert.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -224,18 +222,6 @@ class SpareAskfor extends React.Component {
                     placeholder: "请输入备件料号"
 
                 }, {
-                    key: "warnNoticeUserId",
-                    type: "select",
-                    require: false,
-                    value: postData.warnNoticeUserId,
-                    placeholder: "请选择负责人",
-                    option: res.userList && res.userList.map((item, i) => {
-                        return {
-                            dicName: item.userName,
-                            dicKey: item.id
-                        }
-                    })
-                }, {
                     key: "sparePartsTypeId",
                     type: "select",
                     require: false,
@@ -255,10 +241,10 @@ class SpareAskfor extends React.Component {
         }
 
         let renderItem = ({ section: section, row: row }) => {
-            let item = this.state.resData[section].items[row], { id } = item, value = 0;
+            let item = this.state.resData[section].items[row], { sparePartsId } = item, value = 0;
             let newselected = JSON.parse(JSON.stringify(this.state.selected));
             newselected.map((item) => {
-                if (item.sparePartsId == id) {
+                if (item.sparePartsId == sparePartsId) {
                     value = item.applyCount
                 }
             })
@@ -267,13 +253,13 @@ class SpareAskfor extends React.Component {
                 item={ item }
                 value={ value }
                 navigation={ this.props.navigation }
-                select={ selectarr.indexOf(item.id) !== -1 }
+                select={ selectarr.indexOf(sparePartsId) !== -1 }
                 onChangeText={ (val) => {
                     if (isNaN(val)) {
                         OneToast("您只能输入数字")
                     }
                     newselected = newselected.map((item) => {
-                        if (item.sparePartsId == id) {
+                        if (item.sparePartsId == sparePartsId) {
                             item.applyCount = val ? val.replace(/[^0-9]*/g, '') : 0
                         }
                         return item
@@ -284,14 +270,14 @@ class SpareAskfor extends React.Component {
                 } }
 
                 onPressfn={ () => {
-                    if (selectarr.indexOf(id) == -1) {
+                    if (selectarr.indexOf(sparePartsId) == -1) {
                         newselected.push({
                             ...item,
-                            sparePartsId: id,
+                            sparePartsId: sparePartsId,
                             applyCount: 0
                         })
                     } else {
-                        newselected = newselected.filter((item) => { return item.sparePartsId !== id })
+                        newselected = newselected.filter((item) => { return item.sparePartsId !== sparePartsId })
                     }
                     this.setState({
                         selected: newselected
@@ -302,7 +288,7 @@ class SpareAskfor extends React.Component {
         return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
             <Header
                 navigation={ navigation }
-                title="备件申请"
+                title="备件回冲"
                 rightwidth={ selected.length > 0 ? 114 : 60 }
                 headerRight={ () => <View row center>
                     <Card height={ "100%" } enableShadow={ false } row center onPress={ () => {
@@ -361,7 +347,7 @@ class SpareAskfor extends React.Component {
                         visible: false
                     })
                 } }
-                title={ "确认申请信息" }
+                title={ "确认回冲信息" }
             >
                 <View padding-12 flex>
                     <ScrollView showsVerticalScrollIndicator={ false }>
@@ -458,11 +444,11 @@ class SpareAskfor extends React.Component {
                                 }
                             })
                             if (ifs) {
-                                OneToast("请填写申请备件的数量...")
+                                OneToast("请填写回冲备件的数量...")
                                 return
                             }
                             let postData = {
-                                applyType: 0,
+                                applyType: 1,
                                 saprePartsApplyDetailList,
                                 remark: this.state.remark
                             }
@@ -473,14 +459,14 @@ class SpareAskfor extends React.Component {
                                 },()=>{
                                     navigation.navigate("Success", {
                                         btn: [{
-                                            name: "返回备件申请",
-                                            url: "SpareAskfor",
+                                            name: "返回备件回冲",
+                                            url: "SpareRevert",
                                         }, {
                                             name: "跳转到我的备件",
                                             url: "Mine",
                                             params: {}
                                         }],
-                                        description: `备件申请成功！`
+                                        description: `备件回冲成功！`
                                     })
                                 })
                             })
@@ -527,7 +513,7 @@ class SpareAskfor extends React.Component {
                     data={ this.state.resData }
                     renderIndexPath={ renderItem }//每行
                     heightForIndexPath={ () => 120 }
-                    allLoaded={ !this.props.index.infospare.hasNextPage }
+                    allLoaded={ !this.props.index.sparerevert.hasNextPage }
                     loadingFooter={ ChineseWithLastDateFooter }
                     onLoading={ this.pullUpLoading }
                 />
@@ -561,4 +547,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default SpareAskfor
+export default SpareRevert
