@@ -32,10 +32,7 @@ class SpareOwnerDetailItem extends Component {
       style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 110 } }
       paddingL-12 paddingR-12
       onPress={ () => {
-        navigation.navigate("SpareOwnerDetail", {
-          sparePartsId: item.id,
-          userId: item.userId
-        })
+
       } }
     >
       <View row spread paddingV-12 paddingB-16 style={ { alignItems: "center" } }>
@@ -49,18 +46,21 @@ class SpareOwnerDetailItem extends Component {
 
       <View row spread top paddingB-8 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>使用类型:{ item.consumeTypeName }</Text>
+          <Text subbody>设备:{ item.equipmentName }</Text>
+
         </View>
         <View flex-1 right>
-          <Text subbody>使用时间:{ item.consumeTime }个</Text>
+          <Text subbody>使用类型:{ item.consumeTypeName }</Text>
+
         </View>
       </View>
       <View row spread top paddingV-0 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>设备:{ item.equipmentName }</Text>
+          <Text subbody>编号:{ item.equipmentNo }</Text>
+
         </View>
         <View flex-1 right>
-          <Text subbody>编号:{ item.equipmentNo }</Text>
+          <Text subbody>{ item.consumeTime }</Text>
         </View>
       </View>
 
