@@ -4,8 +4,7 @@ import {
     infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
-    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis,
-    checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner,spareownerdetail
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail,sparereview
 
 
 
@@ -20,13 +19,17 @@ export default {
         userTime: 1,
         token: 1,
         infodevice: {},
+        sparechangemission: {},
+        sparechangehistory: {},
+        spareusage: {},
+        sparereview:{},
         infodevicecan: {},
         infodeviceche: {},
         infospare: {},
         sparerevert: {},
         sparelog: {},
         spareowner: {},
-        spareownerdetail:{},
+        spareownerdetail: {},
         infodevicedetail: {},
         checkhistorydetail: {},
         errortohis: {},
@@ -51,6 +54,9 @@ export default {
         checkhistory: {},
         checkerror: {},
         upkeephistorydetail: {},
+        sparechangemissiondetail: {},
+        sparechangehistorydetail: {},
+        spareusagedetail:{},
         checkdetail: {},
         sparelogdetail: {},
         queryAppByEqId: {},
@@ -106,6 +112,62 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { infodevice: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparechangemission({ payload }, { call, put }) {//data
+            console.log(payload);
+            const responese = yield call(sparechangemission, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { sparechangemission: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparechangehistory({ payload }, { call, put }) {//data
+            console.log(payload);
+            const responese = yield call(sparechangehistory, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { sparechangehistory: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareusage({ payload }, { call, put }) {//data
+            console.log(payload);
+            const responese = yield call(spareusage, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { spareusage: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparereview({ payload }, { call, put }) {//data
+            console.log(payload);
+            const responese = yield call(sparereview, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { sparereview: responese.data.page ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -477,6 +539,30 @@ export default {
             })
             return responese.code == "0000"
         },
+        *sparechangemissiondetail({ payload }, { call, put }) {//data
+            const responese = yield call(sparechangemissiondetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { sparechangemissiondetail: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparechangehistorydetail({ payload }, { call, put }) {//data
+            const responese = yield call(sparechangehistorydetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { sparechangehistorydetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareusagedetail({ payload }, { call, put }) {//data
+            const responese = yield call(spareusagedetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { spareusagedetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *checkdetail({ payload }, { call, put }) {//data
             const responese = yield call(checkdetail, payload);
             yield put({
@@ -537,8 +623,22 @@ export default {
             })
             return responese.code == "0000"
         },
-
-
+        *sparechangestart({ payload }, { call, put }) {//data
+            const responese = yield call(sparechangestart, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparechangefinish({ payload }, { call, put }) {//data
+            const responese = yield call(sparechangefinish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *startAppMaintain({ payload }, { call, put }) {//data
             const responese = yield call(startAppMaintain, payload);
             yield put({

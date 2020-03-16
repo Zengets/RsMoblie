@@ -5,7 +5,7 @@ import {
     update,
     uploadFile
 } from '../utils/index'
-let ipandport = 'http://29i2k99452.zicp.vip' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
+let ipandport = 'http://172.21.3.137:8607' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
 
 
 export async function test(params) {
@@ -205,9 +205,6 @@ export async function errortohis(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/queryAppExceptionToHis`, params);
 }
 
-export async function spareaskfor(params) {
-    return post(`${ipandport}/sparePartsApply/queryList`, params);
-}
 
 export async function spareasksave(params) {
     return post(`${ipandport}/sparePartsApply/save`, params);
@@ -233,20 +230,42 @@ export async function spareownerdetail(params) {
     return post(`${ipandport}/sparePartsConsume/queryPageByUserIdAndSpareId`, params);
 }
 
+export async function sparechangemission(params) {
+    return post(`${ipandport}/equipmentSparePartsReplace/queryList`, params);
+}
+
+export async function sparechangemissiondetail(params) {
+    return post(`${ipandport}/equipmentSparePartsReplace/queryById`, params);
+}
+
+export async function sparechangestart(params) {
+    return post(`${ipandport}/equipmentSparePartsReplace/startReplace`, params);
+}
+
+export async function sparechangefinish(params) {
+    return post(`${ipandport}/equipmentSparePartsReplace/finishReplace`, params);
+}
 
 
+export async function sparechangehistory(params) {
+    return post(`${ipandport}/equipmentSparePartsReplaceHis/queryList`, params);
+}
 
+export async function sparechangehistorydetail(params) {
+    return post(`${ipandport}/equipmentSparePartsReplaceHis/queryById`, params);
+}
 
+export async function spareusage(params) {
+    return post(`${ipandport}/sparePartsConsume/queryList`, params);
+}
 
+export async function spareusagedetail(params) {
+    return post(`${ipandport}/sparePartsConsume/queryById`, params);
+}
 
-
-
-
-
-
-
-
-
+export async function sparereview(params) {
+    return post(`${ipandport}/sparePartsApply/queryList`, params);
+}
 
 
 

@@ -4,8 +4,8 @@ import { Scan, Login,SearchForm,
     InfoSpareDetail,DepartMent,DepartMentDetail,UserMore,Success,
     
     
-    ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
-    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail
+    ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail
 
 
 
@@ -83,8 +83,15 @@ const AppNavigator = createStackNavigator(
         SpareLog:SpareLog,
         SpareLogDetail:SpareLogDetail,
         SpareOwner:SpareOwner,
-        SpareOwnerDetail:SpareOwnerDetail
-
+        SpareOwnerDetail:SpareOwnerDetail,
+        SpareChangeMisson:SpareChangeMisson,
+        SpareChangeMissonDetail:SpareChangeMissonDetail,
+        SpareChangeHistory:SpareChangeHistory,
+        SpareChangeHistoryDetail:SpareChangeHistoryDetail,
+        SpareUsage:SpareUsage,
+        SpareUsageDetail:SpareUsageDetail,
+        SpareReview:SpareReview,
+        SpareReviewDetail:SpareReviewDetail
         
     },
     {

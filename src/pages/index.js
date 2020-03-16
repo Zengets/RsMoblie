@@ -36,6 +36,14 @@ import SpareLog from './Usage/Spare/SpareLog'
 import SpareLogDetail from './Usage/Spare/SpareLogDetail'
 import SpareOwner from './Usage/Spare/SpareOwner'
 import SpareOwnerDetail from './Usage/Spare/SpareOwnerDetail'
+import SpareChangeMisson from './Usage/Spare/SpareChangeMisson'
+import SpareChangeMissonDetail from './Usage/Spare/SpareChangeMissonDetail'
+import SpareChangeHistory from './Usage/Spare/SpareChangeHistory'
+import SpareChangeHistoryDetail from './Usage/Spare/SpareChangeHistoryDetail'
+import SpareUsage from './Usage/Spare/SpareUsage'
+import SpareUsageDetail from './Usage/Spare/SpareUsageDetail'
+import SpareReview from './Usage/Spare/SpareReview'
+import SpareReviewDetail from './Usage/Spare/SpareReviewDetail'
 
 import Knowledge from './Knowledge'
 import Mine from './Mine'
@@ -58,8 +66,8 @@ export {
     
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
-    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,
-    
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
+    SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
     
     Knowledge,
     Mine,
