@@ -9,7 +9,8 @@ import {
 } from './request'
 import colors from './ThemeColor';
 import { ConvertPinyin } from './ConvertPinyin'
-
+import { downloadFile } from './Fs'
+ 
 let getItem = (mainname, name, data) => {
     let curitem = {}, thisitem = {};
     data.map((item, i) => {
@@ -54,6 +55,7 @@ export {
     uploadFile,
     ConvertPinyin,
     getItem,
-    getQueryString
+    getQueryString,
+    downloadFile
 }
 

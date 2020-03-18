@@ -11,8 +11,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const options = {
-    title: 'Select Avatar',
-    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    title: '请选择图片',
+    cancelButtonTitle:"取消",
+    takePhotoButtonTitle:"拍照",
+    chooseFromLibraryButtonTitle:"从相册选择",
     storageOptions: {
         skipBackup: true,
         path: 'images',

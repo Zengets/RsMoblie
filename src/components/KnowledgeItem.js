@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Avatar, View, Text, Card, AnimatedImage, ThemeManager, BorderRadiuses, Badge, Colors } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-import { ActivityIndicator, StyleSheet,Dimensions } from 'react-native';
-import { colors, ConvertPinyin } from '../utils';
+import { ActivityIndicator, StyleSheet,Dimensions, Alert } from 'react-native';
+import { colors, downloadFile } from '../utils';
 import Modal from './Modal';
 
 
@@ -59,6 +59,10 @@ class KnowledgeItem extends Component {
         } else {
           navigation.navigate("Knowledgedetail", item)
         }
+      }}
+      onLongPress={()=>{
+        downloadFile("https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888261511,2808819884&fm=26&gp=0.jpg")
+        
       }}
     >
      

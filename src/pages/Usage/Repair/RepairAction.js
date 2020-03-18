@@ -247,7 +247,7 @@ class RepairAction extends React.Component {
 
             <View row padding-12 paddingB-0 marginB-12>
                 <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                    navigation.navigate("InfoDeviceDetail", { id: res2.data.id })
+                    navigation.navigate("InfoDeviceDetail", { id: res2.data&&res2.data.id })
                 } }>
                     <Text>
                         设备{ repairstep.equipmentName }详情
@@ -255,16 +255,16 @@ class RepairAction extends React.Component {
                 </Card>
 
                 {
-                    res2.data.repairId && <View padding-6></View>
+                    res2.data&&res2.data.repairId ? <View padding-6></View>:null
                 }
                 {
-                    res2.data.repairId && <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
+                    res2.data&&res2.data.repairId ? <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
                         navigation.navigate("DevicerRepair")
                     } }>
                         <Text>
                             查看维修记录
                         </Text>
-                    </Card>
+                    </Card>:null
                 }
             </View>
             <SubmitForm></SubmitForm>

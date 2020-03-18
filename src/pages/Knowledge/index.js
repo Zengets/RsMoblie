@@ -238,7 +238,6 @@ class Knowledge extends React.Component {
 
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
-                navigation={navigation}
                 title="知识库"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
