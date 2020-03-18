@@ -45,7 +45,10 @@ import SpareUsageDetail from './Usage/Spare/SpareUsageDetail'
 import SpareReview from './Usage/Spare/SpareReview'
 import SpareReviewDetail from './Usage/Spare/SpareReviewDetail'
 
-import Knowledge from './Knowledge'
+import Knowledge from './Knowledge';
+import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
+import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
+
 import Mine from './Mine'
 import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
@@ -63,13 +66,12 @@ export {
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
     DepartMentDetail,SearchForm,UserMore,Success,
-    
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
-    
-    Knowledge,
+
+    Knowledge,Knowledgedetail,KnowledgeHistory,
     Mine,
     SettingMenu,
     PerCenter,

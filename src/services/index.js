@@ -267,16 +267,29 @@ export async function sparereview(params) {
     return post(`${ipandport}/sparePartsApply/queryList`, params);
 }
 
+export async function sparereviewdetail(params) {
+    return post(`${ipandport}/sparePartsApply/queryById`, params);
+}
 
+export async function spareaudit(params) {
+    return post(`${ipandport}/sparePartsApply/audit`, params);
+}
 
+export async function knowledgelist(params) { 
+    return post(`${ipandport}/equipmentKnowledgeBase/queryList`, params);
+}
 
+export async function knowledgedetail(params) {
+    return post(`${ipandport}/equipmentKnowledgeBase/queryById`, params);
+}
 
+export async function knowledgehistory(params) { 
+    return post(`${ipandport}/equipmentKnowledgeBaseVersion/queryList`, params);
+}
 
-
-
-
-
-
+export async function knowledgehisdetail(params) {
+    return post(`${ipandport}/equipmentKnowledgeBaseVersion/queryById`, params);
+}
 
 
 

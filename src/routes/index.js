@@ -5,7 +5,7 @@ import { Scan, Login,SearchForm,
     
     
     ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,
-    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail,Knowledgedetail,KnowledgeHistory
 
 
 
@@ -91,8 +91,9 @@ const AppNavigator = createStackNavigator(
         SpareUsage:SpareUsage,
         SpareUsageDetail:SpareUsageDetail,
         SpareReview:SpareReview,
-        SpareReviewDetail:SpareReviewDetail
-        
+        SpareReviewDetail:SpareReviewDetail,
+        Knowledgedetail:Knowledgedetail,
+        KnowledgeHistory:KnowledgeHistory
     },
     {
         initialRouteName: 'Home',

@@ -23,8 +23,10 @@ import SpareOwnerDetailItem from './SpareOwnerDetailItem';
 import SpareChangeMissionItem from './SpareChangeMissionItem';
 import SpareUsageItem from './SpareUsageItem';
 import SpareReviewItem from './SpareReviewItem';
+import SpareReviewUserItem from './SpareReviewUserItem';
+import KnowledgeItem from './KnowledgeItem';
 export {
     OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,SpareLogItem,SpareOwnerItem,SpareOwnerDetailItem,SpareChangeMissionItem,
-    SpareUsageItem,SpareReviewItem,
+    SpareUsageItem,SpareReviewItem,SpareReviewUserItem,KnowledgeItem,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,UpkeepItem,Empty,SpareItem,TreeShown,AuthBase
 }

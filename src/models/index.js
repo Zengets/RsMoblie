@@ -2,9 +2,10 @@ import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
-    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,
+    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail,spareaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
-    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail,sparereview
+    startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
+    knowledgelist,knowledgedetail,knowledgehistory,knowledgehisdetail
 
 
 
@@ -22,7 +23,11 @@ export default {
         sparechangemission: {},
         sparechangehistory: {},
         spareusage: {},
-        sparereview:{},
+        sparereview: {},
+        knowledgelist:{},
+        knowledgehistory:{},
+        knowledgedetail:{},
+        knowledgehisdetail:{},
         infodevicecan: {},
         infodeviceche: {},
         infospare: {},
@@ -30,6 +35,7 @@ export default {
         sparelog: {},
         spareowner: {},
         spareownerdetail: {},
+        sparereviewdetail: {},
         infodevicedetail: {},
         checkhistorydetail: {},
         errortohis: {},
@@ -56,7 +62,7 @@ export default {
         upkeephistorydetail: {},
         sparechangemissiondetail: {},
         sparechangehistorydetail: {},
-        spareusagedetail:{},
+        spareusagedetail: {},
         checkdetail: {},
         sparelogdetail: {},
         queryAppByEqId: {},
@@ -175,6 +181,32 @@ export default {
             })
             return responese.code == "0000"
         },
+        *knowledgelist({ payload }, { call, put }) {//data
+            console.log(payload);
+            const responese = yield call(knowledgelist, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { knowledgelist: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *knowledgehistory({ payload }, { call, put }) {//data
+            const responese = yield call(knowledgehistory, payload);
+            yield put({
+                type: 'updateState',
+                payload: { knowledgehistory: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *infodevicecan({ payload }, { call, put }) {//data
             const responese = yield call(infodevicecan, payload);
             yield put({
@@ -261,6 +293,21 @@ export default {
             })
             return responese.code == "0000"
         },
+        *sparereviewdetail({ payload }, { call, put }) {//data
+            console.log(payload)
+            const responese = yield call(sparereviewdetail, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { sparereviewdetail: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *deviceuser({ payload }, { call, put }) {//data
             const responese = yield call(deviceuser, payload);
             yield put({
@@ -393,6 +440,7 @@ export default {
         },
         *repairstep({ payload }, { call, put }) {//data
             const responese = yield call(repairstep, payload);
+            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res2: responese.data ? responese.data : {} }
@@ -563,6 +611,22 @@ export default {
             })
             return responese.code == "0000"
         },
+        *knowledgedetail({ payload }, { call, put }) {//data
+            const responese = yield call(knowledgedetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { knowledgedetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *knowledgehisdetail({ payload }, { call, put }) {//data
+            const responese = yield call(knowledgehisdetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { knowledgehisdetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *checkdetail({ payload }, { call, put }) {//data
             const responese = yield call(checkdetail, payload);
             yield put({
@@ -689,6 +753,14 @@ export default {
         },
         *checkRepairAfter({ payload }, { call, put }) {//data
             const responese = yield call(checkRepairAfter, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *spareaudit({ payload }, { call, put }) {//data
+            const responese = yield call(spareaudit, payload);
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }
