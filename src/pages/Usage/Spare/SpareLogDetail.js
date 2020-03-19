@@ -59,7 +59,7 @@ class SpareLogDetail extends React.Component {
         return <SafeAreaViewPlus loading={ submitting }>
             <Header title={ `出入库详情` } navigation={ navigation }>
             </Header>
-            <ScrollView
+            <ScrollView  keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={ false }
                 ref={ (scrollview) => this.scrollview = scrollview }
             >

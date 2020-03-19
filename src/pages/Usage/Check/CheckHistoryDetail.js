@@ -104,7 +104,7 @@ class CheckHistoryDetail extends Component {
         return <SafeAreaViewPlus loading={ loading.effects['index/' + posturl] }>
             <Header title={ `点检历史详情` } navigation={ navigation }>
             </Header>
-            <ScrollView style={ { padding: 12 } }>
+            <ScrollView  keyboardShouldPersistTaps="handled" style={ { padding: 12 } }>
                 <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                     <Rows name="工单号" values={ taskNo } />
                     <Rows name="设备名称" values={ equipmentName } />

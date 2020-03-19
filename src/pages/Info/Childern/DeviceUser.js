@@ -105,7 +105,7 @@ class DeviceUser extends React.Component {
                     }}
                 />
             </TabBar>
-            <ScrollView
+            <ScrollView  keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
                 ref={(scrollview) => this.scrollview = scrollview}
             >

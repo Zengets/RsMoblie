@@ -123,7 +123,7 @@ class UpkeepDetail extends Component {
         return <SafeAreaViewPlus loading={ loading.effects['index/' + posturl] }>
             <Header title={ `维保详情` } navigation={ navigation }>
             </Header>
-            <ScrollView style={ { padding: 12 } }>
+            <ScrollView  keyboardShouldPersistTaps="handled" style={ { padding: 12 } }>
                 <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                     <Rows name="工单号" values={ taskNo } />
                     <Rows name="设备名称" values={ equipmentName } />

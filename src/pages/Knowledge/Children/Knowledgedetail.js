@@ -49,7 +49,7 @@ class Knowledgedetail extends React.Component {
         return <SafeAreaViewPlus loading={submitting}>
             <Header title={`知识库详情`} navigation={navigation}>
             </Header>
-            <ScrollView
+            <ScrollView  keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
                 ref={(scrollview) => this.scrollview = scrollview}
             >

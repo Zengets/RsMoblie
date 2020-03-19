@@ -291,10 +291,17 @@ export async function knowledgehisdetail(params) {
     return post(`${ipandport}/equipmentKnowledgeBaseVersion/queryById`, params);
 }
 
+export async function noticetodo(params) {
+    return post(`${ipandport}/assignmentUserExecute/queryMyTaskToDoList`, params);
+}
 
+export async function noticetododetail(params) {
+    return post(`${ipandport}/assignmentUserExecute/queryDetail`, params);
+}
 
-
-
+export async function noticetodostart(params) {
+    return post(`${ipandport}/assignmentUserExecute/start`, params);
+}
 
 
 

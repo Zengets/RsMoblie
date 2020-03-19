@@ -77,7 +77,7 @@ class SpareChangeHistoryDetail extends React.Component {
         return <SafeAreaViewPlus loading={loading.effects['index/sparechangehistorydetail']}>
             <Header title={`备件更换历史详情`} navigation={navigation}>
             </Header>
-            <ScrollView
+            <ScrollView  keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
                 ref={(scrollview) => this.scrollview = scrollview}
             >

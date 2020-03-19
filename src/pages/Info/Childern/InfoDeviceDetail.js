@@ -175,7 +175,7 @@ class InfoDeviceDetail extends React.Component {
                     ) }
                 >
                 </Header>
-                <ScrollView showsVerticalScrollIndicator={ false }>
+                <ScrollView  keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={ false }>
                     <ImageBackground
                         style={ { width: width, height: width } }
                         source={ require("../../../assets/404.png") }>

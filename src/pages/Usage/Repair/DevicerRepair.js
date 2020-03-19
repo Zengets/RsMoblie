@@ -143,7 +143,7 @@ class DevicerRepair extends Component {
         return <SafeAreaViewPlus loading={ submitting }>
             <Header title={ "维修记录" } navigation={ navigation }>
             </Header>
-            <ScrollView ref={ (scrollview) => this.scrollview = scrollview }>
+            <ScrollView  keyboardShouldPersistTaps="handled" ref={ (scrollview) => this.scrollview = scrollview }>
                 <TabBar
                     selectedIndex={ this.state.selectedIndex }
                     onChangeIndex={ index => {

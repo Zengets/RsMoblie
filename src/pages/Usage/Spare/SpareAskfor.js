@@ -364,7 +364,7 @@ class SpareAskfor extends React.Component {
                 title={ "确认申请信息" }
             >
                 <View padding-12 flex>
-                    <ScrollView showsVerticalScrollIndicator={ false }>
+                    <ScrollView  keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={ false }>
                         {
                             selected && selected.length > 0 ?
                                 selected.map((item, i) => {

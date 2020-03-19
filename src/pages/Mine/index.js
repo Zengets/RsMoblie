@@ -1,9 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Card, Button } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header } from '../../components';
+import { View, Text, Card, Button, Colors } from 'react-native-ui-lib';
+import { SafeAreaViewPlus, OneToast, Header, AuthBase } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import EntypoIcons from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Dimensions, ScrollView } from 'react-native';
+import { colors, getItem } from '../../utils';
+
+let { height, width } = Dimensions.get('window');
 
 @connect(({ index }) => ({ index }))
 class Mine extends React.Component {
@@ -24,36 +33,85 @@ class Mine extends React.Component {
   }
 
   componentDidMount() {
-    this.setNewState("test", null)
+    //this.setNewState("test", null)
   }
 
-
+  jumpToUrl(url, data) {
+    this.setNewState("formdata", [], () => {
+      this.props.navigation.navigate(url, data);
+    })
+  }
   render() {
-    const { index } = this.props
+    const { index, navigation } = this.props, cardwidth = (width - 48) / 3, roundwidth = (width - 125) / 4;
 
     return <SafeAreaViewPlus>
       <Header
         title="我的"
-        headerLeft={ () => {
-          return <AntIcons name={ 'menuunfold' } size={ 20 } style={ { color: "#666" } } onPress={ () => {
+        headerLeft={() => {
+          return <AntIcons name={'menuunfold'} size={20} style={{ color: "#666" }} onPress={() => {
             navigation.openDrawer()
-          } }></AntIcons>
-        } }
-        headerRight={ () => {
-          return <Ionicons name={ 'ios-qr-scanner' } size={ 22 } onPress={ () => {
-            navigation.navigate("Scan")
-          } }></Ionicons>
-        } }
+          }}></AntIcons>
+        }}
+        headerRight={() => {
+          return <Ionicons name={'ios-qr-scanner'} size={22} onPress={() => {
+            this.jumpToUrl("Scan")
+          }}></Ionicons>
+        }}
       />
-      <View flex padding-page>
-        <Text heading marginB-s4>Mine</Text>
-        <Card height={ 100 } center padding-card marginB-s4>
-          <Text body>This is an Mine card { index.count }</Text>
+      <ScrollView  keyboardShouldPersistTaps="handled" style={{ padding: 12 }}>
+        <Card row padding-12 marginB-12 center enableShadow={false}>
+          <Text subheading style={{ color: Colors.dark20 }}>我的全部待办:</Text>
+          <Text subheading style={{ color: colors.warnColor }}>10个  </Text>
+          <AntIcons name="right" style={{ color:  Colors.dark20 }}></AntIcons>
         </Card>
-        <Button label="Button" body bg-primaryColor square onPress={ () => {
-          this.login()
-        } }></Button>
-      </View>
+
+
+        <View>
+          <View marginB-12 marginT-6 row style={{ alignItems: "center" }}>
+            <Text subheading style={{ color: Colors.dark20 }}>任务通知 </Text>
+            <EntypoIcons name='bell' size={16} style={{ color: Colors.dark20 }}></EntypoIcons>
+          </View>
+
+          <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
+            {/* <AuthBase>
+            
+          </AuthBase> */}
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("NoticeTodo")
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>
+              </View>
+              <Text subbody>未完成任务</Text>
+            </Card>
+
+
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("ToRepair")
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <FontAwesome5 name='pen' size={24} style={{ color: colors.warnColor }}></FontAwesome5>
+              </View>
+              <Text subbody>未审核</Text>
+            </Card>
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("Repaired")
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <AntIcons name='checkcircle' size={27} style={{ color: colors.warnColor }}></AntIcons>
+              </View>
+              <Text subbody>已完成</Text>
+            </Card>
+          </View>
+        </View>
+        <View height={1} marginV-12 style={{ backgroundColor: Colors.black, opacity: 0.2 }}></View>
+
+      </ScrollView>
+
+
+
+
+
     </SafeAreaViewPlus>
 
   }

@@ -120,7 +120,7 @@ class TreeShown extends Component {
 
         }
 
-        return <ScrollView style={[style, { padding: 12 }]} onScroll={(event) => {
+        return <ScrollView  keyboardShouldPersistTaps="handled" style={[style, { padding: 12 }]} onScroll={(event) => {
             this.setState({
                 roller: event.nativeEvent.contentOffset.y
             })

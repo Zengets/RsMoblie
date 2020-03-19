@@ -58,7 +58,7 @@ class Usage extends React.Component {
           }}></Ionicons>
         }}
       />
-      <ScrollView style={{ padding: 12 }}>
+      <ScrollView  keyboardShouldPersistTaps="handled" style={{ padding: 12 }}>
         <View>
           <View paddingL-8 marginB-s4 marginT-6 style={{ borderLeftWidth: 1, borderColor: colors.primaryColor, width: 48 }} height={12} center>
             <Text subheading style={{ color: colors.primaryColor }}>维修</Text>

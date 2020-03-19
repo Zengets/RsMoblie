@@ -13,7 +13,7 @@ let downloadFile = (formUrl,fn) => {
     })
     .then((res) => {
       // the temp file path
-      console.log('The file saved to ', res.path())
+      alert(res.path())
     })
 
 }

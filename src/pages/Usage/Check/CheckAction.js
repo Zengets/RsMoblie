@@ -93,7 +93,7 @@ class CheckAction extends React.Component {
                 </Card>) }
             >
             </Header>
-            <ScrollView style={ { padding: 12 } }>
+            <ScrollView  keyboardShouldPersistTaps="handled" style={ { padding: 12 } }>
                 <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
                     <Rows name="工单号" values={ serialNo } />
                     <Rows name="设备名称" values={ equipmentName } />

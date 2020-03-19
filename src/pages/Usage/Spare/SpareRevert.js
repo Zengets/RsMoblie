@@ -350,7 +350,7 @@ class SpareRevert extends React.Component {
                 title={ "确认回冲信息" }
             >
                 <View padding-12 flex>
-                    <ScrollView showsVerticalScrollIndicator={ false }>
+                    <ScrollView  keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={ false }>
                         {
                             selected && selected.length > 0 ?
                                 selected.map((item, i) => {

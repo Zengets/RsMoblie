@@ -104,7 +104,7 @@ class UserListDetail extends React.Component {
         visible={showHint}
         onDismiss={() => this.setState({ showHint: false })}
       />
-      <ScrollView
+      <ScrollView  keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         ref={(scrollview) => this.scrollview = scrollview}
       >

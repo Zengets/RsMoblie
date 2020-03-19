@@ -50,7 +50,7 @@ class InfoSpareDetail extends React.Component {
     return <SafeAreaViewPlus loading={ submitting }>
       <Header title={ `备件详情` } navigation={ navigation }>
       </Header>
-      <ScrollView
+      <ScrollView  keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={ false }
         ref={ (scrollview) => this.scrollview = scrollview }
       >

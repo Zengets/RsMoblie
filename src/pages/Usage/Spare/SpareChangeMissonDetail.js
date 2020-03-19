@@ -97,11 +97,10 @@ class SpareChangeMissonDetail extends React.Component {
         }
 
 
-
         return <SafeAreaViewPlus loading={loading.effects['index/sparechangemissiondetail']}>
             <Header title={`备件更换任务详情`} navigation={navigation}>
             </Header>
-            <ScrollView
+            <ScrollView  keyboardShouldPersistTaps="handled" 
                 showsVerticalScrollIndicator={false}
                 ref={(scrollview) => this.scrollview = scrollview}
             >
@@ -152,14 +151,23 @@ class SpareChangeMissonDetail extends React.Component {
                                                style={{width:"100%"}}
                                             ></TextField>
                                             <Button marginT-12 label="完成更换任务" flex-1 backgroundColor={colors.primaryColor}
-                                                disabled={loading.effects['index/sparechangefinish']}
+                                                disabled={loading.effects['index/sparechangefinish']|| getdisabled}
                                                 onPress={() => {
                                                     this.setNewState("sparechangefinish", { 
                                                         "sparePartsNum":sparePartsNum,//备件数量，必填
                                                         "equipmentSparePartsReplaceId":id
                                                      }, () => {
-                                                        OneToast("该任务已完成");
-                                                        this.resetdata()
+                                                        navigation.navigate("Success", {
+                                                            btn: [{
+                                                                name: "返回备件更换",
+                                                                url: "SpareChangeMisson",
+                                                            }, {
+                                                                name: "跳转到我的备件更换记录",
+                                                                url: "Mine",
+                                                                params: {}
+                                                            }],
+                                                            description: `${sparePartsName}已完成备件更换！`
+                                                        })
                                                     })
                                                 }}>
                                                 {

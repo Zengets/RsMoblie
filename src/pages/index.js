@@ -49,14 +49,18 @@ import Knowledge from './Knowledge';
 import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
 import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
 
-import Mine from './Mine'
+import Mine from './Mine';
+import NoticeTodo from './Mine/Notice/NoticeTodo';
+import NoticeTodoDetail from './Mine/Notice/NoticeTodoDetail';
+
+
 import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
 import Scan from './Scan'
 import SearchForm from './SearchForm'
 
 import Success from './Public/Success'
-
+import PreView from './Public/PreView'
 
 
 export {
@@ -65,13 +69,13 @@ export {
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
-    DepartMentDetail,SearchForm,UserMore,Success,
+    DepartMentDetail,SearchForm,UserMore,Success,PreView,
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
 
-    Knowledge,Knowledgedetail,KnowledgeHistory,
+    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,
     Mine,
     SettingMenu,
     PerCenter,
