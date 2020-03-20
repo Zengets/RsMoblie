@@ -26,8 +26,11 @@ import SpareReviewItem from './SpareReviewItem';
 import SpareReviewUserItem from './SpareReviewUserItem';
 import KnowledgeItem from './KnowledgeItem';
 import NoticeTodoItem from './NoticeTodoItem';
+import SelectFiles from './SelectFiles';
+import Confirm from './Confirm';
+
 export {
-    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,SpareLogItem,SpareOwnerItem,SpareOwnerDetailItem,SpareChangeMissionItem,
+    OpenToast,HideToast,OneToast,SubmitForm,Rows,CheckItem,SpareTakeItem,SpareLogItem,SpareOwnerItem,SpareOwnerDetailItem,SpareChangeMissionItem,SelectFiles,Confirm,
     SpareUsageItem,SpareReviewItem,SpareReviewUserItem,KnowledgeItem,NoticeTodoItem,
     SafeAreaViewPlus,Header,Modal,Atoz,TitleSearch,DeviceItem,RepairItem,DeviceItemSwipe,UserItem,UpkeepItem,Empty,SpareItem,TreeShown,AuthBase
 }

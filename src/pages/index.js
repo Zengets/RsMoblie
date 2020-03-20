@@ -52,6 +52,9 @@ import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
 import Mine from './Mine';
 import NoticeTodo from './Mine/Notice/NoticeTodo';
 import NoticeTodoDetail from './Mine/Notice/NoticeTodoDetail';
+import NoticeToConfirm from './Mine/Notice/NoticeToConfirm';
+import NoticeFinished from './Mine/Notice/NoticeFinished';
+import Publish from './Mine/Publish/Publish';
 
 
 import SettingMenu from './SettingMenu'
@@ -75,7 +78,7 @@ export {
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
 
-    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,
+    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,
     Mine,
     SettingMenu,
     PerCenter,

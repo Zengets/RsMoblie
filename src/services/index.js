@@ -3,9 +3,9 @@ import {
     post,
     del,
     update,
-    uploadFile
+    uploadFile,
+    ipandport
 } from '../utils/index'
-let ipandport = 'http://172.21.3.137:8607' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
 
 
 export async function test(params) {
@@ -93,6 +93,9 @@ export async function uploadImg(params) {
     return uploadFile(`${ipandport}/common/uploadImg`, params);
 }
 
+export async function uploadFiles(params) {
+    return uploadFile(`${ipandport}/common/uploadFile`, params);
+}
 export async function repairApply(params) {
     return post(`${ipandport}/equipmentRepair/repairApply`, params);
 }
@@ -303,8 +306,15 @@ export async function noticetodostart(params) {
     return post(`${ipandport}/assignmentUserExecute/start`, params);
 }
 
+export async function noticetodosubmit(params) {
+    return post(`${ipandport}/assignmentUserExecute/submit`, params);
+}
 
+export async function noticetoconfirm(params) {
+    return post(`${ipandport}/assignmentUserExecute/queryMyAuditTaskList`, params);
+}
 
-
-
+export async function noticefinish(params) {
+    return post(`${ipandport}/assignmentUserExecute/queryMyFinishList`, params);
+}
 

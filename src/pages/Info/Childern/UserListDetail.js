@@ -81,7 +81,6 @@ class UserListDetail extends React.Component {
       </Header>
       <ActionSheet
         useSafeArea={true}
-        message='更多内容'
         useNativeIOS={true}
         containerStyle={{ borderRadius: 8, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, }}
         options={[

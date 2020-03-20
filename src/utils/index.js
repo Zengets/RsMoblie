@@ -28,6 +28,7 @@ let getItem = (mainname, name, data) => {
 
     return thisitem
 }
+let ipandport = 'http://172.21.3.137:8607' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
 
 let getQueryString = (name,location) => {
     let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -53,6 +54,7 @@ export {
     del,
     update,
     uploadFile,
+    ipandport,
     ConvertPinyin,
     getItem,
     getQueryString,

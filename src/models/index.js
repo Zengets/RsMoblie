@@ -5,7 +5,8 @@ import {
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
-    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo,noticetododetail,noticetodostart
+    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit,
+    noticetoconfirm, noticefinish
 
 
 
@@ -23,6 +24,8 @@ export default {
         sparechangemission: {},
         sparechangehistory: {},
         noticetodo: {},
+        noticetoconfirm: {},
+        noticefinish: {},
         spareusage: {},
         sparereview: {},
         knowledgelist: {},
@@ -37,7 +40,7 @@ export default {
         spareowner: {},
         spareownerdetail: {},
         sparereviewdetail: {},
-        noticetododetail:{},
+        noticetododetail: {},
         infodevicedetail: {},
         checkhistorydetail: {},
         errortohis: {},
@@ -158,6 +161,30 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { noticetodo: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *noticetoconfirm({ payload }, { call, put }) {//data
+            const responese = yield call(noticetoconfirm, payload);
+            yield put({
+                type: 'updateState',
+                payload: { noticetoconfirm: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *noticefinish({ payload }, { call, put }) {//data
+            const responese = yield call(noticefinish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { noticefinish: responese.data.page ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -741,6 +768,14 @@ export default {
         },
         *noticetodostart({ payload }, { call, put }) {//data
             const responese = yield call(noticetodostart, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *noticetodosubmit({ payload }, { call, put }) {//data
+            const responese = yield call(noticetodosubmit, payload);
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }
