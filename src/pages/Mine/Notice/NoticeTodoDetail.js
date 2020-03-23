@@ -17,7 +17,8 @@ class NoticeTodoDetail extends React.Component {
     state = {
         url: "",
         content: "",
-        files:[]
+        files: [],
+        auditStatus: ""
     }
 
     setNewState(type, values, fn) {
@@ -43,20 +44,20 @@ class NoticeTodoDetail extends React.Component {
         this.resetdata()
     }
 
-    getfiles=(val)=>{
+    getfiles = (val) => {
         this.setState({
-            files:val
+            files: val
         })
     }
 
     render() {
-        let { index: { noticetododetail }, navigation, loading } = this.props, { content,files } = this.state,
+        let { index: { noticetododetail , userInfo }, navigation, loading } = this.props, { content, files, auditStatus } = this.state,
             {
                 assignmentTitle, assignmentContent, closeDate, assignmentTypeName, statusName, publishUserName, publishTime,
                 attachmentUrlList, remark, status
             } = noticetododetail.publish ? noticetododetail.publish : {},
             {
-                executeUserName, executeContent, executeUrlList, assignmentUserType, auditUserName, id
+                executeUserName,executeUserId, executeContent, executeUrlList, assignmentUserType, auditUserName, id
             } = noticetododetail.myWork ? noticetododetail.myWork : {},
             textareaprops = {
                 title: "执行内容",
@@ -94,7 +95,8 @@ class NoticeTodoDetail extends React.Component {
                     break;
             }
             return color
-        }, statustypeName = { 1: "执行人", 2: "抄送人" }, ustatus = noticetododetail.myWork ? noticetododetail.myWork.status : ""
+        }, statustypeName = { 1: "执行人", 2: "抄送人" }, ustatus = noticetododetail.myWork ? noticetododetail.myWork.status : "",
+        disabled = userInfo.id !== executeUserId;
 
         return <SafeAreaViewPlus loading={loading.effects['index/noticetododetail']}>
             <Header title={`任务详情`} navigation={navigation}>
@@ -138,7 +140,7 @@ class NoticeTodoDetail extends React.Component {
                         </Card>
 
                         <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
-                            <Rows color={assignmentUserType==1?colors.primaryColor:colors.warnColor} name={statustypeName[assignmentUserType]} values={executeUserName} />
+                            <Rows color={assignmentUserType == 1 ? colors.primaryColor : colors.warnColor} name={statustypeName[assignmentUserType]} values={executeUserName} />
                             <Rows name="状态" rightRender={<View row center>
                                 <Text subbody dark100 marginR-3 style={{ color: getColor(ustatus) }}>{noticetododetail.myWork && noticetododetail.myWork.statusName}</Text>
                                 <Badge size='small' backgroundColor={getColor(ustatus)}></Badge>
@@ -169,8 +171,8 @@ class NoticeTodoDetail extends React.Component {
                             <View padding-12>
                                 {
                                     ustatus == 0 && assignmentUserType == 1 ?
-                                        <Button label="开始任务"
-                                            disabled={loading.effects[`index/noticetodostart`]}
+                                        <Button label={disabled?"您没有权限操作":"开始任务"}
+                                            disabled={loading.effects[`index/noticetodostart`]||disabled }
                                             onPress={() => {
                                                 this.setNewState("noticetodostart", { id: id }, () => {
                                                     this.resetdata();
@@ -187,27 +189,27 @@ class NoticeTodoDetail extends React.Component {
                                             <View>
                                                 <Text marginB-12 subheading style={{ color: colors.warnColor }}>填写完成任务信息</Text>
                                                 <Text dark10>执行内容</Text>
-                                                <View marginT-6 marginB-12 style={{ backgroundColor: "#f0f0f0",overflow:"hidden",borderRadius:8 }} padding-8 paddingV-4>
+                                                <View marginT-6 marginB-12 style={{ backgroundColor: "#f0f0f0", overflow: "hidden", borderRadius: 8 }} padding-8 paddingV-4>
                                                     <TextArea {...textareaprops}></TextArea>
                                                 </View>
                                                 <SelectFiles navigation={navigation} getfiles={this.getfiles}></SelectFiles>
-                                                <Button marginT-8 label="完成任务" 
-                                                disabled={loading.effects[`index/noticetodosubmit`]}
-                                                onPress={() => {
-                                                    this.setNewState("noticetodosubmit", { 
-                                                        id: id,
-                                                        executeUrlList:files,
-                                                        executeContent:content
-                                                    }, () => {
-                                                        navigation.navigate("Success", {
-                                                            btn: [{
-                                                                name: "返回未完成任务列表",
-                                                                url: "NoticeTodo",
-                                                            }],
-                                                            description: `任务：${assignmentTitle}已完成请等待审核！`
+                                                <Button marginT-8 label={disabled?"您没有权限操作":"完成任务"}
+                                                    disabled={loading.effects[`index/noticetodosubmit`]||disabled}
+                                                    onPress={() => {
+                                                        this.setNewState("noticetodosubmit", {
+                                                            id: id,
+                                                            executeUrlList: files,
+                                                            executeContent: content
+                                                        }, () => {
+                                                            navigation.navigate("Success", {
+                                                                btn: [{
+                                                                    name: "返回未完成任务列表",
+                                                                    url: "NoticeTodo",
+                                                                }],
+                                                                description: `任务：${assignmentTitle}已完成请等待审核！`
+                                                            })
                                                         })
-                                                    })
-                                                }}>
+                                                    }}>
                                                     {
                                                         loading.effects[`index/noticetodosubmit`] ?
                                                             <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
@@ -215,7 +217,55 @@ class NoticeTodoDetail extends React.Component {
                                                     }
                                                 </Button>
                                             </View>
-                                            : null
+                                            :
+                                            ustatus == 2?
+                                            <View>
+                                                <Text marginB-12 subheading style={{ color: colors.warnColor }}>验证该任务</Text>
+                                                <View row marginB-12>
+                                                    <Card enableShadow={false} padding-page style={{ backgroundColor: auditStatus == 1 ? colors.primaryColor : "#999" }} onPress={() => {
+                                                        this.setState({
+                                                            auditStatus: 1
+                                                        })
+                                                    }}>
+                                                        <Text white>通过</Text>
+                                                    </Card>
+                                                    <Card marginL-12 enableShadow={false} padding-page style={{ backgroundColor: auditStatus == 2 ? colors.primaryColor : "#999" }} onPress={() => {
+                                                        this.setState({
+                                                            auditStatus: 2
+                                                        })
+                                                    }}>
+                                                        <Text white>不通过</Text>
+                                                    </Card>
+                                                </View>
+                                                <Button label="提交" 
+                                                disabled={loading.effects[`index/publishaudit`]}
+                                                    onPress={() => {
+                                                        if(!auditStatus){
+                                                            OneToast("请选择验证结果")
+                                                            return
+                                                        }
+                                                        this.setNewState("publishaudit", {
+                                                            id: id,
+                                                            auditStatus:auditStatus
+                                                        }, () => {
+                                                            navigation.navigate("Success", {
+                                                                btn: [{
+                                                                    name: "返回个人中心",
+                                                                    url: "Mine",
+                                                                }],
+                                                                description: `任务：${assignmentTitle}已完成审核！`
+                                                            })
+                                                        })
+                                                    }}>
+                                                    {
+                                                        loading.effects[`index/noticetodosubmit`] ?
+                                                            <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
+                                                            : null
+                                                    }
+                                                </Button>
+                                            </View>
+                                            :null    
+
                                 }
 
 

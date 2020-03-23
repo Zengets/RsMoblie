@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 0,
         zIndex: 99999,
+        top:60
     },
     oit: {
         width: 24,

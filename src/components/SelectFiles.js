@@ -65,10 +65,10 @@ class SelectFiles extends Component {
 
 
     render() {
-        let { style, navigation, title } = this.props, cardwidth = (width - 96) / 5, { files, visible, curitem, index } = this.state;
+        let { style, navigation, title,color } = this.props, cardwidth = (width - 96) / 5, { files, visible, curitem, index } = this.state;
 
         return <View>
-            <Text subbody dark10>{title ? title : "上传附件"}
+            <Text subbody dark10 style={{color:color?color:"#333"}}>{title ? title : "上传附件"}
                 <Text dark40>(长按附件删除)</Text></Text>
             <View marginT-12 row style={[style, { width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }]}>
                 {

@@ -318,3 +318,44 @@ export async function noticefinish(params) {
     return post(`${ipandport}/assignmentUserExecute/queryMyFinishList`, params);
 }
 
+export async function publish(params) {
+    return post(`${ipandport}/sysAssignment/save`, params);
+}
+
+export async function publishtodo(params) {
+    return post(`${ipandport}/sysAssignment/queryNotFinishList`, params);
+}
+
+export async function publishtododetail(params) {
+    return post(`${ipandport}/sysAssignment/queryDetail`, params);
+}
+
+export async function publishaudit(params) {
+    return post(`${ipandport}/assignmentUserExecute/audit`, params);
+}
+
+export async function publishtoconfirm(params) {
+    return post(`${ipandport}/assignmentUserExecute/queryMyAuditList`, params);
+}
+
+export async function publishfinish(params) {
+    return post(`${ipandport}/sysAssignment/queryFinishList`, params);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

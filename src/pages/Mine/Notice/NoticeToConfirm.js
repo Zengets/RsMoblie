@@ -221,7 +221,7 @@ class NoticeToConfirm extends React.Component {
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="我的未审核任务"
+                title="任务通知(未审核)"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));

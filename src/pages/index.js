@@ -55,7 +55,11 @@ import NoticeTodoDetail from './Mine/Notice/NoticeTodoDetail';
 import NoticeToConfirm from './Mine/Notice/NoticeToConfirm';
 import NoticeFinished from './Mine/Notice/NoticeFinished';
 import Publish from './Mine/Publish/Publish';
-
+import PublishTodo from './Mine/Publish/PublishTodo';
+import PublishTodoDetail from './Mine/Publish/PublishTodoDetail';
+import PublishToConfirm from './Mine/Publish/PublishToConfirm';
+import PublishFinished from './Mine/Publish/PublishFinished';
+import UserSelect from './Public/UserSelect';
 
 import SettingMenu from './SettingMenu'
 import PerCenter from './PerCenter'
@@ -71,14 +75,15 @@ export {
     Login,
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
-    UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
+    UserList,UserSelect,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
     DepartMentDetail,SearchForm,UserMore,Success,PreView,
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
 
-    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,
+    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,
+    
     Mine,
     SettingMenu,
     PerCenter,

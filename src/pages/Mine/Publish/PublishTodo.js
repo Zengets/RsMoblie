@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, NoticeTodoItem } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, PublishTodoItem } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
@@ -12,16 +12,16 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/noticetodo'],
+    submitting: loading.effects['index/publishtodo'],
 }))
-class NoticeTodo extends React.Component {
+class PublishTodo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
-            postUrl: "noticetodo",
+            postUrl: "publishtodo",
             search: true,
             showbtn: false,
             postData: {
@@ -29,7 +29,6 @@ class NoticeTodo extends React.Component {
                 "pageSize": "10",  //--------每页条数*
                 "status": "",//状态，筛选条件
                 "assignmentTitle": "",//任务标题，筛选条件
-                "assignmentUserType": "" //责任人类型，筛选条件
             },
             resData: [{ items: [] }]
         }
@@ -66,13 +65,13 @@ class NoticeTodo extends React.Component {
                     this._list.endLoading();
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.noticetodo.list }],
+                            resData: [{ items: this.props.index.publishtodo.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.noticetodo.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.publishtodo.list }]),
                             isLoadMore: false
                         })
                     }
@@ -106,7 +105,6 @@ class NoticeTodo extends React.Component {
                     "pageSize": "10",  //--------每页条数*
                     "status": getVal("status"),//状态，筛选条件
                     "assignmentTitle": getVal("assignmentTitle"),//任务标题，筛选条件
-                    "assignmentUserType": getVal("assignmentUserType") //责任人类型，筛选条件
                 },
             }, () => {
                 this.onRefresh()
@@ -140,12 +138,12 @@ class NoticeTodo extends React.Component {
 
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.noticetodo.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.publishtodo.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.noticetodo.pageNum + 1
+                    pageIndex: this.props.index.publishtodo.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -169,10 +167,6 @@ class NoticeTodo extends React.Component {
         })
         this.setNewState("formdata", newformdata)
     }
-
-    // "status":getVal("status"),//状态，筛选条件
-    // "assignmentTitle":getVal("assignmentTitle"),//任务标题，筛选条件
-    // "assignmentUserType":getVal("assignmentUserType") //责任人类型，筛选条件
 
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
@@ -219,23 +213,13 @@ class NoticeTodo extends React.Component {
                         dicName: "进行中",
                         dicKey: "1"
                     }, {
+                        dicName: "待审核",
+                        dicKey: "2"
+                    }, {
                         dicName: "重做",
                         dicKey: "3"
                     }]
-                },{
-                    key: "assignmentUserType",
-                    type: "select",
-                    require: false,
-                    value: postData.assignmentUserType,
-                    placeholder: "请选择任务状态",
-                    option: [{
-                        dicName: "执行人",
-                        dicKey: "1"
-                    },{
-                        dicName: "抄送人",
-                        dicKey: "2"
-                    }]
-                },
+                }
                 ]
 
 
@@ -248,13 +232,13 @@ class NoticeTodo extends React.Component {
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <NoticeTodoItem item={item} navigation={this.props.navigation} type="history"></NoticeTodoItem> : <View></View>
+            return item ? <PublishTodoItem item={item} navigation={this.props.navigation} type="history"></PublishTodoItem> : <View></View>
         }
 
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="任务通知(未完成)"
+                title="我的发布(未完成)"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -321,7 +305,7 @@ class NoticeTodo extends React.Component {
                     data={this.state.resData}
                     renderIndexPath={renderItem}//每行
                     heightForIndexPath={() => 108}
-                    allLoaded={!this.props.index.noticetodo.hasNextPage}
+                    allLoaded={!this.props.index.publishtodo.hasNextPage}
                     loadingFooter={ChineseWithLastDateFooter}
                     onLoading={this.pullUpLoading}
                 />
@@ -355,4 +339,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default NoticeTodo
+export default PublishTodo

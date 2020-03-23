@@ -7,9 +7,9 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 @connect(({ index }) => ({ index }))
 class Empty extends Component {
     render() {
-        let {  title, children } = this.props;
+        let { style, title, children } = this.props;
 
-        return <Card center padding-page enableShadow={false}>
+        return <Card style={style?style:{}} center padding-page enableShadow={false}>
             <Text subheading>{title?title:"暂无数据"}</Text>
             {children}
         </Card>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Scan, Login,SearchForm,
-    InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
+    InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserSelect,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
     InfoSpareDetail,DepartMent,DepartMentDetail,UserMore,Success,PreView,
     
     
     ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,
-    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished
 
 
 
@@ -55,6 +55,7 @@ const AppNavigator = createStackNavigator(
         InfoDeviceCan:InfoDeviceCan,
         InfoDeviceDetail:InfoDeviceDetail,
         UserList:UserList,
+        UserSelect:UserSelect,
         UserListDetail:UserListDetail,
         DeviceUser:DeviceUser,
         DeviceUserList:DeviceUserList,
@@ -99,7 +100,11 @@ const AppNavigator = createStackNavigator(
         PreView:PreView,
         NoticeToConfirm:NoticeToConfirm,
         NoticeFinished:NoticeFinished,
-        Publish:Publish
+        Publish:Publish,
+        PublishTodo:PublishTodo,
+        PublishTodoDetail:PublishTodoDetail,
+        PublishToConfirm:PublishToConfirm,
+        PublishFinished:PublishFinished
     },
     {
         initialRouteName: 'Home',

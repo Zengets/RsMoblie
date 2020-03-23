@@ -1,13 +1,14 @@
 import React from "react";
-import { StyleSheet, Linking, TouchableOpacity } from "react-native";
+import { StyleSheet, Linking, TouchableOpacity,ScrollView } from "react-native";
 import { LargeList } from "react-native-largelist-v3";
-import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch, UserItem } from '../../../components';
-import { ConvertPinyin } from '../../../utils';
+import { SafeAreaViewPlus, HideToast, OneToast, Header, Atoz, TitleSearch, UserSelectItem } from '../../components';
+import { ConvertPinyin, colors } from '../../utils';
 import { contacts } from './mock';
 import { connect } from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-import { Text, View, Colors, Avatar, Card } from "react-native-ui-lib";
+import { Text, View,Button, Colors, Avatar, Card, Checkbox } from "react-native-ui-lib";
+import { arraySearch } from "../../utils/ConvertPinyin";
 
 
 const styles = StyleSheet.create({
@@ -41,10 +42,11 @@ let getPinyin = () => {
   index,
   submitting: loading.effects['index/userlist'],
 }))
-class UserList extends React.Component {
+class UserSelect extends React.Component {
   _scrollView = null;
   constructor(props) {
     super(props);
+    let { key } = props.navigation.state.params?props.navigation.state.params:{}
     this.state = {
       pinyin: [],
       isSpin: true,
@@ -52,6 +54,8 @@ class UserList extends React.Component {
       contacts: contacts,
       keyword: "",
       postUrl: "userlist",
+      userselect: [],
+      selected: props.index[key],
       postData: {
         "accountName": "",   //---------用户名
         "departmentId": "",   //--------部门id
@@ -88,7 +92,7 @@ class UserList extends React.Component {
           one = item
         }
       });
-      if (one.type.indexOf("select") == -1 ) {
+      if (one.type.indexOf("select") == -1) {
         return one.value && one.value
       } else {
         return one.value && one.value.id
@@ -116,9 +120,9 @@ class UserList extends React.Component {
 
   UNSAFE_componentWillReceiveProps(np) {
     if (this.props.index.done !== np.index.done) {
-      np.index.done=="1"?
-      this.resetData(np):
-      null
+      np.index.done == "1" ?
+        this.resetData(np) :
+        null
     }
   }
 
@@ -141,20 +145,25 @@ class UserList extends React.Component {
             item.header = ConvertPinyin(item.userName).substring(0, 1).toUpperCase();
             return item
           }),
+          userselect = [],arr1=[],arr2=[],
           letterarr = getPinyin();
         letterarr.map((item, i) => {
           let items = [], itemz = [];
           postdata.map((list, index) => {
             if (item == list.header) {
               items.push(list)
+              arr1.push(list.id);
             } else if (letterarr.indexOf(list.header) == -1) {
               itemz.push(list)
+              arr2.push(list.id)
             }
           })
           let curitem = {
             header: item,
             items: item == "#" ? itemz : items
           }
+          userselect = arr1.concat(arr2);
+
           curitem.items.length == 0 ? null : newdata.push(curitem);
         })
         this.setState({
@@ -162,10 +171,9 @@ class UserList extends React.Component {
           pinyin: newdata.map((item) => {
             return item.header
           }),
-          isSpin: false
+          isSpin: false,
+          userselect
         })
-
-
       })
 
 
@@ -191,11 +199,24 @@ class UserList extends React.Component {
     let item = this.state.contacts[section].items[row],
       avatar = {
         title: 'Initials with Color',
-        source: require("../../../assets/user.png"),
+        source: require("../../assets/user.png"),
       }
     return (
       <View>
-        <UserItem key={section + "" + row} avatar={avatar} item={item} navigation={this.props.navigation}></UserItem>
+        <UserSelectItem
+          onValueChange={() => {
+            let newselected = JSON.parse(JSON.stringify(this.state.selected));
+            if (newselected.indexOf(item.id) == -1) {
+              newselected.push(item.id)
+              this.setState({
+                selected: newselected
+              })
+            } else {
+              this.setState({
+                selected: newselected.filter((it) => { return it !== item.id })
+              })
+            }
+          }} selected={this.state.selected} key={section + "" + row} avatar={avatar} item={item} navigation={this.props.navigation}></UserSelectItem>
       </View>
     );
   };
@@ -220,8 +241,8 @@ class UserList extends React.Component {
 
 
   render() {
-    let { cur, contacts, isSpin, postData, pinyin } = this.state,
-      { navigation, submitting, index: { res, formdata }, } = this.props,
+    let { cur, contacts, isSpin, postData, pinyin,selected,userselect } = this.state,
+      { navigation, submitting, index: { res, formdata,userlist }, } = this.props,
       searchprops = {
         navigation,
         placeholder: "输入姓名查询...",
@@ -276,11 +297,11 @@ class UserList extends React.Component {
             require: false,
             value: postData.shopId,
             placeholder: "请选择车间",
-            linked:{
-              key:"groupId",
-              posturl:"getshoplist",
-              format:{dicKey:"id",dicName:"groupName"},
-              postkey:"shopId"
+            linked: {
+              key: "groupId",
+              posturl: "getshoplist",
+              format: { dicKey: "id", dicName: "groupName" },
+              postkey: "shopId"
             },
             option: res.shopList && res.shopList.map((item, i) => {
               return {
@@ -308,52 +329,65 @@ class UserList extends React.Component {
             fn ? fn() : null
           })
         }
-      }
-
-
-
+      }, checkprops = {
+        borderRadius: 60,
+        value: userselect.filter((item)=>{return selected.indexOf(item)!==-1}).length==userselect.length?true:false,
+        onValueChange: () => {
+          this.setState({
+            selected: this.state.selected == this.state.userselect ? [] : this.state.userselect
+          })
+        },
+        color: colors.primaryColor
+      },{ title,key } = navigation.state.params?navigation.state.params:{}
 
     return (
       <SafeAreaViewPlus loading={submitting}>
-        <Header title="用户列表" navigation={navigation} 
-         rightwidth={ 70 }
-         headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
-             let postData = JSON.parse(JSON.stringify(this.state.postData));
-             for (let i in postData) {
-                 if (i == "pageIndex") {
-                     postData[i] = 1
-                 }else if (i == "pageSize") {
-                     postData[i] = 10
-                 }else{
-                     postData[i] = ""
-                 }
-             }
-             this.setState({
-                 postData
-             },()=>{
-                 this.getData()
-             })
-             let { index: { formdata } } = this.props;
-             let newformdata = formdata.map((item, i) => {
-                 item.value = null
-                 if(item.type=='datetimepicker'){
-                     item.maximumDate = undefined
-                     item.minimumDate = undefined
-                     item.value = ""
-                 }
-                 return item
-             })
-             this.setNewState("formdata", newformdata)
-         } }>
-             <AntIcons name="reload1" size={ 14 }/>
-             <Text marginL-4>重置</Text>
-         </Card> }
+        <Header title={title} navigation={navigation}
+          rightwidth={70}
+          headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
+            let postData = JSON.parse(JSON.stringify(this.state.postData));
+            for (let i in postData) {
+              if (i == "pageIndex") {
+                postData[i] = 1
+              } else if (i == "pageSize") {
+                postData[i] = 10
+              } else {
+                postData[i] = ""
+              }
+            }
+            this.setState({
+              postData
+            }, () => {
+              this.getData()
+            })
+            let { index: { formdata } } = this.props;
+            let newformdata = formdata.map((item, i) => {
+              item.value = null
+              if (item.type == 'datetimepicker') {
+                item.maximumDate = undefined
+                item.minimumDate = undefined
+                item.value = ""
+              }
+              return item
+            })
+            this.setNewState("formdata", newformdata)
+          }}>
+            <AntIcons name="reload1" size={14} />
+            <Text marginL-4>重置</Text>
+          </Card>}
         >
         </Header>
-        <View padding-12 style={{ paddingBottom: 0 }}>
-          <TitleSearch {...searchprops}></TitleSearch>
+        <View padding-12 style={{ paddingBottom: 0 }} row>
+          <TitleSearch height={60} {...searchprops} leftRender={<Card padding-10 height={44} marginB-14 marginR-12 row center enableShadow={false} onPress={() => {
+            this.setState({
+              selected: this.state.selected == this.state.userselect ? [] : this.state.userselect
+            })
+          }}>
+            <Checkbox {...checkprops}></Checkbox>
+            <Text> 全选</Text>
+          </Card>}></TitleSearch>
         </View>
-        <View style={{ position: "relative", flex: 1, marginTop: -3 }} row center>
+        <View style={{ position: "relative", flex: 1, marginTop: -3 }} row>
           <LargeList
             ref={ref => (this._scrollView = ref)}
             style={styles.container}
@@ -369,13 +403,47 @@ class UserList extends React.Component {
             pinyin.length > 0 && <Atoz changetodo={this.changetodo} pinyin={pinyin}>
             </Atoz>
           }
-
-
-
         </View>
+        {
+          this.state.selected.length > 0 && <View padding-4 row spread>
+            <ScrollView horizontal={true}>
+                {
+                  this.state.selected.map((it,i)=>{
+                    let curitem = userlist.filter((its)=>{return its.id==it})[0]
+                    return <Card style={{borderWidth:1,borderColor:"#ddd"}} enableShadow={false} padding-12 center marginR-12 onPress={()=>{
+                        let newselected = JSON.parse(JSON.stringify(this.state.selected));
+                        newselected = newselected.filter((its)=>{return its!==curitem.id})
+                        this.setState({
+                          selected:newselected
+                        })
+
+            
+                    }}>
+                      <Text style={{color:colors.primaryColor}}>
+                        {curitem.userName}
+                      </Text>
+                      <Text style={{fontSize:10}}>
+                        {curitem.departmentName}
+                      </Text>
+                    </Card>
+
+
+                  })
+                }
+            </ScrollView>
+            <Button margin-8 label={`确定(${this.state.selected.length})`} onPress={()=>{
+              this.setNewState(key,this.state.selected,()=>{
+                navigation.goBack()
+              })
+
+            }}></Button>
+
+          </View>
+        }
+
       </SafeAreaViewPlus>
     );
   }
 }
-export default UserList
+export default UserSelect
 

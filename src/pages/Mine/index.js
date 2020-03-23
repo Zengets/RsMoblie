@@ -127,7 +127,7 @@ class Mine extends React.Component {
             
           </AuthBase> */}
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("NoticeTodo")
+              this.jumpToUrl("PublishTodo")
             }}>
               <View center style={{ width: 48, height: 48 }}>
                 <Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>
@@ -137,7 +137,7 @@ class Mine extends React.Component {
 
 
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("NoticeToConfirm")
+              this.jumpToUrl("PublishToConfirm")
             }}>
               <View center style={{ width: 48, height: 48 }}>
                 <FontAwesome5 name='pen' size={24} style={{ color: colors.primaryColor }}></FontAwesome5>
@@ -145,7 +145,7 @@ class Mine extends React.Component {
               <Text subbody>审核</Text>
             </Card>
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("NoticeFinished")
+              this.jumpToUrl("PublishFinished")
             }}>
               <View center style={{ width: 48, height: 48 }}>
                 <AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>

@@ -2,11 +2,11 @@ import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
-    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,
+    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,publishaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit,
-    noticetoconfirm, noticefinish
+    noticetoconfirm, noticefinish,publish,publishtodo,publishtododetail,publishtoconfirm,publishfinish
 
 
 
@@ -24,8 +24,11 @@ export default {
         sparechangemission: {},
         sparechangehistory: {},
         noticetodo: {},
+        publishtodo:{},
         noticetoconfirm: {},
+        publishtoconfirm:{},
         noticefinish: {},
+        publishfinish:{},
         spareusage: {},
         sparereview: {},
         knowledgelist: {},
@@ -41,6 +44,7 @@ export default {
         spareownerdetail: {},
         sparereviewdetail: {},
         noticetododetail: {},
+        publishtododetail:{},
         infodevicedetail: {},
         checkhistorydetail: {},
         errortohis: {},
@@ -76,6 +80,8 @@ export default {
         res2: {},
         formdata: [],
         submitdata: [],
+        executeUserIdList: [],
+        sendUserIdList:[],
         getshoplist: [],
         getChildren: [],
         getuserspare: [],
@@ -168,6 +174,18 @@ export default {
             })
             return responese.code == "0000"
         },
+        *publishtodo({ payload }, { call, put }) {//data
+            const responese = yield call(publishtodo, payload);
+            yield put({
+                type: 'updateState',
+                payload: { publishtodo: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *noticetoconfirm({ payload }, { call, put }) {//data
             const responese = yield call(noticetoconfirm, payload);
             yield put({
@@ -180,11 +198,35 @@ export default {
             })
             return responese.code == "0000"
         },
+        *publishtoconfirm({ payload }, { call, put }) {//data
+            const responese = yield call(publishtoconfirm, payload);
+            yield put({
+                type: 'updateState',
+                payload: { publishtoconfirm: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *noticefinish({ payload }, { call, put }) {//data
             const responese = yield call(noticefinish, payload);
             yield put({
                 type: 'updateState',
                 payload: { noticefinish: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *publishfinish({ payload }, { call, put }) {//data
+            const responese = yield call(publishfinish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { publishfinish: responese.data.page ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -369,6 +411,14 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { noticetododetail: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *publishtododetail({ payload }, { call, put }) {//data
+            const responese = yield call(publishtododetail, payload);
+            yield put({
+                type: 'updateState',
+                payload: { publishtododetail: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },
@@ -830,6 +880,22 @@ export default {
             })
             return responese.code == "0000"
         },
+        *publishaudit({ payload }, { call, put }) {//data
+            const responese = yield call(publishaudit, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *publish({ payload }, { call, put }) {//data
+            const responese = yield call(publish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *queryAppByEqId({ payload }, { call, put }) {//data
             const responese = yield call(queryAppByEqId, payload);
             yield put({
@@ -872,6 +938,21 @@ export default {
             })
             return true
         },
+        *executeUserIdList({ payload }, { call, put }) {//data
+            yield put({
+                type: 'updateState',
+                payload: { executeUserIdList: payload }
+            })
+            return true
+        },
+        *sendUserIdList({ payload }, { call, put }) {//data
+            yield put({
+                type: 'updateState',
+                payload: { sendUserIdList: payload }
+            })
+            return true
+        },
+
         *test({ payload }, { call, put }) {//data
             const responese = yield call(test, payload);
             yield put({

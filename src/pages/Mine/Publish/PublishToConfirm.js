@@ -12,24 +12,22 @@ import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/noticetodo'],
+    submitting: loading.effects['index/publishtoconfirm'],
 }))
-class NoticeTodo extends React.Component {
+class PublishToConfirm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
-            postUrl: "noticetodo",
+            postUrl: "publishtoconfirm",
             search: true,
             showbtn: false,
             postData: {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
-                "status": "",//状态，筛选条件
                 "assignmentTitle": "",//任务标题，筛选条件
-                "assignmentUserType": "" //责任人类型，筛选条件
             },
             resData: [{ items: [] }]
         }
@@ -66,13 +64,13 @@ class NoticeTodo extends React.Component {
                     this._list.endLoading();
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.noticetodo.list }],
+                            resData: [{ items: this.props.index.publishtoconfirm.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.noticetodo.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.publishtoconfirm.list }]),
                             isLoadMore: false
                         })
                     }
@@ -104,9 +102,7 @@ class NoticeTodo extends React.Component {
                 postData: {
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
-                    "status": getVal("status"),//状态，筛选条件
                     "assignmentTitle": getVal("assignmentTitle"),//任务标题，筛选条件
-                    "assignmentUserType": getVal("assignmentUserType") //责任人类型，筛选条件
                 },
             }, () => {
                 this.onRefresh()
@@ -140,12 +136,12 @@ class NoticeTodo extends React.Component {
 
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.noticetodo.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.publishtoconfirm.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.noticetodo.pageNum + 1
+                    pageIndex: this.props.index.publishtoconfirm.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -206,36 +202,7 @@ class NoticeTodo extends React.Component {
                     require: false,
                     value: postData.assignmentTitle,
                     placeholder: "请输入任务标题"
-                }, {
-                    key: "status",
-                    type: "select",
-                    require: false,
-                    value: postData.status,
-                    placeholder: "请选择任务状态",
-                    option: [{
-                        dicName: "未开始",
-                        dicKey: "0"
-                    }, {
-                        dicName: "进行中",
-                        dicKey: "1"
-                    }, {
-                        dicName: "重做",
-                        dicKey: "3"
-                    }]
-                },{
-                    key: "assignmentUserType",
-                    type: "select",
-                    require: false,
-                    value: postData.assignmentUserType,
-                    placeholder: "请选择任务状态",
-                    option: [{
-                        dicName: "执行人",
-                        dicKey: "1"
-                    },{
-                        dicName: "抄送人",
-                        dicKey: "2"
-                    }]
-                },
+                }
                 ]
 
 
@@ -254,7 +221,7 @@ class NoticeTodo extends React.Component {
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="任务通知(未完成)"
+                title="我的发布(审核)"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -321,7 +288,7 @@ class NoticeTodo extends React.Component {
                     data={this.state.resData}
                     renderIndexPath={renderItem}//每行
                     heightForIndexPath={() => 108}
-                    allLoaded={!this.props.index.noticetodo.hasNextPage}
+                    allLoaded={!this.props.index.publishtoconfirm.hasNextPage}
                     loadingFooter={ChineseWithLastDateFooter}
                     onLoading={this.pullUpLoading}
                 />
@@ -355,4 +322,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default NoticeTodo
+export default PublishToConfirm

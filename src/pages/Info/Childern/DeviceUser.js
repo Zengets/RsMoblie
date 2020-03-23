@@ -61,7 +61,7 @@ class DeviceUser extends React.Component {
         let arr = [check.length, maintain.length, verification.length, repair.length],
             avatar = {
                 title: 'Initials with Color',
-                imageSource: require("../../../assets/user.png"),
+                source: require("../../../assets/user.png"),
             }
 
         return <SafeAreaViewPlus style={{ backgroundColor: "#fff" }} loading={submitting}>

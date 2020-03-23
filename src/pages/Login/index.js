@@ -144,7 +144,7 @@ class Login extends React.Component {
     }, avatar = {
       title: 'Smaller size, Badge ("offline")',
       size: 100,
-      imageSource: require("../../assets/logo.png")
+      source: require("../../assets/logo.png")
     }
 
 

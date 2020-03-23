@@ -41,7 +41,7 @@ class TitleSearch extends React.Component {
 
 
     render() {
-        const { height, navigation, placeholder, value, onChangeText, onSubmitEditing,handleFormData } = this.props
+        const { height, navigation, placeholder, value, onChangeText, onSubmitEditing,handleFormData,leftRender } = this.props
         let SearchProps = {
             rightButtonProps: value ? {
                 iconSource: require("../assets/close.png"),
@@ -56,11 +56,16 @@ class TitleSearch extends React.Component {
             onChangeText,
             onSubmitEditing
         }
-        return <Animated.View style={{ height: height, overflow: "hidden", flexDirection: "row", alignItems: "flex-end" }}>
-            <View flex-1 style={{ height: 40 }}>
+        return <Animated.View style={{ height: height, overflow: "hidden", flexDirection: "row", alignItems: "center",width:"100%" }}>
+            {
+                leftRender?
+                leftRender:
+                null
+            }
+            <View flex-1 style={{ height: 35 }}>
                 <TextField {...SearchProps}></TextField>
             </View>
-            <View style={{ width: 32 }} paddingB-20 right>
+            <View style={{ width: 32 }} paddingB-15 right>
                 <AntIcons name="filter" size={22} onPress={() => {
                     handleFormData(()=>{
                         navigation.navigate("SearchForm")

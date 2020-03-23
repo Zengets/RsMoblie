@@ -185,7 +185,7 @@ class DeviceUserList extends React.Component {
     let item = this.state.contacts[section].items[row],
       avatar = {
         title: 'Initials with Color',
-        imageSource: require("../../../assets/user.png"),
+        source: require("../../../assets/user.png"),
       }
     return (
       <View>
