@@ -120,38 +120,29 @@ class UpkeepDetail extends Component {
         }, statusName = { 0: "待执行", 2: "执行中", 3: "已执行", 4: "关闭" };
 
 
-        return <SafeAreaViewPlus loading={ loading.effects['index/' + posturl] }>
-            <Header title={ `维保详情` } navigation={ navigation }>
+        return <SafeAreaViewPlus loading={loading.effects['index/' + posturl]}>
+            <Header title={`维保详情`} navigation={navigation}>
             </Header>
-            <ScrollView  keyboardShouldPersistTaps="handled" style={ { padding: 12 } }>
-                <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                    <Rows name="工单号" values={ taskNo } />
-                    <Rows name="设备名称" values={ equipmentName } />
-                    <Rows name="设备编号" values={ equipmentNo } />
-                    <Rows name="设备类型" values={ equipmentTypeName } />
-                    <Rows name="维保类型" values={ maintainPlanTypeName } />
-                    <View row top style={ styles.item }>
-                        <View>
-                            <Text subheading>
-                                任务状态:
-                        </Text>
-                        </View>
-                        <View flex-1 paddingL-6 style={ { overflow: "hidden" } } right>
-                            <View row center>
-                                <Text subbody dark100 marginR-3  style={ { color: getColor(status) } }>{ statusName[status] }</Text>
-                                <Badge size='small' backgroundColor={ getColor(status) }></Badge>
-                            </View>
-                        </View>
-                    </View>
-                    <Rows name="计划维保日期" values={ planStartMaintainDate } />
-                    <Rows name="计划维保用时" values={ maintainHours ? `${maintainHours}h` : "" } />
-                    <Rows name="计划维保费用" values={ totalBudget ? `${totalBudget}元` : "" } />
-                    <Rows name="负责人" values={ planMaintainUserName } />
-                    <Rows name="备注" values={ remark } />
+            <ScrollView keyboardShouldPersistTaps="handled" style={{ padding: 12 }}>
+                <Card borderRadius={8} style={{ width: "100%" }} enableShadow={false}>
+                    <Rows name="工单号" values={taskNo} />
+                    <Rows name="设备名称" values={equipmentName} />
+                    <Rows name="设备编号" values={equipmentNo} />
+                    <Rows name="设备类型" values={equipmentTypeName} />
+                    <Rows name="维保类型" values={maintainPlanTypeName} />
+                    <Rows name="任务状态:" rightRender={<View row center>
+                        <Text subbody dark100 marginR-3 style={{ color: getColor(status) }}>{statusName[status]}</Text>
+                        <Badge size='small' backgroundColor={getColor(status)}></Badge>
+                    </View>} />
+                    <Rows name="计划维保日期" values={planStartMaintainDate} />
+                    <Rows name="计划维保用时" values={maintainHours ? `${maintainHours}h` : ""} />
+                    <Rows name="计划维保费用" values={totalBudget ? `${totalBudget}元` : ""} />
+                    <Rows name="负责人" values={planMaintainUserName} />
+                    <Rows name="备注" values={remark} />
                     {
                         type == "mission" && status == 0 || type == "mission" && status == 2 ?
-                            <View style={ styles.items } row spread>
-                                <Button disabled={ getdisabled() || loading.effects['index/closeAppMaintain']} backgroundColor={ colors.warnColor } label="关闭维保" onPress={ () => {
+                            <View style={styles.items} row spread>
+                                <Button disabled={getdisabled() || loading.effects['index/closeAppMaintain']} backgroundColor={colors.warnColor} label="关闭维保" onPress={() => {
                                     //startAppMaintain,finishAppMaintain,closeAppMaintain,updateAppMaintainUser,queryAppByEqId
                                     this.setNewState("closeAppMaintain", { id: id }, () => {
                                         navigation.navigate("Success", {
@@ -166,14 +157,14 @@ class UpkeepDetail extends Component {
                                             description: `${equipmentName}已关闭维保！`
                                         })
                                     })
-                                } }>
+                                }}>
                                     {
                                         loading.effects['index/closeAppMaintain'] ?
-                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
                                             : null
                                     }
                                 </Button>
-                                <Button disabled={ getdisabled()||loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain'] } label={ status == 0 ? "开始维保" : status == 2 ? "完成维保" : "" } onPress={ () => {
+                                <Button disabled={getdisabled() || loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain']} label={status == 0 ? "开始维保" : status == 2 ? "完成维保" : ""} onPress={() => {
                                     if (status == 0) {
                                         this.setNewState("startAppMaintain", { id: id }, () => {
                                             navigation.navigate("Success", {
@@ -203,14 +194,14 @@ class UpkeepDetail extends Component {
                                             })
                                         })
                                     }
-                                } }>
+                                }}>
                                     {
                                         loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain'] ?
-                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
                                             : null
                                     }
                                 </Button>
-                                <Button label="修改负责人" disabled={loading.effects['index/queryAppByEqId']} backgroundColor={ colors.successColor } onPress={ () => {
+                                <Button label="修改负责人" disabled={loading.effects['index/queryAppByEqId']} backgroundColor={colors.successColor} onPress={() => {
                                     this.setNewState("queryAppByEqId", {
                                         "equipmentId": equipmentId,
                                         "chargeType": "1"
@@ -235,10 +226,10 @@ class UpkeepDetail extends Component {
                                             })
                                         })
                                     })
-                                } }>
+                                }}>
                                     {
                                         loading.effects['index/queryAppByEqId'] ?
-                                            <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                            <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
                                             : null
                                     }
 
@@ -253,7 +244,7 @@ class UpkeepDetail extends Component {
 
                 </Card>
 
-                <Card marginV-12 padding-12 borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
+                <Card marginV-12 padding-12 borderRadius={8} style={{ width: "100%" }} enableShadow={false}>
                     <View>
                         <View marginB-12>
                             <Text subheading >
@@ -264,11 +255,11 @@ class UpkeepDetail extends Component {
                             {
                                 detail && detail.length > 0 ?
                                     detail.map((item, i) => (
-                                        <View  marginB-12 style={ { borderRadius: 8, overflow: "hidden", borderColor: "#f9f9f9", borderWidth: 1 } }>
-                                            <Rows name="项目" values={ item.maintainItem } noborder={ true } color={ colors.primaryColor }></Rows>
-                                            <View style={ { borderRadius: 0, overflow: "hidden", backgroundColor: "#F9F9F9" } }>
-                                                <Rows name="费用" values={item.actualMaintainCost? item.actualMaintainCost+"元" :""} noborder={ true }></Rows>
-                                                <Rows name="维保内容" values={ item.maintainContent } noborder={ true }></Rows>
+                                        <View marginB-12 style={{ borderRadius: 8, overflow: "hidden", borderColor: "#f9f9f9", borderWidth: 1 }}>
+                                            <Rows name="项目" values={item.maintainItem} noborder={true} color={colors.primaryColor}></Rows>
+                                            <View style={{ borderRadius: 0, overflow: "hidden", backgroundColor: "#F9F9F9" }}>
+                                                <Rows name="费用" values={item.actualMaintainCost ? item.actualMaintainCost + "元" : ""} noborder={true}></Rows>
+                                                <Rows name="维保内容" values={item.maintainContent} noborder={true}></Rows>
                                             </View>
                                         </View>
                                     )) : <Empty></Empty>
@@ -278,26 +269,26 @@ class UpkeepDetail extends Component {
                     </View>
 
                 </Card>
-                <Card borderRadius={ 8 } marginB-24 style={ { width: "100%" } } enableShadow={ false }>
-                    <Rows name="执行人" values={ executiveUserName } />
-                    <Rows name="维保开始时间" values={ startMaintainTime } />
-                    <Rows name="维保结束时间" values={ endMaintainTime } />
-                    <Rows name="实际维保费用" values={ tatolMaintainCost ? `${tatolMaintainCost}元` : "" }  noborder={ true }/>
+                <Card borderRadius={8} marginB-24 style={{ width: "100%" }} enableShadow={false}>
+                    <Rows name="执行人" values={executiveUserName} />
+                    <Rows name="维保开始时间" values={startMaintainTime} />
+                    <Rows name="维保结束时间" values={endMaintainTime} />
+                    <Rows name="实际维保费用" values={tatolMaintainCost ? `${tatolMaintainCost}元` : ""} noborder={true} />
                 </Card>
 
                 <Modal
-                    visible={ this.state.visible }
-                    height={ height * 0.8 }
-                    hide={ () => {
+                    visible={this.state.visible}
+                    height={height * 0.8}
+                    hide={() => {
                         this.setState({
                             visible: false
                         })
-                    } }
-                    title={ "修改维保负责人" }
+                    }}
+                    title={"修改维保负责人"}
                 >
                     <View paddingV-12>
                         <SubmitForm></SubmitForm>
-                        <Button margin-12 label={ "提交" } disabled={loading.effects['index/updateAppMaintainUser']} onPress={ () => {
+                        <Button margin-12 label={"提交"} disabled={loading.effects['index/updateAppMaintainUser']} onPress={() => {
                             let _it = this;
                             function getVal(key) {
                                 let one = {};
@@ -324,10 +315,10 @@ class UpkeepDetail extends Component {
                                 this.resetData();
 
                             })
-                        } }>
+                        }}>
                             {
                                 loading.effects['index/updateAppMaintainUser'] ?
-                                    <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
+                                    <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
                                     : null
                             }
 

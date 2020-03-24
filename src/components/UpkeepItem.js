@@ -82,7 +82,7 @@ class UpkeepItem extends Component {
 
         <View>
           <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
-          <Text subbodybody dark40>负责人：{ item.planMaintainUserName }</Text>
+          <Text subbodybody dark40>负责人：{ type=="history"?item.maintainUserName :item.planMaintainUserName }</Text>
         </View>
         <View row center>
           <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>

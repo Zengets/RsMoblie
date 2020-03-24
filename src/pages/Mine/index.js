@@ -42,7 +42,7 @@ class Mine extends React.Component {
     })
   }
   render() {
-    const { index, navigation } = this.props, cardwidth = (width - 48) / 3, roundwidth = (width - 125) / 4;
+    const { index: { userInfo }, navigation } = this.props, cardwidth = (width - 48) / 3, roundwidth = (width - 125) / 4;
 
     return <SafeAreaViewPlus>
       <Header
@@ -106,16 +106,16 @@ class Mine extends React.Component {
         </View>
         <View height={1} marginV-12 style={{ backgroundColor: Colors.black, opacity: 0.2 }}></View>
         <View>
-          <Card row enableShadow={false} spread style={{ alignItems: "center",backgroundColor:"transparent" }} marginB-12 marginT-6
-            onPress={()=>{
+          <Card row enableShadow={false} spread style={{ alignItems: "center", backgroundColor: "transparent" }} marginB-12 marginT-6
+            onPress={() => {
               this.jumpToUrl("Publish")
             }}
           >
             <View row style={{ alignItems: "center" }}>
               <Text subheading style={{ color: Colors.dark20 }}>我的发布 </Text>
-              <AntIcons name='file1' size={16} style={{ color: Colors.dark20 }}></AntIcons>
+              <FontAwesome name='file' size={14} style={{ color: Colors.dark20 }}></FontAwesome>
             </View>
-            <View row center padding-6 style={{backgroundColor:Colors.green10,borderRadius:4}}>
+            <View row center padding-6 style={{ backgroundColor: Colors.green10, borderRadius: 4 }}>
               <AntIcons name='edit' size={16} style={{ color: Colors.white }}></AntIcons>
               <Text white> 发布</Text>
             </View>
@@ -155,6 +155,68 @@ class Mine extends React.Component {
           </View>
         </View>
         <View height={1} marginV-12 style={{ backgroundColor: Colors.black, opacity: 0.2 }}></View>
+
+        <View>
+          <View marginB-12 marginT-6 row style={{ alignItems: "center" }}>
+            <Text subheading style={{ color: Colors.dark20 }}>我的维修 </Text>
+            <FontAwesome5 name='tools' size={16} style={{ color: Colors.dark20 }}></FontAwesome5>
+          </View>
+
+          <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
+            {/* <AuthBase>
+            
+          </AuthBase> */}
+
+
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("ToRepair")
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>
+              </View>
+              <Text subbody>未完成维修</Text>
+            </Card>
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("Repaired")
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>
+              </View>
+              <Text subbody>已完成</Text>
+            </Card>
+          </View>
+        </View>
+        <View height={1} marginV-12 style={{ backgroundColor: Colors.black, opacity: 0.2 }}></View>
+
+
+        <View>
+          <View marginB-12 marginT-6 row style={{ alignItems: "center" }}>
+            <Text subheading style={{ color: Colors.dark20 }}>我的维保 </Text>
+            <FontAwesome5 name='toolbox' size={16} style={{ color: Colors.dark20 }}></FontAwesome5>
+          </View>
+          <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
+            {/* <AuthBase>
+            
+          </AuthBase> */}
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("UpkeepMission", { key: "userId", value: userInfo.id, title: "未完成维保" })
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>
+              </View>
+              <Text subbody>未完成维保</Text>
+            </Card>
+            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+              this.jumpToUrl("UpkeepHistory", { key: "userId", value: userInfo.id, title: "已完成维保" })
+            }}>
+              <View center style={{ width: 48, height: 48 }}>
+                <AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>
+              </View>
+              <Text subbody>已完成</Text>
+            </Card>
+          </View>
+        </View>
+
       </ScrollView>
 
 

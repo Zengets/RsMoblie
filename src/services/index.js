@@ -100,8 +100,12 @@ export async function repairApply(params) {
     return post(`${ipandport}/equipmentRepair/repairApply`, params);
 }
 
-export async function repairList(params) {
+export async function repairList(params){
     return post(`${ipandport}/equipmentRepair/queryList`, params);
+}
+
+export async function repairMyList(params) {
+    return post(`${ipandport}/equipmentRepair/queryMyList`, params);
 }
 
 export async function repairHisList(params) {

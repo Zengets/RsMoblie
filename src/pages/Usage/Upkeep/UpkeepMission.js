@@ -17,6 +17,7 @@ import ActionButton from 'react-native-action-button';
 class UpkeepMission extends React.Component {
     constructor(props) {
         super(props);
+        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -24,15 +25,24 @@ class UpkeepMission extends React.Component {
             postUrl: "upkeepmission",
             search: true,
             showbtn: false,
-            postData: {
+            postData: key ? {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "taskNo": "",  //-----工单号
                 "equipmentNo": "",  //---------设备编号
                 "equipmentName": "",  //-------设备名称
                 "status": "",  //--------任务状态
-                "maintainPlanType": ""  //--------维保类型
-            },
+                "maintainPlanType": "",  //--------维保类型
+                [key]: value
+            } : {
+                    "pageIndex": "1",  //--------页码*
+                    "pageSize": "10",  //--------每页条数*
+                    "taskNo": "",  //-----工单号
+                    "equipmentNo": "",  //---------设备编号
+                    "equipmentName": "",  //-------设备名称
+                    "status": "",  //--------任务状态
+                    "maintainPlanType": "",  //--------维保类型
+                },
             resData: [{ items: [] }]
         }
     }
@@ -95,7 +105,7 @@ class UpkeepMission extends React.Component {
             if (!one.type) {
                 return
             }
-            if (one.type.indexOf("select") == -1 ) {
+            if (one.type.indexOf("select") == -1) {
                 return one.value && one.value
             } else {
                 return one.value && one.value.id
@@ -104,6 +114,7 @@ class UpkeepMission extends React.Component {
         if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
+                    ...this.state.postData,
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "taskNo": getVal("taskNo"),  //-----工单号
@@ -131,7 +142,7 @@ class UpkeepMission extends React.Component {
     componentDidMount() {
         this.resetData(this.props)
     }
-    
+
 
     //下拉刷新,更改状态，重新获取数据
     onRefresh(draw) {
@@ -179,6 +190,7 @@ class UpkeepMission extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
 
         let searchprops = {
             height,
@@ -210,7 +222,7 @@ class UpkeepMission extends React.Component {
                         value: postData.taskNo,
                         hidden: false,
                         placeholder: "请输入工单号"
-                    },{
+                    }, {
                         key: "equipmentName",
                         type: "input",
                         require: false,
@@ -223,13 +235,13 @@ class UpkeepMission extends React.Component {
                         require: false,
                         value: "",
                         placeholder: "请输入设备编号"
-                    },  {
+                    }, {
                         key: "maintainPlanType",
                         type: "select",
                         require: false,
                         value: "",
                         placeholder: "请选择维保类型",
-                        option:res.maintainPlanType&&res.maintainPlanType
+                        option: res.maintainPlanType && res.maintainPlanType
                     },
                     {
                         key: "status",
@@ -237,14 +249,14 @@ class UpkeepMission extends React.Component {
                         require: false,
                         value: "",
                         placeholder: "请选择状态",
-                        option:  [{
+                        option: [{
                             dicName: "待执行",
                             dicKey: "0"
                         }, {
                             dicName: "执行中",
                             dicKey: "2"
                         }
-                    ]
+                        ]
                     }
                 ]
                 this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
@@ -256,34 +268,36 @@ class UpkeepMission extends React.Component {
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <UpkeepItem item={ item } navigation={ this.props.navigation } type="mission"></UpkeepItem> : <View></View>
+            return item ? <UpkeepItem item={item} navigation={this.props.navigation} type="mission"></UpkeepItem> : <View></View>
         }
 
-        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
+        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
-                navigation={ navigation }
-                title="维保任务"
-                rightwidth={ 70 }
-                headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
+                navigation={navigation}
+                title={title?title:"维保任务"}
+                rightwidth={70}
+                headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
                     for (let i in postData) {
                         if (i == "pageIndex") {
                             postData[i] = 1
-                        }else if (i == "pageSize") {
+                        } else if (i == "pageSize") {
                             postData[i] = 10
-                        }else{
+                        } else if(i==key){
+                            
+                        }else {
                             postData[i] = ""
                         }
                     }
                     this.setState({
                         postData
-                    },()=>{
+                    }, () => {
                         this.onRefresh()
                     })
                     let { index: { formdata } } = this.props;
                     let newformdata = formdata.map((item, i) => {
                         item.value = null
-                        if(item.type=='datetimepicker'){
+                        if (item.type == 'datetimepicker') {
                             item.maximumDate = undefined
                             item.minimumDate = undefined
                             item.value = ""
@@ -291,18 +305,18 @@ class UpkeepMission extends React.Component {
                         return item
                     })
                     this.setNewState("formdata", newformdata)
-                } }>
-                    <AntIcons name="reload1" size={ 14 }/>
+                }}>
+                    <AntIcons name="reload1" size={14} />
                     <Text marginL-4>重置</Text>
-                </Card> }
+                </Card>}
             >
             </Header>
             <View flex >
-                <View style={ { padding: search ? 12 : 0, paddingBottom: 0 } }>
-                    <TitleSearch { ...searchprops }></TitleSearch>
+                <View style={{ padding: search ? 12 : 0, paddingBottom: 0 }}>
+                    <TitleSearch {...searchprops}></TitleSearch>
                 </View>
                 <LargeList
-                    onScroll={ ({ nativeEvent: { contentOffset: { x, y } } }) => {
+                    onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {
                             if (showbtn) {
                             } else {
@@ -320,29 +334,29 @@ class UpkeepMission extends React.Component {
                             }
                         }
 
-                    } }
-                    ref={ ref => (this._list = ref) }
-                    onRefresh={ () => { this.onRefresh("0") } } //刷新操作
-                    refreshHeader={ ChineseWithLastDateHeader }
-                    showsVerticalScrollIndicator={ false }
-                    style={ { padding: 0, marginTop: -3 } }
-                    data={ this.state.resData }
-                    renderIndexPath={ renderItem }//每行
-                    heightForIndexPath={ () => 120 }
-                    allLoaded={ !this.props.index.upkeepmission.hasNextPage }
-                    loadingFooter={ ChineseWithLastDateFooter }
-                    onLoading={ this.pullUpLoading }
+                    }}
+                    ref={ref => (this._list = ref)}
+                    onRefresh={() => { this.onRefresh("0") }} //刷新操作
+                    refreshHeader={ChineseWithLastDateHeader}
+                    showsVerticalScrollIndicator={false}
+                    style={{ padding: 0, marginTop: -3 }}
+                    data={this.state.resData}
+                    renderIndexPath={renderItem}//每行
+                    heightForIndexPath={() => 120}
+                    allLoaded={!this.props.index.upkeepmission.hasNextPage}
+                    loadingFooter={ChineseWithLastDateFooter}
+                    onLoading={this.pullUpLoading}
                 />
             </View>
             {
                 showbtn && <ActionButton
-                    size={ 38 }
-                    hideShadow={ true }
-                    bgColor={ "transparent" }
-                    buttonColor={ colors.primaryColor }
-                    offsetX={ 10 }
-                    onPress={ this.scrollToTop }
-                    renderIcon={ () => <AntIcons name='up' style={ { color: Colors.white } } size={ 16 } /> }
+                    size={38}
+                    hideShadow={true}
+                    bgColor={"transparent"}
+                    buttonColor={colors.primaryColor}
+                    offsetX={10}
+                    onPress={this.scrollToTop}
+                    renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
                 />
             }
 

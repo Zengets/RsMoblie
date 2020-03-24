@@ -28,7 +28,7 @@ let getItem = (mainname, name, data) => {
 
     return thisitem
 }
-let ipandport = 'http://172.21.3.137:8607' //xiangzige 'http://2622536c3m.zicp.vip:16591' //liziyuan  
+let ipandport = 'http://172.21.3.137:8607' //liziyuan  'http://172.21.3.137:8607' //xiangzige 
 
 let getQueryString = (name,location) => {
     let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');

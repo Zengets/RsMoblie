@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, NoticeTodoItem } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, PublishTodoItem } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
@@ -166,7 +166,6 @@ class PublishFinished extends React.Component {
         this.setNewState("formdata", newformdata)
     }
 
-
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
@@ -212,13 +211,13 @@ class PublishFinished extends React.Component {
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <NoticeTodoItem item={item} navigation={this.props.navigation} type="history"></NoticeTodoItem> : <View></View>
+            return item ? <PublishTodoItem item={item} navigation={this.props.navigation} type="history"></PublishTodoItem> : <View></View>
         }
 
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="我的发布(已完成)"
+                title="我的发布(未完成)"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));

@@ -137,9 +137,7 @@ export default {
             return responese.code == "0000"
         },
         *sparechangemission({ payload }, { call, put }) {//data
-            console.log(payload);
             const responese = yield call(sparechangemission, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { sparechangemission: responese.data.page ? responese.data.page : {} }
@@ -235,9 +233,7 @@ export default {
             return responese.code == "0000"
         },
         *spareusage({ payload }, { call, put }) {//data
-            console.log(payload);
             const responese = yield call(spareusage, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { spareusage: responese.data.page ? responese.data.page : {} }
@@ -249,9 +245,7 @@ export default {
             return responese.code == "0000"
         },
         *sparereview({ payload }, { call, put }) {//data
-            console.log(payload);
             const responese = yield call(sparereview, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { sparereview: responese.data.page ? responese.data.page : {} }
@@ -263,9 +257,7 @@ export default {
             return responese.code == "0000"
         },
         *knowledgelist({ payload }, { call, put }) {//data
-            console.log(payload);
             const responese = yield call(knowledgelist, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { knowledgelist: responese.data.page ? responese.data.page : {} }
@@ -361,9 +353,7 @@ export default {
             return responese.code == "0000"
         },
         *spareownerdetail({ payload }, { call, put }) {//data
-            console.log(payload)
             const responese = yield call(spareownerdetail, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { spareownerdetail: responese.data.page ? responese.data.page : {} }
@@ -375,9 +365,7 @@ export default {
             return responese.code == "0000"
         },
         *sparereviewdetail({ payload }, { call, put }) {//data
-            console.log(payload)
             const responese = yield call(sparereviewdetail, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { sparereviewdetail: responese.data.page ? responese.data.page : {} }
@@ -537,7 +525,6 @@ export default {
         },
         *repairstep({ payload }, { call, put }) {//data
             const responese = yield call(repairstep, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res2: responese.data ? responese.data : {} }
@@ -665,7 +652,10 @@ export default {
             return responese.code == "0000"
         },
         *upkeepmission({ payload }, { call, put }) {//data
+            console.log(payload);
             const responese = yield call(upkeepmission, payload);
+            console.log(responese);
+
             yield put({
                 type: 'updateState',
                 payload: { upkeepmission: responese.data.page ? responese.data.page : {} }

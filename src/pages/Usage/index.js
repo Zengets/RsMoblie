@@ -97,6 +97,7 @@ class Usage extends React.Component {
           </View>
         </View>
         <View height={1} marginV-12 style={{ backgroundColor: colors.primaryColor, opacity: 0.2 }}></View>
+      
         <View>
           <View paddingL-8 marginB-s4 marginT-6 style={{ borderLeftWidth: 1, borderColor: colors.warnColor, width: 48 }} height={12} center>
             <Text subheading style={{ color: colors.warnColor }}>维保</Text>
