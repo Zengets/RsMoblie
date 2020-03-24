@@ -19,7 +19,7 @@ let { height, width } = Dimensions.get('window');
 class SpareReviewDetail extends React.Component {
     constructor(props) {
         super(props);
-        let { id } = props.navigation.state.params ? props.navigation.state.params : {};
+        let { id, type } = props.navigation.state.params ? props.navigation.state.params : {};
         this.state = {
             isLoadMore: true,
             refreshing: true,
@@ -143,7 +143,9 @@ class SpareReviewDetail extends React.Component {
                         break;
                 }
                 return color
-            }, statusName = { 0: "待审批", 1: "审批通过", 2: "审批未通过", 3: "撤回" }, disabled = userInfo.id !== auditUserId;
+            }, statusName = { 0: "待审批", 1: "审批通过", 2: "审批未通过", 3: "撤回" }, disabled = userInfo.id !== auditUserId,
+            { type } = navigation.state.params ? navigation.state.params : {};
+
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
@@ -162,6 +164,7 @@ class SpareReviewDetail extends React.Component {
                 }}><AntIcons name='filetext1' size={13} style={{ color: colors.warnColor }}></AntIcons><Text subbody style={{ color: colors.warnColor }}> 审批信息</Text></Card>)}
             >
             </Header>
+
             <Modal
                 visible={visible}
                 height={height * 0.7}
@@ -175,14 +178,13 @@ class SpareReviewDetail extends React.Component {
                 {
                     status == 0 ? <View flex-1 row center paddingV-12>
                         <SubmitForm></SubmitForm>
-                        </View> : <View row center padding-12>
+                    </View> : <View row center padding-12>
                             <Card center enableShadow={false} flex-1 borderRadius={0}>
                                 <Rows name="审批人" values={auditUserName}></Rows>
                                 <Rows name="审批结果" values={auditResultTypeName}></Rows>
                                 <Rows name="审批说明" values={auditOpinion}></Rows>
                                 <Rows name="审批时间" values={auditTime}></Rows>
                                 <Rows name="审批时间" values={auditTime}></Rows>
-
                             </Card>
                         </View>
                 }
@@ -257,6 +259,7 @@ class SpareReviewDetail extends React.Component {
 
 
             <View flex>
+                <Text marginL-12 marginB-12 dark10>申请的备件列表</Text>
                 <LargeList
                     onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {
@@ -292,7 +295,7 @@ class SpareReviewDetail extends React.Component {
 
 
             {
-                status == 0 && <View row center padding-12><Button label={disabled ? "审批人:" + auditUserName : "审批"} disabled={disabled} flex-1 onPress={() => {
+                status == 0 ? type != "applyUserId" ? <View row center padding-12><Button label={disabled ? "审批人:" + auditUserName : "审批"} disabled={disabled} flex-1 onPress={() => {
                     let submitdata = [
                         {
                             key: "auditResultType",
@@ -323,7 +326,32 @@ class SpareReviewDetail extends React.Component {
                         })
                     })
 
-                }}></Button></View>
+                }}>
+
+                </Button>
+                </View> :
+                    <View row center padding-12>
+                        <Button label={"撤回"} disabled={loading.effects[`index/sparerecall`]} flex-1 onPress={() => {
+                            this.setNewState("sparerecall",{id:postData.id},()=>{
+                                navigation.navigate("Success", {
+                                    btn: [{
+                                        name: "返回我的备件(申请/回冲记录)",
+                                        url: "SpareReview",
+                                        params:{ key: "applyUserId", value: userInfo.id, title: "我的备件(申请/回冲记录)" }
+                                    }],
+                                    description: `工单：${taskNo}已撤回！`
+                                })
+
+                            })
+
+                        }}>
+                            {
+                                loading.effects[`index/sparerecall`] ?
+                                    <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
+                                    : null
+                            }
+                        </Button>
+                    </View> : null
             }
 
 

@@ -17,6 +17,8 @@ import ActionButton from 'react-native-action-button';
 class SpareReview extends React.Component {
     constructor(props) {
         super(props);
+        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
+
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -24,15 +26,23 @@ class SpareReview extends React.Component {
             postUrl: "sparereview",
             search: true,
             showbtn: false,
-            postData: {
+            postData: key ? {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "taskNo": "",//工单号，筛选条件
-                "applyType":"",//申请类型key，筛选条件
-                "applyUserName":"",//申请人名，筛选条件
-                "status":""
+                "applyType": "",//申请类型key，筛选条件
+                "applyUserName": "",//申请人名，筛选条件
+                "status": "",   //-----------状态（0正常，1异常）
+                [key]: value
+            } : {
+                    "pageIndex": "1",  //--------页码*
+                    "pageSize": "10",  //--------每页条数*
+                    "taskNo": "",//工单号，筛选条件
+                    "applyType": "",//申请类型key，筛选条件
+                    "applyUserName": "",//申请人名，筛选条件
+                    "status": ""
 
-            },
+                },
             resData: [{ items: [] }]
         }
     }
@@ -104,12 +114,13 @@ class SpareReview extends React.Component {
         if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
+                    ...this.state.postData,
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "taskNo": getVal("taskNo"),//工单号，筛选条件
-                    "applyType":getVal("applyType"),//申请类型key，筛选条件
-                    "applyUserName":getVal("applyUserName"),//申请人名，筛选条件
-                    "status":getVal("status")
+                    "applyType": getVal("applyType"),//申请类型key，筛选条件
+                    "applyUserName": getVal("applyUserName"),//申请人名，筛选条件
+                    "status": getVal("status")
                 },
             }, () => {
                 this.onRefresh()
@@ -178,6 +189,7 @@ class SpareReview extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
 
         let searchprops = {
             height,
@@ -219,27 +231,27 @@ class SpareReview extends React.Component {
                     require: false,
                     value: postData.applyType,
                     placeholder: "请选择申请类型",
-                    option:res.applyTypeList&&res.applyTypeList
-                },  {
+                    option: res.applyTypeList && res.applyTypeList
+                }, {
                     key: "status",
                     type: "select",
                     require: false,
                     value: postData.status,
                     placeholder: "请选择审批状态",
-                    option:[{
-                        dicName:"待审批",
-                        dicKey:"0"
-                    },{
-                        dicName:"审批通过",
-                        dicKey:"1"
-                    },{
-                        dicName:"审批未通过",
-                        dicKey:"2"
-                    },{
-                        dicName:"撤回",
-                        dicKey:"3"
+                    option: [{
+                        dicName: "待审批",
+                        dicKey: "0"
+                    }, {
+                        dicName: "审批通过",
+                        dicKey: "1"
+                    }, {
+                        dicName: "审批未通过",
+                        dicKey: "2"
+                    }, {
+                        dicName: "撤回",
+                        dicKey: "3"
                     }]
-                }, 
+                },
                 ]
 
 
@@ -252,13 +264,13 @@ class SpareReview extends React.Component {
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <SpareReviewItem item={item} navigation={this.props.navigation}></SpareReviewItem> : <View></View>
+            return item ? <SpareReviewItem item={item} navigation={this.props.navigation} type={key}></SpareReviewItem> : <View></View>
         }
 
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="备件审批列表"
+                title={title ? title : "备件审批列表"}
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -267,6 +279,8 @@ class SpareReview extends React.Component {
                             postData[i] = 1
                         } else if (i == "pageSize") {
                             postData[i] = 10
+                        } else if (i == key) {
+
                         } else {
                             postData[i] = ""
                         }

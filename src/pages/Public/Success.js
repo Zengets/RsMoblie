@@ -40,7 +40,6 @@ class Success extends React.Component {
         const { index, navigation } = this.props
         let { sendMessage } = navigation.state.params ? navigation.state.params : { sendMessage }
         if(sendMessage){
-            alert(0)
            let {posturl, postdata} = sendMessage?sendMessage:{};
             this.setNewState(posturl, postdata);//执行成功回调
         }

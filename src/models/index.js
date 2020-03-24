@@ -2,7 +2,7 @@ import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
-    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,publishaudit,
+    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,sparerecall,publishaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit,
@@ -556,8 +556,6 @@ export default {
             return responese.code == "0000"
         },
 
-
-
         *repairApply({ payload }, { call, put }) {//data
             const responese = yield call(repairApply, payload);
             yield put({
@@ -652,10 +650,7 @@ export default {
             return responese.code == "0000"
         },
         *upkeepmission({ payload }, { call, put }) {//data
-            console.log(payload);
             const responese = yield call(upkeepmission, payload);
-            console.log(responese);
-
             yield put({
                 type: 'updateState',
                 payload: { upkeepmission: responese.data.page ? responese.data.page : {} }
@@ -864,6 +859,18 @@ export default {
         },
         *spareaudit({ payload }, { call, put }) {//data
             const responese = yield call(spareaudit, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *sparerecall({ payload }, { call, put }) {//data
+            console.log(payload);
+
+            const responese = yield call(sparerecall, payload);
+            console.log(responese);
+
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

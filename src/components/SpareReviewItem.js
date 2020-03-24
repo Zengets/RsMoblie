@@ -54,7 +54,10 @@ class SpareReviewItem extends Component {
       style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 128 }}
       paddingL-12 paddingR-12
       onPress={() => {
-        navigation.navigate("SpareReviewDetail", item)
+        navigation.navigate("SpareReviewDetail", {
+          ...item,
+          type
+        })
       }}
     >
       <View row spread paddingV-12 paddingB-12 style={{ alignItems: "center" }}>

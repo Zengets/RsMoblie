@@ -45,7 +45,7 @@ class RepairAction extends React.Component {
 
     componentDidMount() {
         let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation, loading } = this.props, { } = this.state,
-            { title, type, id} = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" };
+            { title, type, id } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" };
 
         this.setNewState("repairstep", { id: id }, () => {
             let res2 = this.props.index.res2, submitdatas = [];
@@ -213,16 +213,22 @@ class RepairAction extends React.Component {
 
     render() {
         let { index: { submitdata, res2, repairstep, userInfo }, navigation, loading } = this.props, { loaded } = this.state,
-            { title, type, id,todo  } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "",todo:{
-                url:"",
-                params:{
-                    posturl:"", 
-                    postdata:""
+            { title, type, id, todo } = navigation.state.params ? navigation.state.params : {
+                title: "", type: "", id: "", todo: {
+                    url: "",
+                    params: {
+                        posturl: "",
+                        postdata: ""
+                    }
                 }
-            } },
+            },
             getdisabled = () => {
                 let bools = true;
                 if (repairstep) {
+                    if (type == "0") {
+                        bools = true
+                        return
+                    }
                     if (repairstep.status == "1" || repairstep.status == "2") {
                         bools = repairstep.repairUserId == userInfo.id
                     }
@@ -236,40 +242,40 @@ class RepairAction extends React.Component {
 
 
         return <SafeAreaViewPlus
-            loading={ !loaded }
+            loading={!loaded}
         >
-            <Header title={ title } navigation={ navigation }
-                headerRight={ () => (submitdata.length > 0 ? <Card enableShadow={ false } paddingV-12 onPress={ this.resetData }>
+            <Header title={title} navigation={navigation}
+                headerRight={() => (submitdata.length > 0 ? <Card enableShadow={false} paddingV-12 onPress={this.resetData}>
                     <Text dark40>重置</Text>
-                </Card> : null) }
+                </Card> : null)}
             >
             </Header>
 
             <View row padding-12 paddingB-0 marginB-12>
-                <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                    navigation.navigate("InfoDeviceDetail", { id: res2.data&&res2.data.id })
-                } }>
+                <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={false} onPress={() => {
+                    navigation.navigate("InfoDeviceDetail", { id: res2.data && res2.data.id })
+                }}>
                     <Text>
-                        设备{ repairstep.equipmentName }详情
+                        设备{repairstep.equipmentName}详情
                     </Text>
                 </Card>
 
                 {
-                    res2.data&&res2.data.repairId ? <View padding-6></View>:null
+                    res2.data && res2.data.repairId ? <View padding-6></View> : null
                 }
                 {
-                    res2.data&&res2.data.repairId ? <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
+                    res2.data && res2.data.repairId ? <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={false} onPress={() => {
                         navigation.navigate("DevicerRepair")
-                    } }>
+                    }}>
                         <Text>
                             查看维修记录
                         </Text>
-                    </Card>:null
+                    </Card> : null
                 }
             </View>
             <SubmitForm></SubmitForm>
 
-            <Button disabled={ getdisabled() ||loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] } onPress={ () => {
+            <Button disabled={getdisabled() || loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`]} onPress={() => {
                 let _it = this;
                 function getVal(key) {
                     let one = {};
@@ -281,7 +287,7 @@ class RepairAction extends React.Component {
                     if (!one.type) {
                         return
                     }
-                    if (one.type.indexOf("select") == -1 ) {
+                    if (one.type.indexOf("select") == -1) {
                         return one.value && one.value
                     } else {
                         return one.value && one.value.id
@@ -296,8 +302,7 @@ class RepairAction extends React.Component {
                         "faultPicUrl": getVal("faultPicUrl")//故障图片，非必填
                     }
                     this.setNewState("repairApply", postData, () => {
-                        let {sendMessage,url,params} = todo;
-                        _it.resetData()
+                        let { sendMessage, url, params } = todo ? todo : {};
                         let btn = [{
                             name: "返回报修",
                             url: "Scan",
@@ -307,23 +312,23 @@ class RepairAction extends React.Component {
                             url: "Mine",
                             params: {}
                         }]
-                        if(url){
+                        if (url) {
                             btn.push({
                                 name: "返回点检详情",
                                 url: url,
                                 params: params
                             })
                         }
-                        console.log(this.props.index.repairApply)
-                        sendMessage.postdata = {
-                            ...sendMessage.postdata,
-                            handleId:this.props.index.repairApply
-                        };//设置维修单号
-                        console.log(sendMessage)
+                        if (sendMessage) {
+                            sendMessage.postdata = {
+                                ...sendMessage.postdata,
+                                handleId: this.props.index.repairApply
+                            };//设置维修单号
+                        }
                         navigation.navigate("Success", {
                             btn,
                             description: `${res2.data.equipmentName}已报修成功`,
-                            sendMessage: sendMessage?sendMessage:{}  //成功回调操作
+                            sendMessage: sendMessage  //成功回调操作
                         })
                     })
                 } else if (type == "1") {
@@ -385,14 +390,14 @@ class RepairAction extends React.Component {
                         })
                     })
                 }
-            } } margin-12 backgroundColor={ colors.primaryColor }>
+            }} margin-12 backgroundColor={colors.primaryColor}>
                 {
-                    loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`]?
-                    <ActivityIndicator color="white" style={ { paddingRight: 8 } } />
-                    : null
+                    loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`] ?
+                        <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
+                        : null
                 }
 
-                <Text white marginV-4 body>{ getdisabled() ? "您没有操作权限" : "确定" }</Text>
+                <Text white marginV-4 body>{getdisabled() ? "您没有操作权限" : "确定"}</Text>
             </Button>
 
 

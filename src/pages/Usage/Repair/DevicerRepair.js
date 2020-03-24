@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Card, TabBar, AnimatedImage } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaViewPlus, Header, OneToast, SpareItem,Rows } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, SpareItem,Rows, Empty } from '../../../components';
 import { ScrollView } from 'react-native';
 import { colors } from '../../../utils';
 
@@ -82,20 +82,20 @@ class DevicerRepair extends Component {
 
     render() {
         let { navigation, index: { repairstep, spareData }, submitting } = this.props;
-        let { equipmentId,equipmentName,applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
-            confirmTime, confirmResult, confirmDesc
+        let { equipmentId,equipmentName,applyRepairUserName,applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
+            confirmUserName,confirmTime, confirmResult, confirmDesc
         } = repairstep ? repairstep : {};
 
 
         let baoxiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
+                <Rows name="报修人" values={ applyRepairUserName } />
                 <Rows name="报修时间" values={ applyRepairTime } />
                 <Rows name="故障分类" values={ faultClassifyName } />
                 <Rows name="故障名称" values={ faultTypeName } />
-                <Rows name="维修人" values={ repairUserName } />
                 <Rows name="故障描述" values={ faultDesc } />
                 <View left padding-12>
-                    <Text subheading>
+                    <Text >
                         故障图片:
                     </Text>
                     <AnimatedImage
@@ -108,6 +108,7 @@ class DevicerRepair extends Component {
             </Card>
         ), weixiu = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
+                <Rows name="维修人" values={ repairUserName } />
                 <Rows name="开始维修时间" values={ repairStartTime } />
                 <Rows name="结束维修时间" values={ repairEndTime } />
                 <Rows name="故障等级" values={ faultLevelName } />
@@ -118,17 +119,19 @@ class DevicerRepair extends Component {
                     <Text subheading>
                         消耗备件:
                     </Text>
-                    <View style={ { width: "100%", backgroundColor: "#f0f0f0" } } flex-1 padding-12 marginT-10>
+                    <View style={ { width: "100%", backgroundColor: "#f0f0f0",borderRadius:8 } } flex-1 padding-12 marginT-10>
                         {
+                            spareData&&spareData.length>0?
                             spareData.map((item, i) => {
                                 return <SpareItem item={ item } navigation={ navigation } lastRender={ { name: "消耗数量", key: "consumeCount" } } />
-                            })
+                            }):<Empty/>
                         }
                     </View>
                 </View>
             </Card>
         ), yanzheng = () => (
             <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
+                <Rows name="验证人" values={ confirmUserName } />
                 <Rows name="验证时间" values={ confirmTime } />
                 <Rows name="验证结果" values={ confirmResult } />
                 <Rows name="验证描述" values={ confirmDesc } noborder={ true }/>

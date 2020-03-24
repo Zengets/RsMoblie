@@ -230,7 +230,6 @@ class SearchForm extends React.Component {
 
                                     } }>
                                         <Text white body>{ item.placeholder }</Text>
-
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
                                     <Animated.View style={ { height: curkey == item.key ? "auto" : 0, overflow: "hidden" } }>
@@ -305,7 +304,6 @@ class SearchForm extends React.Component {
 
                                     } }>
                                         <Text white body>{ item.placeholder }</Text>
-
                                         <Text white>{ item.value && item.value.name }</Text>
                                     </Card>
 

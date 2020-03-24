@@ -346,6 +346,9 @@ export async function publishfinish(params) {
     return post(`${ipandport}/sysAssignment/queryFinishList`, params);
 }
 
+export async function sparerecall(params) {
+    return post(`${ipandport}/sparePartsApply/recall`, params);
+}
 
 
 

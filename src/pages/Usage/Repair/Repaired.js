@@ -17,6 +17,7 @@ import ActionButton from 'react-native-action-button';
 class Repaired extends React.Component {
   constructor(props) {
     super(props);
+    let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
     this.state = {
       isLoadMore: true,
       height: new Animated.Value(45),
@@ -24,7 +25,7 @@ class Repaired extends React.Component {
       postUrl: "repairHisList",
       search: true,
       showbtn: false,
-      postData: {
+      postData: key ? {
         "pageIndex": 1,
         "pageSize": 10,
         "equipmentName": "",//设备名，筛选条件
@@ -32,7 +33,16 @@ class Repaired extends React.Component {
         "taskNo": "",//工单号，筛选条件
         "repairType": "",//维修类型，筛选条件
         "faultLevel": "",//故障级别，筛选条件
-      },
+        [key]: value
+      } : {
+          "pageIndex": 1,
+          "pageSize": 10,
+          "equipmentName": "",//设备名，筛选条件
+          "equipmentNo": "",//设备编号，筛选条件
+          "taskNo": "",//工单号，筛选条件
+          "repairType": "",//维修类型，筛选条件
+          "faultLevel": "",//故障级别，筛选条件
+        },
       resData: [{ items: [] }]
     }
   }
@@ -84,7 +94,7 @@ class Repaired extends React.Component {
   }
 
   resetData = (yuan) => {
-    let { index: { done, formdata } } = yuan
+    let { index: { done, formdata },navigation } = yuan
     function getVal(key) {
       let one = {};
       formdata.map((item) => {
@@ -95,15 +105,27 @@ class Repaired extends React.Component {
       if (!one.type) {
         return
       }
-      if (one.type.indexOf("select") == -1 ) {
+      if (one.type.indexOf("select") == -1) {
         return one.value && one.value
       } else {
         return one.value && one.value.id
       }
     }
     if (done == "1" && formdata.length > 0) {
+      let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
+
       this.setState({
-        postData: {
+        postData: key?{
+          "pageIndex": 1,
+          "pageSize": 10,
+          "equipmentName": getVal("equipmentName"),//设备名，筛选条件
+          "equipmentNo": getVal("equipmentNo"),//设备编号，筛选条件
+          "taskNo": getVal("taskNo"),//工单号，筛选条件
+          "repairType": getVal("repairType"),//维修类型，筛选条件
+          "faultLevel": getVal("faultLevel"),//故障级别，筛选条件
+          [key]:getVal(key)
+        }:{
+           ...this.state.postData,
           "pageIndex": 1,
           "pageSize": 10,
           "equipmentName": getVal("equipmentName"),//设备名，筛选条件
@@ -177,6 +199,7 @@ class Repaired extends React.Component {
   render() {
     let { index: { res, formdata }, navigation, submitting } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+    let { key, title,value } = navigation.state.params ? navigation.state.params : { key: "", title: null,value:"" }
 
     let searchprops = {
       height,
@@ -221,6 +244,19 @@ class Repaired extends React.Component {
           placeholder: "请选择维修类型",
           option: res.repairTypeList && res.repairTypeList
         }, {
+          key: key,
+          type: "select",
+          require: false,
+          hidden:!key?true:false,
+          value: {name:"全部",id:1},
+          placeholder: "请选择操作类型",
+          option: [
+            {dicName:"全部",dicKey:1},
+            {dicName:"报修",dicKey:2},
+            {dicName:"维修",dicKey:3},
+            {dicName:"验证",dicKey:4},
+          ]
+        }, {
           key: "faultLevel",
           type: "select",
           require: false,
@@ -238,55 +274,59 @@ class Repaired extends React.Component {
 
     let renderItem = ({ section: section, row: row }) => {
       let item = this.state.resData[section].items[row];
-      return item ? <RepairItem pressfn={ () => {
-        navigation.navigate("DevicerRepair",{id: item.equipmentRepairId})
-      } } item={ item } navigation={ this.props.navigation }></RepairItem> : <View></View>
+      return item ? <RepairItem pressfn={() => {
+        navigation.navigate("DevicerRepair", { id: item.equipmentRepairId })
+      }} item={item} navigation={this.props.navigation}></RepairItem> : <View></View>
     }
 
-    return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
+    return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
       <Header
-        navigation={ navigation }
-        title="已完成维修单列表"
-        rightwidth={ 70 }
-        headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
-            let postData = JSON.parse(JSON.stringify(this.state.postData));
-            for (let i in postData) {
-                if (i == "pageIndex") {
-                    postData[i] = 1
-                }else if (i == "pageSize") {
-                    postData[i] = 10
-                }else{
-                    postData[i] = ""
-                }
+        navigation={navigation}
+        title={title?title:"已完成维修单列表"}
+        rightwidth={70}
+        headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
+          let postData = JSON.parse(JSON.stringify(this.state.postData));
+          for (let i in postData) {
+            if (i == "pageIndex") {
+              postData[i] = 1
+            } else if (i == "pageSize") {
+              postData[i] = 10
+            }else if(i==key){
+              postData[i] = 1              
+            }else {
+              postData[i] = ""
             }
-            this.setState({
-                postData
-            },()=>{
-                this.onRefresh()
-            })
-            let { index: { formdata } } = this.props;
-            let newformdata = formdata.map((item, i) => {
-                item.value = null
-                if(item.type=='datetimepicker'){
-                    item.maximumDate = undefined
-                    item.minimumDate = undefined
-                    item.value = ""
-                }
-                return item
-            })
-            this.setNewState("formdata", newformdata)
-        } }>
-            <AntIcons name="reload1" size={ 14 }/>
-            <Text marginL-4>重置</Text>
-        </Card> }
+          }
+
+          this.setState({
+            postData
+          }, () => {
+            this.onRefresh()
+          })
+          
+          let { index: { formdata } } = this.props;
+          let newformdata = formdata.map((item, i) => {
+            item.value = null
+            if (item.type == 'datetimepicker') {
+              item.maximumDate = undefined
+              item.minimumDate = undefined
+              item.value = ""
+            }
+            return item
+          })
+          this.setNewState("formdata", newformdata)
+        }}>
+          <AntIcons name="reload1" size={14} />
+          <Text marginL-4>重置</Text>
+        </Card>}
       >
       </Header>
       <View flex >
-        <View style={ { padding: search ? 12 : 0, paddingBottom: 0 } }>
-          <TitleSearch { ...searchprops }></TitleSearch>
+        <View style={{ padding: search ? 12 : 0, paddingBottom: 0 }}>
+          <TitleSearch {...searchprops}></TitleSearch>
         </View>
         <LargeList
-          onScroll={ ({ nativeEvent: { contentOffset: { x, y } } }) => {
+          onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
             if (y > 400) {
               if (showbtn) {
               } else {
@@ -304,29 +344,29 @@ class Repaired extends React.Component {
               }
             }
 
-          } }
-          ref={ ref => (this._list = ref) }
-          onRefresh={ () => { this.onRefresh("0") } } //刷新操作
-          refreshHeader={ ChineseWithLastDateHeader }
-          showsVerticalScrollIndicator={ false }
-          style={ { padding: 0, marginTop: -3 } }
-          data={ this.state.resData }
-          renderIndexPath={ renderItem }//每行
-          heightForIndexPath={ () => 100 }
-          allLoaded={ !this.props.index.repairHisList.hasNextPage }
-          loadingFooter={ ChineseWithLastDateFooter }
-          onLoading={ this.pullUpLoading }
+          }}
+          ref={ref => (this._list = ref)}
+          onRefresh={() => { this.onRefresh("0") }} //刷新操作
+          refreshHeader={ChineseWithLastDateHeader}
+          showsVerticalScrollIndicator={false}
+          style={{ padding: 0, marginTop: -3 }}
+          data={this.state.resData}
+          renderIndexPath={renderItem}//每行
+          heightForIndexPath={() => 100}
+          allLoaded={!this.props.index.repairHisList.hasNextPage}
+          loadingFooter={ChineseWithLastDateFooter}
+          onLoading={this.pullUpLoading}
         />
       </View>
       {
         showbtn && <ActionButton
-          size={ 38 }
-          hideShadow={ true }
-          bgColor={ "transparent" }
-          buttonColor={ colors.primaryColor }
-          offsetX={ 10 }
-          onPress={ this.scrollToTop }
-          renderIcon={ () => <AntIcons name='up' style={ { color: Colors.white } } size={ 16 } /> }
+          size={38}
+          hideShadow={true}
+          bgColor={"transparent"}
+          buttonColor={colors.primaryColor}
+          offsetX={10}
+          onPress={this.scrollToTop}
+          renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
         />
       }
 

@@ -164,6 +164,7 @@ class Usage extends React.Component {
             </Card>
           </View>
         </View>
+       
         <View height={1} marginV-12 style={{ backgroundColor: colors.secondaryColor, opacity: 0.2 }}></View>
         <View marginB-12>
           <View paddingL-8 marginB-s4 marginT-6 style={{ borderLeftWidth: 1, borderColor: colors.thirdColor, width: 48 }} height={12} center>
