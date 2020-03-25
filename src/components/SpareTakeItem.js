@@ -72,7 +72,7 @@ class SpareTakeItem extends Component {
 
       <View row spread marginT-4>
         <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
-        <Text subbody dark40><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
+        <Text subbody dark40><Text >累计申请:</Text>{ item.totalStock }</Text>
       </View>
 
 

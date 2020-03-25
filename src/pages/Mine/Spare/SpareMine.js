@@ -1,48 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, SpareReviewItem } from '../../../components';
+import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton, TextArea } from 'react-native-ui-lib';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, SpareItem, Rows, Empty } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors } from '../../../utils';
-import { StyleSheet, ImageBackground, Animated, Alert } from 'react-native';
+import { StyleSheet, ImageBackground, Animated, ScrollView,ActivityIndicator } from 'react-native';
 import { LargeList } from "react-native-largelist-v3";
 import { ChineseWithLastDateHeader, ChineseWithLastDateFooter } from "react-native-spring-scrollview/Customize";
 import ActionButton from 'react-native-action-button';
 
 @connect(({ index, loading }) => ({
     index,
-    submitting: loading.effects['index/sparereview'],
+    submitting: loading.effects['index/sparerevert'],
 }))
-class SpareReview extends React.Component {
+class SpareMine extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
             refreshing: true,
-            postUrl: "sparereview",
+            postUrl: "sparerevert",
             search: true,
             showbtn: false,
-            postData: key ? {
-                "pageIndex": "1",  //--------页码*
-                "pageSize": "10",  //--------每页条数*
-                "taskNo": "",//工单号，筛选条件
-                "applyType": "",//申请类型key，筛选条件
-                "applyUserName": "",//申请人名，筛选条件
-                "status": "",   //-----------状态（0正常，1异常）
-                [key]: value
-            } : {
-                    "pageIndex": "1",  //--------页码*
-                    "pageSize": "10",  //--------每页条数*
-                    "taskNo": "",//工单号，筛选条件
-                    "applyType": "",//申请类型key，筛选条件
-                    "applyUserName": "",//申请人名，筛选条件
-                    "status": ""
-
-                },
-            resData: [{ items: [] }]
+            postData: {
+                "pageIndex": 1,
+                "pageSize": 10,
+                "sparePartsNo": "",//备件料号，筛选条件
+                "sparePartsName": "",//备件名，筛选条件
+                "sparePartsTypeId": ""//规格型号id，筛选条件
+            },
+            resData: [{ items: [] }],
+            selected: [],
         }
     }
 
@@ -75,22 +65,26 @@ class SpareReview extends React.Component {
                 this.setNewState("done", "0", () => {
                     this._list.endRefresh();//结束刷新状态
                     this._list.endLoading();
+
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.sparereview.list }],
+                            resData: [{ items: this.props.index.sparerevert.list }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.sparereview.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.sparerevert.list }]),
                             isLoadMore: false
                         })
                     }
                 })
+
             })
         })
+
     }
+
 
     resetData = (yuan) => {
         let { index: { done, formdata } } = yuan
@@ -113,13 +107,11 @@ class SpareReview extends React.Component {
         if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
-                    ...this.state.postData,
-                    "pageIndex": "1",  //--------页码*
-                    "pageSize": "10",  //--------每页条数*
-                    "taskNo": getVal("taskNo"),//工单号，筛选条件
-                    "applyType": getVal("applyType"),//申请类型key，筛选条件
-                    "applyUserName": getVal("applyUserName"),//申请人名，筛选条件
-                    "status": getVal("status")
+                    "pageIndex": 1,
+                    "pageSize": 10,
+                    "sparePartsNo": getVal("sparePartsNo"),
+                    "sparePartsName": getVal("sparePartsName"),
+                    "sparePartsTypeId": getVal("sparePartsTypeId"),
                 },
             }, () => {
                 this.onRefresh()
@@ -141,6 +133,7 @@ class SpareReview extends React.Component {
         this.resetData(this.props)
     }
 
+
     //下拉刷新,更改状态，重新获取数据
     onRefresh(draw) {
         this.setState({
@@ -151,14 +144,15 @@ class SpareReview extends React.Component {
         });
     }
 
+
     //上拉加载
     pullUpLoading = () => {
-        if (!this.state.isLoadMore && this.props.index.sparereview.hasNextPage) {
+        if (!this.state.isLoadMore && this.props.index.sparerevert.hasNextPage) {
             this.setState({
                 isLoadMore: true,
                 postData: {
                     ...this.state.postData,
-                    pageIndex: this.props.index.sparereview.pageNum + 1
+                    pageIndex: this.props.index.sparerevert.pageNum + 1
                 }
             }, () => {
                 this.getData()
@@ -184,25 +178,23 @@ class SpareReview extends React.Component {
     }
 
 
-
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
-            { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
-
+            { refreshing, search, postData, height, isLoadMore, showbtn, selected } = this.state;
+        let selectarr = selected.map((item) => { return item.sparePartsId });
         let searchprops = {
             height,
             navigation,
-            placeholder: "输入工单号查询...",
-            value: postData.taskNo,
+            placeholder: "输入备件名称查询...",
+            value: postData.sparePartsName,
             onChangeText: (val, ifs) => {
                 this.setState({
                     postData: {
                         ...postData,
-                        taskNo: val
+                        sparePartsName: val
                     }
                 }, () => {
-                    this.changeData("taskNo", val)
+                    this.changeData("sparePartsName", val)
                     if (ifs) {
                         this.onRefresh()
                     }
@@ -213,64 +205,58 @@ class SpareReview extends React.Component {
             },
             handleFormData: (fn) => {
                 let formdatas = [{
-                    key: "taskNo",
+                    key: "sparePartsName",
                     type: "input",
                     require: false,
-                    value: postData.taskNo,
-                    placeholder: "请输入工单号"
+                    value: postData.sparePartsName,
+                    hidden: false,
+                    placeholder: "请输入备件名称"
                 }, {
-                    key: "applyUserName",
+                    key: "sparePartsNo",
                     type: "input",
                     require: false,
-                    hidden:key?true:false,
-                    value: postData.applyUserName,
-                    placeholder: "请输入申请人姓名"
+                    value: postData.sparePartsNo,
+                    placeholder: "请输入备件料号"
+
                 }, {
-                    key: "applyType",
+                    key: "sparePartsTypeId",
                     type: "select",
                     require: false,
-                    value: postData.applyType,
-                    placeholder: "请选择申请类型",
-                    option: res.applyTypeList && res.applyTypeList
-                }, {
-                    key: "status",
-                    type: "select",
-                    require: false,
-                    value: postData.status,
-                    placeholder: "请选择审批状态",
-                    option: [{
-                        dicName: "待审批",
-                        dicKey: "0"
-                    }, {
-                        dicName: "审批通过",
-                        dicKey: "1"
-                    }, {
-                        dicName: "审批未通过",
-                        dicKey: "2"
-                    }, {
-                        dicName: "撤回",
-                        dicKey: "3"
-                    }]
-                },
-                ]
-
-
+                    value: postData.sparePartsTypeId,
+                    placeholder: "请选择规格",
+                    option: res.sparePartsTypeList && res.sparePartsTypeList.map((item, i) => {
+                        return {
+                            dicName: item.sparePatrsTypeName,
+                            dicKey: item.id
+                        }
+                    })
+                }]
                 this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
                     fn ? fn() : null
                 })
             }
-
         }
 
         let renderItem = ({ section: section, row: row }) => {
-            let item = this.state.resData[section].items[row];
-            return item ? <SpareReviewItem item={item} navigation={this.props.navigation} type={key}></SpareReviewItem> : <View></View>
+            let item = this.state.resData[section].items[row], { sparePartsId } = item, value = 0;
+            let newselected = JSON.parse(JSON.stringify(this.state.selected));
+            newselected.map((item) => {
+                if (item.sparePartsId == sparePartsId) {
+                    value = item.applyCount
+                }
+            })
+
+            return item ? <SpareItem
+                item={ item }
+                navigation={ this.props.navigation }
+                lastRender = {{name:"累积获得",key:"totalStock"}}
+               ></SpareItem> : <View></View>
         }
 
-        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
+        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
             <Header
-                navigation={navigation}
-                title={title ? title : "备件审批列表"}
+                navigation={ navigation }
+                title={"我的备件(列表)"}
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -279,8 +265,6 @@ class SpareReview extends React.Component {
                             postData[i] = 1
                         } else if (i == "pageSize") {
                             postData[i] = 10
-                        } else if (i == key) {
-
                         } else {
                             postData[i] = ""
                         }
@@ -305,14 +289,17 @@ class SpareReview extends React.Component {
                     <AntIcons name="reload1" size={14} />
                     <Text marginL-4>重置</Text>
                 </Card>}
+                
             >
             </Header>
+
+          
             <View flex >
-                <View style={{ padding: search ? 12 : 0, paddingBottom: 0 }}>
-                    <TitleSearch {...searchprops}></TitleSearch>
+                <View style={ { padding: search ? 12 : 0, paddingBottom: 0 } }>
+                    <TitleSearch { ...searchprops }></TitleSearch>
                 </View>
                 <LargeList
-                    onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
+                    onScroll={ ({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {
                             if (showbtn) {
                             } else {
@@ -330,34 +317,34 @@ class SpareReview extends React.Component {
                             }
                         }
 
-                    }}
-                    ref={ref => (this._list = ref)}
-                    onRefresh={() => { this.onRefresh("0") }} //刷新操作
-                    refreshHeader={ChineseWithLastDateHeader}
-                    showsVerticalScrollIndicator={false}
-                    style={{ padding: 0, marginTop: -3 }}
-                    data={this.state.resData}
-                    renderIndexPath={renderItem}//每行
-                    heightForIndexPath={() => 128}
-                    allLoaded={!this.props.index.sparereview.hasNextPage}
-                    loadingFooter={ChineseWithLastDateFooter}
-                    onLoading={this.pullUpLoading}
+                    } }
+                    ref={ ref => (this._list = ref) }
+                    onRefresh={ () => { this.onRefresh("0") } } //刷新操作
+                    refreshHeader={ ChineseWithLastDateHeader }
+                    showsVerticalScrollIndicator={ false }
+                    style={ { padding: 0, marginTop: -3 } }
+                    data={ this.state.resData }
+                    renderIndexPath={ renderItem }//每行
+                    heightForIndexPath={ () => 90 }
+                    allLoaded={ !this.props.index.sparerevert.hasNextPage }
+                    loadingFooter={ ChineseWithLastDateFooter }
+                    onLoading={ this.pullUpLoading }
                 />
             </View>
             {
                 showbtn && <ActionButton
-                    size={38}
-                    hideShadow={true}
-                    bgColor={"transparent"}
-                    buttonColor={colors.primaryColor}
-                    offsetX={10}
-                    onPress={this.scrollToTop}
-                    renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
+                    size={ 38 }
+                    hideShadow={ true }
+                    bgColor={ "transparent" }
+                    buttonColor={ colors.primaryColor }
+                    offsetX={ 10 }
+                    onPress={ this.scrollToTop }
+                    renderIcon={ () => <AntIcons name='up' style={ { color: Colors.white } } size={ 16 } /> }
                 />
             }
 
 
-        </SafeAreaViewPlus>
+        </SafeAreaViewPlus >
 
     }
 }
@@ -373,4 +360,4 @@ const styles = StyleSheet.create({
         color: "#666"
     },
 })
-export default SpareReview
+export default SpareMine

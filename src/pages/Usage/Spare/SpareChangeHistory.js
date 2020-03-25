@@ -17,6 +17,7 @@ import ActionButton from 'react-native-action-button';
 class SpareChangeHistory extends React.Component {
     constructor(props) {
         super(props);
+        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -24,7 +25,7 @@ class SpareChangeHistory extends React.Component {
             postUrl: "sparechangehistory",
             search: true,
             showbtn: false,
-            postData: {
+            postData: key ? {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "equipmentName": "",//设备名，筛选条件
@@ -33,7 +34,17 @@ class SpareChangeHistory extends React.Component {
                 "sparePartsNo": "",//备件料号，筛选条件
                 "planMaintainUserName": "",//执行人名，筛选条件
                 "taskNo": "",//工单号，筛选条件
-            },
+                [key]: value
+            } : {
+                    "pageIndex": "1",  //--------页码*
+                    "pageSize": "10",  //--------每页条数*
+                    "equipmentName": "",//设备名，筛选条件
+                    "equipmentNo": "",//设备编号，筛选条件
+                    "sparePartsName": "",//备件名，筛选条件
+                    "sparePartsNo": "",//备件料号，筛选条件
+                    "planMaintainUserName": "",//执行人名，筛选条件
+                    "taskNo": "",//工单号，筛选条件
+                },
             resData: [{ items: [] }]
         }
     }
@@ -105,6 +116,7 @@ class SpareChangeHistory extends React.Component {
         if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
+                    ...this.state.postData,
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "equipmentName": getVal("equipmentName"),//设备名，筛选条件
@@ -181,6 +193,7 @@ class SpareChangeHistory extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
 
         let searchprops = {
             height,
@@ -239,7 +252,8 @@ class SpareChangeHistory extends React.Component {
                     type: "input",
                     require: false,
                     value: postData.planMaintainUserName,
-                    placeholder: "请输入执行人"
+                    placeholder: "请输入执行人",
+                    hidden:key?true:false,
                 }
                 ]
 
@@ -259,7 +273,7 @@ class SpareChangeHistory extends React.Component {
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="备件更换历史"
+                title={title?title:"备件更换历史"}
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -268,7 +282,9 @@ class SpareChangeHistory extends React.Component {
                             postData[i] = 1
                         } else if (i == "pageSize") {
                             postData[i] = 10
-                        } else {
+                        } else if (i == key) {
+
+                        }else {
                             postData[i] = ""
                         }
                     }

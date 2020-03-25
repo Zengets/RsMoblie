@@ -5,7 +5,7 @@ import { Scan, Login,SearchForm,
     
     
     ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,
-    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished
+    SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,SpareReview,SpareReviewDetail,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,SpareMine
 
 } from '../pages/index';
 import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
@@ -101,7 +101,8 @@ const AppNavigator = createStackNavigator(
         PublishTodo:PublishTodo,
         PublishTodoDetail:PublishTodoDetail,
         PublishToConfirm:PublishToConfirm,
-        PublishFinished:PublishFinished
+        PublishFinished:PublishFinished,
+        SpareMine:SpareMine
     },
     {
         initialRouteName: 'Home',

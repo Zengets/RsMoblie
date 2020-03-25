@@ -27,7 +27,9 @@ class SpareItem extends Component {
       padding-12
       paddingL-page paddingR-page
       onPress={ () => {
-        console.log(item)
+        lastRender.key == "totalStock" ?
+        navigation.navigate("SpareOwnerDetail", item)
+        :
         navigation.navigate("InfoSpareDetail", {
           id: item.sparePartsId ? item.sparePartsId : item.id,
         })
@@ -38,7 +40,7 @@ class SpareItem extends Component {
           <Text body dark>{ item.sparePartsName }</Text>
         </View>
         {
-          item.availableStock > item.warnStock ?
+          item.availableStock > item.warnStock || lastRender.key == "totalStock" ?
             null : <View center style={ { width: 64, height: 20, backgroundColor: colors.errorColor, marginTop: -12, marginRight: -20 } }>
               <Text white>
                 低库存
@@ -57,7 +59,7 @@ class SpareItem extends Component {
         <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
         {
           lastRender ?
-            <Text subbody dark40 style={ { color:colors.errorColor } }><Text >{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
+            <Text subbody dark40><Text >{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
             : <Text subbody dark40><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
         }
       </View>

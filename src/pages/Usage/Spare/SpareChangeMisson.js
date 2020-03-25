@@ -17,6 +17,7 @@ import ActionButton from 'react-native-action-button';
 class SpareChangeMisson extends React.Component {
     constructor(props) {
         super(props);
+        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -24,7 +25,7 @@ class SpareChangeMisson extends React.Component {
             postUrl: "sparechangemission",
             search: true,
             showbtn: false,
-            postData: {
+            postData: key ? {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "equipmentName": "",//设备名，筛选条件
@@ -33,8 +34,19 @@ class SpareChangeMisson extends React.Component {
                 "sparePartsNo": "",//备件料号，筛选条件
                 "planMaintainUserName": "",//执行人名，筛选条件
                 "taskNo": "",//工单号，筛选条件
-                "status":""
-            },
+                "status": "",  //--------任务状态
+                [key]: value
+            } : {
+                    "pageIndex": "1",  //--------页码*
+                    "pageSize": "10",  //--------每页条数*
+                    "equipmentName": "",//设备名，筛选条件
+                    "equipmentNo": "",//设备编号，筛选条件
+                    "sparePartsName": "",//备件名，筛选条件
+                    "sparePartsNo": "",//备件料号，筛选条件
+                    "planMaintainUserName": "",//执行人名，筛选条件
+                    "taskNo": "",//工单号，筛选条件
+                    "status": ""
+                },
             resData: [{ items: [] }]
         }
     }
@@ -106,6 +118,7 @@ class SpareChangeMisson extends React.Component {
         if (done == "1" && formdata.length > 0) {
             this.setState({
                 postData: {
+                    ...this.state.postData,
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "equipmentName": getVal("equipmentName"),//设备名，筛选条件
@@ -114,7 +127,7 @@ class SpareChangeMisson extends React.Component {
                     "sparePartsNo": getVal("sparePartsNo"),//备件料号，筛选条件
                     "planMaintainUserName": getVal("planMaintainUserName"),//执行人名，筛选条件
                     "taskNo": getVal("taskNo"),//工单号，筛选条件
-                    "status":getVal("status")
+                    "status": getVal("status")
                 },
             }, () => {
                 this.onRefresh()
@@ -183,6 +196,7 @@ class SpareChangeMisson extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
 
         let searchprops = {
             height,
@@ -240,6 +254,7 @@ class SpareChangeMisson extends React.Component {
                     key: "planMaintainUserName",
                     type: "input",
                     require: false,
+                    hidden: key?true:false,
                     value: postData.planMaintainUserName,
                     placeholder: "请输入执行人"
                 }, {
@@ -275,7 +290,7 @@ class SpareChangeMisson extends React.Component {
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="备件更换任务"
+                title={title ? title : "备件更换任务"}
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
@@ -284,6 +299,8 @@ class SpareChangeMisson extends React.Component {
                             postData[i] = 1
                         } else if (i == "pageSize") {
                             postData[i] = 10
+                        } else if (i == key) {
+
                         } else {
                             postData[i] = ""
                         }

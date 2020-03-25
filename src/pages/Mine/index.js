@@ -255,7 +255,7 @@ class Mine extends React.Component {
               this.jumpToUrl("SpareReview", { key: "applyUserId", value: userInfo.id, title: "我的备件(申请/回冲记录)" })
             }}>
               <View center style={{ width: 48, height: 48 }}>
-                <MaterialCommunityIcons name='file-move' size={33} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                <MaterialCommunityIcons name='file-move' size={33} style={{ color: "#999" }}></MaterialCommunityIcons>
               </View>
               <Text subbody>申请/回冲记录</Text>
             </Card>
@@ -264,40 +264,32 @@ class Mine extends React.Component {
               this.jumpToUrl("SpareReview", { key: "currentUserAudit", value: 1, title: "我的备件(审批)" })
             }}>
               <View center style={{ width: 48, height: 48 }}>
-                <MaterialCommunityIcons name='file-move' size={33} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                <FontAwesome5 name='pen' size={24} style={{ color: colors.primaryColor }}></FontAwesome5>
               </View>
               <Text subbody>审批</Text>
             </Card>
 
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("SpareLog")
+              this.jumpToUrl("SpareMine")
             }}>
               <View center style={{ width: 48, height: 48 }}>
-                <AntIcons name='filetext1' size={26} style={{ color: colors.thirdColor }}></AntIcons>
+                <FontAwesome5 name='user-cog' size={25} style={{ color: "#999" }}></FontAwesome5>
               </View>
-              <Text subbody>出入库记录</Text>
+              <Text subbody>我的备件</Text>
             </Card>
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("SpareOwner")
+              this.jumpToUrl("SpareChangeMisson", { key: "planMaintainUserId", value: userInfo.id, title: "我的备件(更换任务)" })
             }}>
               <View center style={{ width: 48, height: 48 }}>
-                <FontAwesome5 name='user-cog' size={25} style={{ color: colors.thirdColor }}></FontAwesome5>
-              </View>
-              <Text subbody>持有总览</Text>
-            </Card>
-            <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("SpareChangeMisson")
-            }}>
-              <View center style={{ width: 48, height: 48 }}>
-                <EntypoIcons name='retweet' size={33} style={{ color: colors.thirdColor }}></EntypoIcons>
+                <EntypoIcons name='retweet' size={33} style={{ color:colors.primaryColor  }}></EntypoIcons>
               </View>
               <Text subbody>更换任务</Text>
             </Card>
             <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-              this.jumpToUrl("SpareChangeHistory")
+              this.jumpToUrl("SpareChangeHistory", { key: "planMaintainUserId", value: userInfo.id, title: "我的备件(更换历史)" })
             }}>
               <View center style={{ width: 48, height: 48 }}>
-                <FontAwesome5 name='history' size={26} style={{ color: colors.thirdColor }}></FontAwesome5>
+                <FontAwesome5 name='history' size={26} style={{ color:"#999" }}></FontAwesome5>
               </View>
               <Text subbody>更换历史</Text>
             </Card>

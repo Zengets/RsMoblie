@@ -107,11 +107,6 @@ class SpareChangeMissonDetail extends React.Component {
                 <View padding-12 paddingT-0>
                     <View style={{ overflow: "hidden" }} row={false} spread left>
                         <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
-                            <Rows name="备件名" values={sparePartsName} />
-                            <Rows name="料号" values={sparePartsNo} />
-                            <Rows name="备件价值" values={sparePartsValue ? sparePartsValue + "元" : ""} noborder={true} />
-                        </Card>
-                        <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
                             <Rows name="工单号" values={taskNo} />
                             <Rows name="任务名" values={taskName} />
                             <Rows name="任务类型" values={taskTypeName} />
@@ -119,14 +114,20 @@ class SpareChangeMissonDetail extends React.Component {
                                 <Text subbody dark100 marginR-3 style={{ color: getColor(status) }}>{statusName[status]}</Text>
                                 <Badge size='small' backgroundColor={getColor(status)}></Badge>
                             </View>} />
+                        </Card>
+                        <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>    
                             <Rows name="设备名" values={equipmentName} />
                             <Rows name="设备编号" values={equipmentNo} />
                             <Rows name="设备型号" values={equipmentModel} />
                             <Rows name="设备类型" values={equipmentTypeName} />
-                            <Rows name="部门名" values={departmentName} />
+                        </Card>
+                        <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>    
                             <Rows name="计划执行日期" values={planStartMaintainDate} />
                             <Rows name="执行人" values={planMaintainUserName} />
-                            <Rows name="拥有该备件数量" values={num} />
+                            <Rows name="备件名" values={sparePartsName} />
+                            <Rows name="料号" values={sparePartsNo} />
+                            <Rows name="备件价值" values={sparePartsValue ? sparePartsValue + "元" : ""} noborder={true} />
+                            <Rows name="拥有该备件数量" values={num} color={colors.errorColor}/>
                             <View row center padding-12>
                                 {
                                     status == 0 ?

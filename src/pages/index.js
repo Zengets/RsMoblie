@@ -44,7 +44,6 @@ import SpareUsage from './Usage/Spare/SpareUsage'
 import SpareUsageDetail from './Usage/Spare/SpareUsageDetail'
 import SpareReview from './Usage/Spare/SpareReview'
 import SpareReviewDetail from './Usage/Spare/SpareReviewDetail'
-
 import Knowledge from './Knowledge';
 import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
 import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
@@ -59,6 +58,8 @@ import PublishTodo from './Mine/Publish/PublishTodo';
 import PublishTodoDetail from './Mine/Publish/PublishTodoDetail';
 import PublishToConfirm from './Mine/Publish/PublishToConfirm';
 import PublishFinished from './Mine/Publish/PublishFinished';
+import SpareMine from './Mine/Spare/SpareMine'
+
 import UserSelect from './Public/UserSelect';
 
 import SettingMenu from './SettingMenu'
@@ -80,7 +81,7 @@ export {
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
-    SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,
+    SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,SpareMine,
 
     Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,
     

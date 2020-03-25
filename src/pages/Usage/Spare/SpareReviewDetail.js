@@ -243,8 +243,8 @@ class SpareReviewDetail extends React.Component {
 
             </Modal>
 
-            <View row center style={{ borderColor: "#f0f0f0", borderTopWidth: 1, marginBottom: 10 }}>
-                <Card center enableShadow={false} flex-1 borderRadius={0}>
+            <View padding-12 row center style={{ borderColor: "#f0f0f0", borderTopWidth: 1, marginBottom: 10,borderRadius:8,overflow:"hidden" }}>
+                <Card center enableShadow={false} flex-1>
                     <Rows name={"工单:" + taskNo} rightRender={<View row center>
                         <Text subbody dark100 marginR-3 style={{ color: getColor(status) }}>{statusName[status]}</Text>
                         <Badge size='small' backgroundColor={getColor(status)}></Badge>
@@ -258,8 +258,8 @@ class SpareReviewDetail extends React.Component {
             </View>
 
 
-            <View flex>
-                <Text marginL-12 marginB-12 dark10>申请的备件列表</Text>
+            <View flex paddingH-12>
+                <Text marginB-12 dark10>申请的备件列表</Text>
                 <LargeList
                     onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {

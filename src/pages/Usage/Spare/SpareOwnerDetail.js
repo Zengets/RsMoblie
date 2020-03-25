@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingButton, Avatar } from 'react-native-ui-lib';
-import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, SpareOwnerDetailItem } from '../../../components';
+import { SafeAreaViewPlus, OneToast, Header, Modal, TitleSearch, SpareOwnerDetailItem, Rows } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
 import { colors, ConvertPinyin } from '../../../utils';
@@ -119,12 +119,12 @@ class SpareOwnerDetail extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state,
-            { userId, userName,sparePartsName,sparePartsNo,sparePartsId } = navigation.state.params ? navigation.state.params : {};
+            { userId, userName, sparePartsName, availableStock, totalStock, sparePartsId } = navigation.state.params ? navigation.state.params : {};
 
 
         let renderItem = ({ section: section, row: row }) => {
             let item = this.state.resData[section].items[row];
-            return item ? <SpareOwnerDetailItem item={ item } navigation={ this.props.navigation } type="history"></SpareOwnerDetailItem> : <View></View>
+            return item ? <SpareOwnerDetailItem item={item} navigation={this.props.navigation} type="history"></SpareOwnerDetailItem> : <View></View>
         }, avatarprops = {
             title: 'USER',
             label: userName ? ConvertPinyin(userName).substring(0, 1).toUpperCase() : "",
@@ -133,33 +133,33 @@ class SpareOwnerDetail extends React.Component {
             size: 20
         }
 
-        return <SafeAreaViewPlus loading={ submitting && isLoadMore && refreshing }>
+        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
-                navigation={ navigation }
+                navigation={navigation}
                 title="备件使用记录"
             >
             </Header>
             <View padding-12 row center>
-                <Card center enableShadow={ false } padding-12 flex-1 onPress={()=>{
-                     navigation.navigate("UserListDetail", {
+                <Card center enableShadow={false} padding-12 flex-1 onPress={() => {
+                    navigation.navigate("UserListDetail", {
                         id: userId
-                      })
+                    })
                 }}>
                     <View row center marginB-6>
-                        <Avatar { ...avatarprops }></Avatar>
-                        <Text body dark10 marginL-8>{ userName }</Text>
+                        <Avatar {...avatarprops}></Avatar>
+                        <Text body dark10 marginL-8>{userName}</Text>
                     </View>
                     <View>
                         <Text>查看用户信息</Text>
                     </View>
                 </Card>
-                <Card center enableShadow={ false } padding-12 flex-1 marginL-12 onPress={()=>{
-                     navigation.navigate("InfoSpareDetail", {
+                <Card center enableShadow={false} padding-12 flex-1 marginL-12 onPress={() => {
+                    navigation.navigate("InfoSpareDetail", {
                         id: sparePartsId
-                      })
+                    })
                 }}>
                     <View row center marginB-6>
-                        <Text body dark10 marginL-8>{ sparePartsName }</Text>
+                        <Text body dark10 marginL-8>{sparePartsName}</Text>
                     </View>
                     <View>
                         <Text>查看备件信息</Text>
@@ -167,11 +167,14 @@ class SpareOwnerDetail extends React.Component {
                 </Card>
 
             </View>
+            <Card margin-12 marginT-0 marginB-16 enableShadow={false}>
+                <Rows name="累计申请" values={totalStock?`${totalStock}个`:""}></Rows>
+                <Rows name="剩余库存" values={availableStock?`${availableStock}个`:""} noborder={true} color={colors.errorColor}></Rows>
+            </Card>
 
-
-            <View flex>
+            <View flex paddingH-12>
                 <LargeList
-                    onScroll={ ({ nativeEvent: { contentOffset: { x, y } } }) => {
+                    onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
                         if (y > 400) {
                             if (showbtn) {
                             } else {
@@ -189,29 +192,29 @@ class SpareOwnerDetail extends React.Component {
                             }
                         }
 
-                    } }
-                    ref={ ref => (this._list = ref) }
-                    onRefresh={ () => { this.onRefresh("0") } } //刷新操作
-                    refreshHeader={ ChineseWithLastDateHeader }
-                    showsVerticalScrollIndicator={ false }
-                    style={ { padding: 0, marginTop: -3 } }
-                    data={ this.state.resData }
-                    renderIndexPath={ renderItem }//每行
-                    heightForIndexPath={ () => 110 }
-                    allLoaded={ !this.props.index.spareownerdetail.hasNextPage }
-                    loadingFooter={ ChineseWithLastDateFooter }
-                    onLoading={ this.pullUpLoading }
+                    }}
+                    ref={ref => (this._list = ref)}
+                    onRefresh={() => { this.onRefresh("0") }} //刷新操作
+                    refreshHeader={ChineseWithLastDateHeader}
+                    showsVerticalScrollIndicator={false}
+                    style={{ padding: 0, marginTop: -3 }}
+                    data={this.state.resData}
+                    renderIndexPath={renderItem}//每行
+                    heightForIndexPath={() => 110}
+                    allLoaded={!this.props.index.spareownerdetail.hasNextPage}
+                    loadingFooter={ChineseWithLastDateFooter}
+                    onLoading={this.pullUpLoading}
                 />
             </View>
             {
                 showbtn && <ActionButton
-                    size={ 38 }
-                    hideShadow={ true }
-                    bgColor={ "transparent" }
-                    buttonColor={ colors.primaryColor }
-                    offsetX={ 10 }
-                    onPress={ this.scrollToTop }
-                    renderIcon={ () => <AntIcons name='up' style={ { color: Colors.white } } size={ 16 } /> }
+                    size={38}
+                    hideShadow={true}
+                    bgColor={"transparent"}
+                    buttonColor={colors.primaryColor}
+                    offsetX={10}
+                    onPress={this.scrollToTop}
+                    renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
                 />
             }
 
