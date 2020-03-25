@@ -2,13 +2,11 @@ import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
     infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
-    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit,sparerecall,publishaudit,
+    userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit, sparerecall, publishaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
-    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit,
-    noticetoconfirm, noticefinish,publish,publishtodo,publishtododetail,publishtoconfirm,publishfinish
-
-
+    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
+    noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish
 
 } from '../services/index'
 export default {
@@ -24,11 +22,12 @@ export default {
         sparechangemission: {},
         sparechangehistory: {},
         noticetodo: {},
-        publishtodo:{},
+        publishtodo: {},
         noticetoconfirm: {},
-        publishtoconfirm:{},
+        publishtoconfirm: {},
         noticefinish: {},
-        publishfinish:{},
+        minenum: {},
+        publishfinish: {},
         spareusage: {},
         sparereview: {},
         knowledgelist: {},
@@ -44,7 +43,7 @@ export default {
         spareownerdetail: {},
         sparereviewdetail: {},
         noticetododetail: {},
-        publishtododetail:{},
+        publishtododetail: {},
         infodevicedetail: {},
         checkhistorydetail: {},
         errortohis: {},
@@ -55,6 +54,7 @@ export default {
         deviceuser: [],
         deviceuserlist: {},
         department: [],
+        overview: {},
         shopgrouplist: [],
         departmentmore: [],
         repairstep: null,
@@ -81,7 +81,7 @@ export default {
         formdata: [],
         submitdata: [],
         executeUserIdList: [],
-        sendUserIdList:[],
+        sendUserIdList: [],
         getshoplist: [],
         getChildren: [],
         getuserspare: [],
@@ -217,6 +217,22 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *minenum({ payload }, { call, put }) {//data
+            const responese = yield call(minenum, payload);
+            yield put({
+                type: 'updateState',
+                payload: { minenum: responese.data.dataList ? responese.data.dataList : {} }
+            })
+            return responese.code == "0000"
+        },
+        *overview({ payload }, { call, put }) {//data
+            const responese = yield call(overview, payload);
+            yield put({
+                type: 'updateState',
+                payload: { overview: responese.data.dataList ? responese.data.dataList : {} }
             })
             return responese.code == "0000"
         },

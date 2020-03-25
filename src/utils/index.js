@@ -28,6 +28,7 @@ let getItem = (mainname, name, data) => {
 
     return thisitem
 }
+
 let ipandport = 'http://172.21.3.137:8607' //liziyuan  'http://172.21.3.137:8607' //xiangzige 
 
 let getQueryString = (name,location) => {

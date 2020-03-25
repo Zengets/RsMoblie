@@ -70,7 +70,7 @@ class DeviceItem extends Component {
                 <View flex-1 paddingV-12>
                     <View row spread top flex-1>
                         <View>
-                            <Text body dark10>{item.equipmentName}</Text>
+                            <Text body dark10 numberOfLines={1}>{item.equipmentName}</Text>
                         </View>
                         <View row center>
                             <Text subbody dark100 marginR-3  style={{ color: getColor(item) }}>{item.statusName}</Text>
@@ -80,12 +80,11 @@ class DeviceItem extends Component {
                     <View flex-1 bottom>
                         <View row spread>
                             <View flex-1>
-                                <Text subbody >编号:{item.equipmentNo}</Text>
+                                <Text subbody  numberOfLines={1}>编号:{item.equipmentNo}</Text>
                             </View>
                             <View flex-1 right>
-                                <Text subbody >位置:{item.positionNo}</Text>
+                                <Text subbody  numberOfLines={1}>位置:{item.positionNo}</Text>
                             </View>
-
                         </View>
                     </View>
                 </View>

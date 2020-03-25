@@ -46,9 +46,6 @@ class SpareReviewItem extends Component {
       return color
     }, statusName = { 0: "待审批", 1: "审批通过", 2: "审批未通过", 3: "撤回" };
 
-    // "applyTypeName": "预申领",---------------申请类型名
-    // "id": "2020030433186842718",-------------------id
-    // "totalSparePartsValue": 650,----------------总价值
 
     return <Card borderRadius={0} enableShadow={false} bg-white
       style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 128 }}

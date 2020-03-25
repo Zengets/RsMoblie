@@ -49,6 +49,7 @@ import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
 import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
 
 import Mine from './Mine';
+import OverView from './Mine/OverView';
 import NoticeTodo from './Mine/Notice/NoticeTodo';
 import NoticeTodoDetail from './Mine/Notice/NoticeTodoDetail';
 import NoticeToConfirm from './Mine/Notice/NoticeToConfirm';
@@ -58,7 +59,8 @@ import PublishTodo from './Mine/Publish/PublishTodo';
 import PublishTodoDetail from './Mine/Publish/PublishTodoDetail';
 import PublishToConfirm from './Mine/Publish/PublishToConfirm';
 import PublishFinished from './Mine/Publish/PublishFinished';
-import SpareMine from './Mine/Spare/SpareMine'
+import SpareMine from './Mine/Spare/SpareMine';
+
 
 import UserSelect from './Public/UserSelect';
 
@@ -83,7 +85,7 @@ export {
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,SpareMine,
 
-    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,
+    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,OverView,
     
     Mine,
     SettingMenu,

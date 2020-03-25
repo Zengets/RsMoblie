@@ -350,9 +350,13 @@ export async function sparerecall(params) {
     return post(`${ipandport}/sparePartsApply/recall`, params);
 }
 
+export async function minenum(params) {
+    return post(`${ipandport}/equipment/queryTaskNum`, params);
+}
 
-
-
+export async function overview(params) {
+    return post(`${ipandport}/equipment/queryAllTask`, params);
+}
 
 
 
