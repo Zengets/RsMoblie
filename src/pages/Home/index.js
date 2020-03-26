@@ -225,7 +225,7 @@ class Home extends React.Component {
               fullscreen: !fullscreen
             })
           }}>
-            <Text>待办任务({overview.taskList.length}):</Text>
+            <Text>待办任务({overview.taskList?overview.taskList.length:""}):</Text>
           </Card>
           <View style={{ borderRadius: 8, overflow: "hidden" }}>
             {
@@ -242,7 +242,7 @@ class Home extends React.Component {
                 null
             }
             {
-              overview.taskList.length > 3 && <Card row center padding-4 borderRadius={0} enableShadow={false} onPress={() => {
+              overview.taskList&&overview.taskList.length > 3 ? <Card row center padding-4 borderRadius={0} enableShadow={false} onPress={() => {
                 this.setState({
                   fullscreen: !fullscreen
                 })
@@ -251,7 +251,7 @@ class Home extends React.Component {
                 <Text>
                   {fullscreen ? " 收起" : " 展开"}
                 </Text>
-              </Card>
+              </Card>:null
             }
           </View>
         </View>
