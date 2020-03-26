@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 class RepairItem extends Component {
     render() {
-        let { item, navigation,pressfn } = this.props;
+        let { item, navigation, pressfn, hidden,children } = this.props;
 
         let getColor = (item) => {
             let color = "#43c4cc"
@@ -48,54 +48,58 @@ class RepairItem extends Component {
         }
 
         return <Card
-            enableShadow={ false }
-            borderRadius={ 0 }
-            activeBackgroundColor={ Colors.dark60 }
-            activeOpacity={ 0.3 }
-            height={ 100 }
-            padding-8
+            enableShadow={false}
+            borderRadius={0}
+            activeBackgroundColor={Colors.dark60}
+            activeOpacity={0.3}
+            height={hidden ? 70 : 108}
             paddingH-12
-            style={ styles.border }
-            onPress={ () => {
+            style={styles.border}
+            onPress={() => {
                 pressfn()
-            } }
+            }}
         >
-            <View row spread>
-                <Text body dark20>工单号：{ item.taskNo }</Text>
+            {children ? children : <View height={8}></View>}
+
+            <View row spread paddingB-8>
+                <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
                 <View row center>
-                    <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ item.statusName }</Text>
-                    <Badge size='small' backgroundColor={ getColor(item) }></Badge>
+                    <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{item.statusName}</Text>
+                    <Badge size='small' backgroundColor={getColor(item)}></Badge>
                 </View>
             </View>
-            <View row height={ 60 } spread style={ { alignItems: "center" } }>
-                <AnimatedImage
-                    containerStyle={ styles.image }
-                    style={ { resizeMode: 'cover', height: 48, width: 48 } }
-                    source={/*item.faultPicUrl ? { uri: item.faultPicUrl } : */require("../assets/404.png") }
-                    loader={ <ActivityIndicator /> }
-                />
-                <View flex-1 paddingV-6>
-                    <View row spread top flex-1>
-                        <View>
-                            <Text body >{ item.equipmentName }</Text>
-                        </View>
-                        <View flex-1 right>
-                            <Text subbody >故障等级:{ item.faultLevelName }</Text>
-                        </View>
-                    </View>
-                    <View flex-1 bottom>
-                        <View row spread>
-                            <View flex-1>
-                                <Text subbody >编号:{ item.equipmentNo }</Text>
+            {
+                hidden ? null : <View row height={60} spread style={{ alignItems: "center" }}>
+                    <AnimatedImage
+                        containerStyle={styles.image}
+                        style={{ resizeMode: 'cover', height: 48, width: 48 }}
+                        source={/*item.faultPicUrl ? { uri: item.faultPicUrl } : */require("../assets/404.png")}
+                        loader={<ActivityIndicator />}
+                    />
+                    <View flex-1 paddingV-6>
+                        <View row spread top flex-1>
+                            <View>
+                                <Text body >{item.equipmentName}</Text>
                             </View>
                             <View flex-1 right>
-                                <Text subbody >维修类型:{ item.repairTypeName }</Text>
+                                <Text subbody >故障等级:{item.faultLevelName}</Text>
                             </View>
+                        </View>
+                        <View flex-1 bottom>
+                            <View row spread>
+                                <View flex-1>
+                                    <Text subbody >编号:{item.equipmentNo}</Text>
+                                </View>
+                                <View flex-1 right>
+                                    <Text subbody >维修类型:{item.repairTypeName}</Text>
+                                </View>
 
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
+            }
+
 
 
         </Card>

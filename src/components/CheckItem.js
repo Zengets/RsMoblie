@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 class CheckItem extends Component {
 
   render() {
-    let { item, navigation, type } = this.props;
+    let { item, navigation, type, hidden,children } = this.props;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item.status) {
@@ -39,10 +39,10 @@ class CheckItem extends Component {
     }, statusName = type == "error" ? { 1: "待处理", 2: "已处理" } : { 0: "正常", 1: "异常" };
 
 
-    return <Card borderRadius={ 0 } enableShadow={ false } bg-white
-      style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 105 } }
+    return <Card borderRadius={0} enableShadow={false} bg-white
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 105 }}
       paddingL-12 paddingR-12
-      onPress={ () => {
+      onPress={() => {
         if (type == "error") {
           navigation.navigate("CheckErrorDetail", {
             posturl: "checkerrordetail",
@@ -54,57 +54,62 @@ class CheckItem extends Component {
             postdata: { equipmentPointCheckItemDayTaskId: item.id },
           })
         }
-
-
-      } }
+      }}
     >
       {
         type == "error" ?
           <View>
-            <View row spread paddingV-12 top>
+            {children ? children : <View height={12}></View>}
+
+            <View row spread paddingB-12 top>
               <View>
-                <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>设备:{ item.equipmentName }</Text>
-                <Text subbody>编号:{ item.equipmentNo }</Text>
+                <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>点检项:{item.pointCheckItem}</Text>
+                {
+                  hidden ? null : <Text subbody>设备:{item.equipmentName}</Text>
+                }
               </View>
               <View row center>
-                <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
-                <Badge size='small' backgroundColor={ getColor(item) }></Badge>
+                <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{statusName[item.status]}</Text>
+                <Badge size='small' backgroundColor={getColor(item)}></Badge>
               </View>
             </View>
-            <View row spread top paddingB-6 style={ { alignItems: "center" } }>
-              <View>
-                <Text subbody >点检人:{ item.pointCheckUserName }</Text>
+            {
+              hidden ? null : <View row spread top paddingB-6 style={{ alignItems: "center" }}>
+                <View>
+                  <Text subbody >点检人:{item.pointCheckUserName}</Text>
+                </View>
+                <View flex-1 right>
+                  <Text subbody >点检日期:{item.pointCheckItemDate}</Text>
+                </View>
               </View>
-              <View flex-1 right>
-                <Text subbody >点检日期:{ item.pointCheckItemDate }</Text>
-              </View>
-            </View>
+            }
+
           </View>
           :
           <View>
             <View row spread paddingV-12 top>
               <View>
-                <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
+                <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
               </View>
               <View row center>
-                <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
-                <Badge size='small' backgroundColor={ getColor(item) }></Badge>
+                <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{statusName[item.status]}</Text>
+                <Badge size='small' backgroundColor={getColor(item)}></Badge>
               </View>
             </View>
-            <View row spread top paddingB-6 style={ { alignItems: "center" } }>
+            <View row spread top paddingB-6 style={{ alignItems: "center" }}>
               <View>
-                <Text subbody>设备:{ item.equipmentName }</Text>
+                <Text subbody>设备:{item.equipmentName}</Text>
               </View>
               <View flex-1 right>
-                <Text subbody >点检日期:{ item.pointCheckItemDate }</Text>
+                <Text subbody >点检日期:{item.pointCheckItemDate}</Text>
               </View>
             </View>
-            <View row spread top paddingV-0 style={ { alignItems: "center" } }>
+            <View row spread top paddingV-0 style={{ alignItems: "center" }}>
               <View>
-                <Text subbody>编号:{ item.equipmentNo }</Text>
+                <Text subbody>编号:{item.equipmentNo}</Text>
               </View>
               <View flex-1 right>
-                <Text subbody >点检人:{ item.pointCheckUserName }</Text>
+                <Text subbody >点检人:{item.pointCheckUserName}</Text>
               </View>
             </View>
           </View>

@@ -175,7 +175,6 @@ class SearchForm extends React.Component {
             outputRange: ['-180deg', '0deg']
         })
 
-        console.log(formdata)
 
         return <SafeAreaViewPlus loading={!this.state.rerender}>
             <Header title={`筛选`} navigation={navigation}
@@ -194,7 +193,6 @@ class SearchForm extends React.Component {
                                         <TextField {...inputprops(item)}></TextField>
                                     </Card>
                                 } else if (item.type == "datetimepicker" && !item.hidden) {
-                                    console.log(item.maximumDate, item.minimumDate)
                                     return <Card bottom padding-12 paddingB-0 marginB-12 enableShadow={false}>
                                         <DateTimePicker
                                             locale='zh-CN'

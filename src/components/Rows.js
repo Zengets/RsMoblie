@@ -8,8 +8,6 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 8,
         paddingBottom: 8,
-        paddingLeft: 12,
-        paddingRight: 12,
     }
 })
 
@@ -17,9 +15,8 @@ const styles = StyleSheet.create({
 class Rows extends Component {
 
     render() {
-        let { name, values, noborder, color, rightRender } = this.props;
-
-        return <View row top style={ [styles.item, { borderColor: noborder ? "transparent" : "#f0f0f0" }] }>
+        let { name, values, noborder, color, rightRender,padding } = this.props;
+        return <View row top style={ [styles.item, { borderColor: noborder ? "transparent" : "#f0f0f0",paddingLeft: !isNaN(padding)?padding:12, paddingRight: !isNaN(padding)? padding :12}] }>
             <View>
                 <Text subbody style={ { color: color ? color : "#666" } }>
                     { name }{rightRender?"":":"}

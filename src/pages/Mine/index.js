@@ -49,7 +49,7 @@ class CardItem extends React.Component {
 
 
 
-@connect(({ index }) => ({ index }))
+@connect(({ index, loading }) => ({ index, loading }))
 class Mine extends React.Component {
 
   //设置新状态
@@ -78,23 +78,17 @@ class Mine extends React.Component {
   }
 
 
-  // "spareReplaceFinish": 16,-------备件-更换记录
-  // "allTaskToDo": 32,---------------------汇总
-  // "spareReplaceToDo": 3,------------------备件-更换任务
-  // "spareAudit": 4,------------------------备件-审批
-  // "userSpare": 4,--------------------------备件-我的备件
-  // "spareApply": 16-------------------------备件-申请记录
 
   render() {
-    const { index: { userInfo, minenum }, navigation } = this.props;
+    const { index: { userInfo, minenum }, navigation, loading } = this.props;
     let { executeToDo, executeToAudit, executeFinish, assignmentToDo, assignmentToAudit, assignmentFinish,
-      repairToDo, repairFinish, maintainToDoList, maintainFinishList, pointCheckException, pointCheckFinish,
-      spareApply, spareAudit, userSpare, spareReplaceToDo, spareReplaceFinish, allTaskToDo
+      repairToDo, repairFinish, maintainToDoList, maintainFinishList, pointCheckExceptionToDo,pointCheckExceptionFinish, pointCheckFinish, spareApply, spareAudit, userSpare, spareReplaceToDo, spareReplaceFinish, allTaskToDo
 
-    } = minenum ? minenum : { executeToDo: "", executeToAudit: "", executeFinish: "", assignmentToDo: "", assignmentToAudit: "", assignmentFinish: "", repairToDo: "", repairFinish: "", maintainToDoList: "", maintainFinishList: "", pointCheckException: "", pointCheckFinish: "", spareApply: "", spareAudit: "", userSpare: "", spareReplaceToDo: "", spareReplaceFinish: "", allTaskToDo: "" }
+    } = minenum ? minenum : { executeToDo: "", executeToAudit: "", executeFinish: "", assignmentToDo: "", assignmentToAudit: "", assignmentFinish: "", repairToDo: "", repairFinish: "", maintainToDoList: "", maintainFinishList: "", pointCheckExceptionToDo: "",
+    pointCheckExceptionFinish:"",pointCheckFinish: "", spareApply: "", spareAudit: "", userSpare: "", spareReplaceToDo: "", spareReplaceFinish: "", allTaskToDo: "" }
 
 
-    return <SafeAreaViewPlus>
+    return <SafeAreaViewPlus loading={loading.effects['index/minenum']}>
       <Header
         title="我的"
         headerLeft={() => {
@@ -262,12 +256,21 @@ class Mine extends React.Component {
               title={"已完成"}
             ></CardItem>
             <CardItem pressfn={() => {
-              this.jumpToUrl("CheckError", { key: "userId", value: userInfo.id, title: "我的点检(异常处理)" })
+              this.jumpToUrl("CheckError", { key: "userId", value: userInfo.id, title: "我的点检(异常待处理)",status:"1" })
             }}
-              label={pointCheckException}
+              label={pointCheckExceptionToDo}
               Icon={<MaterialIcons name='error' size={33} style={{ color: colors.errorColor }}></MaterialIcons>}
-              title={"异常处理"}
+              title={"异常待处理"}
             ></CardItem>
+
+            <CardItem pressfn={() => {
+              this.jumpToUrl("CheckError", { key: "userId", value: userInfo.id, title: "我的点检(异常已处理)",status:"2" })
+            }}
+              label={pointCheckExceptionFinish}
+              Icon={<MaterialCommunityIcons name='shield-check' size={33} style={{ color: colors.successColor }}></MaterialCommunityIcons>}
+              title={"异常已处理"}
+            ></CardItem>
+
 
           </View>
         </View>

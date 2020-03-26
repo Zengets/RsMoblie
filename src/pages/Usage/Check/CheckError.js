@@ -20,7 +20,7 @@ import moment from 'moment';
 class CheckError extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
+        let { key, value,status } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",status:"" }
 
         this.state = {
             isLoadMore: true,
@@ -37,7 +37,7 @@ class CheckError extends React.Component {
                 "pointCheckUserName": "",  //---------------点检人
                 "startDate": "",  //---------开始日期{年月日}
                 "endDate": "",   //-----------------结束日期{年月日}
-                "status": "",   //-----------状态（0正常，1异常）
+                "status": status,   //-----------状态（0正常，1异常）
                 [key]: value
             } : {
                     "pageIndex": "1",  //--------页码*
@@ -100,7 +100,9 @@ class CheckError extends React.Component {
     }
 
     resetData = (yuan) => {
-        let { index: { done, formdata } } = yuan;
+        let { index: { done, formdata },navigation } = yuan;
+        let { status } = navigation.state.params ? navigation.state.params : {  }
+
         function getVal(key) {
             let one = {};
             formdata.map((item) => {
@@ -125,7 +127,7 @@ class CheckError extends React.Component {
                     "pageSize": "10",  //--------每页条数*
                     "equipmentNo": getVal("equipmentNo"),  //---------设备编号
                     "equipmentName": getVal("equipmentName"),  //-------设备名称
-                    "status": getVal("status"),  //--------任务状态
+                    "status": status?status:getVal("status"),  //--------任务状态
                     "pointCheckUserName": getVal("pointCheckUserName"),  //---------------点检人
                     "startDate": getVal("startDate"),  //---------开始日期{年月日}
                     "endDate": getVal("endDate"),   //-----------------结束日期{年月日}
@@ -197,7 +199,7 @@ class CheckError extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
+        let { key, title,status } = navigation.state.params ? navigation.state.params : { key: "", title: null }
 
         let searchprops = {
             height,
@@ -274,6 +276,7 @@ class CheckError extends React.Component {
                         type: "select",
                         require: false,
                         value: "",
+                        hidden:status?true:false,
                         placeholder: "请选择点检状态",
                         option: [{
                             dicName: "待处理",

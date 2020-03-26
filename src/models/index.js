@@ -6,7 +6,8 @@ import {
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
-    noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish
+    noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
+    homenum,
 
 } from '../services/index'
 export default {
@@ -18,6 +19,7 @@ export default {
         userAccount: {},
         userTime: 1,
         token: 1,
+        homenum:{},
         infodevice: {},
         sparechangemission: {},
         sparechangehistory: {},
@@ -121,6 +123,14 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { token: 1 }
+            })
+            return responese.code == "0000"
+        },
+        *homenum({ payload }, { call, put }) {//data
+            const responese = yield call(homenum, payload);
+            yield put({
+                type: 'updateState',
+                payload: { homenum: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },
@@ -232,7 +242,7 @@ export default {
             const responese = yield call(overview, payload);
             yield put({
                 type: 'updateState',
-                payload: { overview: responese.data.dataList ? responese.data.dataList : {} }
+                payload: { overview: responese.data.data ? responese.data.data : {} }
             })
             return responese.code == "0000"
         },

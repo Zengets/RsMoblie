@@ -21,8 +21,9 @@ const styles = StyleSheet.create({
 class SpareItem extends Component {
   render() {
     let { item, navigation, avatar, lastRender } = this.props;
+    lastRender = lastRender?lastRender:{};
     return <Card borderRadius={ 0 } enableShadow={ false } bg-white
-      style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 90 } }
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 90 } }
       spread
       padding-12
       paddingL-page paddingR-page
@@ -58,7 +59,7 @@ class SpareItem extends Component {
       <View row spread marginT-4>
         <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
         {
-          lastRender ?
+          lastRender.key ?
             <Text subbody dark40><Text >{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
             : <Text subbody dark40><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
         }

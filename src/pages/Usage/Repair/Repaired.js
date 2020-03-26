@@ -352,7 +352,7 @@ class Repaired extends React.Component {
           style={{ padding: 0, marginTop: -3 }}
           data={this.state.resData}
           renderIndexPath={renderItem}//每行
-          heightForIndexPath={() => 100}
+          heightForIndexPath={() => 108}
           allLoaded={!this.props.index.repairHisList.hasNextPage}
           loadingFooter={ChineseWithLastDateFooter}
           onLoading={this.pullUpLoading}

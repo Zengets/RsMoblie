@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 class SpareChangeMissionItem extends Component {
   render() {
-    let { item, navigation, type } = this.props;
+    let { item, navigation, type, hidden,children } = this.props;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item.status) {
@@ -49,7 +49,7 @@ class SpareChangeMissionItem extends Component {
 
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 128 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 128 }}
       paddingL-12 paddingR-12
       onPress={() => {
         type ?
@@ -57,10 +57,12 @@ class SpareChangeMissionItem extends Component {
           navigation.navigate("SpareChangeMissonDetail", item)
       }}
     >
-      <View row spread paddingV-12 paddingB-12 style={{ alignItems: "center" }}>
+      {children?children:<View height={12}></View>}
+      <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>
           <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
-          <Text subbody dark40>{item.planStartMaintainDate}</Text>
+          {
+            hidden ? null : <Text subbody dark40>{item.planStartMaintainDate}</Text>}
         </View>
         {
           type ? <View flex-1 right>
@@ -72,22 +74,28 @@ class SpareChangeMissionItem extends Component {
         }
 
       </View>
-      <View row spread top paddingB-8 style={{ alignItems: "center" }}>
-        <View>
-          <Text subbody>备件:{item.sparePartsName}</Text>
+      {
+        hidden ? null : <View row spread top paddingB-8 style={{ alignItems: "center" }}>
+          <View>
+            <Text subbody>备件:{item.sparePartsName}</Text>
+          </View>
+          <View flex-1 right>
+            <Text subbody>料号:{item.sparePartsNo}</Text>
+          </View>
         </View>
-        <View flex-1 right>
-          <Text subbody>料号:{item.sparePartsNo}</Text>
+      }
+      {
+        hidden ? null : <View row spread top paddingV-0 style={{ alignItems: "center" }}>
+          <View>
+            <Text subbody>设备:{item.equipmentName}</Text>
+          </View>
+          <View flex-1 right>
+            <Text subbody>执行人:{item.planMaintainUserName}</Text>
+          </View>
         </View>
-      </View>
-      <View row spread top paddingV-0 style={{ alignItems: "center" }}>
-        <View>
-          <Text subbody>设备:{item.equipmentName}</Text>
-        </View>
-        <View flex-1 right>
-          <Text subbody>执行人:{item.planMaintainUserName}</Text>
-        </View>
-      </View>
+      }
+
+
 
 
 

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 class UpkeepItem extends Component {
 
   render() {
-    let { item, navigation, type } = this.props;
+    let { item, navigation, type, hidden,children } = this.props;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item.status) {
@@ -49,10 +49,10 @@ class UpkeepItem extends Component {
 
 
 
-    return <Card borderRadius={ 0 } enableShadow={ false } bg-white
-      style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 120 } }
+    return <Card borderRadius={0} enableShadow={false} bg-white
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 120 }}
       paddingL-12 paddingR-12
-      onPress={ () => {
+      onPress={() => {
         let postdata = {}, posturl = ""
         if (type == "plan") {
           postdata = {
@@ -65,8 +65,8 @@ class UpkeepItem extends Component {
             id: item.id,
           }
           posturl = "upkeepmissiondetail"
-        }else if(type == "history"){
-           postdata = {
+        } else if (type == "history") {
+          postdata = {
             id: item.id,
           }
           posturl = "upkeephistorydetail"
@@ -76,45 +76,53 @@ class UpkeepItem extends Component {
           postdata,
           type
         })
-      } }
+      }}
     >
-      <View row spread paddingV-8 top>
+      {children?children:<View height={8}></View>}
 
+      <View row spread paddingB-8 top>
         <View>
-          <Text body dark10><Text style={ { color: getColor(item) } }>| </Text>{ item.taskNo }</Text>
-          <Text subbodybody dark40>负责人：{ type=="history"?item.maintainUserName :item.planMaintainUserName }</Text>
+          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+          {
+            hidden ? null : <Text subbodybody dark40>负责人：{type == "history" ? item.maintainUserName : item.planMaintainUserName}</Text>
+          }
         </View>
         <View row center>
-          <Text subbody dark100 marginR-3  style={ { color: getColor(item) } }>{ statusName[item.status] }</Text>
-          <Badge size='small' backgroundColor={ getColor(item) }></Badge>
+          <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{statusName[item.status]}</Text>
+          <Badge size='small' backgroundColor={getColor(item)}></Badge>
         </View>
       </View>
-      <View row spread top paddingV-4 style={ { alignItems: "center" } }>
-        <View>
-          <Text subbody>设备:{ item.equipmentName }</Text>
-        </View>
-        <View flex-1 right>
-          {
-            type == "history" ?
-              <Text subbody >开始日期:{ item.startMaintainDate }</Text> :
-              <Text subbody >计划日期:{ item.planStartMaintainDate }</Text>
-          }
+      {
+        hidden ? null : <View row spread top paddingV-4 style={{ alignItems: "center" }}>
+          <View>
+            <Text subbody>设备:{item.equipmentName}</Text>
+          </View>
+          <View flex-1 right>
+            {
+              type == "history" ?
+                <Text subbody >开始日期:{item.startMaintainDate}</Text> :
+                <Text subbody >计划日期:{item.planStartMaintainDate}</Text>
+            }
 
+          </View>
         </View>
-      </View>
-      <View row spread top paddingV-0 style={ { alignItems: "center" } }>
-        <View>
-          <Text subbody>编号:{ item.equipmentNo }</Text>
-        </View>
-        <View flex-1 right>
-          {
-            type == "history" ?
-              <Text subbody >结束日期:{ item.endMaintainDate }</Text> :
-              <Text subbody >维保类型:{ item.maintainPlanTypeName }</Text>
+      }
+      {
+        hidden ? null :
+          <View row spread top paddingV-0 style={{ alignItems: "center" }}>
+            <View>
+              <Text subbody>编号:{item.equipmentNo}</Text>
+            </View>
+            <View flex-1 right>
+              {
+                type == "history" ?
+                  <Text subbody >结束日期:{item.endMaintainDate}</Text> :
+                  <Text subbody >维保类型:{item.maintainPlanTypeName}</Text>
 
-          }
-        </View>
-      </View>
+              }
+            </View>
+          </View>
+      }
 
 
 

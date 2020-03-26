@@ -358,7 +358,9 @@ export async function overview(params) {
     return post(`${ipandport}/equipment/queryAllTask`, params);
 }
 
-
+export async function homenum(params) {
+    return post(`${ipandport}/equipment/queryHome`, params);
+}
 
 
 

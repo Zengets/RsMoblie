@@ -237,6 +237,7 @@ class SpareReview extends React.Component {
                     type: "select",
                     require: false,
                     value: postData.status,
+                    hidden:key=="currentUserAudit"?true:false,
                     placeholder: "请选择审批状态",
                     option: [{
                         dicName: "待审批",
