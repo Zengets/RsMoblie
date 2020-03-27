@@ -1,4 +1,4 @@
-import { Dialog, Constants,Colors,PanningProvider,View,Text } from 'react-native-ui-lib';
+import { Dialog, Constants, Colors, PanningProvider, View, Text } from 'react-native-ui-lib';
 import React from 'react';
 import { StyleSheet } from 'react-native'
 
@@ -14,12 +14,15 @@ export default class Modal extends React.Component {
 
 
     renderPannableHeader = () => {
-        const { title } = this.props;
+        const { title, renderTitle } = this.props;
         return (
             <View>
-                <View margin-20>
-                    <Text subheading>{title}</Text>
-                </View>
+                {
+                    renderTitle ? renderTitle : <View margin-20>
+                        <Text subheading>{title}</Text>
+                    </View>
+                }
+
                 <View height={1} bg-dark80 />
             </View>
         );
@@ -27,7 +30,7 @@ export default class Modal extends React.Component {
 
 
     render() {
-        let { visible, height, hide,title,children } = this.props, { panDirection } = this.state;
+        let { visible, height, hide, title, children } = this.props, { panDirection } = this.state;
 
         return <Dialog
             migrate

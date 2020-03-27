@@ -114,7 +114,6 @@ class Home extends React.Component {
       })
     })
     this.setNewState("overview", { taskType: "1" });
-    this.getChartData()
   }
 
   getoption = () => {
@@ -169,30 +168,38 @@ class Home extends React.Component {
   }
 
   getChartData() {
-    let { postDatas, selectedIndex } = this.state;
+    let { postDatas, selectedIndex } = this.state,
+      postDatanow = JSON.parse(JSON.stringify(postDatas[selectedIndex]))
+    if (postDatanow && postDatanow.departmentId != "") {
+      postDatanow.departmentId = postDatanow.departmentId.id
+    }
+    if (postDatanow && postDatanow.shopId != "") {
+      postDatanow.shopId = postDatanow.shopId.id
+    }
+
     switch (selectedIndex) {
       case 0:
-        this.setNewState("queryOEE", postDatas[selectedIndex], () => {
+        this.setNewState("queryOEE", postDatanow, () => {
           this.chart && this.chart.setOption(this.getoption());
         })
         break;
       case 1:
-        this.setNewState("queryJIA", postDatas[selectedIndex], () => {
+        this.setNewState("queryJIA", postDatanow, () => {
           this.chart && this.chart.setOption(this.getoption());
         })
         break;
       case 2:
-        this.setNewState("queryMTTR", postDatas[selectedIndex], () => {
+        this.setNewState("queryMTTR", postDatanow, () => {
           this.chart && this.chart.setOption(this.getoption());
         })
         break;
       case 3:
-        this.setNewState("queryMTBF", postDatas[selectedIndex], () => {
+        this.setNewState("queryMTBF", postDatanow, () => {
           this.chart && this.chart.setOption(this.getoption());
         })
         break;
       default:
-        this.setNewState("queryOEE", postDatas[selectedIndex], () => {
+        this.setNewState("queryOEE", postDatanow, () => {
           this.chart && this.chart.setOption(this.getoption());
         })
         break
@@ -204,10 +211,18 @@ class Home extends React.Component {
       this.chart = ref;
     }
   };
-
+  //清空筛选
+  resetData = () => {
+    let { index: { submitdata } } = this.props;
+    let newsubmitdata = submitdata.map((item, i) => {
+      item.value = item.type == "multinput" ? [] : ""
+      return item
+    })
+    this.setNewState("submitdata", newsubmitdata)
+  }
 
   render() {
-    const { index: { homenum, overview, chartdata }, navigation, loading } = this.props,
+    const { index: { homenum, overview, chartdata, submitdata }, navigation, loading } = this.props,
       { progress, fullscreen, selectedIndex, visible, postDatas } = this.state;
     let getColor = (item) => {
       let color = "#43c4cc"
@@ -306,13 +321,43 @@ class Home extends React.Component {
             visible: false
           })
         }}
-        title={"请选择部门/车间"}
+        renderTitle={<View row spread padding-page>
+          <Text subheading>请选择部门/车间</Text>
+          <Text red10 onPress={this.resetData}>清空</Text>
+        </View>}
       >
         <View style={{ backgroundColor: "#f0f0f0" }} flex-1>
           <View flex-1 padding-12>
             <SubmitForm></SubmitForm>
           </View>
-          <Button label="确认" margin-12 marginT-0></Button>
+          <Button label="确认" margin-12 marginT-0 onPress={() => {
+            function getVal(key) {
+              let one = {};
+              submitdata.map((item) => {
+                if (item.key == key) {
+                  one = item
+                }
+              });
+              if (!one.type) {
+                return
+              }
+              return one.value && one.value
+            }
+            let newpostDatas = postDatas.map((it, i) => {
+              if (selectedIndex == i) {
+                it.departmentId = getVal("departmentId")
+                it.shopId = getVal("shopId")
+              }
+              return it
+            })
+            this.setState({
+              visible: false,
+              postDatas: newpostDatas
+            }, () => {
+              this.getChartData()
+            })
+
+          }}></Button>
         </View>
       </Modal>
 
@@ -399,24 +444,23 @@ class Home extends React.Component {
             />
           </TabBar>
           <View style={{ borderColor: "#f0f0f0", borderTopWidth: 1 }}>
-            <Card center padding-12 style={{ borderColor: "#f0f0f0", borderBottomWidth: 1 }} enableShadow={false} onPress={() => {
-              let submitdata = [
+            <Card row spread padding-12 style={{ borderColor: "#f0f0f0", borderBottomWidth: 1 }} enableShadow={false} onPress={() => {
+              let { departmentId, shopId } = postDatas[selectedIndex] ? postDatas[selectedIndex] : {};
+              let submitdatas = [
                 {
                   key: "departmentId",
                   type: "treeselect",
                   require: true,
-                  value: "",
-                  collspan:true,
+                  value: departmentId,
                   placeholder: "请选择部门",
                   option: chartdata.departmentList && chartdata.departmentList
                 }, {
                   key: "shopId",
                   type: "select",
                   require: true,
-                  value: "",
+                  value: shopId,
                   width: "31%",
                   placeholder: "请选择车间",
-                  collspan:true,
                   option: chartdata.shopList && chartdata.shopList.map((item, i) => {
                     return {
                       dicName: item.shopName,
@@ -425,22 +469,35 @@ class Home extends React.Component {
                   })
                 }
               ]
-              this.setNewState("submitdata", submitdata, () => {
+              this.setNewState("submitdata", submitdatas, () => {
                 this.setState({
-                  visible: true
+                  visible: true,
                 })
               })
-
-
             }}>
               <Text>
                 选择部门/车间
               </Text>
+              <View row>
+                {
+                  postDatas[selectedIndex].departmentId ?
+                    <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].departmentId.name}</Text>
+                    :
+                    <Text>部门</Text>}
+                    <Text>/</Text>
+                {postDatas[selectedIndex].shopId ?
+                  <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].shopId.name}</Text>
+                  :
+                  <Text>车间</Text>}
+              </View>
             </Card>
             <View style={styles.chartContainer} padding-10 paddingB-0>
               <ECharts
                 ref={this.onRef}
-                option={this.getoption()}
+                option={{}}
+                onLoadEnd={() => {
+                  this.getChartData();
+                }}
               />
             </View>
             <View row>

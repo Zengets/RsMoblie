@@ -261,7 +261,7 @@ class ToRepair extends React.Component {
     let renderItem = ({ section: section, row: row }) => {
       let item = this.state.resData[section].items[row];
       return item ? <RepairItem pressfn={() => {
-        navigation.navigate("RepairAction", { title: "开始维修", type: item.status.toString(), id: item.equipmentId })
+        navigation.navigate("RepairAction", { title: item.status.toString()=="0"?"设备报修":item.status.toString()=="1"?"开始维修":item.status.toString()=="2"?"完成维修":item.status.toString()=="3"?"验证维修":"", type: item.status.toString(), id: item.equipmentId })
       }} item={item} navigation={this.props.navigation}></RepairItem> : <View></View>
     }
 
