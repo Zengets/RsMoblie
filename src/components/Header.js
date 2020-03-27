@@ -10,7 +10,7 @@ class Header extends Component {
         let { headerLeft, title, navigation,headerRight,backgroundColor,style,rightwidth } = this.props;
 
         return <View style={[style,{ height: 44, flexDirection: "row", alignItems: "center", backgroundColor:backgroundColor?backgroundColor:"#fff" }]}>
-            <View style={{ width: rightwidth?rightwidth:40}} left paddingL-12>
+            <View style={{ width: rightwidth?rightwidth:66}} left paddingL-12>
                 {
                     navigation ? <AntIcons name={"left"} size={20} color={"#666"} onPress={() => {
                         navigation.goBack()
@@ -21,7 +21,7 @@ class Header extends Component {
             <View flex-1 center>
                 <Text subheading dark style={{ fontWeight: "bold" }}>{title}</Text>
             </View>
-            <View style={{ width: rightwidth?rightwidth:40 }} right paddingR-12>
+            <View style={{ width: rightwidth?rightwidth:66 }} right paddingR-12>
                 {
                     headerRight ? headerRight() : null
                 }

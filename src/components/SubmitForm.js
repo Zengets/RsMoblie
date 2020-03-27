@@ -216,7 +216,7 @@ class SubmitForm extends React.Component {
 
                                     <Text white>{ item.value && item.value.name }</Text>
                                 </Card>
-                                <Animated.View style={ { height: curkey == item.key ? "auto" : 0, overflow: "hidden" } }>
+                                <Animated.View style={ { height: curkey == item.key || item.collspan? "auto" : 0, overflow: "hidden",borderRadius:8 } }>
                                     <TreeSelect
                                         data={ loop(item.option) }
                                         itemStyle={ {
@@ -244,14 +244,17 @@ class SubmitForm extends React.Component {
                                         } }
                                     ></TreeSelect>
                                 </Animated.View>
-                                <Card padding-4 center enableShadow={ false } onPress={ () => {
-                                    this.setState({
-                                        curkey: curkey !== item.key ? item.key : ""
-                                    })
-
-                                } }>
-                                    <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
-                                </Card>
+                                {
+                                    !item.collspan&&<Card padding-4 center enableShadow={ false } onPress={ () => {
+                                        this.setState({
+                                            curkey: curkey !== item.key ? item.key : ""
+                                        })
+    
+                                    } }>
+                                        <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
+                                    </Card>
+                                }
+                                
                             </Card>
                         } else if (item.type == "select" && !item.hidden) {
                             return <Card marginB-12 enableShadow={ false }>
@@ -271,17 +274,17 @@ class SubmitForm extends React.Component {
                                         curkey: curkey !== item.key ? item.key : ""
                                     })
 
-                                } }>
+                                }}>
                                     <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
 
                                     <Text white>{ item.value && item.value.name }</Text>
                                 </Card>
 
-                                <View row paddingT-8 style={ { height: curkey == item.key ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+                                <View row paddingT-8 style={ { height: curkey == item.key || item.collspan ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
                                     {
                                         item.option &&
                                         item.option.map((it, i) => (
-                                            <Card width={ (width - 36) / 3 } padding-12 margin-2 style={ { minHeight: 70, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" } } center key={ i } enableShadow={ false } onPress={ () => {
+                                            <Card width={ item.width?item.width:(width - 36) / 3 } padding-12 margin-2 style={ { minHeight: 70, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" } } center key={ i } enableShadow={ false } onPress={ () => {
                                                 this.changeData(item.key, {
                                                     id: it.dicKey,
                                                     name: it.dicName
@@ -291,18 +294,23 @@ class SubmitForm extends React.Component {
                                                         null
                                                 })
                                             } }>
-                                                <Text subbody style={ { color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" } }>{ it.dicName }</Text>
+                                                <Text numberOfLines={2} subbody style={ { color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" } }>{ it.dicName }</Text>
                                             </Card>
                                         ))
                                     }
                                 </View>
-                                <Card padding-4 center enableShadow={ false } onPress={ () => {
-                                    this.setState({
-                                        curkey: curkey !== item.key ? item.key : ""
-                                    })
-                                } }>
-                                    <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
-                                </Card>
+
+                                {
+                                    !item.collspan&&<Card padding-4 center enableShadow={ false } onPress={ () => {
+                                        this.setState({
+                                            curkey: curkey !== item.key ? item.key : ""
+                                        })
+    
+                                    } }>
+                                        <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
+                                    </Card>
+                                }
+                                
                             </Card>
                         } else if (item.type == "image") {
                             return <Card padding-page left marginB-12 enableShadow={ false } onPress={ () => {

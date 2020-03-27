@@ -230,7 +230,7 @@ class SearchForm extends React.Component {
                                             <Text white body>{item.placeholder}</Text>
                                             <Text white>{item.value && item.value.name}</Text>
                                         </Card>
-                                        <Animated.View style={{ height: curkey == item.key || item.collspan ? "auto" : 0, overflow: "hidden" }}>
+                                        <Animated.View style={{ height: curkey == item.key || item.collspan ? "auto" : 0, overflow: "hidden",borderRadius:8  }}>
                                             <TreeSelect
                                                 data={loop(item.option)}
                                                 itemStyle={{

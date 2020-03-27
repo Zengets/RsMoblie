@@ -5946,6 +5946,11 @@ react-native-color@0.0.10:
     react-native-slider "^0.11.0"
     tinycolor2 "^1.4.1"
 
+react-native-echarts-wrapper@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/react-native-echarts-wrapper/download/react-native-echarts-wrapper-2.0.0.tgz#87c539841418ef900bc3e07efa8aae135d231b1d"
+  integrity sha1-h8U5hBQY75ALw+B++oquE10jGx0=
+
 react-native-file-selector@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/react-native-file-selector/download/react-native-file-selector-1.0.0.tgz#d889fb633a2f84fbad8ebf263c8b60a100993542"

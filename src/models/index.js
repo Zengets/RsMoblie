@@ -7,7 +7,7 @@ import {
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
     noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
-    homenum,
+    homenum, queryOEE, queryJIA, queryMTTR, queryMTBF
 
 } from '../services/index'
 export default {
@@ -16,10 +16,11 @@ export default {
         count: 1,
         title: "default",
         userInfo: {},
+        chartdata: {},
         userAccount: {},
         userTime: 1,
         token: 1,
-        homenum:{},
+        homenum: {},
         infodevice: {},
         sparechangemission: {},
         sparechangehistory: {},
@@ -131,6 +132,38 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { homenum: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *queryOEE({ payload }, { call, put }) {//data
+            const responese = yield call(queryOEE, payload);
+            yield put({
+                type: 'updateState',
+                payload: { chartdata: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *queryJIA({ payload }, { call, put }) {//data
+            const responese = yield call(queryJIA, payload);
+            yield put({
+                type: 'updateState',
+                payload: { chartdata: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *queryMTTR({ payload }, { call, put }) {//data
+            const responese = yield call(queryMTTR, payload);
+            yield put({
+                type: 'updateState',
+                payload: { chartdata: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *queryMTBF({ payload }, { call, put }) {//data
+            const responese = yield call(queryMTBF, payload);
+            yield put({
+                type: 'updateState',
+                payload: { chartdata: responese.data ? responese.data : {} }
             })
             return responese.code == "0000"
         },

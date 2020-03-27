@@ -362,13 +362,20 @@ export async function homenum(params) {
     return post(`${ipandport}/equipment/queryHome`, params);
 }
 
+export async function queryOEE(params) {
+    return post(`${ipandport}/equipmentRepairHis/queryOEE`, params);
+}
 
+export async function queryJIA(params) {
+    return post(`${ipandport}/equipmentRepairHis/queryJIA`, params);
+}
 
+export async function queryMTTR(params) {
+    return post(`${ipandport}/equipmentRepairHis/queryMTTR`, params);
+}
 
-
-
-
-
-
+export async function queryMTBF(params) {
+    return post(`${ipandport}/equipmentRepairHis/queryMTBF`, params);
+}
 
 
