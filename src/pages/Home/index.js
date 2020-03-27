@@ -10,6 +10,7 @@ import { colors } from '../../utils';
 import { ProgressCircle } from 'react-native-svg-charts'
 import moment from 'moment';
 import { ECharts } from "react-native-echarts-wrapper";
+import ActionButton from 'react-native-action-button';
 
 let { height, width } = Dimensions.get('window');
 
@@ -64,6 +65,7 @@ class Home extends React.Component {
     visible: false,
     xAxis: [],
     yAxis: [],
+    showbtn: false,
     postDatas: [
       {
         "departmentId": "",//部门id，筛选条件
@@ -91,7 +93,10 @@ class Home extends React.Component {
 
   }
 
-
+  //返回顶部
+  scrollToTop = () => {
+    this._list && this._list.scrollTo(0,0,true);
+  }
   //设置新状态
   setNewState(type, values, fn) {
     const { dispatch } = this.props;
@@ -141,6 +146,14 @@ class Home extends React.Component {
           type: 'category',
           data: xData,
           boundaryGap: false,
+          axisTick:{
+            show:false
+          },
+          axisLine:{
+            lineStyle:{
+              width:0
+            }
+          }
         }
       ],
       yAxis: [
@@ -149,6 +162,14 @@ class Home extends React.Component {
           name: "占比",
           axisLabel: {
             formatter: '{value} %'
+          },
+          axisTick:{
+            show:false
+          },
+          axisLine:{
+            lineStyle:{
+              width:0
+            }
           }
         }
       ],
@@ -157,11 +178,12 @@ class Home extends React.Component {
           name: "占比",
           type: 'line',
           data: yData,
+          showSymbol: false,
           itemStyle: {
             normal: {
               color: colors.primaryColor
             }
-          }
+          },
         }
       ]
     }
@@ -223,7 +245,7 @@ class Home extends React.Component {
 
   render() {
     const { index: { homenum, overview, chartdata, submitdata }, navigation, loading } = this.props,
-      { progress, fullscreen, selectedIndex, visible, postDatas } = this.state;
+      { progress, fullscreen, selectedIndex, visible, postDatas, showbtn } = this.state;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item) {
@@ -361,7 +383,28 @@ class Home extends React.Component {
         </View>
       </Modal>
 
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        ref={ref => (this._list = ref)}
+        onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
+          if (y > 400) {
+            if (showbtn) {
+            } else {
+              this.setState({
+                showbtn: true
+              })
+            }
+          } else {
+            if (showbtn) {
+              this.setState({
+                showbtn: false
+              })
+            } else {
+
+            }
+          }
+
+        }}>
         <View bg-white margin-12 style={{ borderRadius: 8 }}>
           <View row center paddingV-12>
             <View flex-1 row center>
@@ -484,7 +527,7 @@ class Home extends React.Component {
                     <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].departmentId.name}</Text>
                     :
                     <Text>部门</Text>}
-                    <Text>/</Text>
+                <Text>/</Text>
                 {postDatas[selectedIndex].shopId ?
                   <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].shopId.name}</Text>
                   :
@@ -529,7 +572,7 @@ class Home extends React.Component {
         </View>
 
 
-        <View marginH-12 marginT-12 style={{ borderRadius: 8, overflow: "hidden" }}>
+        <View margin-12 style={{ borderRadius: 8, overflow: "hidden" }}>
           <Card row spread paddingB-12 style={{ alignItems: "center", backgroundColor: "transparent" }} enableShadow={false} onPress={() => {
             this.setState({
               fullscreen: !fullscreen
@@ -565,13 +608,19 @@ class Home extends React.Component {
             }
           </View>
         </View>
-
-
-
-
       </ScrollView>
 
-
+      {
+        showbtn && <ActionButton
+          size={38}
+          hideShadow={true}
+          bgColor={"transparent"}
+          buttonColor={colors.primaryColor}
+          offsetX={10}
+          onPress={this.scrollToTop}
+          renderIcon={() => <AntIcons name='up' style={{ color: Colors.white }} size={16} />}
+        />
+      }
 
     </SafeAreaViewPlus>
 
