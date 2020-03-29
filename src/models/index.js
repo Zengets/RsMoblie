@@ -7,13 +7,12 @@ import {
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
     noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
-    homenum, queryOEE, queryJIA, queryMTTR, queryMTBF
+    homenum, queryOEE, queryJIA, queryMTTR, queryMTBF, changePassword, getcode, verycode,reparePassword
 
 } from '../services/index'
 export default {
     namespace: 'index',
     state: {
-        count: 1,
         title: "default",
         userInfo: {},
         chartdata: {},
@@ -90,6 +89,7 @@ export default {
         getuserspare: [],
         uploadImg: [],
         done: "0",
+        verycode:{}
     },
     effects: {
         *login({ payload }, { call, put }) {//data
@@ -647,6 +647,14 @@ export default {
             })
             return responese.code == "0000"
         },
+        *changePassword({ payload }, { call, put }) {//data
+            const responese = yield call(changePassword, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *repairCheck({ payload }, { call, put }) {//data 
             const responese = yield call(repairCheck, payload);
             yield put({
@@ -876,6 +884,33 @@ export default {
             })
             return responese.code == "0000"
         },
+        *getcode({ payload }, { call, put }) {//data
+            const responese = yield call(getcode, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *reparePassword({ payload }, { call, put }) {//data
+            const responese = yield call(reparePassword, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *verycode({ payload }, { call, put }) {//data
+            const responese = yield call(verycode, payload);
+            yield put({
+                type: 'updateState',
+                payload: { verycode: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *closeAppMaintain({ payload }, { call, put }) {//data
             const responese = yield call(closeAppMaintain, payload);
             yield put({

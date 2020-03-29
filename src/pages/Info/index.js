@@ -60,37 +60,37 @@ class Info extends React.Component {
         <Card height={ 100 } center padding-card marginB-s4>
           <Text body>This is an Info card { index.count }</Text>
         </Card>
-        <AuthBase item={ getItem("message", "equipment",index.userAccount) }>
+        <AuthBase item={ getItem("message", "equipmentList",index.userAccount) }>
           <Button label="设备列表" body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("InfoDevice")
           } }></Button>
         </AuthBase>
 
-        <AuthBase item={ getItem("message", "user",index.userAccount) }>
+        <AuthBase item={ getItem("message", "userList",index.userAccount) }>
           <Button label="用户列表" marginT-24 body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("UserList");
           } }></Button>
         </AuthBase>
 
-        <AuthBase item={ getItem("message", "equipuser",index.userAccount) }>
+        <AuthBase item={ getItem("message", "equipuserList",index.userAccount) }>
           <Button label="设备负责人" marginT-24 body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("DeviceUserList");
           } }></Button>
         </AuthBase>
 
-        <AuthBase item={ getItem("message", "spare",index.userAccount) }>
+        <AuthBase item={ getItem("message", "spareList",index.userAccount) }>
           <Button label="备件列表" marginT-24 body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("InfoSpare");
           } }></Button>
         </AuthBase>
 
-        <AuthBase item={ getItem("message", "deaprtment",index.userAccount) }>
+        <AuthBase item={ getItem("message", "deaprtmentList",index.userAccount) }>
           <Button label="部门列表" marginT-24 body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("DepartMent");
           } }></Button>
         </AuthBase>
 
-        <AuthBase item={ getItem("message", "shop",index.userAccount) }>
+        <AuthBase item={ getItem("message", "shopList",index.userAccount) }>
           <Button label="车间分组" marginT-24 body bg-primaryColor square onPress={ () => {
             this.jumpToUrl("DepartMent", { posturl: "shopgrouplist", title: "车间分组", can: "0" });
           } }></Button>

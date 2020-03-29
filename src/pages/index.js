@@ -71,7 +71,7 @@ import SearchForm from './SearchForm'
 
 import Success from './Public/Success'
 import PreView from './Public/PreView'
-
+import ChangePwd from './Public/ChangePwd'
 
 export {
     Home,
@@ -79,7 +79,7 @@ export {
     Info,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,
     UserList,UserSelect,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,InfoSpareDetail,DepartMent,
-    DepartMentDetail,SearchForm,UserMore,Success,PreView,
+    DepartMentDetail,SearchForm,UserMore,Success,PreView,ChangePwd,
     Usage,ToRepair,Repaired,RepairAction,UpkeepPlan,UpkeepDetail,UpkeepMission,UpkeepHistory,
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,

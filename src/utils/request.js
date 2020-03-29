@@ -57,6 +57,7 @@ async function get(url, params) {
 }
 
 async function post(url, body) {
+  console.log(url)
   try {
     let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
     if(Access_Token){

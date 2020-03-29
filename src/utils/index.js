@@ -10,7 +10,7 @@ import {
 import colors from './ThemeColor';
 import { ConvertPinyin } from './ConvertPinyin'
 import { downloadFile } from './Fs'
- 
+
 let getItem = (mainname, name, data) => {
     let curitem = {}, thisitem = {};
     data.map((item, i) => {
@@ -25,15 +25,42 @@ let getItem = (mainname, name, data) => {
             }
         })
     }
-
     return thisitem
 }
 
-let ipandport = 'http://172.21.3.137:8607' //liziyuan  'http://172.21.3.137:8607' //xiangzige 
+let getItems = (mainname, name, childname, data) => {
+    let curitem = {}, thisitem = {},mainitem={};
+    data.map((item, i) => {
+        if (item.name == mainname) {
+            curitem = item
+        }
+    })
+    if (curitem.routes) {
+        curitem.routes.map((item) => {
+            if (item.name == name) {
+                thisitem = item
+            }
+        })
+    }
+    if (thisitem.routes) {
+        thisitem.routes.map((item) => {
+            if (item.name == childname) {
+                mainitem = item
+            }
+        })
+    }
 
-let getQueryString = (name,location) => {
+    return mainitem
+}
+
+
+
+
+let ipandport = 'http://172.21.3.124:8607' //liziyuan  'http://172.21.3.137:8607' //xiangzige 
+
+let getQueryString = (name, location) => {
     let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    let search = location.split("?")[1];   
+    let search = location.split("?")[1];
     let r = search.substr(1).match(reg);
     if (r != null) {
         return unescape(r[2]);
@@ -58,6 +85,7 @@ export {
     ipandport,
     ConvertPinyin,
     getItem,
+    getItems,
     getQueryString,
     downloadFile
 }

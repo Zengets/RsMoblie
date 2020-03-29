@@ -1,7 +1,7 @@
 import React from 'react';
 import { Scan, Login,SearchForm,
     InfoDevice,InfoDeviceCan,InfoDeviceDetail,UserList,UserSelect,UserListDetail,DeviceUser,DeviceUserList,InfoSpare,
-    InfoSpareDetail,DepartMent,DepartMentDetail,UserMore,Success,PreView,
+    InfoSpareDetail,DepartMent,DepartMentDetail,UserMore,Success,PreView,ChangePwd,
     
     
     ToRepair,Repaired,UpkeepPlan,UpkeepDetail,RepairAction,DevicerRepair,UpkeepMission,UpkeepHistory, InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,
@@ -103,7 +103,8 @@ const AppNavigator = createStackNavigator(
         PublishToConfirm:PublishToConfirm,
         PublishFinished:PublishFinished,
         SpareMine:SpareMine,
-        OverView:OverView
+        OverView:OverView,
+        ChangePwd:ChangePwd
     },
     {
         initialRouteName: 'Home',

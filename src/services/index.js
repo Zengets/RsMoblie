@@ -378,4 +378,18 @@ export async function queryMTBF(params) {
     return post(`${ipandport}/equipmentRepairHis/queryMTBF`, params);
 }
 
+export async function changePassword(params) {
+    return post(`${ipandport}/sysAccount/changePassword`, params);
+}
 
+export async function getcode(params) {
+    return post(`${ipandport}/sysAccount/sendVerificationCode`, params);
+}
+
+export async function verycode(params) {
+    return post(`${ipandport}/sysAccount/repareVerificationCode`, params);
+}
+
+export async function reparePassword(params) {
+    return post(`${ipandport}/sysAccount/reparePassword`, params);
+}
