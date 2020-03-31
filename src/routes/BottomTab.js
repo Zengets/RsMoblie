@@ -73,17 +73,12 @@ let RouteConfigs = {
             }
         }
     },
-
-
 }
 
 
 const BottomTab = createBottomTabNavigator(RouteConfigs, {
     initialRouteName:'Home',
     tabBarPosition: 'bottom',
-    swipeEnabled: true,
-    animationEnabled: true,
-    backBehavior: "none",
     tabBarOptions:{
         activeTintColor:colors.primaryColor
     },

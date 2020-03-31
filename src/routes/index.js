@@ -41,11 +41,6 @@ const AppNavigator = createStackNavigator(
     {
         Home: {
             screen: gestureHandlerRootHOC(Drawer),
-            navigationOptions: ({ navigation }) => (
-                {
-                    headerShown: false
-                }
-            )
         },
         Scan: Scan,
         InfoDevice:InfoDevice,

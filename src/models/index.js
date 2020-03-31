@@ -997,6 +997,7 @@ export default {
         },
         *checkById({ payload }, { call, put }) {//data
             const responese = yield call(checkById, payload);
+            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

@@ -136,20 +136,14 @@ class Scan extends Component {
 
         } else {
             this.setState({
-                focus: false
+                focus: false,
             }, () => {
-                this.setState({
-                    focus: false,
-                }, () => {
-                    this.setNewState("checkById", { id: id }, () => {
-                        navigation.navigate("InfoDeviceDetail", {
-                            id: id
-                        })
+                this.setNewState("checkById", { id: id }, () => {
+                    navigation.navigate("InfoDeviceDetail", {
+                        id: id
                     })
                 })
-
             })
-
         }
     };
 

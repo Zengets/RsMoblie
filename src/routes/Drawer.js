@@ -9,9 +9,6 @@ let {height,width} =  Dimensions.get('window');
 let RouteConfigs = {
     MainDrawer: {
         screen: BottomTab,
-        navigationOptions: {
-            drawerLabel: 'Page4',
-        }
     },
 
 }

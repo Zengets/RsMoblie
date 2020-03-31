@@ -5,7 +5,6 @@ import { View, Text } from 'react-native-ui-lib';
 
 @connect(({ index }) => ({ index }))
 class AuthBase extends Component {
-
     render() {
         let { children,item } = this.props;
 
@@ -15,7 +14,6 @@ class AuthBase extends Component {
                 children:
                 null
             }
-
         </View>
     }
 

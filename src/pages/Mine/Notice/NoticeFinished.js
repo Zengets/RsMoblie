@@ -206,12 +206,12 @@ class NoticeFinished extends React.Component {
                     type: "select",
                     require: false,
                     value: postData.assignmentUserType,
-                    placeholder: "请选择任务状态",
+                    placeholder: "请选择执行类型",
                     option: [{
-                        dicName: "执行人",
+                        dicName: "执行",
                         dicKey: "1"
                     },{
-                        dicName: "抄送人",
+                        dicName: "抄送",
                         dicKey: "2"
                     }]
                 },
