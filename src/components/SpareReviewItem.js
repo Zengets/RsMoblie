@@ -57,7 +57,7 @@ class SpareReviewItem extends Component {
         })
       }}
     >
-      {children ? children : <View height={12}></View>}
+      {children ? children : <View height={16}></View>}
 
       <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>

@@ -393,3 +393,11 @@ export async function verycode(params) {
 export async function reparePassword(params) {
     return post(`${ipandport}/sysAccount/reparePassword`, params);
 }
+
+export async function checkById(params) {
+    return post(`${ipandport}/equipment/checkById`, params);
+}
+
+export async function checkRepairById(params) {
+    return post(`${ipandport}/equipment/checkRepairById`, params);
+}

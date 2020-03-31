@@ -409,7 +409,8 @@ class UserSelect extends React.Component {
             <ScrollView horizontal={true}>
                 {
                   this.state.selected.map((it,i)=>{
-                    let curitem = userlist.filter((its)=>{return its.id==it})[0]
+                    let curitem = userlist.filter((its)=>{return its.id==it})[0];
+                    curitem = curitem?curitem:{useName:"",id:"",departmentName:""}
                     return <Card style={{borderWidth:1,borderColor:"#ddd"}} enableShadow={false} padding-12 center marginR-12 onPress={()=>{
                         let newselected = JSON.parse(JSON.stringify(this.state.selected));
                         newselected = newselected.filter((its)=>{return its!==curitem.id})

@@ -38,8 +38,6 @@ class SelectFiles extends Component {
 
     uploadfile = (path, filename) => {
         RNFetchBlob.fetch('POST', `${ipandport}/common/uploadFile`, {
-            Authorization: "Bearer access-token",
-            otherHeader: "foo",
             'Content-Type': 'multipart/form-data',
         }, [
             { name: filename, filename: filename, data: RNFetchBlob.wrap(path) },
@@ -49,6 +47,7 @@ class SelectFiles extends Component {
                 filename = result.data.fileNameList[0];
             let newfiles = JSON.parse(JSON.stringify(this.state.files));
             newfiles.push(path);
+            console.log(newfiles)
             this.setState({
                 files: newfiles
             }, () => {
@@ -58,7 +57,7 @@ class SelectFiles extends Component {
 
         })
             .catch((err) => {
-                // error handling ..
+                console.log(err)
             })
     }
 
@@ -73,7 +72,7 @@ class SelectFiles extends Component {
                 {
                     files && files.length > 0 ?
                         files.map((item, i) => {
-                            return <Card width={cardwidth} height={cardwidth} marginR-12 spread padding-12 marginB-12 enableShadow={false} style={{ backgroundColor: colors.primaryColor, alignItems: "center" }}
+                            return <Card width={cardwidth} height={cardwidth} marginR-12 spread  marginB-12 enableShadow={false} style={{ backgroundColor: colors.primaryColor, alignItems: "center" }}
                                 onPress={() => {
                                     navigation.navigate("PreView", {
                                         url: item,
@@ -88,14 +87,14 @@ class SelectFiles extends Component {
                                     })
                                 }}
                             >
-                                <AntIcons name="file1" size={20} style={{ color: "#fff" }}></AntIcons>
-                                <Text white subbody marginT-6>附件{i + 1}</Text>
+                                <AntIcons name="file1" size={16} style={{ color: "#fff" }}></AntIcons>
+                                <Text white style={{fontSize:10}} marginT-6>附件{i + 1}</Text>
                             </Card>
 
                         }) : null
                 }
 
-                <Card width={cardwidth} height={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} style={{ borderColor: "#ddd", borderWidth: 1 }} onPress={() => {
+                <Card width={cardwidth} height={cardwidth} marginR-12 center marginB-12 enableShadow={false} style={{ borderColor: "#ddd", borderWidth: 1 }} onPress={() => {
                     this.selectfile()
                 }}>
                     <AntIcons name="plus" size={32}></AntIcons>

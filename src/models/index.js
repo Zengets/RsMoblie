@@ -7,7 +7,8 @@ import {
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
     noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
-    homenum, queryOEE, queryJIA, queryMTTR, queryMTBF, changePassword, getcode, verycode,reparePassword
+    homenum, queryOEE, queryJIA, queryMTTR, queryMTBF, changePassword, getcode, verycode, reparePassword,
+    checkRepairById, checkById
 
 } from '../services/index'
 export default {
@@ -47,7 +48,7 @@ export default {
         noticetododetail: {},
         publishtododetail: {},
         infodevicedetail: {},
-        infodeviceauth:[],
+        infodeviceauth: [],
         checkhistorydetail: {},
         errortohis: {},
         checkerrordetail: {},
@@ -90,7 +91,7 @@ export default {
         getuserspare: [],
         uploadImg: [],
         done: "0",
-        verycode:{}
+        verycode: {}
     },
     effects: {
         *login({ payload }, { call, put }) {//data
@@ -454,7 +455,7 @@ export default {
             })
             yield put({
                 type: 'updateState',
-                payload: { infodeviceauth: responese.data.dataList ? responese.data.dataList :[] }
+                payload: { infodeviceauth: responese.data.dataList ? responese.data.dataList : [] }
             })
             return responese.code == "0000"
         },
@@ -980,6 +981,22 @@ export default {
         },
         *publish({ payload }, { call, put }) {//data
             const responese = yield call(publish, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkRepairById({ payload }, { call, put }) {//data
+            const responese = yield call(checkRepairById, payload);
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *checkById({ payload }, { call, put }) {//data
+            const responese = yield call(checkById, payload);
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

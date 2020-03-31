@@ -54,7 +54,7 @@ class NoticeTodoItem extends Component {
         navigation.navigate("NoticeTodoDetail", item)
       }}
     >
-      {children ? children : <View height={12}></View>}
+      {children ? children : <View height={16}></View>}
       <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>
           <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.assignmentTitle}</Text>

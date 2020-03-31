@@ -41,7 +41,7 @@ class CardItem extends React.Component {
         <View center style={{ width: 48, height: 48 }} paddingB-8>
           {Icon ? Icon : null}
         </View>
-        <Text style={{fontSize:13}} dark10>{title} <Text style={{color:label>99?colors.errorColor:"#aaa"}}>{label>99?"99+":label}</Text></Text>
+        <Text style={{fontSize:12}} dark10>{title} <Text style={{color:label>99?colors.errorColor:"#aaa"}}>{label>99?"99+":label}</Text></Text>
       </Card>
     </AuthBase>
   }

@@ -144,7 +144,8 @@ class Publish extends React.Component {
                         <ScrollView horizontal={true}>
                             {
                                 executeUserIdList ? executeUserIdList.map((it, i) => {
-                                    let curitem = userlist.filter((its) => { return its.id == it })[0]
+                                    let curitem = userlist.filter((its) => { return its.id == it })[0];
+                                        curitem = curitem?curitem:{useName:""}
                                     if (curitem && i == 0) {
                                         return <Text>{curitem.userName} {executeUserIdList.length > 1 ? `等${executeUserIdList.length}人` : ""}</Text>
                                     }

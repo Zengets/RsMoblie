@@ -40,7 +40,7 @@ class CheckItem extends Component {
 
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 105 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 95 }}
       paddingL-12 paddingR-12
       onPress={() => {
         if (type == "error") {
@@ -59,8 +59,7 @@ class CheckItem extends Component {
       {
         type == "error" ?
           <View>
-            {children ? children : <View height={12}></View>}
-
+            {children ? children : <View height={16}></View>}
             <View row spread paddingB-12 top>
               <View>
                 <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>点检项:{item.pointCheckItem}</Text>

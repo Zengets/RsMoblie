@@ -1,5 +1,5 @@
 import RNFetchBlob from 'rn-fetch-blob';
-
+import {OneToast} from '../components'
 
 
 let downloadFile = (formUrl,fn) => {
@@ -13,7 +13,7 @@ let downloadFile = (formUrl,fn) => {
     })
     .then((res) => {
       // the temp file path
-      alert(res.path())
+      OneToast("文件已保存至"+res.path())
     })
 
 }

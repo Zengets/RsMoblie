@@ -57,6 +57,9 @@ class Scan extends Component {
             payload: values
         }).then((res) => {
             if (!res) {
+                this.setState({
+                    error: true
+                })
                 return
             }
             fn ? fn() : null
@@ -111,11 +114,17 @@ class Scan extends Component {
         let { type } = navigation.state.params ? navigation.state.params : { type: undefined };
         if (type) {
             if (type == "repair") {
-                navigation.navigate("RepairAction", { title: "报修设备", type: "0", id: id })
+                this.setState({
+                    focus: false,
+                }, () => {
+                    this.setNewState("checkRepairById", { id: id }, () => {
+                        navigation.navigate("RepairAction", { title: "报修设备", type: "0", id: id })
+                    })
+                })
+
             } else {
                 this.setState({
                     focus: false,
-                    error: true
                 }, () => {
                     this.setNewState("checkdetail", { equipmentId: id }, () => {
                         navigation.navigate("CheckAction", { title: "点检设备", id: id }) //设备id
@@ -129,9 +138,16 @@ class Scan extends Component {
             this.setState({
                 focus: false
             }, () => {
-                navigation.navigate("InfoDeviceDetail", {
-                    id: id
+                this.setState({
+                    focus: false,
+                }, () => {
+                    this.setNewState("checkById", { id: id }, () => {
+                        navigation.navigate("InfoDeviceDetail", {
+                            id: id
+                        })
+                    })
                 })
+
             })
 
         }
@@ -252,7 +268,7 @@ class Scan extends Component {
                     headerRight={headerRight}
                 ></Header>
                 <View flex-1 center>
-                    <Button size={"large"} style={{width:width*0.4,height:width*0.4}} onPress={() => {
+                    <Button size={"large"} style={{ width: width * 0.4, height: width * 0.4 }} onPress={() => {
                         this.setState({
                             focus: true
                         })

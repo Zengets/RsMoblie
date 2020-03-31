@@ -374,7 +374,7 @@ class CheckError extends React.Component {
                     style={{ padding: 0, marginTop: -3 }}
                     data={this.state.resData}
                     renderIndexPath={renderItem}//每行
-                    heightForIndexPath={() => 105}
+                    heightForIndexPath={() => 95}
                     allLoaded={!this.props.index.checkerror.hasNextPage}
                     loadingFooter={ChineseWithLastDateFooter}
                     onLoading={this.pullUpLoading}

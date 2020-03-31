@@ -51,7 +51,7 @@ class KnowledgeItem extends Component {
 
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 128 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 115 }}
       paddingL-12 paddingR-12
       onPress={() => {
         if (onpressfn) {
@@ -61,7 +61,7 @@ class KnowledgeItem extends Component {
         }
       }}
       onLongPress={()=>{
-        downloadFile("https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2888261511,2808819884&fm=26&gp=0.jpg")
+        downloadFile(item.knowledgeBaseUrl)
         
       }}
     >

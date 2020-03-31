@@ -4,7 +4,7 @@ import { View, Text, Card, Badge, TextField, Colors, Dialog, Button, FloatingBut
 import { SafeAreaViewPlus, OneToast, Header, Modal, KnowledgeItem,Rows } from '../../../components';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import EntypoIcons from 'react-native-vector-icons/Entypo';
-import { colors } from '../../../utils';
+import { colors, downloadFile } from '../../../utils';
 import { StyleSheet, Animated, Dimensions } from 'react-native';
 import { LargeList } from "react-native-largelist-v3";
 import { ChineseWithLastDateHeader, ChineseWithLastDateFooter } from "react-native-spring-scrollview/Customize";
@@ -129,7 +129,7 @@ class KnowledgeHistory extends React.Component {
             { refreshing, visible, postData, isLoadMore, showbtn } = this.state,
             {
                 knowledgeBaseName, knowledgeBaseVersion, documentNo, knowledgeBaseDescribe, purposeTypeName,
-                equipmentTypeName, updateUserName,updateTime,id
+                equipmentTypeName, updateUserName,updateTime,id,knowledgeBaseUrl
             } = knowledgehisdetail;
 
 
@@ -153,7 +153,7 @@ class KnowledgeHistory extends React.Component {
                 }}
                 title={"详情"}
             > 
-                <View style={{ overflow: "hidden" }} paddingH-12>
+                <View flex-1 style={{ overflow: "hidden",backgroundColor:"#f0f0f0" }} paddingH-12>
                     <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
                         <Rows name="上传人" values={updateUserName} />
                         <Rows name="上传时间" values={updateTime} />
@@ -164,7 +164,9 @@ class KnowledgeHistory extends React.Component {
                         <Rows name="设备类型" values={equipmentTypeName} />
                         <Rows name="描述" values={knowledgeBaseDescribe} />
                         <View padding-12 row>
-                            <Button flex-1 label="下载文件"></Button>
+                            <Button flex-1 label="下载文件" onPress={()=>{
+                                downloadFile(knowledgeBaseUrl)
+                            }}></Button>
                         </View>
                     </Card>
                 </View>
@@ -202,7 +204,7 @@ class KnowledgeHistory extends React.Component {
                     style={{ padding: 0, marginTop: -3 }}
                     data={this.state.resData}
                     renderIndexPath={renderItem}//每行
-                    heightForIndexPath={() => 128}
+                    heightForIndexPath={() => 115}
                     allLoaded={!this.props.index.knowledgehistory.hasNextPage}
                     loadingFooter={ChineseWithLastDateFooter}
                     onLoading={this.pullUpLoading}

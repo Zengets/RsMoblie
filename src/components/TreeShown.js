@@ -5,6 +5,7 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 import { Animated, ScrollView } from 'react-native'
 import { colors } from '../utils';
 import { OneToast } from './Toast';
+import Empty from './Empty';
 
 @connect(({ index }) => ({ index }))
 class TreeShown extends Component {
@@ -100,7 +101,7 @@ class TreeShown extends Component {
 
         let renderCard = (item, i) => {
             return <Animated.View key={i}  style={{ marginTop: margin, opacity: opacitys,transform: [{ rotateX: rotatecha }] }}>
-                <Card padding-12 enableShadow={false} style={{ marginBottom: -8, borderColor: "#f0f0f0", borderWidth: 1,backgroundColor:!item.children?"#f9f9f9":"#f0f0f0" }} onPress={()=>{
+                <Card padding-12 enableShadow={false} style={{ marginBottom: -8, borderColor: "#f0f0f0", borderWidth: 1 }} onPress={()=>{
                    
                     if(!clickable){
                        return
@@ -111,9 +112,12 @@ class TreeShown extends Component {
                     }
                     navigation.navigate("DepartMentDetail",{title:item.title,key:item.key}) 
                 }}>
-                    <View row spread>
+                    <View row spread paddingV-12>
                         <Text body style={{ color: colors.primaryColor }}>{item.title}</Text>
-                        <Text subbody dark40>设备:{item.equipNum}个</Text>
+                        {
+                            !item.children?null:<AntIcons name={"right"} size={12}></AntIcons>
+                        }
+                        
                     </View>
                 </Card>
             </Animated.View>
@@ -128,20 +132,19 @@ class TreeShown extends Component {
             {
                 data.map((item, i) => {
                     return <View paddingV-6 paddingB-12>
-                        <Animated.View style={{ opacity: opacity, paddingTop: height, height: 30, overflow: "hidden" }}>
+                        <Animated.View style={{ opacity: opacity, paddingTop: height,marginBottom:12 }}>
                             <Text subheading>{item.title}</Text>
                         </Animated.View>
                         {
-                            item.children && item.children.map((items, j) => {
+                            item.children ? item.children.map((items, j) => {
                                 return renderCard(items, j)
-                            })
+                            }):<Animated.View style={{ marginTop: margin, opacity: opacitys,transform: [{ rotateX: rotatecha }] }}><Empty/></Animated.View>
                         }
                     </View>
 
-
-
                 })
             }
+            <View height={30}></View>
         </ScrollView>
     }
 

@@ -4,7 +4,7 @@ import { View, Text, Card, Colors, Button, Badge, Avatar, TabBar } from 'react-n
 import { SafeAreaViewPlus, Header, OneToast, UserItem, Empty, Rows } from '../../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImageBackground, Dimensions, StyleSheet, ScrollView, Linking, ListItem, AnimatedImage } from 'react-native';
-import { colors } from '../../../utils';
+import { colors,downloadFile } from '../../../utils';
 
 
 let { height, width } = Dimensions.get('window');
@@ -37,13 +37,12 @@ class Knowledgedetail extends React.Component {
             id: this.props.navigation.state.params.id
         })
     }
-    // "knowledgeBaseUrl": null,-----------------------------------文件地址
 
     render() {
         let { index, navigation, submitting } = this.props,
             {
                 knowledgeBaseName, knowledgeBaseVersion, documentNo, knowledgeBaseDescribe, purposeTypeName,
-                equipmentTypeName, updateUserName,updateTime,id
+                equipmentTypeName, updateUserName,updateTime,id,knowledgeBaseUrl
             } = index.knowledgedetail;
 
         return <SafeAreaViewPlus loading={submitting}>
@@ -70,7 +69,9 @@ class Knowledgedetail extends React.Component {
                                 <Button flex-1 label='历史记录' outline onPress={()=>{
                                     navigation.navigate("KnowledgeHistory",{id:id})
                                 }}></Button>
-                                <Button flex-1 label="下载文件"  marginL-12></Button>
+                                <Button flex-1 label="下载文件"  marginL-12 onPress={()=>{
+                                    downloadFile(knowledgeBaseUrl)
+                                }}></Button>
 
                             </View>
                         </Card>
