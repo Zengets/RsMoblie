@@ -48,7 +48,6 @@ class UpkeepItem extends Component {
     }, statusName = { 0: "待执行", 2: "执行中", 3: "已执行", 4: "关闭" };
 
 
-
     return <Card borderRadius={0} enableShadow={false} bg-white
       style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 120 }}
       paddingL-12 paddingR-12
@@ -78,7 +77,7 @@ class UpkeepItem extends Component {
         })
       }}
     >
-      {children?children:<View height={8}></View>}
+      {children?children:<View height={16}></View>}
 
       <View row spread paddingB-8 top>
         <View>

@@ -37,7 +37,7 @@ class SpareItem extends Component {
       } }
     >
       <View row spread>
-        <View style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.errorColor, borderLeftWidth: 2, height: 6 } } marginT-6 marginB-12 paddingL-6 center>
+        <View row flex-1 left marginT-6 marginB-12 paddingL-6 style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.errorColor, borderLeftWidth: 2, height: 6,alignItems:"center" } }>
           <Text body dark numberOfLines={1}>{ item.sparePartsName }</Text>
         </View>
         {

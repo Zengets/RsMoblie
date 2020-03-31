@@ -67,10 +67,10 @@ class DeviceItem extends Component {
             <ListItem.Part middle column containerStyle={[styles.border, { paddingRight: 12 }]}>
                 <View flex-1 paddingV-12>
                     <View row spread top flex-1>
-                        <View>
+                        <View flex-1>
                             <Text body dark10 numberOfLines={1}>{item.equipmentName}</Text>
                         </View>
-                        <View row center>
+                        <View row right width={100}>
                             <Text subbody dark100 marginR-3  style={{ color: getColor(item) }}>{item.statusName}</Text>
                             <Badge size='small' backgroundColor={getColor(item)}></Badge>
                         </View>

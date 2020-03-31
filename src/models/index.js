@@ -78,7 +78,7 @@ export default {
         spareusagedetail: {},
         checkdetail: {},
         sparelogdetail: {},
-        queryAppByEqId: {},
+        queryAppByEqId: [],
         repairApply: "",
         res: {},
         res2: {},

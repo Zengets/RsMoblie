@@ -204,7 +204,7 @@ class KnowledgeHistory extends React.Component {
                     style={{ padding: 0, marginTop: -3 }}
                     data={this.state.resData}
                     renderIndexPath={renderItem}//每行
-                    heightForIndexPath={() => 115}
+                    heightForIndexPath={() => 120}
                     allLoaded={!this.props.index.knowledgehistory.hasNextPage}
                     loadingFooter={ChineseWithLastDateFooter}
                     onLoading={this.pullUpLoading}

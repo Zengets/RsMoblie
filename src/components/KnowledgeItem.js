@@ -51,7 +51,7 @@ class KnowledgeItem extends Component {
 
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 115 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 120 }}
       paddingL-12 paddingR-12
       onPress={() => {
         if (onpressfn) {
@@ -68,11 +68,11 @@ class KnowledgeItem extends Component {
      
 
       <View row spread top paddingV-12 paddingB-12>
-        <View left>
+        <View left flex-1>
           <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.knowledgeBaseName}</Text>
-          <Text subbody dark40>长按下载文件</Text>
+          <Text subbody dark40 marginT-2>长按下载文件</Text>
         </View>
-        <View row right>
+        <View row right width={100}>
           <Text body style={{ color: getColor(item) }} numberOfLines={1}>{item.purposeTypeName}</Text>
         </View>
       </View>

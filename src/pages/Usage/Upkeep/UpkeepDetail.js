@@ -141,8 +141,8 @@ class UpkeepDetail extends Component {
                     <Rows name="备注" values={remark} />
                     {
                         type == "mission" && status == 0 || type == "mission" && status == 2 ?
-                            <View style={styles.items} row spread>
-                                <Button disabled={getdisabled() || loading.effects['index/closeAppMaintain']} backgroundColor={colors.warnColor} label="关闭维保" onPress={() => {
+                            <View style={styles.items} height={46} row spread>
+                                <Button marginR-4 size={"small"} disabled={getdisabled() || loading.effects['index/closeAppMaintain']} backgroundColor={colors.warnColor} label="关闭维保" onPress={() => {
                                     //startAppMaintain,finishAppMaintain,closeAppMaintain,updateAppMaintainUser,queryAppByEqId
                                     this.setNewState("closeAppMaintain", { id: id }, () => {
                                         navigation.navigate("Success", {
@@ -164,7 +164,7 @@ class UpkeepDetail extends Component {
                                             : null
                                     }
                                 </Button>
-                                <Button disabled={getdisabled() || loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain']} label={status == 0 ? "开始维保" : status == 2 ? "完成维保" : ""} onPress={() => {
+                                <Button marginR-4 size='small' disabled={getdisabled() || loading.effects['index/startAppMaintain'] || loading.effects['index/finishAppMaintain']} label={status == 0 ? "开始维保" : status == 2 ? "完成维保" : ""} onPress={() => {
                                     if (status == 0) {
                                         this.setNewState("startAppMaintain", { id: id }, () => {
                                             navigation.navigate("Success", {
@@ -201,7 +201,7 @@ class UpkeepDetail extends Component {
                                             : null
                                     }
                                 </Button>
-                                <Button label="修改负责人" disabled={loading.effects['index/queryAppByEqId']} backgroundColor={colors.successColor} onPress={() => {
+                                <Button size='small' flex-1 label="修改负责人" disabled={loading.effects['index/queryAppByEqId']} backgroundColor={colors.successColor} onPress={() => {
                                     this.setNewState("queryAppByEqId", {
                                         "equipmentId": equipmentId,
                                         "chargeType": "1"

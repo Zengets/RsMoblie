@@ -1,4 +1,4 @@
-import { ImageBackground,Dimensions } from 'react-native';
+import { ImageBackground, Dimensions,ActivityIndicator } from 'react-native';
 import React from 'react';
 import { SafeAreaViewPlus, OneToast } from '../../components';
 import { Button, TextField, Text, View, Avatar } from 'react-native-ui-lib';
@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index }) => ({ index }))
+@connect(({ index,loading }) => ({ index,loading }))
 class LoginChild extends React.Component {
   constructor(props) {
     super(props)
@@ -94,7 +94,7 @@ class LoginChild extends React.Component {
 
 
   render() {
-    let { username, password, see } = this.state, { navigation, index: { token } } = this.props;
+    let { username, password, see } = this.state, { navigation, index: { token },loading } = this.props;
     let textfieldprops = {
       floatingPlaceholder: true,
       floatOnFocus: true,
@@ -153,12 +153,17 @@ class LoginChild extends React.Component {
             <TextField {...user} style={{ color: "#000" }}></TextField>
             <View style={{ height: username == "" ? 0 : 19 }}></View>
             <TextField marginT-8 {...pwd} style={{ color: "#000" }}></TextField>
-            <Button label="登录" marginT-32 size={"large"} bg-primaryColor square onPress={() => {
+            <Button label="登录" disabled={loading.effects[`index/login`]} marginT-32 size={"large"} bg-primaryColor square onPress={() => {
               this.login()
             }}>
+              {
+                loading.effects[`index/login`] ?
+                  <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
+                  : null
+              }
             </Button>
           </View>
-          :  <View height={height}></View>
+          : <View height={height}></View>
       }
     </View>
 

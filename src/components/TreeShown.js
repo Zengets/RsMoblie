@@ -106,7 +106,7 @@ class TreeShown extends Component {
                     if(!clickable){
                        return
                     }
-                    if(!item.children){
+                    if(!item.haveChildren){
                         OneToast("没有下级部门了");
                         return
                     }
@@ -115,7 +115,7 @@ class TreeShown extends Component {
                     <View row spread paddingV-12>
                         <Text body style={{ color: colors.primaryColor }}>{item.title}</Text>
                         {
-                            !item.children?null:<AntIcons name={"right"} size={12}></AntIcons>
+                            !item.haveChildren?null:<AntIcons name={"right"} size={12}></AntIcons>
                         }
                         
                     </View>
