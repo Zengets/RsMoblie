@@ -243,6 +243,22 @@ class Home extends React.Component {
     this.setNewState("submitdata", newsubmitdata)
   }
 
+  jumpToUrl(url, data) {
+    this.setNewState("formdata", [], () => {
+      let defaultstatus = {
+        name:data.name,
+        id:data.key
+      }
+      this.props.navigation.navigate(url, {defaultstatus});
+    })
+  }
+
+  jump(url, data) {
+    this.setNewState("formdata", [], () => {
+      this.props.navigation.navigate(url, data);
+    })
+  }
+
   render() {
     const { index: { homenum, overview, chartdata, submitdata }, navigation, loading } = this.props,
       { progress, fullscreen, selectedIndex, visible, postDatas, showbtn } = this.state;
@@ -329,7 +345,7 @@ class Home extends React.Component {
         }}
         headerRight={() => {
           return <Ionicons name={'ios-qr-scanner'} size={22} onPress={() => {
-            navigation.navigate("Scan")
+            this.jump("Scan")
           }}></Ionicons>
         }}
       >
@@ -434,7 +450,9 @@ class Home extends React.Component {
                   homenum.equipStatusChart.map((item, i) => {
                     return (
                       <Card margin-4 center flex-1 enableShadow={false}>
-                        <Card marginB-4 center width={30} height={30} enableShadow={false} style={{ borderColor: getColor(item.name), borderWidth: 1, borderRadius: 60 }}>
+                        <Card marginB-4 center width={30} height={30} enableShadow={false} style={{ borderColor: getColor(item.name), borderWidth: 1, borderRadius: 60 }} onPress={()=>{
+                          this.jumpToUrl("InfoDevice",item)
+                        }}>
                           <Text style={{ color: getColor(item.name) }}>{item.value}</Text>
                         </Card>
                         <Text style={{ fontSize: 11 }}>{item.name}</Text>
@@ -446,19 +464,19 @@ class Home extends React.Component {
           </View>
         </AuthBase>
 
-        <View marginH-12 bg-white style={{ borderRadius: 8, overflow: "hidden" }}>
-          <TabBar
-            selectedIndex={this.state.selectedIndex}
-            onChangeIndex={index => {
-              //this.scrollview.scrollTo({ x: 0, y: 720, animated: true }, 1)
-              this.setState({ selectedIndex: index }, () => {
-                this.getChartData()
-              })
-            }}
-            style={styles.tabbar}
-            enableShadow={false}
-            indicatorStyle={{ borderBottomWidth: 2, borderColor: colors.primaryColor }}>
-            <AuthBase item={getItem("homePage", "oee", index.userAccount)}>
+        <AuthBase item={getItem("homePage", "equipmentChart", index.userAccount)}>      
+          <View marginH-12 bg-white style={{ borderRadius: 8, overflow: "hidden" }}>
+            <TabBar
+              selectedIndex={this.state.selectedIndex}
+              onChangeIndex={index => {
+                //this.scrollview.scrollTo({ x: 0, y: 720, animated: true }, 1)
+                this.setState({ selectedIndex: index }, () => {
+                  this.getChartData()
+                })
+              }}
+              style={styles.tabbar}
+              enableShadow={false}
+              indicatorStyle={{ borderBottomWidth: 2, borderColor: colors.primaryColor }}>
               <TabBar.Item
                 label={`OEE`}
                 labelStyle={{ textTransform: 'capitalize' }}
@@ -466,9 +484,8 @@ class Home extends React.Component {
                   color: colors.primaryColor
                 }}
               />
-            </AuthBase>
 
-            <AuthBase item={getItem("homePage", "cropMobility", index.userAccount)}>
+
               <TabBar.Item selectedLabelColor={colors.primaryColor}
                 label={`稼动率`}
                 labelStyle={{ textTransform: 'capitalize' }}
@@ -476,9 +493,7 @@ class Home extends React.Component {
                   color: colors.primaryColor
                 }}
               />
-            </AuthBase>
 
-            <AuthBase item={getItem("homePage", "mttr", index.userAccount)}>
               <TabBar.Item selectedLabelColor={colors.primaryColor}
                 label={`MTTR`}
                 labelStyle={{ textTransform: 'capitalize' }}
@@ -486,9 +501,7 @@ class Home extends React.Component {
                   color: colors.primaryColor
                 }}
               />
-            </AuthBase>
 
-            <AuthBase item={getItem("homePage", "mtbf", index.userAccount)}>
               <TabBar.Item selectedLabelColor={colors.primaryColor}
                 label={`MTBF`}
                 labelStyle={{ textTransform: 'capitalize' }}
@@ -496,92 +509,93 @@ class Home extends React.Component {
                   color: colors.primaryColor
                 }}
               />
-            </AuthBase>
-          </TabBar>
-          <View style={{ borderColor: "#f0f0f0", borderTopWidth: 1 }}>
-            <Card row spread padding-12 style={{ borderColor: "#f0f0f0", borderBottomWidth: 1 }} enableShadow={false} onPress={() => {
-              let { departmentId, shopId } = postDatas[selectedIndex] ? postDatas[selectedIndex] : {};
-              let submitdatas = [
-                {
-                  key: "departmentId",
-                  type: "treeselect",
-                  require: true,
-                  value: departmentId,
-                  placeholder: "请选择部门",
-                  option: chartdata.departmentList && chartdata.departmentList
-                }, {
-                  key: "shopId",
-                  type: "select",
-                  require: true,
-                  value: shopId,
-                  width: "31%",
-                  placeholder: "请选择车间",
-                  option: chartdata.shopList && chartdata.shopList.map((item, i) => {
-                    return {
-                      dicName: item.shopName,
-                      dicKey: item.id
-                    }
+            </TabBar>
+            <View style={{ borderColor: "#f0f0f0", borderTopWidth: 1 }}>
+              <Card row spread padding-12 style={{ borderColor: "#f0f0f0", borderBottomWidth: 1 }} enableShadow={false} onPress={() => {
+                let { departmentId, shopId } = postDatas[selectedIndex] ? postDatas[selectedIndex] : {};
+                let submitdatas = [
+                  {
+                    key: "departmentId",
+                    type: "treeselect",
+                    value: departmentId,
+                    placeholder: "请选择部门",
+                    option: chartdata.departmentList && chartdata.departmentList
+                  }, {
+                    key: "shopId",
+                    type: "select",
+                    value: shopId,
+                    width: "31%",
+                    placeholder: "请选择车间",
+                    option: chartdata.shopList && chartdata.shopList.map((item, i) => {
+                      return {
+                        dicName: item.shopName,
+                        dicKey: item.id
+                      }
+                    })
+                  }
+                ]
+                this.setNewState("submitdata", submitdatas, () => {
+                  this.setState({
+                    visible: true,
                   })
-                }
-              ]
-              this.setNewState("submitdata", submitdatas, () => {
-                this.setState({
-                  visible: true,
                 })
-              })
-            }}>
-              <Text>
-                选择部门/车间
-              </Text>
+              }}>
+                <View width={180}>
+                  <Text>
+                    选择部门/车间
+                </Text>
+                </View>
+
+                <View row right flex-1>
+                  {
+                    postDatas[selectedIndex].departmentId ?
+                      <Text style={{ color: colors.primaryColor }} numberOfLines={1}>{postDatas[selectedIndex].departmentId.name}</Text>
+                      :
+                      <Text>部门</Text>}
+                  <Text>/</Text>
+                  {postDatas[selectedIndex].shopId ?
+                    <Text style={{ color: colors.primaryColor }} numberOfLines={1}>{postDatas[selectedIndex].shopId.name}</Text>
+                    :
+                    <Text>车间</Text>}
+                </View>
+              </Card>
+              <View style={styles.chartContainer} padding-10 paddingB-0>
+                <ECharts
+                  ref={this.onRef}
+                  option={{}}
+                  onLoadEnd={() => {
+                    this.getChartData();
+                  }}
+                />
+              </View>
               <View row>
                 {
-                  postDatas[selectedIndex].departmentId ?
-                    <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].departmentId.name}</Text>
-                    :
-                    <Text>部门</Text>}
-                <Text>/</Text>
-                {postDatas[selectedIndex].shopId ?
-                  <Text style={{ color: colors.primaryColor }}>{postDatas[selectedIndex].shopId.name}</Text>
-                  :
-                  <Text>车间</Text>}
+                  timeline.map((item) => {
+                    return <Card flex-1 style={{ backgroundColor: postDatas[selectedIndex].unit == item ? "#FFFFFF" : "#ddd", borderRadius: 0 }} enableShadow={false} center padding-12 onPress={() => {
+                      let newpostDatas = postDatas.map((it, i) => {
+                        if (selectedIndex == i) {
+                          it.unit = item
+                        }
+                        return it
+                      })
+
+                      this.setState({
+                        postDatas: newpostDatas
+                      }, () => {
+                        this.getChartData()
+                      })
+
+                    }}>
+                      <Text>{item}</Text>
+                    </Card>
+
+                  })
+                }
+
               </View>
-            </Card>
-            <View style={styles.chartContainer} padding-10 paddingB-0>
-              <ECharts
-                ref={this.onRef}
-                option={{}}
-                onLoadEnd={() => {
-                  this.getChartData();
-                }}
-              />
-            </View>
-            <View row>
-              {
-                timeline.map((item) => {
-                  return <Card flex-1 style={{ backgroundColor: postDatas[selectedIndex].unit == item ? "#FFFFFF" : "#ddd", borderRadius: 0 }} enableShadow={false} center padding-12 onPress={() => {
-                    let newpostDatas = postDatas.map((it, i) => {
-                      if (selectedIndex == i) {
-                        it.unit = item
-                      }
-                      return it
-                    })
-
-                    this.setState({
-                      postDatas: newpostDatas
-                    }, () => {
-                      this.getChartData()
-                    })
-
-                  }}>
-                    <Text>{item}</Text>
-                  </Card>
-
-                })
-              }
-
             </View>
           </View>
-        </View>
+        </AuthBase>
 
         <AuthBase item={getItem("homePage", "compleToTask", index.userAccount)}>
           <View margin-12 style={{ borderRadius: 8, overflow: "hidden" }}>

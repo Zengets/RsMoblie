@@ -31,7 +31,6 @@ class SelectFiles extends Component {
                     this.uploadfile(path, filename)
                 },
                 onCancel: () => {
-                    console.log('cancelled')
                 }
             }
         )

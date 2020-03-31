@@ -31,7 +31,6 @@ class DepartMent extends React.Component {
 
     componentDidMount() {
         if(this.props.navigation.state.params){
-            console.log(this.props.navigation.state.params.posturl)
             this.setNewState(this.props.navigation.state.params.posturl);
 
         }else{

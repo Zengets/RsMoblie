@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class UpkeepMission extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
+        let { key, value,equipmentNo } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",equipmentNo:"" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -29,7 +29,7 @@ class UpkeepMission extends React.Component {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "taskNo": "",  //-----工单号
-                "equipmentNo": "",  //---------设备编号
+                "equipmentNo": equipmentNo?equipmentNo:"",  //---------设备编号
                 "equipmentName": "",  //-------设备名称
                 "status": "",  //--------任务状态
                 "maintainPlanType": "",  //--------维保类型
@@ -38,7 +38,7 @@ class UpkeepMission extends React.Component {
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "taskNo": "",  //-----工单号
-                    "equipmentNo": "",  //---------设备编号
+                    "equipmentNo":  equipmentNo?equipmentNo:"",  //---------设备编号
                     "equipmentName": "",  //-------设备名称
                     "status": "",  //--------任务状态
                     "maintainPlanType": "",  //--------维保类型
@@ -233,7 +233,7 @@ class UpkeepMission extends React.Component {
                         key: "equipmentNo",
                         type: "input",
                         require: false,
-                        value: "",
+                        value: postData.equipmentNo,
                         placeholder: "请输入设备编号"
                     }, {
                         key: "maintainPlanType",

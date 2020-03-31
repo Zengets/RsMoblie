@@ -47,7 +47,7 @@ class SpareLogItem extends Component {
     >
       <View row spread paddingV-12 paddingB-16 style={{alignItems:"center"}}>
         <View>
-          <Text body dark10><Text style={ { color: getColor(item.ioType) } }>| </Text>{ item.sparePartsName }</Text>
+          <Text body dark10 numberOfLines={1}><Text style={ { color: getColor(item.ioType) } }>| </Text>{ item.sparePartsName }</Text>
         </View>
         <View row center>
           <Text subbody dark100 marginR-3  style={ { color: getColor(item.ioType) } }>{ item.ioTypeName }</Text>
@@ -56,18 +56,18 @@ class SpareLogItem extends Component {
       </View>
       <View row spread top paddingB-8 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>料号:{ item.sparePartsNo }</Text>
+          <Text subbody numberOfLines={1}>料号:{ item.sparePartsNo }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody>{ item.ioType == "0" ? "入库数量" : item.ioType == "1" ? "出库数量" : "" }:<Text style={ { color: getColor(item.ioType) } }>{ item.batchCount }个</Text></Text>
+          <Text subbody numberOfLines={1}>{ item.ioType == "0" ? "入库数量" : item.ioType == "1" ? "出库数量" : "" }:<Text style={ { color: getColor(item.ioType) } }>{ item.batchCount }个</Text></Text>
         </View>
       </View>
       <View row spread top paddingV-0 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>操作人:{ item.dealUserName }</Text>
+          <Text subbody numberOfLines={1}>操作人:{ item.dealUserName }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody >{ item.dealTime }</Text>
+          <Text subbody numberOfLines={1}>{ item.dealTime }</Text>
         </View>
       </View>
 

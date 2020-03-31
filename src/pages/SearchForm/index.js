@@ -170,7 +170,7 @@ class SearchForm extends React.Component {
                     this.changeData(key, val)
                 }
             }
-        },rotatecha = rotate.interpolate({ // 旋转，使用插值函数做值映射
+        }, rotatecha = rotate.interpolate({ // 旋转，使用插值函数做值映射
             inputRange: [0, 1],
             outputRange: ['-180deg', '0deg']
         })
@@ -230,7 +230,7 @@ class SearchForm extends React.Component {
                                             <Text white body>{item.placeholder}</Text>
                                             <Text white>{item.value && item.value.name}</Text>
                                         </Card>
-                                        <Animated.View style={{ height: curkey == item.key || item.collspan ? "auto" : 0, overflow: "hidden",borderRadius:8  }}>
+                                        <Animated.View style={{ height: curkey == item.key || item.collspan ? "auto" : 0, overflow: "hidden", borderRadius: 8 }}>
                                             <TreeSelect
                                                 data={loop(item.option)}
                                                 itemStyle={{
@@ -304,8 +304,12 @@ class SearchForm extends React.Component {
                                             ).start()
 
                                         }}>
-                                            <Text white body>{item.placeholder}</Text>
-                                            <Text white>{item.value && item.value.name}</Text>
+                                            <View>
+                                                <Text white body>{item.placeholder}</Text>
+                                            </View>
+                                            <View flex-1 paddingL-12 right>
+                                                <Text white>{item.value && item.value.name}</Text>
+                                            </View>
                                         </Card>
 
                                         <View row paddingT-8 style={{ height: curkey == item.key || item.collspan ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
@@ -322,7 +326,7 @@ class SearchForm extends React.Component {
                                                                 null
                                                         })
                                                     }}>
-                                                        <Text subbody style={{ color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" }}>{it.dicName}</Text>
+                                                        <Text subbody style={{ color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" }} numberOfLines={2}>{it.dicName}</Text>
                                                     </Card>
                                                 ))
                                             }

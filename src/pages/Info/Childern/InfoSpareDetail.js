@@ -37,7 +37,6 @@ class InfoSpareDetail extends React.Component {
     this.setNewState("infosparedetail", {
       id: this.props.navigation.state.params.id
     }, () => {
-      console.log(this.props.index.infosparedetail, "214564564564")
     })
   }
 

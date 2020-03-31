@@ -12,9 +12,9 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const options = {
     title: '请选择图片',
-    cancelButtonTitle:"取消",
-    takePhotoButtonTitle:"拍照",
-    chooseFromLibraryButtonTitle:"从相册选择",
+    cancelButtonTitle: "取消",
+    takePhotoButtonTitle: "拍照",
+    chooseFromLibraryButtonTitle: "从相册选择",
     storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -188,103 +188,104 @@ class SubmitForm extends React.Component {
         }
 
 
-        return <KeyboardAwareScrollView style={ { padding: 12,paddingTop:0 } } contentContainerStyle={ { flexGrow: 1 } } keyboardShouldPersistTaps="handled">
+        return <KeyboardAwareScrollView style={{ padding: 12, paddingTop: 0 }} contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
             <View paddingB-12>
                 {
                     submitdata.map((item, i) => {
                         if (item.type == "input" && !item.hidden) {
-                            return <Card bottom padding-12 paddingB-0 marginB-12 enableShadow={ false }>
-                                <TextField { ...inputprops(item) }></TextField>
+                            return <Card bottom padding-12 paddingB-0 marginB-12 enableShadow={false}>
+                                <TextField {...inputprops(item)}></TextField>
                             </Card>
                         } else if (item.type == "textarea" && !item.hidden) {
-                            return <Card bottom padding-12 marginB-12 enableShadow={ false }>
-                                <Text marginB-10>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
-                                <View style={ { padding: 8, backgroundColor: "#f9f9f9" } }>
-                                    <TextArea { ...textareaprops(item) }></TextArea>
+                            return <Card bottom padding-12 marginB-12 enableShadow={false}>
+                                <Text marginB-10>{item.require ? <Text style={{ color: colors.warnColor }}>*</Text> : null} {item.placeholder}</Text>
+                                <View style={{ padding: 8, backgroundColor: "#f9f9f9" }}>
+                                    <TextArea {...textareaprops(item)}></TextArea>
                                 </View>
 
                             </Card>
                         } else if (item.type == "treeselect" && !item.hidden) {
-                            return <Card marginB-12 enableShadow={ false }>
-                                <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
-                                    this.setState({
-                                        curkey: curkey !== item.key ? item.key : ""
-                                    })
-
-                                } }>
-                                    <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
-
-                                    <Text white>{ item.value && item.value.name }</Text>
-                                </Card>
-                                <Animated.View style={ { height: curkey == item.key || item.collspan? "auto" : 0, overflow: "hidden",borderRadius:8 } }>
-                                    <TreeSelect
-                                        data={ loop(item.option) }
-                                        itemStyle={ {
-                                            fontSize: 14,
-                                            color: '#999',
-                                            paddingVertical: 14
-                                        } }
-                                        defaultSelectedId={ [item.value && item.value.id] }
-                                        selectType="single"
-                                        selectedItemStyle={ {
-                                            backgroudColor: "lightblue",
-                                            fontSize: 16,
-                                            color: '#fff'
-                                        } }
-                                        onClick={ (e) => {
-                                            let cur = e.item;
-                                            this.changeData(item.key, {
-                                                id: cur.id,
-                                                name: cur.name
-                                            })
-                                        } }
-                                        treeNodeStyle={ {
-                                            openIcon: <AntIcons name="down" size={ 12 } style={ { color: colors.primaryColor } } />,
-                                            closeIcon: <AntIcons name="right" size={ 12 } style={ { color: colors.secondaryColor } } />
-                                        } }
-                                    ></TreeSelect>
-                                </Animated.View>
-                                {
-                                    !item.collspan&&<Card padding-4 center enableShadow={ false } onPress={ () => {
-                                        this.setState({
-                                            curkey: curkey !== item.key ? item.key : ""
-                                        })
-    
-                                    } }>
-                                        <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
-                                    </Card>
-                                }
-                                
-                            </Card>
-                        } else if (item.type == "select" && !item.hidden) {
-                            return <Card marginB-12 enableShadow={ false }>
-                                <Spinner
-                                    visible={ item.linked ? loading.effects[`index/${item.linked.posturl}`] : false }
-                                    textContent={ '加载中...' }
-                                    textStyle={ {
-                                        color: '#FFF',
-                                        fontWeight: "normal"
-                                    } }
-                                    animation="fade"
-                                    overlayColor={ "rgba(0,0,0,0.2)" }
-                                />
-                                
-                                <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
+                            return <Card marginB-12 enableShadow={false}>
+                                <Card padding-12 style={{ backgroundColor: colors.secondaryColor, alignItems: "center" }} enableShadow={false} row spread onPress={() => {
                                     this.setState({
                                         curkey: curkey !== item.key ? item.key : ""
                                     })
 
                                 }}>
-                                    <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
+                                    <Text white body>{item.require ? <Text style={{ color: colors.warnColor }}>*</Text> : null} {item.placeholder}</Text>
 
-                                    <Text white>{ item.value && item.value.name }</Text>
+                                    <Text white>{item.value && item.value.name}</Text>
+                                </Card>
+                                <Animated.View style={{ height: curkey == item.key || item.collspan ? "auto" : 0, overflow: "hidden", borderRadius: 8 }}>
+                                    <TreeSelect
+                                        data={loop(item.option)}
+                                        itemStyle={{
+                                            fontSize: 14,
+                                            color: '#999',
+                                            paddingVertical: 14
+                                        }}
+                                        defaultSelectedId={[item.value && item.value.id]}
+                                        selectType="single"
+                                        selectedItemStyle={{
+                                            backgroudColor: "lightblue",
+                                            fontSize: 16,
+                                            color: '#fff'
+                                        }}
+                                        onClick={(e) => {
+                                            let cur = e.item;
+                                            this.changeData(item.key, {
+                                                id: cur.id,
+                                                name: cur.name
+                                            })
+                                        }}
+                                        treeNodeStyle={{
+                                            openIcon: <AntIcons name="down" size={12} style={{ color: colors.primaryColor }} />,
+                                            closeIcon: <AntIcons name="right" size={12} style={{ color: colors.secondaryColor }} />
+                                        }}
+                                    ></TreeSelect>
+                                </Animated.View>
+                                {
+                                    !item.collspan && <Card padding-4 center enableShadow={false} onPress={() => {
+                                        this.setState({
+                                            curkey: curkey !== item.key ? item.key : ""
+                                        })
+
+                                    }}>
+                                        <AntIcons name={curkey !== item.key ? "down" : "up"} style={{ color: "#ddd" }}></AntIcons>
+                                    </Card>
+                                }
+
+                            </Card>
+                        } else if (item.type == "select" && !item.hidden) {
+                            return <Card marginB-12 enableShadow={false}>
+                                <Spinner
+                                    visible={item.linked ? loading.effects[`index/${item.linked.posturl}`] : false}
+                                    textContent={'加载中...'}
+                                    textStyle={{
+                                        color: '#FFF',
+                                        fontWeight: "normal"
+                                    }}
+                                    animation="fade"
+                                    overlayColor={"rgba(0,0,0,0.2)"}
+                                />
+
+                                <Card padding-12 style={{ backgroundColor: colors.secondaryColor, alignItems: "center" }} enableShadow={false} row spread onPress={() => {
+                                    this.setState({
+                                        curkey: curkey !== item.key ? item.key : ""
+                                    })
+
+                                }}>
+                                    <Text white body>{item.require ? <Text style={{ color: colors.warnColor }}>*</Text> : null} {item.placeholder}{`(${item.option && item.option.length})`}</Text>
+                                    <View flex-1 paddingL-12 right>
+                                        <Text white>{item.value && item.value.name}</Text>
+                                    </View>
                                 </Card>
 
-                                <View row paddingT-8 style={ { height: curkey == item.key || item.collspan ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+                                <View row paddingT-8 style={{ height: curkey == item.key || item.collspan ? "auto" : 0, width: "100%", flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
                                     {
                                         item.option &&
                                         item.option.map((it, i) => (
-                                            <Card width={ item.width?item.width:(width - 36) / 3 } padding-12 margin-2 style={ { minHeight: 70, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" } } center key={ i } enableShadow={ false } onPress={ () => {
+                                            <Card width={item.width ? item.width : (width - 36) / 3} padding-12 margin-2 style={{ minHeight: 70, backgroundColor: item.value && item.value.id == it.dicKey ? "lightblue" : "#F0F0F0" }} center key={i} enableShadow={false} onPress={() => {
                                                 this.changeData(item.key, {
                                                     id: it.dicKey,
                                                     name: it.dicName
@@ -293,27 +294,27 @@ class SubmitForm extends React.Component {
                                                         this.changeOption(it.dicKey, item.linked) :
                                                         null
                                                 })
-                                            } }>
-                                                <Text numberOfLines={2} subbody style={ { color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" } }>{ it.dicName }</Text>
+                                            }}>
+                                                <Text numberOfLines={2} subbody style={{ color: item.value && item.value.id == it.dicKey ? "#fff" : "#999" }}>{it.dicName}</Text>
                                             </Card>
                                         ))
                                     }
                                 </View>
 
                                 {
-                                    !item.collspan&&<Card padding-4 center enableShadow={ false } onPress={ () => {
+                                    !item.collspan && <Card padding-4 center enableShadow={false} onPress={() => {
                                         this.setState({
                                             curkey: curkey !== item.key ? item.key : ""
                                         })
-    
-                                    } }>
-                                        <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
+
+                                    }}>
+                                        <AntIcons name={curkey !== item.key ? "down" : "up"} style={{ color: "#ddd" }}></AntIcons>
                                     </Card>
                                 }
-                                
+
                             </Card>
                         } else if (item.type == "image") {
-                            return <Card padding-page left marginB-12 enableShadow={ false } onPress={ () => {
+                            return <Card padding-12 left marginB-12 enableShadow={false} onPress={() => {
                                 ImagePicker.showImagePicker(options, (response) => {
                                     if (response.didCancel) {
                                         console.log('User cancelled image picker');
@@ -322,7 +323,7 @@ class SubmitForm extends React.Component {
                                     } else if (response.customButton) {
                                         console.log('User tapped custom button: ', response.customButton);
                                     } else {
-                                        this.changeData(item.key, response.uri);//change after
+                                        //this.changeData(item.key, response.uri);//change after
                                         let data = new FormData();
                                         data.append('file', {
                                             uri: response.uri,
@@ -330,44 +331,51 @@ class SubmitForm extends React.Component {
                                             type: response.type
                                         });
                                         this.setNewState("uploadImg", data, () => {
-                                            //this.changeData(item.key, uploadImg.dataList[0]);
+                                            this.changeData(item.key, this.props.index.uploadImg.dataList[0]);
 
                                         })
                                     }
                                 });
-                            } }>
-                                <Text marginB-10>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }</Text>
-                                <AnimatedImage
-                                    containerStyle={ { width: "100%", height: 200, borderRadius: 8, backgroundColor: "#f9f9f9" } }
-                                    style={ { resizeMode: 'contain', height: 200, width: "100%" } }
-                                    source={ item.value ? { uri: item.value } : require("../assets/404.png") }
-                                    loader={ <ActivityIndicator /> }
-                                />
+                            }}>
+                                <Text marginB-10>{item.require ? <Text style={{ color: colors.warnColor }}>*</Text> : null} {item.placeholder}</Text>
+                                <View height={width-48} width={"100%"} center>
+                                    {
+                                        loading.effects['index/uploadImg'] ? <ActivityIndicator /> :
+                                            <AnimatedImage
+                                                containerStyle={{ width: "100%", height: width-48, borderRadius: 8, backgroundColor: "#f9f9f9" }}
+                                                style={{ resizeMode: 'cover', height: width-48, width: "100%" }}
+                                                source={item.value ? { uri: item.value } : require("../assets/404.png")}
+                                                loader={<ActivityIndicator />}
+                                            />
+                                    }
+                                </View>
+
+
                             </Card>
                         } else if (item.type == "multinput") {
-                            return <Card marginB-12 enableShadow={ false }>
-                                <Card padding-12 style={ { backgroundColor: colors.secondaryColor, alignItems: "center" } } enableShadow={ false } row spread onPress={ () => {
+                            return <Card marginB-12 enableShadow={false}>
+                                <Card padding-12 style={{ backgroundColor: colors.secondaryColor, alignItems: "center" }} enableShadow={false} row spread onPress={() => {
                                     this.setState({
                                         curkey: curkey !== item.key ? item.key : ""
                                     })
-                                } }>
-                                    <Text white body>{ item.require ? <Text style={ { color: colors.warnColor } }>*</Text> : null } { item.placeholder }{ `(${item.option && item.option.length})` }</Text>
-                                    <Text white>({ item.value && item.value.length })</Text>
+                                }}>
+                                    <Text white body>{item.require ? <Text style={{ color: colors.warnColor }}>*</Text> : null} {item.placeholder}{`(${item.option && item.option.length})`}</Text>
+                                    <Text white>({item.value && item.value.length})</Text>
                                 </Card>
 
-                                <View padding-12 paddingT-8 flex-1 style={ { height: curkey == item.key ? "auto" : 0, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" } }>
+                                <View padding-12 paddingT-8 flex-1 style={{ height: curkey == item.key ? "auto" : 0, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
                                     {
                                         item.option &&
                                         item.option.map((it, i) => (
-                                            <Card flex padding-12 marginT-12 style={ {
-                                                width:"100%",    
+                                            <Card flex padding-12 marginT-12 style={{
+                                                width: "100%",
                                                 backgroundColor:
                                                     item.value && item.value.length > 0 ?
                                                         item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
                                                             "lightblue" :
                                                             "#999" :
                                                         "#999"
-                                            } } key={ i } enableShadow={ false } onPress={ () => {
+                                            }} key={i} enableShadow={false} onPress={() => {
                                                 let { value, key, format } = item;
                                                 if (value && value.length > 0) {
                                                     let idarr = value.map((on) => { return on[format.id] }), newvalue = [];
@@ -392,22 +400,27 @@ class SubmitForm extends React.Component {
                                                     }])
 
                                                 }
-                                            } }>
+                                            }}>
                                                 <View row>
                                                     {
                                                         item.subs.map((k, j) => {
-                                                        return <View left flex-1><Text white>{ k.name?`${k.name}:`:""}{ it[k.key] }</Text></View>
+                                                            if (k.width) {
+                                                                return <View left style={{ width: k.width ? k.width : "auto" }} right={k.right}><Text white>{k.name ? `${k.name}:` : ""}{it[k.key]}</Text></View>
+                                                            } else {
+                                                                return <View left style={{ flex: 1 }} right={k.right}><Text white>{k.name ? `${k.name}:` : ""}{it[k.key]}</Text></View>
+                                                            }
+
                                                         })
                                                     }
                                                 </View>
                                                 {
                                                     item.value && item.value.length > 0 ?
                                                         item.value.map((on) => { return on[item.format.id] }).indexOf(it.dicKey) !== -1 ?
-                                                            <View flex-1 padding-8 marginT-12 style={ {
+                                                            <View flex-1 padding-8 marginT-12 style={{
                                                                 height: 40, overflow: "hidden", backgroundColor: "#fff", borderRadius: 8
-                                                            } }>
+                                                            }}>
                                                                 <TextField
-                                                                    { ...inserprops(item, it.dicKey) }
+                                                                    {...inserprops(item, it.dicKey)}
                                                                 ></TextField>
 
                                                             </View>
@@ -419,12 +432,12 @@ class SubmitForm extends React.Component {
                                         ))
                                     }
                                 </View>
-                                <Card padding-4 center enableShadow={ false } onPress={ () => {
+                                <Card padding-4 center enableShadow={false} onPress={() => {
                                     this.setState({
                                         curkey: curkey !== item.key ? item.key : ""
                                     })
-                                } }>
-                                    <AntIcons name={ curkey !== item.key ? "down" : "up" } style={ { color: "#ddd" } }></AntIcons>
+                                }}>
+                                    <AntIcons name={curkey !== item.key ? "down" : "up"} style={{ color: "#ddd" }}></AntIcons>
                                 </Card>
                             </Card>
                         }

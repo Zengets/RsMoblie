@@ -60,27 +60,27 @@ class SpareUsageItem extends Component {
     >
       <View row spread paddingV-12 paddingB-12 style={{ alignItems: "center" }}>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
           <Text subbody dark10>使用数量:{item.consumeCount}</Text>
         </View>
         <View flex-1 right>
-          <Text subbody style={{ color: getColor(item) }}>{item.consumeTypeName}</Text>
+          <Text subbody style={{ color: getColor(item) }} numberOfLines={1}>{item.consumeTypeName}</Text>
         </View>
       </View>
       <View row spread top paddingB-8 style={{ alignItems: "center" }}>
         <View>
-          <Text subbody>备件:{item.sparePartsName}</Text>
+          <Text subbody numberOfLines={1}>备件:{item.sparePartsName}</Text>
         </View>
         <View flex-1 right>
-          <Text subbody>料号:{item.sparePartsNo}</Text>
+          <Text subbody numberOfLines={1}>料号:{item.sparePartsNo}</Text>
         </View>
       </View>
       <View row spread top paddingV-0 style={{ alignItems: "center" }}>
         <View>
-          <Text subbody>使用人:{item.consumeUserName}</Text>
+          <Text subbody numberOfLines={1}>使用人:{item.consumeUserName}</Text>
         </View>
         <View flex-1 right>
-          <Text subbody dark40>{item.consumeTime}</Text>
+          <Text subbody dark40 numberOfLines={1}>{item.consumeTime}</Text>
         </View>
       </View>
 

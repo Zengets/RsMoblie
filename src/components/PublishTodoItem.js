@@ -57,7 +57,7 @@ class PublishTodoItem extends Component {
     >
       <View row spread paddingV-12 paddingB-12 style={{ alignItems: "center" }}>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.assignmentTitle}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.assignmentTitle}</Text>
         </View>
         <View row center>
           <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{item.statusName}</Text>
@@ -66,10 +66,10 @@ class PublishTodoItem extends Component {
       </View>
       <View row spread top paddingB-8 style={{ alignItems: "center" }}>
         <View>
-          <Text subbody>截至:{item.closeDate}</Text>
+          <Text subbody numberOfLines={1}>截至:{item.closeDate}</Text>
         </View>
         <View>
-          <Text subbody dark60>{item.publishTime}</Text>
+          <Text subbody dark60 numberOfLines={1}>{item.publishTime}</Text>
 
         </View>
       </View>

@@ -45,23 +45,23 @@ class SpareOwnerItem extends Component {
           <Text body dark10 marginL-8>{ item.userName }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody >持有:<Text style={{color:tocolor()}}>{ item.availableStock }个</Text></Text>
+          <Text subbody numberOfLines={1}>持有:<Text style={{color:tocolor()}}>{ item.availableStock }个</Text></Text>
         </View>
       </View>
       <View row spread top paddingB-8 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>备件:{ item.sparePartsName }</Text>
+          <Text subbody numberOfLines={1}>备件:{ item.sparePartsName }</Text>
         </View>
         <View flex-1 right>
-          <Text subbody>料号:{ item.sparePartsNo }</Text>
+          <Text subbody numberOfLines={1}>料号:{ item.sparePartsNo }</Text>
         </View>
       </View>
       <View row spread top paddingV-0 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>规格:{ item.sparePartsTypeName }</Text>
+          <Text subbody numberOfLines={1}>规格:{ item.sparePartsTypeName }</Text>
         </View>
         <View flex-1 right>
-        <Text subbody>总计:{ item.totalStock }个</Text>
+        <Text subbody numberOfLines={1}>总计:{ item.totalStock }个</Text>
         </View>
       </View>
 

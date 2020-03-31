@@ -89,11 +89,11 @@ class UserListDetail extends React.Component {
               navigation.navigate("UserMore", { id: id,title:`${userName}负责的备件`,posturl:"getuserspare",key:"warnNoticeUserId" })
             }
           },
-          {
-            label: '查看设备日志', onPress: () => {
-              //navigation.navigate("DeviceUser", { id: id })
-            }
-          },
+          // {
+          //   label: '查看设备日志', onPress: () => {
+          //     //navigation.navigate("DeviceUser", { id: id })
+          //   }
+          // },
           {
             label: '取消', onPress: () => {
               this.setState({ showHint: false })

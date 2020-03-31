@@ -194,7 +194,6 @@ class SpareReviewDetail extends React.Component {
                             onPress={() => {
                                 function getVal(key) {
                                     let one = {};
-                                    console.log()
                                     submitdata.map((item) => {
                                         if (item.key == key) {
                                             one = item

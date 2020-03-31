@@ -144,14 +144,16 @@ class RepairAction extends React.Component {
                             "value": "consumeCount" //使用数量
                         },
                         subs: [{
-                            name: "名称",
-                            key: "sparePartsName"
+                            name: "",
+                            key: "sparePartsName",
                         }, {
                             name: "类型",
-                            key: "sparePartsTypeName"
+                            key: "sparePartsTypeName",
                         }, {
                             name: "库存",
-                            key: "availableStock"
+                            key: "availableStock",
+                            width:50,
+                            right:true
                         }
                         ],
 

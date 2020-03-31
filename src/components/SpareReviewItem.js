@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 class SpareReviewItem extends Component {
   render() {
-    let { item, navigation, type, hidden,children } = this.props;
+    let { item, navigation, type, hidden, children } = this.props;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item.status) {
@@ -48,7 +48,7 @@ class SpareReviewItem extends Component {
 
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 :128 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 128 }}
       paddingL-12 paddingR-12
       onPress={() => {
         navigation.navigate("SpareReviewDetail", {
@@ -57,13 +57,13 @@ class SpareReviewItem extends Component {
         })
       }}
     >
-      {children?children:<View height={12}></View>}
+      {children ? children : <View height={12}></View>}
 
       <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
           {
-        hidden ? null :<Text subbody dark10>总价值:{item.totalSparePartsValue ? `${item.totalSparePartsValue}元` : ""}</Text>}
+            hidden ? null : <Text subbody dark10 numberOfLines={1}>总价值:{item.totalSparePartsValue ? `${item.totalSparePartsValue}元` : ""}</Text>}
         </View>
         <View row center>
           <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{statusName[item.status]}</Text>
@@ -73,10 +73,10 @@ class SpareReviewItem extends Component {
       {
         hidden ? null : <View row spread top paddingB-8 style={{ alignItems: "center" }}>
           <View>
-            <Text subbody>申请人:{item.applyUserName}</Text>
+            <Text subbody numberOfLines={1}>申请人:{item.applyUserName}</Text>
           </View>
           <View flex-1 right>
-            <Text subbody>审批人:{item.auditUserName}</Text>
+            <Text subbody numberOfLines={1}>审批人:{item.auditUserName}</Text>
           </View>
         </View>
       }
@@ -84,13 +84,13 @@ class SpareReviewItem extends Component {
         hidden ? null :
           <View row spread top paddingV-0 style={{ alignItems: "center" }}>
             <View>
-              <Text subbody>操作类型:{item.applyTypeName}</Text>
+              <Text subbody numberOfLines={1}>操作类型:{item.applyTypeName}</Text>
             </View>
             <View flex-1 right>
-              <Text subbody dark40>{item.applyTime}</Text>
+              <Text subbody dark40 numberOfLines={1}>{item.applyTime}</Text>
             </View>
           </View>
-          }
+      }
 
 
 

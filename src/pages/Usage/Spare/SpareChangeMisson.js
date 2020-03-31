@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class SpareChangeMisson extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
+        let { key, value,equipmentNo } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",equipmentNo:"" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -29,7 +29,7 @@ class SpareChangeMisson extends React.Component {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "equipmentName": "",//设备名，筛选条件
-                "equipmentNo": "",//设备编号，筛选条件
+                "equipmentNo": equipmentNo?equipmentNo:"",//设备编号，筛选条件
                 "sparePartsName": "",//备件名，筛选条件
                 "sparePartsNo": "",//备件料号，筛选条件
                 "planMaintainUserName": "",//执行人名，筛选条件
@@ -40,7 +40,7 @@ class SpareChangeMisson extends React.Component {
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "equipmentName": "",//设备名，筛选条件
-                    "equipmentNo": "",//设备编号，筛选条件
+                    "equipmentNo": equipmentNo?equipmentNo:"",//设备编号，筛选条件
                     "sparePartsName": "",//备件名，筛选条件
                     "sparePartsNo": "",//备件料号，筛选条件
                     "planMaintainUserName": "",//执行人名，筛选条件

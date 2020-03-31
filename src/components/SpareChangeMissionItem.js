@@ -60,14 +60,15 @@ class SpareChangeMissionItem extends Component {
       {children?children:<View height={12}></View>}
       <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
           {
-            hidden ? null : <Text subbody dark40>{item.planStartMaintainDate}</Text>}
+            hidden ? null : <Text subbody dark40 numberOfLines={1}>{item.planStartMaintainDate}</Text>}
         </View>
         {
           type ? <View flex-1 right>
-            <Text subbody style={{ color: getColor(item) }}>使用:{item.sparePartsNum}个</Text>
-          </View> : <View row center>
+            <Text subbody style={{ color: getColor(item) }} numberOfLines={1}>使用:{item.sparePartsNum}个</Text>
+          </View> : 
+          <View row center>
               <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{statusName[item.status]}</Text>
               <Badge size='small' backgroundColor={getColor(item)}></Badge>
             </View>
@@ -77,20 +78,20 @@ class SpareChangeMissionItem extends Component {
       {
         hidden ? null : <View row spread top paddingB-8 style={{ alignItems: "center" }}>
           <View>
-            <Text subbody>备件:{item.sparePartsName}</Text>
+            <Text subbody numberOfLines={1}>备件:{item.sparePartsName}</Text>
           </View>
           <View flex-1 right>
-            <Text subbody>料号:{item.sparePartsNo}</Text>
+            <Text subbody numberOfLines={1}>料号:{item.sparePartsNo}</Text>
           </View>
         </View>
       }
       {
         hidden ? null : <View row spread top paddingV-0 style={{ alignItems: "center" }}>
           <View>
-            <Text subbody>设备:{item.equipmentName}</Text>
+            <Text subbody numberOfLines={1}>设备:{item.equipmentName}</Text>
           </View>
           <View flex-1 right>
-            <Text subbody>执行人:{item.planMaintainUserName}</Text>
+            <Text subbody numberOfLines={1}>执行人:{item.planMaintainUserName}</Text>
           </View>
         </View>
       }

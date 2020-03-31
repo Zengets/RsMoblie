@@ -51,10 +51,8 @@ class DeviceItem extends Component {
             activeOpacity={0.3}
             height={77}
             onPress={() => {
-                console.log(item)
                 navigation.navigate("InfoDeviceDetail", {
-                    id: item.equipmentId?item.equipmentId:item.id,
-                    name: item.equipmentName
+                    id: item.equipmentId?item.equipmentId:item.id
                 })
             }}
         >
@@ -62,7 +60,7 @@ class DeviceItem extends Component {
                 <AnimatedImage
                     containerStyle={styles.image}
                     style={{ resizeMode: 'cover', height: 48,width:48 }}
-                    source={/*item.pictureUrl ? { uri: item.pictureUrl } : */require("../assets/404.png")}
+                    source={ item.pictureUrl ? { uri: item.pictureUrl } : require("../assets/404.png") }
                     loader={<ActivityIndicator />}
                 />
             </ListItem.Part>

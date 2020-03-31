@@ -41,7 +41,7 @@ class CardItem extends React.Component {
         <View center style={{ width: 48, height: 48 }} paddingB-8>
           {Icon ? Icon : null}
         </View>
-        <Text subbody>{title} {label}</Text>
+        <Text style={{fontSize:13}} dark10>{title} <Text style={{color:label>99?colors.errorColor:"#aaa"}}>{label>99?"99+":label}</Text></Text>
       </Card>
     </AuthBase>
   }
@@ -134,7 +134,7 @@ class Mine extends React.Component {
                 }}
                 label={executeToDo}
                 Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
-                title={"未完成任务"}
+                title={"未完成"}
               ></CardItem>
 
               <CardItem
@@ -185,7 +185,7 @@ class Mine extends React.Component {
                 getItems={getItems("my", "myassignment", "assignmentToDo", index.userAccount)}
                 label={assignmentToDo}
                 Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
-                title={"未完成任务"}
+                title={"未完成"}
               ></CardItem>
 
               <CardItem pressfn={() => {
@@ -223,7 +223,7 @@ class Mine extends React.Component {
                 getItems={getItems("my", "myRepair", "repairToDo", index.userAccount)}
                 label={repairToDo}
                 Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
-                title={"未完成维修"}
+                title={"未完成"}
               ></CardItem>
 
               <CardItem pressfn={() => {
@@ -253,7 +253,7 @@ class Mine extends React.Component {
                 getItems={getItems("my", "myMaintain", "maintainToDo", index.userAccount)}
                 label={maintainToDoList}
                 Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
-                title={"未完成维保"}
+                title={"未完成"}
               ></CardItem>
 
               <CardItem pressfn={() => {
@@ -322,7 +322,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareApply", index.userAccount)}
                 label={spareApply}
-                Icon={<MaterialCommunityIcons name='file-move' size={33} style={{ color: "#999" }}></MaterialCommunityIcons>}
+                Icon={<MaterialCommunityIcons name='file-move' size={30} style={{ color: "#999" }}></MaterialCommunityIcons>}
                 title={"申请记录"}
               ></CardItem>
 
@@ -340,7 +340,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "userSpare", index.userAccount)}
                 label={userSpare}
-                Icon={<FontAwesome5 name='user-cog' size={25} style={{ color: "#999" }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='user-cog' size={23} style={{ color: "#999" }}></FontAwesome5>}
                 title={"我的备件"}
               ></CardItem>
 
@@ -349,7 +349,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareReplaceToDo", index.userAccount)}
                 label={spareReplaceToDo}
-                Icon={<EntypoIcons name='retweet' size={33} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                Icon={<EntypoIcons name='retweet' size={30} style={{ color: colors.primaryColor }}></EntypoIcons>}
                 title={"更换任务"}
               ></CardItem>
 
@@ -358,7 +358,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareReplaceFinish", index.userAccount)}
                 label={spareReplaceFinish}
-                Icon={<FontAwesome5 name='history' size={26} style={{ color: "#999" }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='history' size={23} style={{ color: "#999" }}></FontAwesome5>}
                 title={"更换历史"}
               ></CardItem>
 

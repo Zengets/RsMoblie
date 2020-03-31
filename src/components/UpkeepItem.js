@@ -82,9 +82,9 @@ class UpkeepItem extends Component {
 
       <View row spread paddingB-8 top>
         <View>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
           {
-            hidden ? null : <Text subbodybody dark40>负责人：{type == "history" ? item.maintainUserName : item.planMaintainUserName}</Text>
+            hidden ? null : <Text subbodybody dark40 numberOfLines={1}>负责人：{type == "history" ? item.maintainUserName : item.planMaintainUserName}</Text>
           }
         </View>
         <View row center>
@@ -95,13 +95,13 @@ class UpkeepItem extends Component {
       {
         hidden ? null : <View row spread top paddingV-4 style={{ alignItems: "center" }}>
           <View>
-            <Text subbody>设备:{item.equipmentName}</Text>
+            <Text subbody numberOfLines={1}>设备:{item.equipmentName}</Text>
           </View>
           <View flex-1 right>
             {
               type == "history" ?
-                <Text subbody >开始日期:{item.startMaintainDate}</Text> :
-                <Text subbody >计划日期:{item.planStartMaintainDate}</Text>
+                <Text subbody numberOfLines={1}>开始日期:{item.startMaintainDate}</Text> :
+                <Text subbody numberOfLines={1}>计划日期:{item.planStartMaintainDate}</Text>
             }
 
           </View>
@@ -111,13 +111,13 @@ class UpkeepItem extends Component {
         hidden ? null :
           <View row spread top paddingV-0 style={{ alignItems: "center" }}>
             <View>
-              <Text subbody>编号:{item.equipmentNo}</Text>
+              <Text subbody numberOfLines={1}>编号:{item.equipmentNo}</Text>
             </View>
             <View flex-1 right>
               {
                 type == "history" ?
-                  <Text subbody >结束日期:{item.endMaintainDate}</Text> :
-                  <Text subbody >维保类型:{item.maintainPlanTypeName}</Text>
+                  <Text subbody numberOfLines={1}>结束日期:{item.endMaintainDate}</Text> :
+                  <Text subbody numberOfLines={1}>维保类型:{item.maintainPlanTypeName}</Text>
 
               }
             </View>

@@ -4,28 +4,36 @@ import { SafeAreaViewPlus, OneToast, Header } from '../../components';
 import {
     Animated,
     StyleSheet,
-    Text,
-    View,
     Image,
     Dimensions,
     ImageBackground,
     TouchableWithoutFeedback,
     Easing
 } from 'react-native';
+import {
+    Text,
+    View,
+    Button
+} from 'react-native-ui-lib';
+
 import AntdIcons from 'react-native-vector-icons/AntDesign';
-import { colors,getQueryString } from '../../utils';
+import { colors, getQueryString } from '../../utils';
 import { connect } from 'react-redux';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
+let { height, width } = Dimensions.get('window');
 
-@connect(({ index,loading }) => ({ index,loading }))
+@connect(({ index, loading }) => ({ index, loading }))
 class Scan extends Component {
     constructor(props) {
         super(props);
         let { type } = props.navigation.state.params ? props.navigation.state.params : { type: undefined };
         this.state = {
             moveAnim: new Animated.Value(-18),
-            postUrl:"infodevice",
-            postData:{
+            focus: true,
+            postUrl: "infodevice",
+            error: false,
+            postData: {
                 "pageIndex": 1,
                 "pageSize": 10,
                 "equipmentName": "",//设备名，筛选条件
@@ -57,18 +65,30 @@ class Scan extends Component {
 
     componentDidMount() {
         this.startAnimation();
-        // let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined }; 
-        // if(type){
-        //     let { postUrl, postData } = this.state;
-        //     this.setNewState(postUrl, postData)
-        // }
+        this._didBlurSubscription = this.props.navigation.addListener(
+            'willFocus',
+            payload => {
+                this.setState({
+                    focus: true,
+                })
+            }
+        );
 
-        /*是否跳转点检 */
-        // this.setNewState("checkdetail", { equipmentId: id },()=>{
-        //     navigation.navigate("CheckAction", { title: "点检设备",id:id }) //设备id
-        // })
-        
+        let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined };
+        if (type == "repair") {
+            let { postUrl, postData } = this.state;
+            this.setNewState(postUrl, postData)
+        }
+
+
     }
+
+
+    componentWillUnmount() {
+        // 在页面消失的时候，取消监听
+        this._didBlurSubscription && this._didBlurSubscription.remove();
+    }
+
 
     startAnimation = () => {
         this.state.moveAnim.setValue(-18);
@@ -84,32 +104,48 @@ class Scan extends Component {
 
     //  识别二维码
     onBarCodeRead = (result) => {
-        const { navigation } = this.props,{navigate} = navigation;
+        const { navigation } = this.props, { navigate } = navigation;
         const { data } = result;
-        //navigate('Sale', {
-        //    url: data
-        //})
-        let redirect_uri = decodeURI(getQueryString("redirect_uri",data))
+        let redirect_uri = decodeURI(getQueryString("redirect_uri", data))
         let id = redirect_uri.split("=")[1];
-        let { type } = navigation.state.params ? navigation.state.params : { type: undefined };    
-        if(type){
+        let { type } = navigation.state.params ? navigation.state.params : { type: undefined };
+        if (type) {
+            if (type == "repair") {
+                navigation.navigate("RepairAction", { title: "报修设备", type: "0", id: id })
+            } else {
+                this.setState({
+                    focus: false,
+                    error: true
+                }, () => {
+                    this.setNewState("checkdetail", { equipmentId: id }, () => {
+                        navigation.navigate("CheckAction", { title: "点检设备", id: id }) //设备id
+                    })
+                })
 
-            alert(0)
-        }else{
-            alert(1)
+            }
+
+
+        } else {
+            this.setState({
+                focus: false
+            }, () => {
+                navigation.navigate("InfoDeviceDetail", {
+                    id: id
+                })
+            })
 
         }
-
-
     };
 
+
+
     render() {
-        let { navigation,index:{res,formdata},loading } = this.props,{postData,postUrl} =this.state;
+        let { navigation, index: { res, formdata }, loading } = this.props, { postData, postUrl, focus, error } = this.state;
 
         let headerRight = () => {
             let { type } = navigation.state.params ? navigation.state.params : { type: undefined };
             if (type) {
-                return <AntdIcons name="filter" size={ 22 } style={ { color: colors.primaryColor } } onPress={ () => {
+                return <AntdIcons name="filter" size={22} style={{ color: colors.primaryColor }} onPress={() => {
                     let formdatas = [{
                         key: "equipmentName",
                         type: "input",
@@ -165,14 +201,14 @@ class Scan extends Component {
                     }*/]
 
                     this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
-                        navigation.navigate("SearchForm",{
-                        backurl:type=="repair"?"InfoDeviceCan":
-                        type=="check"?"InfoDeviceChe":""
-                    })
+                        navigation.navigate("SearchForm", {
+                            backurl: type == "repair" ? "InfoDeviceCan" :
+                                type == "check" ? "InfoDeviceChe" : ""
+                        })
                     })
 
 
-                } } />
+                }} />
             } else {
                 return null
             }
@@ -180,47 +216,58 @@ class Scan extends Component {
 
         }
 
+        if (focus) {
+            return <SafeAreaViewPlus loading={loading.effects[`index/${postUrl}`]}>
+                <Header
+                    navigation={navigation}
+                    title="扫描二维码"
+                    headerRight={headerRight}
+                ></Header>
+                <View flex-1 style={{ backgroundColor: "#F0F0F0" }}>
+                    <RNCamera
+                        ref={ref => {
+                            this.camera = ref;
+                        }}
+                        style={styles.preview}
+                        type={RNCamera.Constants.Type.back}
+                        flashMode={RNCamera.Constants.FlashMode.on}
+                        onBarCodeRead={this.onBarCodeRead}
+                    >
+                        <View style={styles.rectangleContainer}>
+                            <ImageBackground style={styles.rectangle} source={require("../../assets/bordered.png")} resizeMode='contain' />
+                            <Animated.View style={[
+                                styles.border,
+                                { transform: [{ translateY: this.state.moveAnim }] }]} />
+                            <Text style={styles.rectangleText}>将二维码放入框内，即可自动扫描</Text>
+                        </View>
+                    </RNCamera>
+                </View>
+            </SafeAreaViewPlus>
 
-        return (<SafeAreaViewPlus loading={loading.effects[`index/${postUrl}`]}>
-            <Header
-                navigation={ navigation }
-                title="扫描二维码"
-                headerRight={ headerRight }
+        } else {
+            return error ? <SafeAreaViewPlus loading={loading.effects[`index/${postUrl}`]}>
+                <Header
+                    navigation={navigation}
+                    title="扫描二维码"
+                    headerRight={headerRight}
+                ></Header>
+                <View flex-1 center>
+                    <Button size={"large"} style={{width:width*0.4,height:width*0.4}} onPress={() => {
+                        this.setState({
+                            focus: true
+                        })
+                    }} label={"重新扫描"}></Button>
+                </View>
+            </SafeAreaViewPlus> : <></>
+        }
 
 
-            ></Header>
-            <View style={ styles.container }>
-                <RNCamera
-                    ref={ ref => {
-                        this.camera = ref;
-                    } }
-                    style={ styles.preview }
-                    type={ RNCamera.Constants.Type.back }
-                    flashMode={ RNCamera.Constants.FlashMode.on }
-                    onBarCodeRead={ this.onBarCodeRead }
-                >
-                    <View style={ styles.rectangleContainer }>
-                        <ImageBackground style={ styles.rectangle } source={ require("../../assets/bordered.png") } resizeMode='contain' />
-                        <Animated.View style={ [
-                            styles.border,
-                            { transform: [{ translateY: this.state.moveAnim }] }] } />
-                        <Text style={ styles.rectangleText }>将二维码放入框内，即可自动扫描</Text>
-                    </View>
-                </RNCamera>
-            </View>
-        </SafeAreaViewPlus>
-
-        );
     }
 }
 
-export default Scan;
+export default gestureHandlerRootHOC(Scan);
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row'
-    },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',

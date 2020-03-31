@@ -47,6 +47,7 @@ export default {
         noticetododetail: {},
         publishtododetail: {},
         infodevicedetail: {},
+        infodeviceauth:[],
         checkhistorydetail: {},
         errortohis: {},
         checkerrordetail: {},
@@ -450,6 +451,10 @@ export default {
             yield put({
                 type: 'updateState',
                 payload: { infodevicedetail: responese.data.data ? responese.data.data : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { infodeviceauth: responese.data.dataList ? responese.data.dataList :[] }
             })
             return responese.code == "0000"
         },
@@ -886,7 +891,6 @@ export default {
         },
         *getcode({ payload }, { call, put }) {//data
             const responese = yield call(getcode, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data.data ? responese.data.data : {} }
@@ -895,7 +899,6 @@ export default {
         },
         *reparePassword({ payload }, { call, put }) {//data
             const responese = yield call(reparePassword, payload);
-            console.log(responese)
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }
@@ -960,11 +963,7 @@ export default {
             return responese.code == "0000"
         },
         *sparerecall({ payload }, { call, put }) {//data
-            console.log(payload);
-
             const responese = yield call(sparerecall, payload);
-            console.log(responese);
-
             yield put({
                 type: 'updateState',
                 payload: { res: responese.data ? responese.data : {} }

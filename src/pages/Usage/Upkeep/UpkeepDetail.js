@@ -220,7 +220,6 @@ class UpkeepDetail extends Component {
                                             })
                                         }]
                                         this.setNewState("submitdata", submitdata, () => {
-                                            console.log(0)
                                             this.setState({
                                                 visible: true
                                             })

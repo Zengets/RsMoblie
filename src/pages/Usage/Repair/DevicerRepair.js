@@ -4,9 +4,9 @@ import { View, Text, Card, TabBar, AnimatedImage } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaViewPlus, Header, OneToast, SpareItem,Rows, Empty } from '../../../components';
-import { ScrollView } from 'react-native';
+import { ScrollView,Dimensions } from 'react-native';
 import { colors } from '../../../utils';
-
+let { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     item: {
         borderColor: "#f0f0f0",
@@ -99,8 +99,8 @@ class DevicerRepair extends Component {
                         故障图片:
                     </Text>
                     <AnimatedImage
-                        containerStyle={ { width: "100%", height: 200, borderRadius: 8, backgroundColor: "#f9f9f9", marginTop: 12 } }
-                        style={ { resizeMode: 'contain', height: 200, width: "100%" } }
+                        containerStyle={ { width: "100%", height: width-48, borderRadius: 8, backgroundColor: "#f9f9f9", marginTop: 12 } }
+                        style={ { resizeMode: 'contain', height: width-48, width: "100%" } }
                         source={ faultPicUrl ? { uri: faultPicUrl } : require("../../../assets/404.png") }
                         loader={ <ActivityIndicator /> }
                     />

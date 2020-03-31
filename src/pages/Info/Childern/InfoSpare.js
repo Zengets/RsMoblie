@@ -115,8 +115,6 @@ class InfoSpare extends React.Component {
                     "sparePartsTypeId": getVal("sparePartsTypeId"),
                 },
             }, () => {
-                console.log(this.state.postData)
-
                 this.onRefresh()
             })
         } else {

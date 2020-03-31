@@ -46,9 +46,6 @@ class NoticeTodoItem extends Component {
       return color
     }, statusName = { 1: "执行人", 2: "抄送人" }
 
-    // "id": "2020031625864095629",-----------------------------id
-    // "assignmentContent": "5p2A5q27MTDlj6rlk6XluIPmnpc=",------任务内容
-
 
     return <Card borderRadius={0} enableShadow={false} bg-white
       style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden?70:108 }}
@@ -60,7 +57,7 @@ class NoticeTodoItem extends Component {
       {children ? children : <View height={12}></View>}
       <View row spread paddingB-12 style={{ alignItems: "center" }}>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.assignmentTitle}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.assignmentTitle}</Text>
         </View>
         <View row center>
           <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{item.statusName}</Text>
@@ -70,7 +67,7 @@ class NoticeTodoItem extends Component {
       {
         hidden ? null : <View row spread top paddingB-8 style={{ alignItems: "center" }}>
           <View>
-            <Text subbody>负责类型:{statusName[item.assignmentUserType]}</Text>
+            <Text subbody numberOfLines={1}>负责类型:{statusName[item.assignmentUserType]}</Text>
           </View>
         </View>
       }

@@ -69,26 +69,26 @@ class KnowledgeItem extends Component {
 
       <View row spread top paddingV-12 paddingB-12>
         <View left>
-          <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.knowledgeBaseName}</Text>
+          <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.knowledgeBaseName}</Text>
           <Text subbody dark40>长按下载文件</Text>
         </View>
         <View row right>
-          <Text body style={{ color: getColor(item) }}>{item.purposeTypeName}</Text>
+          <Text body style={{ color: getColor(item) }} numberOfLines={1}>{item.purposeTypeName}</Text>
         </View>
       </View>
       <View row spread top paddingB-8 style={{ alignItems: "center" }}>
         <View>
-          <Text subbody>设备类型:{item.equipmentTypeName}</Text>
+          <Text subbody numberOfLines={1}>设备类型:{item.equipmentTypeName}</Text>
         </View>
         <View flex-1 right>
-          <Text subbody>上传人:{item.updateUserName}</Text>
+          <Text subbody numberOfLines={1}>上传人:{item.updateUserName}</Text>
         </View>
       </View>
       <View row spread top paddingV-0 style={{ alignItems: "center" }}>
         <View>
         </View>
         <View flex-1 right>
-          <Text subbody dark40>{item.updateTime}</Text>
+          <Text subbody dark40 numberOfLines={1}>{item.updateTime}</Text>
         </View>
       </View>
 

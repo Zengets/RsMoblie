@@ -71,7 +71,6 @@ export default class Atoz extends Component {
             })
         }
         else {
-            console.log('null');
         }
 
     }

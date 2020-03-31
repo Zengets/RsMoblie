@@ -17,6 +17,8 @@ import ActionButton from 'react-native-action-button';
 class InfoDevice extends React.Component {
     constructor(props) {
         super(props);
+        let { defaultstatus } = props.navigation.state.params ? props.navigation.state.params : {}
+
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -34,7 +36,7 @@ class InfoDevice extends React.Component {
                 "equipmentModel": "",//型号，筛选条件
                 "shopId": "",//车间id，筛选条件
                 "departmentId": "",//部门id，筛选条件
-                "status": ""//状态，筛选条件
+                "status": defaultstatus ? defaultstatus.id : ""//状态，筛选条件
             },
             resData: [{ items: [] }]
         }
@@ -95,10 +97,10 @@ class InfoDevice extends React.Component {
                     one = item
                 }
             });
-            if(!one.type){
+            if (!one.type) {
                 return
-              }
-            if (one.type.indexOf("select") == -1 ) {
+            }
+            if (one.type.indexOf("select") == -1) {
                 return one.value && one.value
             } else {
                 return one.value && one.value.id
@@ -137,7 +139,7 @@ class InfoDevice extends React.Component {
     componentDidMount() {
         this.resetData(this.props)
     }
-    
+
 
     //下拉刷新,更改状态，重新获取数据
     onRefresh(draw) {
@@ -184,6 +186,7 @@ class InfoDevice extends React.Component {
     render() {
         let { index: { res, formdata }, navigation, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
+        let { defaultstatus } = navigation.state.params ? navigation.state.params : {}
 
         let searchprops = {
             height,
@@ -263,7 +266,7 @@ class InfoDevice extends React.Component {
                     key: "status",
                     type: "select",
                     require: false,
-                    value: "",
+                    value: defaultstatus?defaultstatus:"",
                     placeholder: "请选择设备状态",
                     option: res.equipmentStatusList && res.equipmentStatusList
                 }
@@ -284,27 +287,27 @@ class InfoDevice extends React.Component {
             <Header
                 navigation={navigation}
                 title="设备列表"
-                rightwidth={ 70 }
-                headerRight={ () => <Card height={"100%"} enableShadow={false} row center onPress={ () => {
+                rightwidth={70}
+                headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));
                     for (let i in postData) {
                         if (i == "pageIndex") {
                             postData[i] = 1
-                        }else if (i == "pageSize") {
+                        } else if (i == "pageSize") {
                             postData[i] = 10
-                        }else{
+                        } else {
                             postData[i] = ""
                         }
                     }
                     this.setState({
                         postData
-                    },()=>{
+                    }, () => {
                         this.onRefresh()
                     })
                     let { index: { formdata } } = this.props;
                     let newformdata = formdata.map((item, i) => {
                         item.value = null
-                        if(item.type=='datetimepicker'){
+                        if (item.type == 'datetimepicker') {
                             item.maximumDate = undefined
                             item.minimumDate = undefined
                             item.value = ""
@@ -312,10 +315,10 @@ class InfoDevice extends React.Component {
                         return item
                     })
                     this.setNewState("formdata", newformdata)
-                } }>
-                    <AntIcons name="reload1" size={ 14 }/>
+                }}>
+                    <AntIcons name="reload1" size={14} />
                     <Text marginL-4>重置</Text>
-                </Card> }
+                </Card>}
             >
             </Header>
             <View flex >

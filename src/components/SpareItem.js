@@ -38,7 +38,7 @@ class SpareItem extends Component {
     >
       <View row spread>
         <View style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.errorColor, borderLeftWidth: 2, height: 6 } } marginT-6 marginB-12 paddingL-6 center>
-          <Text body dark>{ item.sparePartsName }</Text>
+          <Text body dark numberOfLines={1}>{ item.sparePartsName }</Text>
         </View>
         {
           item.availableStock > item.warnStock || lastRender.key == "totalStock" ?
@@ -52,16 +52,16 @@ class SpareItem extends Component {
       </View>
 
       <View row spread>
-        <Text subbody dark40><Text >料号:</Text>{ item.sparePartsNo }</Text>
-        <Text subbody style={ { color: item.availableStock > item.warnStock ? "#999" : colors.errorColor } }><Text >库存:</Text><Text >{ item.availableStock }</Text></Text>
+        <Text subbody dark40 numberOfLines={1}><Text >料号:</Text>{ item.sparePartsNo }</Text>
+        <Text subbody numberOfLines={1} style={ { color: item.availableStock > item.warnStock ? "#999" : colors.errorColor } }><Text >库存:</Text><Text >{ item.availableStock }</Text></Text>
       </View>
 
       <View row spread marginT-4>
-        <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
+        <Text subbody dark40 numberOfLines={1}><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
         {
           lastRender.key ?
-            <Text subbody dark40><Text >{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
-            : <Text subbody dark40><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
+            <Text subbody dark40 numberOfLines={1}><Text>{ lastRender.name }:</Text>{ item[lastRender.key] }</Text>
+            : <Text subbody dark40 numberOfLines={1}><Text >负责人:</Text>{ item.warnNoticeUserName }</Text>
         }
       </View>
 

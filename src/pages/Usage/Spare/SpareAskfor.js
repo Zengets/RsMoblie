@@ -268,6 +268,7 @@ class SpareAskfor extends React.Component {
                 value={ value }
                 navigation={ this.props.navigation }
                 select={ selectarr.indexOf(item.id) !== -1 }
+                type={"warnNoticeUserName"}
                 onChangeText={ (val) => {
                     if (isNaN(val)) {
                         OneToast("您只能输入数字")
@@ -370,9 +371,10 @@ class SpareAskfor extends React.Component {
                                 selected.map((item, i) => {
                                     let { sparePartsName, sparePartsNo, availableStock, applyCount, sparePartsId } = item;
                                     let newselected = JSON.parse(JSON.stringify(this.state.selected));
+                                    console.log(sparePartsName)
                                     return (
                                         <Card flex center marginB-12 enableShadow={ false } style={ { borderColor: "#f0f0f0", borderWidth: 1, overflow: "hidden" } }>
-                                            <Rows name={ `备件名称:${sparePartsName}` } rightRender={ <Card enableShadow={ false } onPress={ () => {
+                                            <Rows name={ sparePartsName} rightRender={ <Card enableShadow={ false } onPress={ () => {
                                                 newselected = newselected.filter((it) => { return it.sparePartsId !== sparePartsId })
                                                 this.setState({
                                                     selected: newselected

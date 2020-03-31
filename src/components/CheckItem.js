@@ -63,9 +63,9 @@ class CheckItem extends Component {
 
             <View row spread paddingB-12 top>
               <View>
-                <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>点检项:{item.pointCheckItem}</Text>
+                <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>点检项:{item.pointCheckItem}</Text>
                 {
-                  hidden ? null : <Text subbody>设备:{item.equipmentName}</Text>
+                  hidden ? null : <Text subbody numberOfLines={1}>设备:{item.equipmentName}</Text>
                 }
               </View>
               <View row center>
@@ -76,10 +76,10 @@ class CheckItem extends Component {
             {
               hidden ? null : <View row spread top paddingB-6 style={{ alignItems: "center" }}>
                 <View>
-                  <Text subbody >点检人:{item.pointCheckUserName}</Text>
+                  <Text subbody  numberOfLines={1}>点检人:{item.pointCheckUserName}</Text>
                 </View>
-                <View flex-1 right>
-                  <Text subbody >点检日期:{item.pointCheckItemDate}</Text>
+                <View flex-1 right marginL-12>
+                  <Text subbody  numberOfLines={1}>点检日期:{item.pointCheckItemDate}</Text>
                 </View>
               </View>
             }

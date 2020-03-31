@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 class SpareTakeItem extends Component {
   render() {
-    let { item, navigation, onPressfn, select, onChangeText,value } = this.props,
+    let { item, navigation, onPressfn, select, onChangeText, value, type } = this.props,
       inserprops = (item) => {
         if (!value) {
           value = 0
@@ -36,43 +36,50 @@ class SpareTakeItem extends Component {
         }
       }
 
-    return <Card borderRadius={ 0 } enableShadow={ false }
-      style={ { borderBottomWidth: 1, borderColor: "#f9f9f9", height: 120, backgroundColor: select ? "lightblue" : "#fff" } }
+    return <Card borderRadius={0} enableShadow={false}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: 120, backgroundColor: select ? "lightblue" : "#fff" }}
       padding-12
       paddingL-page paddingR-page
-      onLongPress={ () => {
+      onLongPress={() => {
         navigation.navigate("InfoSpareDetail", {
-          id:item.sparePartsId?item.sparePartsId:item.id,
+          id: item.sparePartsId ? item.sparePartsId : item.id,
         })
-      } }
-      onPress={ () => {
+      }}
+      onPress={() => {
         onPressfn()
-      } }
+      }}
     >
-      <View row spread style={ { alignItems: "center", overflow: "hidden" } }>
-        <View style={ { borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.errorColor, borderLeftWidth: 2, height: 6 } } marginT-6 marginB-12 paddingL-6 center>
-          <Text body dark>{ item.sparePartsName }</Text>
+      <View row spread style={{ alignItems: "center", overflow: "hidden" }}>
+        <View style={{ borderColor: item.availableStock > item.warnStock ? colors.primaryColor : colors.errorColor, borderLeftWidth: 2, height: 6,maxWidth:"50%" }} marginT-6 marginB-12 paddingL-6 center>
+          <Text body dark numberOfLines={1}>{item.sparePartsName}</Text>
         </View>
 
         {
           select ?
-            <View flex-1 marginL-12 paddingH-12 paddingV-8 height={ 40 } style={ { overflow: "hidden", backgroundColor: "#f0f0f0" } }>
-              <TextField { ...inserprops(item) } style={ { width: "100%" } }></TextField>
+            <View flex-1 marginL-12 paddingH-12 paddingV-8 height={40} style={{ overflow: "hidden", backgroundColor: "#f0f0f0" }}>
+              <TextField {...inserprops(item)} style={{ width: "100%" }}></TextField>
             </View> :
-            <View flex-1 marginL-12 paddingV-8 height={ 40 } right>
-              <Text subbody dark40><Text dark60>点击选择该备件</Text></Text>
+            <View flex-1 marginL-12 paddingV-8 height={40} right>
+              <Text subbody dark40 numberOfLines={1}><Text dark60>点击选择该备件</Text></Text>
             </View>
         }
       </View>
 
       <View row spread paddingT-8>
-        <Text subbody dark40><Text >料号:</Text>{ item.sparePartsNo }</Text>
-        <Text subbody style={ { color: item.availableStock > item.warnStock ? "#999" : colors.errorColor } }><Text >库存:</Text><Text >{ item.availableStock }</Text></Text>
+        <Text subbody dark40 numberOfLines={1}><Text >料号:</Text>{item.sparePartsNo}</Text>
+        <Text subbody numberOfLines={1} style={{ color:type == "warnNoticeUserName"? item.availableStock > item.warnStock ? "#999" : colors.errorColor:colors.primaryColor }}><Text >
+        {type == "warnNoticeUserName" ? "库存":"持有"}:</Text><Text >{item.availableStock}</Text></Text>
       </View>
 
       <View row spread marginT-4>
-        <Text subbody dark40><Text >规格:</Text>{ item.sparePartsTypeName }</Text>
-        <Text subbody dark40><Text >累计申请:</Text>{ item.totalStock }</Text>
+        <Text subbody dark40 numberOfLines={1}><Text >规格:</Text>{item.sparePartsTypeName}</Text>
+        {
+          type == "warnNoticeUserName" ? 
+          <Text subbody dark40 numberOfLines={1}><Text >负责人:</Text>{item.warnNoticeUserName}</Text> :
+          <Text subbody dark40 numberOfLines={1}><Text >累计申请:</Text>{item.totalStock}</Text>
+
+
+        }
       </View>
 
 

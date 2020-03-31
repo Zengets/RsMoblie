@@ -17,8 +17,8 @@ class Rows extends Component {
     render() {
         let { name, values, noborder, color, rightRender,padding } = this.props;
         return <View row top style={ [styles.item, { borderColor: noborder ? "transparent" : "#f0f0f0",paddingLeft: !isNaN(padding)?padding:12, paddingRight: !isNaN(padding)? padding :12}] }>
-            <View>
-                <Text subbody style={ { color: color ? color : "#666" } }>
+            <View style={{maxWidth:"60%"}}>
+                <Text subbody style={ { color: color ? color : "#666" } } numberOfLines={1}>
                     { name }{rightRender?"":":"}
                 </Text>
             </View>

@@ -5994,11 +5994,6 @@ react-native-largelist-v3@^3.0.15:
   resolved "https://registry.npm.taobao.org/react-native-largelist-v3/download/react-native-largelist-v3-3.0.15.tgz#943b27c3076cd79949f19c04361558ce572b1e18"
   integrity sha1-lDsnwwds15lJ8ZwENhVYzlcrHhg=
 
-react-native-linear-gradient@^2.5.6:
-  version "2.5.6"
-  resolved "https://registry.npm.taobao.org/react-native-linear-gradient/download/react-native-linear-gradient-2.5.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-linear-gradient%2Fdownload%2Freact-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
-  integrity sha1-liFcvF7HoBJHogiQiIqnW4NNRKA=
-
 react-native-loading-spinner-overlay@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/react-native-loading-spinner-overlay/download/react-native-loading-spinner-overlay-1.1.0.tgz#169b2cdb939cf49186640dc2f50718c57e4d9a00"
@@ -6006,10 +6001,10 @@ react-native-loading-spinner-overlay@^1.1.0:
   dependencies:
     prop-types "^15.6.2"
 
-react-native-paper@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npm.taobao.org/react-native-paper/download/react-native-paper-3.4.0.tgz#b8d3643b33177ff41a2505aaa801d313defaf707"
-  integrity sha1-uNNkOzMXf/QaJQWqqAHTE9769wc=
+react-native-paper@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npm.taobao.org/react-native-paper/download/react-native-paper-3.6.0.tgz#9f8452387bc6e6dae84db90c9c4715af5c7bd142"
+  integrity sha1-n4RSOHvG5troTbkMnEcVr1x70UI=
   dependencies:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"

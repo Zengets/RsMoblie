@@ -62,7 +62,7 @@ class RepairItem extends Component {
             {children ? children : <View height={8}></View>}
 
             <View row spread paddingB-8>
-                <Text body dark10><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
+                <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.taskNo}</Text>
                 <View row center>
                     <Text subbody dark100 marginR-3 style={{ color: getColor(item) }}>{item.statusName}</Text>
                     <Badge size='small' backgroundColor={getColor(item)}></Badge>
@@ -73,25 +73,25 @@ class RepairItem extends Component {
                     <AnimatedImage
                         containerStyle={styles.image}
                         style={{ resizeMode: 'cover', height: 48, width: 48 }}
-                        source={/*item.faultPicUrl ? { uri: item.faultPicUrl } : */require("../assets/404.png")}
+                        source={ item.faultPicUrl ? { uri: item.faultPicUrl } :require("../assets/404.png")}
                         loader={<ActivityIndicator />}
                     />
                     <View flex-1 paddingV-6>
                         <View row spread top flex-1>
                             <View>
-                                <Text body >{item.equipmentName}</Text>
+                                <Text body numberOfLines={1}>{item.equipmentName}</Text>
                             </View>
                             <View flex-1 right>
-                                <Text subbody >故障等级:{item.faultLevelName}</Text>
+                                <Text subbody numberOfLines={1}>故障等级:{item.faultLevelName}</Text>
                             </View>
                         </View>
                         <View flex-1 bottom>
                             <View row spread>
                                 <View flex-1>
-                                    <Text subbody >编号:{item.equipmentNo}</Text>
+                                    <Text subbody numberOfLines={1}>编号:{item.equipmentNo}</Text>
                                 </View>
                                 <View flex-1 right>
-                                    <Text subbody >维修类型:{item.repairTypeName}</Text>
+                                    <Text subbody numberOfLines={1}>维修类型:{item.repairTypeName}</Text>
                                 </View>
 
                             </View>

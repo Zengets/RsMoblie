@@ -12,7 +12,34 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions, ScrollView } from 'react-native';
 import { colors, getItem, getItems } from '../../utils';
 
-let { height, width } = Dimensions.get('window');
+let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 3;
+
+class CardItem extends React.Component {
+
+  render() {
+    let { pressfn, title, Icon, getItems } = this.props;
+    return <AuthBase item={getItems ? getItems : {}}>
+      <Card width={cardwidth} style={{ position: "relative" }} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+        pressfn ? pressfn() : null
+      }}>
+        {
+          false ? <Badge
+            size={"small"}
+            containerStyle={{ position: "absolute", right: -4, top: -4 }}
+            backgroundColor={Colors.red30}
+          /> : null
+        }
+        <View center style={{ width: 48, height: 48 }} paddingB-8>
+          {Icon ? Icon : null}
+        </View>
+        <Text style={{ fontSize: 13 }} dark10>{title}</Text>
+      </Card>
+    </AuthBase>
+  }
+
+
+}
+
 
 @connect(({ index }) => ({ index }))
 class Usage extends React.Component {
@@ -44,8 +71,6 @@ class Usage extends React.Component {
   render() {
     const { index, navigation } = this.props, cardwidth = (width - 48) / 3;
 
-    console.log(JSON.stringify(index.userAccount))
-
     return <SafeAreaViewPlus>
       <Header
         title="应用"
@@ -67,37 +92,40 @@ class Usage extends React.Component {
               <Text subheading style={{ color: colors.primaryColor }}>维修</Text>
             </View>
             <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
-              <AuthBase item={getItems("application", "repair", "equipRepair", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("Scan", { type: "repair" })
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <EntypoIcons name='tools' size={33} style={{ color: colors.primaryColor }}></EntypoIcons>
-                  </View>
-                  <Text subbody>报修设备</Text>
-                </Card>
-              </AuthBase>
 
-              <AuthBase item={getItems("application", "repair", "repairTask", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("ToRepair")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <EntypoIcons name='clipboard' size={33} style={{ color: colors.primaryColor }}></EntypoIcons>
-                  </View>
-                  <Text subbody>维修任务</Text>
-                </Card>
-              </AuthBase>
-              <AuthBase item={getItems("application", "repair", "repairHis", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("Repaired")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialIcons name='history' size={33} style={{ color: colors.primaryColor }}></MaterialIcons>
-                  </View>
-                  <Text subbody>维修历史</Text>
-                </Card>
-              </AuthBase>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("Scan", { type: "repair" })
+              }}
+                getItems={
+                  getItems("application", "repair", "equipRepair", index.userAccount)
+                }
+                Icon={<EntypoIcons name='tools' size={25} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                title={"报修设备"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("ToRepair")
+              }}
+                getItems={
+                  getItems("application", "repair", "repairTask", index.userAccount)
+                }
+                Icon={<EntypoIcons name='clipboard' size={25} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                title={"维修任务"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("Repaired")
+              }}
+                getItems={
+                  getItems("application", "repair", "repairHis", index.userAccount)
+                }
+                Icon={<MaterialIcons name='history' size={30} style={{ color: colors.primaryColor }}></MaterialIcons>}
+                title={"维修历史"}
+              >
+              </CardItem>
             </View>
           </View>
           <View height={1} marginV-12 style={{ backgroundColor: colors.primaryColor, opacity: 0.2 }}></View>
@@ -109,37 +137,39 @@ class Usage extends React.Component {
               <Text subheading style={{ color: colors.warnColor }}>维保</Text>
             </View>
             <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
-              <AuthBase item={getItems("application", "maintain", "maintainPlan", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("UpkeepPlan")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialCommunityIcons name='timer' size={33} style={{ color: colors.warnColor }}></MaterialCommunityIcons>
-                  </View>
-                  <Text subbody>维保计划</Text>
-                </Card>
-              </AuthBase>
 
-              <AuthBase item={getItems("application", "maintain", "maintainTask", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("UpkeepMission")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <EntypoIcons name='clipboard' size={33} style={{ color: colors.warnColor }}></EntypoIcons>
-                  </View>
-                  <Text subbody>维保任务</Text>
-                </Card>
-              </AuthBase>
-              <AuthBase item={getItems("application", "maintain", "maintainHis", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("UpkeepHistory")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialIcons name='history' size={33} style={{ color: colors.warnColor }}></MaterialIcons>
-                  </View>
-                  <Text subbody>维保历史</Text>
-                </Card>
-              </AuthBase>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("UpkeepPlan")
+              }}
+                getItems={
+                  getItems("application", "maintain", "maintainPlan", index.userAccount)
+                }
+                Icon={<MaterialCommunityIcons name='timer' size={30} style={{ color: colors.warnColor }}></MaterialCommunityIcons>}
+                title={"维保计划"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("UpkeepMission")
+              }}
+                getItems={
+                  getItems("application", "maintain", "maintainTask", index.userAccount)
+                }
+                Icon={<EntypoIcons name='clipboard' size={30} style={{ color: colors.warnColor }}></EntypoIcons>}
+                title={"维保任务"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("UpkeepHistory")
+              }}
+                getItems={
+                  getItems("application", "maintain", "maintainHis", index.userAccount)
+                }
+                Icon={<MaterialIcons name='history' size={30} style={{ color: colors.warnColor }}></MaterialIcons>}
+                title={"维保历史"}
+              >
+              </CardItem>
 
             </View>
           </View>
@@ -152,36 +182,46 @@ class Usage extends React.Component {
               <Text subheading style={{ color: colors.secondaryColor }}>点检</Text>
             </View>
             <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
-              <AuthBase item={getItems("application", "check", "checkPlan", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("Scan", { type: "check" })
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialCommunityIcons name='database-check' size={33} style={{ color: colors.secondaryColor }}></MaterialCommunityIcons>
-                  </View>
-                  <Text subbody>点检设备</Text>
-                </Card>
-              </AuthBase>
-              <AuthBase item={getItems("application", "check", "checkHis", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("CheckHistory")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialIcons name='history' size={33} style={{ color: colors.secondaryColor }}></MaterialIcons>
-                  </View>
-                  <Text subbody>点检历史</Text>
-                </Card>
-              </AuthBase>
-              <AuthBase item={getItems("application", "check", "checkException", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("CheckError")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialIcons name='error' size={33} style={{ color: colors.secondaryColor }}></MaterialIcons>
-                  </View>
-                  <Text subbody>点检异常</Text>
-                </Card>
-              </AuthBase>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("Scan", { type: "check" })
+              }}
+                getItems={
+                  getItems("application", "check", "checkPlan", index.userAccount)
+                }
+                Icon={
+                  <MaterialCommunityIcons name='database-check' size={30} style={{ color: colors.secondaryColor }}></MaterialCommunityIcons>
+                }
+                title={"点检设备"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("CheckHistory")
+              }}
+                getItems={
+                  getItems("application", "check", "checkHis", index.userAccount)
+                }
+                Icon={
+                  <MaterialIcons name='history' size={30} style={{ color: colors.secondaryColor }}></MaterialIcons>
+                }
+                title={"点检历史"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("CheckError")
+              }}
+                getItems={
+                  getItems("application", "check", "checkException", index.userAccount)
+                }
+                Icon={
+                  <MaterialIcons name='error' size={30} style={{ color: colors.secondaryColor }}></MaterialIcons>
+                }
+                title={"点检异常"}
+              >
+              </CardItem>
+
             </View>
           </View>
           <View height={1} marginV-12 style={{ backgroundColor: colors.secondaryColor, opacity: 0.2 }}></View>
@@ -193,98 +233,111 @@ class Usage extends React.Component {
               <Text subheading style={{ color: colors.thirdColor }}>备件</Text>
             </View>
             <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
-              <AuthBase item={getItems("application", "spare", "applySpare", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareAskfor")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialCommunityIcons name='basket-fill' size={33} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
-                  </View>
-                  <Text subbody>备件申请</Text>
-                </Card>
-              </AuthBase>
 
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareAskfor")
+              }}
+                getItems={
+                  getItems("application", "spare", "applySpare", index.userAccount)
+                }
+                Icon={
+                  <MaterialCommunityIcons name='basket-fill' size={30} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                }
+                title={"备件申请"}
+              >
+              </CardItem>
 
-              <AuthBase item={getItems("application", "spare", "spareRecoil", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareRevert")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialCommunityIcons name='basket-unfill' size={33} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
-                  </View>
-                  <Text subbody>备件回冲</Text>
-                </Card>
-              </AuthBase>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareRevert")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareRecoil", index.userAccount)
+                }
+                Icon={
+                  <MaterialCommunityIcons name='basket-unfill' size={30} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                }
+                title={"备件回冲"}
+              >
+              </CardItem>
 
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareReview")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareApproval", index.userAccount)
+                }
+                Icon={
+                  <MaterialCommunityIcons name='lead-pencil' size={25} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                }
+                title={"备件审批"}
+              >
+              </CardItem>
 
-              <AuthBase item={getItems("application", "spare", "spareApproval", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareReview")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialCommunityIcons name='lead-pencil' size={25} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
-                  </View>
-                  <Text subbody>备件审批</Text>
-                </Card>
-              </AuthBase>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareLog")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareOutorWare", index.userAccount)
+                }
+                Icon={
+                  <AntIcons name='filetext1' size={26} style={{ color: colors.thirdColor }}></AntIcons>
+                }
+                title={"出入库记录"}
+              >
+              </CardItem>
 
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareOwner")
+              }}
+                getItems={
+                  getItems("application", "spare", "sapreHold", index.userAccount)
+                }
+                Icon={
+                  <FontAwesome5 name='user-cog' size={24} style={{ color: colors.thirdColor }}></FontAwesome5>
+                }
+                title={"持有总览"}
+              >
+              </CardItem>
 
-              <AuthBase item={getItems("application", "spare", "spareOutorWare", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareLog")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <AntIcons name='filetext1' size={26} style={{ color: colors.thirdColor }}></AntIcons>
-                  </View>
-                  <Text subbody>出入库记录</Text>
-                </Card>
-              </AuthBase>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareChangeMisson")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareReplaceTask", index.userAccount)
+                }
+                Icon={
+                  <EntypoIcons name='retweet' size={30} style={{ color: colors.thirdColor }}></EntypoIcons>
+                }
+                title={"更换任务"}
+              >
+              </CardItem>
 
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareChangeHistory")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareReplaceHis", index.userAccount)
+                }
+                Icon={
+                  <FontAwesome5 name='history' size={24} style={{ color: colors.thirdColor }}></FontAwesome5>
+                }
+                title={"更换历史"}
+              >
+              </CardItem>
 
-              <AuthBase item={getItems("application", "spare", "sapreHold", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareOwner")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <FontAwesome5 name='user-cog' size={25} style={{ color: colors.thirdColor }}></FontAwesome5>
-                  </View>
-                  <Text subbody>持有总览</Text>
-                </Card>
-              </AuthBase>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("SpareUsage")
+              }}
+                getItems={
+                  getItems("application", "spare", "spareUseHis", index.userAccount)
+                }
+                Icon={
+                  <MaterialIcons name='history' size={30} style={{ color: colors.thirdColor }}></MaterialIcons>
+                }
+                title={"使用历史"}
+              >
+              </CardItem>
 
-              <AuthBase item={getItems("application", "spare", "spareReplaceTask", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareChangeMisson")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <EntypoIcons name='retweet' size={33} style={{ color: colors.thirdColor }}></EntypoIcons>
-                  </View>
-                  <Text subbody>更换任务</Text>
-                </Card>
-              </AuthBase>
-
-              <AuthBase item={getItems("application", "spare", "spareReplaceHis", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareChangeHistory")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <FontAwesome5 name='history' size={26} style={{ color: colors.thirdColor }}></FontAwesome5>
-                  </View>
-                  <Text subbody>更换历史</Text>
-                </Card>
-              </AuthBase>
-
-
-              <AuthBase item={getItems("application", "spare", "spareUseHis", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("SpareUsage")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <MaterialIcons name='history' size={33} style={{ color: colors.thirdColor }}></MaterialIcons>
-                  </View>
-                  <Text subbody>使用历史</Text>
-                </Card>
-              </AuthBase>
             </View>
 
           </View>
@@ -298,20 +351,22 @@ class Usage extends React.Component {
               <Text subheading style={{ color: colors.textColor }}>任务</Text>
             </View>
             <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
-              <AuthBase item={getItems("application", "assignment", "assignmentApply", index.userAccount)}>
-                <Card width={cardwidth} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
-                  this.jumpToUrl("Publish")
-                }}>
-                  <View center style={{ width: 48, height: 48 }}>
-                    <AntIcons name='edit' size={33} style={{ color: colors.textColor }}></AntIcons>
-                  </View>
-                  <Text subbody>发布任务</Text>
-                </Card>
-              </AuthBase>
-
+              <CardItem pressfn={() => {
+                this.jumpToUrl("Publish")
+              }}
+                getItems={
+                  getItems("application", "assignment", "assignmentApply", index.userAccount)
+                }
+                Icon={
+                  <AntIcons name='edit' size={30} style={{ color: colors.textColor }}></AntIcons>
+                }
+                title={"发布任务"}
+              >
+              </CardItem>
             </View>
           </View>
         </AuthBase>
+
 
 
       </ScrollView>

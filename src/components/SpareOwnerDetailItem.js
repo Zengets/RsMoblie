@@ -19,10 +19,6 @@ const styles = StyleSheet.create({
 });
 
 class SpareOwnerDetailItem extends Component {
-  // "equipmentId": "2020011933778926941",----------------设备id
-  // "equipmentNo": "cs2",----------------------------------------设备编号
-  // "equipmentName": "测试",------------------------------------设备名
-  // "equipmentModel": "1",--------------------------------------设备型号
 
 
   render() {
@@ -37,30 +33,30 @@ class SpareOwnerDetailItem extends Component {
     >
       <View row spread paddingV-12 paddingB-16 style={ { alignItems: "center" } }>
         <View row flex-1 left>
-          <Text body dark10>工单:{ item.taskNo }</Text>
+          <Text body dark10 numberOfLines={1}>工单:{ item.taskNo }</Text>
         </View>
         <View right>
-          <Text subbody >使用:<Text style={ { color: colors.secondaryColor } }>{ item.consumeCount }个</Text></Text>
+          <Text subbody numberOfLines={1}>使用:<Text style={ { color: colors.secondaryColor } }>{ item.consumeCount }个</Text></Text>
         </View>
       </View>
 
       <View row spread top paddingB-8 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>设备:{ item.equipmentName }</Text>
+          <Text subbody numberOfLines={1}>设备:{ item.equipmentName }</Text>
 
         </View>
         <View flex-1 right>
-          <Text subbody>使用类型:{ item.consumeTypeName }</Text>
+          <Text subbody numberOfLines={1}>使用类型:{ item.consumeTypeName }</Text>
 
         </View>
       </View>
       <View row spread top paddingV-0 style={ { alignItems: "center" } }>
         <View>
-          <Text subbody>编号:{ item.equipmentNo }</Text>
+          <Text subbody numberOfLines={1}>编号:{ item.equipmentNo }</Text>
 
         </View>
         <View flex-1 right>
-          <Text subbody>{ item.consumeTime }</Text>
+          <Text subbody numberOfLines={1}>{ item.consumeTime }</Text>
         </View>
       </View>
 

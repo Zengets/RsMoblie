@@ -20,7 +20,7 @@ import moment from 'moment';
 class CheckError extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value,status } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",status:"" }
+        let { key, value,status,equipmentNo } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",status:"",equipmentNo:"" }
 
         this.state = {
             isLoadMore: true,
@@ -33,7 +33,7 @@ class CheckError extends React.Component {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
                 "equipmentName": "",   //-------------设备名称
-                "equipmentNo": "",   //-------------设备编号
+                "equipmentNo": equipmentNo?equipmentNo:"",   //-------------设备编号
                 "pointCheckUserName": "",  //---------------点检人
                 "startDate": "",  //---------开始日期{年月日}
                 "endDate": "",   //-----------------结束日期{年月日}
@@ -43,7 +43,7 @@ class CheckError extends React.Component {
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "equipmentName": "",   //-------------设备名称
-                    "equipmentNo": "",   //-------------设备编号
+                    "equipmentNo": equipmentNo?equipmentNo:"",   //-------------设备编号
                     "pointCheckUserName": "",  //---------------点检人
                     "startDate": "",  //---------开始日期{年月日}
                     "endDate": "",   //-----------------结束日期{年月日}
@@ -235,7 +235,7 @@ class CheckError extends React.Component {
                         key: "equipmentNo",
                         type: "input",
                         require: false,
-                        value: "",
+                        value: postData.equipmentNo,
                         placeholder: "请输入设备编号"
                     },
                     {
@@ -275,7 +275,10 @@ class CheckError extends React.Component {
                         key: "status",
                         type: "select",
                         require: false,
-                        value: "",
+                        value: status?{
+                            dicName: status=="1"?"待处理":"已处理",
+                            dicKey: "1"
+                        }:null,
                         hidden:status?true:false,
                         placeholder: "请选择点检状态",
                         option: [{
