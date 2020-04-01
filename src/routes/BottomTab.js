@@ -10,14 +10,19 @@ import React from 'react';
 let RouteConfigs = {
     Home: {
         screen: Home,
-        navigationOptions: {
-            tabBarLabel: "首页",
-            tabBarIcon: ({ tintColor, focused }) => {
-                return <MaterialCommunityIcons
-                    name={focused ? "home" : "home-outline"}
-                    style={{ color: tintColor }}
-                    size={24}
-                ></MaterialCommunityIcons>
+        navigationOptions: ({ navigation,navigationOptions })=>{
+            const { params } = navigation.state;
+            let { tabBarVisible } =  params ? params : { tabBarVisible:true }
+            return {
+                tabBarLabel: "首页",
+                tabBarVisible:tabBarVisible,
+                tabBarIcon: ({ tintColor, focused }) => {
+                    return <MaterialCommunityIcons
+                        name={focused ? "home" : "home-outline"}
+                        style={{ color: tintColor }}
+                        size={24}
+                    ></MaterialCommunityIcons>
+                }
             }
         }
     },

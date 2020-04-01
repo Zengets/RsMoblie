@@ -9,6 +9,7 @@ import {
     Image,
     ToastAndroid,
     TouchableWithoutFeedback,
+    TouchableHighlight
 } from 'react-native';
 let ScreenWidth = Dimensions.get('window').width;
 let ScreenHeight = Dimensions.get('window').height;
@@ -98,7 +99,7 @@ export default class Atoz extends Component {
             >
                 {
                     this.props.pinyin.map((item) => {
-                        return <View style={styles.oit} ref={item}><Text dark style={styles.text}>{item}</Text></View>
+                        return <TouchableHighlight onPress={this.select_nav}><View style={styles.oit} ref={item}><Text dark style={styles.text}>{item}</Text></View></TouchableHighlight>
                     })
                 }
             </View>

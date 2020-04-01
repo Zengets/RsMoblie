@@ -14,27 +14,7 @@ import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import Drawer from './Drawer'
 import { Transition } from 'react-native-reanimated';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
 
-
-let currentUser = {};
-let getItem = async () => {
-    currentUser = await AsyncStorage.getItem('@MyApp_user')
-}
-
-getItem();
-
-
-function getCurrentRouteName(navigationState) {
-    if (!navigationState) {
-        return null;
-    }
-    const route = navigationState.routes[navigationState.index];
-    if (route.routes) {
-        return getCurrentRouteName(route);
-    }
-    return route.routeName;
-}
 
 
 const AppNavigator = createStackNavigator(
@@ -124,7 +104,7 @@ const App = createAppContainer(
             Success:Success
         },
         {
-            initialRouteName: currentUser.token?"Main":"Login",
+            initialRouteName: "Login",
             transition: (
                 <Transition.Together>
                     <Transition.Out

@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Card, Button, Colors, TabBar, } from 'react-native-ui-lib';
+import { View, Text, Card, Button, Colors, TabBar, Dialog, PanningProvider } from 'react-native-ui-lib';
 import { SafeAreaViewPlus, OneToast, Header, Empty, Rows, NoticeTodoItem, RepairItem, UpkeepItem, CheckItem, SpareReviewItem, SpareChangeMissionItem, Modal, SubmitForm, AuthBase } from '../../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { colors, getItem, getItems } from '../../utils';
+import { ScrollView, StyleSheet, Dimensions, ActivityIndicator, NativeModules } from 'react-native';
+import { colors, getItem, } from '../../utils';
 import { ProgressCircle } from 'react-native-svg-charts'
 import moment from 'moment';
 import { ECharts } from "react-native-echarts-wrapper";
 import ActionButton from 'react-native-action-button';
 
 let { height, width } = Dimensions.get('window');
+let deviceHeight = Dimensions.get('window').height / Dimensions.get('window').width > 1.8 ? height + NativeModules.StatusBarManager.HEIGHT : height;
+
 
 let option = [
   {
@@ -58,6 +60,16 @@ let option = [
 ], timeline = ["周", "月", "季", "半年", "年"]
 @connect(({ index, loading }) => ({ index, loading }))
 class Home extends React.Component {
+
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    const { params } = navigation.state;
+    if (params) {
+      return {
+        tabBarVisible: params.tabBarVisible
+      }
+    }
+  };
+
   state = {
     progress: 0,
     focus: true,
@@ -67,6 +79,8 @@ class Home extends React.Component {
     xAxis: [],
     yAxis: [],
     showbtn: false,
+    zoom: false,
+    loaded:true,
     postDatas: [
       {
         "departmentId": "",//部门id，筛选条件
@@ -88,10 +102,7 @@ class Home extends React.Component {
         "shopId": "",// 车间id，筛选条件
         "unit": "周"//时间，筛选条件
       },
-    ]
-
-
-
+    ],
   }
 
   //返回顶部
@@ -136,7 +147,7 @@ class Home extends React.Component {
     this._didBlurSubscription && this._didBlurSubscription.remove();
   }
 
-  getoption = () => {
+  getoption = (ifs) => {
     let { index: { chartdata } } = this.props;
     let { dataList } = chartdata ? chartdata : { dataList: [] };
     let xData = dataList && dataList.map((item) => {
@@ -146,16 +157,16 @@ class Home extends React.Component {
     })
     return {
       grid: [
-        { x: '13%', y: '13%', width: '85%', height: '60%' },
+        { x: ifs ? '10%' : "13%", y: '13%', width: '85%', height: ifs ? '67%' : '70%' },
       ],
       tooltip: {
         trigger: 'axis',
       },
-      dataZoom: [{
+      dataZoom: ifs ? [{
         type: 'inside'
       }, {
         type: 'slider'
-      }],
+      }] : [],
       xAxis: [
         {
           type: 'category',
@@ -205,7 +216,7 @@ class Home extends React.Component {
   }
 
   getChartData() {
-    let { postDatas, selectedIndex } = this.state,
+    let { postDatas, selectedIndex, zoom } = this.state,
       postDatanow = JSON.parse(JSON.stringify(postDatas[selectedIndex]))
     if (postDatanow && postDatanow.departmentId != "") {
       postDatanow.departmentId = postDatanow.departmentId.id
@@ -217,27 +228,27 @@ class Home extends React.Component {
     switch (selectedIndex) {
       case 0:
         this.setNewState("queryOEE", postDatanow, () => {
-          this.chart && this.chart.setOption(this.getoption());
+          this.chart && this.chart.setOption(this.getoption(zoom));
         })
         break;
       case 1:
         this.setNewState("queryJIA", postDatanow, () => {
-          this.chart && this.chart.setOption(this.getoption());
+          this.chart && this.chart.setOption(this.getoption(zoom));
         })
         break;
       case 2:
         this.setNewState("queryMTTR", postDatanow, () => {
-          this.chart && this.chart.setOption(this.getoption());
+          this.chart && this.chart.setOption(this.getoption(zoom));
         })
         break;
       case 3:
         this.setNewState("queryMTBF", postDatanow, () => {
-          this.chart && this.chart.setOption(this.getoption());
+          this.chart && this.chart.setOption(this.getoption(zoom));
         })
         break;
       default:
         this.setNewState("queryOEE", postDatanow, () => {
-          this.chart && this.chart.setOption(this.getoption());
+          this.chart && this.chart.setOption(this.getoption(zoom));
         })
         break
     }
@@ -282,7 +293,7 @@ class Home extends React.Component {
 
   render() {
     const { index: { homenum, overview, chartdata, submitdata }, navigation, loading } = this.props,
-      { progress, fullscreen, selectedIndex, visible, postDatas, showbtn, focus } = this.state;
+      { progress, fullscreen, selectedIndex, visible, postDatas, showbtn, focus, zoom } = this.state;
     let getColor = (item) => {
       let color = "#43c4cc"
       switch (item) {
@@ -356,7 +367,9 @@ class Home extends React.Component {
       }
     }, index = this.props.index;
 
-    return <SafeAreaViewPlus loading={loading.effects['index/homenum'] || loading.effects['index/overview']}>
+    console.log(this.state.loaded)
+
+    return <SafeAreaViewPlus style={{ position: "relative" }} loading={loading.effects['index/homenum'] || loading.effects['index/overview']}>
       <Header
         title="首页"
         headerLeft={() => {
@@ -420,6 +433,7 @@ class Home extends React.Component {
       </Modal>
 
       <ScrollView
+        showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         ref={ref => (this._list = ref)}
         onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
@@ -486,7 +500,6 @@ class Home extends React.Component {
                 </View>
               </View>
             </AuthBase>
-
             <AuthBase item={getItem("homePage", "equipmentChart", index.userAccount)}>
               <View marginH-12 bg-white style={{ borderRadius: 8, overflow: "hidden" }}>
                 <TabBar
@@ -582,7 +595,18 @@ class Home extends React.Component {
                         <Text>车间</Text>}
                     </View>
                   </Card>
-                  <View style={styles.chartContainer} padding-10 paddingB-0>
+                  <View style={styles.chartContainer} paddingH-10 paddingT-12 paddingB-0>
+                    <Card padding-7 enableShadow={false} style={{ backgroundColor: colors.primaryColor, position: "absolute", right: 8, top: 8, zIndex: 9999 }} onPress={() => {
+                      this.setState({
+                        zoom: true,
+                        loaded: true,
+                      }, () => {
+                        navigation.setParams({ tabBarVisible: false })
+                      })
+                    }}>
+                      <AntIcons name="arrowsalt" color={"white"} size={14}></AntIcons>
+                    </Card>
+
                     <ECharts
                       ref={this.onRef}
                       option={{}}
@@ -590,6 +614,7 @@ class Home extends React.Component {
                         this.getChartData();
                       }}
                     />
+
                   </View>
                   <View row>
                     {
@@ -619,7 +644,6 @@ class Home extends React.Component {
                 </View>
               </View>
             </AuthBase>
-
             <AuthBase item={getItem("homePage", "compleToTask", index.userAccount)}>
               <View margin-12 style={{ borderRadius: 8, overflow: "hidden" }}>
                 <Card row spread paddingB-12 style={{ alignItems: "center", backgroundColor: "transparent" }} enableShadow={false} onPress={() => {
@@ -659,10 +683,43 @@ class Home extends React.Component {
               </View>
             </AuthBase>
           </View> : null
-
         }
 
       </ScrollView>
+
+      {zoom &&
+        <View style={{ width: "100%", height: "100%", alignItems: "center", justifyContent: "center", position: "absolute" }}>
+          <View bg-white style={{ width: deviceHeight, height: width, transform: [{ rotate: "90deg" }], position: "absolute" }}>
+            <Card padding-7 enableShadow={false} style={{ backgroundColor: colors.primaryColor, position: "absolute", right: 8, top: 8, zIndex: 9999 }} onPress={() => {
+              this.setState({
+                zoom: false
+              }, () => {
+                navigation.setParams({ tabBarVisible: true })
+              })
+            }}>
+              <AntIcons name="shrink" color={"white"} size={14}></AntIcons>
+            </Card>
+            {
+              this.state.loaded &&
+              <View style={{ width: deviceHeight, height: width}} center>
+                <ActivityIndicator></ActivityIndicator>
+              </View>
+            }
+            <ECharts
+              ref={this.onRef}
+              option={{}}
+              onLoadEnd={() => {
+                this.getChartData();
+                this.setState({
+                  loaded: false
+                })
+              }}
+            />
+
+
+          </View>
+        </View>
+      }
 
       {
         showbtn && <ActionButton
@@ -690,6 +747,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     height: 254,
+    position: "relative",
+    width: "100%"
   }
 
 })
