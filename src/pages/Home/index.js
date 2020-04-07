@@ -80,7 +80,7 @@ class Home extends React.Component {
     yAxis: [],
     showbtn: false,
     zoom: false,
-    loaded:true,
+    loaded: true,
     postDatas: [
       {
         "departmentId": "",//部门id，筛选条件
@@ -367,7 +367,6 @@ class Home extends React.Component {
       }
     }, index = this.props.index;
 
-    console.log(this.state.loaded)
 
     return <SafeAreaViewPlus style={{ position: "relative" }} loading={loading.effects['index/homenum'] || loading.effects['index/overview']}>
       <Header
@@ -608,6 +607,7 @@ class Home extends React.Component {
                     </Card>
 
                     <ECharts
+                      postMessage={{}}
                       ref={this.onRef}
                       option={{}}
                       onLoadEnd={() => {
@@ -701,11 +701,12 @@ class Home extends React.Component {
             </Card>
             {
               this.state.loaded &&
-              <View style={{ width: deviceHeight, height: width}} center>
+              <View style={{ width: deviceHeight, height: width }} center>
                 <ActivityIndicator></ActivityIndicator>
               </View>
             }
             <ECharts
+              postMessage={{}}
               ref={this.onRef}
               option={{}}
               onLoadEnd={() => {

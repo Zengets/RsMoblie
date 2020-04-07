@@ -8,7 +8,6 @@ import { OneToast } from '../components';
 const os = Platform.OS;
 
 function checkStatus(response) {
-  console.log(response.status)
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
@@ -57,7 +56,6 @@ async function get(url, params) {
 }
 
 async function post(url, body) {
-  console.log(url)
   try {
     let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
     if(Access_Token){
@@ -128,7 +126,6 @@ async function uploadFile(url, params) {
   if(Access_Token){
     TOKEN = JSON.parse(Access_Token).token
   }
-  console.log(params)
   const fetchOptions = {
     method: 'POST',
     headers: {

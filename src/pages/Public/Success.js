@@ -43,6 +43,9 @@ class Success extends React.Component {
            let {posturl, postdata} = sendMessage?sendMessage:{};
             this.setNewState(posturl, postdata);//执行成功回调
         }
+        this.setNewState("sendUserIdList",[])
+        this.setNewState("executeUserIdList",[])
+
     }
 
 

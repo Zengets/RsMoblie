@@ -76,14 +76,6 @@ class Scan extends Component {
                 })
             }
         );
-
-        let { type } = this.props.navigation.state.params ? this.props.navigation.state.params : { type: undefined };
-        if (type == "repair") {
-            let { postUrl, postData } = this.state;
-            this.setNewState(postUrl, postData)
-        }
-
-
     }
 
 
@@ -150,72 +142,96 @@ class Scan extends Component {
 
 
     render() {
-        let { navigation, index: { res, formdata }, loading } = this.props, { postData, postUrl, focus, error } = this.state;
+        let { navigation, index: { formdata }, loading } = this.props, { postData, postUrl, focus, error } = this.state;
 
         let headerRight = () => {
             let { type } = navigation.state.params ? navigation.state.params : { type: undefined };
-            if (type) {
+            if (type !== "check") {
                 return <AntdIcons name="filter" size={22} style={{ color: colors.primaryColor }} onPress={() => {
-                    let formdatas = [{
-                        key: "equipmentName",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        hidden: false,
-                        placeholder: "请输入设备名称"
-                    }, {
-                        key: "equipmentNo",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备编号"
+                    let { postUrl, postData } = this.state;
+                    this.setNewState(postUrl, postData, () => {
+                        let res=this.props.index.res;
+                        let formdatas = type == "repair" ? [{
+                            key: "equipmentName",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            hidden: false,
+                            placeholder: "请输入设备名称"
+                        }, {
+                            key: "equipmentNo",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            placeholder: "请输入设备编号"
 
-                    }, {
-                        key: "positionNo",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备位置号"
-                    }/*,{
-                        key: "equipmentModel",
-                        type: "input",
-                        require: false,
-                        value: "",
-                        placeholder: "请输入设备型号"
-                    }, {
-                        key: "equipmentTypeId",
-                        type: "treeselect",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择设备类型",
-                        option: res.equipmentTypeTreeList
-                    }, {
-                        key: "departmentId",
-                        type: "treeselect",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择部门",
-                        option: res.departmentTreeList
-                    }, {
-                        key: "shopId",
-                        type: "select",
-                        require: false,
-                        value: "",
-                        placeholder: "请选择车间",
-                        option: res.shopList && res.shopList.map((item) => {
-                            return {
-                                dicName: item.shopName,
-                                dicKey: item.id
-                            }
-                        })
-                    }*/]
+                        }, {
+                            key: "positionNo",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            placeholder: "请输入设备位置号"
+                        }] : [{
+                            key: "equipmentName",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            hidden: false,
+                            placeholder: "请输入设备名称"
+                        }, {
+                            key: "equipmentNo",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            placeholder: "请输入设备编号"
 
-                    this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
-                        navigation.navigate("SearchForm", {
-                            backurl: type == "repair" ? "InfoDeviceCan" :
-                                type == "check" ? "InfoDeviceChe" : ""
+                        }, {
+                            key: "positionNo",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            placeholder: "请输入设备位置号"
+                        }, {
+                            key: "equipmentModel",
+                            type: "input",
+                            require: false,
+                            value: "",
+                            placeholder: "请输入设备型号"
+                        }, {
+                            key: "equipmentTypeId",
+                            type: "treeselect",
+                            require: false,
+                            value: "",
+                            placeholder: "请选择设备类型",
+                            option: res.equipmentTypeTreeList
+                        }, {
+                            key: "departmentId",
+                            type: "treeselect",
+                            require: false,
+                            value: "",
+                            placeholder: "请选择部门",
+                            option: res.departmentTreeList
+                        }, {
+                            key: "shopId",
+                            type: "select",
+                            require: false,
+                            value: "",
+                            placeholder: "请选择车间",
+                            option: res.shopList && res.shopList.map((item) => {
+                                return {
+                                    dicName: item.shopName,
+                                    dicKey: item.id
+                                }
+                            })
+                        }]
+                        this.setNewState("formdata", formdatas, () => {
+                            navigation.navigate("SearchForm", {
+                                backurl: type == "repair" ? "InfoDeviceCan" :
+                                    type == "check" ? "InfoDeviceChe" : "InfoDevice"
+                            })
                         })
                     })
+
 
 
                 }} />

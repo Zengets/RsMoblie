@@ -14,6 +14,8 @@ let downloadFile = (formUrl,fn) => {
     .then((res) => {
       // the temp file path
       OneToast("文件已保存至"+res.path())
+    }).catch(()=>{
+      OneToast("文件保存失败")
     })
 
 }

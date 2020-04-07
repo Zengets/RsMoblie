@@ -356,9 +356,12 @@ class UserSelect extends React.Component {
               }
             }
             this.setState({
-              postData
+              postData,
+              selected:[]
             }, () => {
-              this.getData()
+              this.setNewState(key,this.state.selected,()=>{
+                this.getData()
+              })
             })
             let { index: { formdata } } = this.props;
             let newformdata = formdata.map((item, i) => {
