@@ -37,7 +37,7 @@ class UserListDetail extends React.Component {
 
   componentDidMount() {
     this.setNewState("userlistdetail", {
-      id: this.props.navigation.state.params.id
+      id: this.props.route.params.id
     })
   }
 

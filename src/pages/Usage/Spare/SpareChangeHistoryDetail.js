@@ -33,7 +33,7 @@ class SpareChangeHistoryDetail extends React.Component {
 
     resetdata() {
         this.setNewState("sparechangehistorydetail", {
-            id: this.props.navigation.state.params.id
+            id: this.props.route.params.id
         })
     }
 

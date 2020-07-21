@@ -35,7 +35,7 @@ class DeviceUser extends React.Component {
 
     componentDidMount() {
         this.setNewState("deviceuser", {
-            equipmentId: this.props.navigation.state.params.id
+            equipmentId: this.props.route.params.id
         })
     }
 

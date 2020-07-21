@@ -19,7 +19,7 @@ let { height, width } = Dimensions.get('window');
 class SpareReviewDetail extends React.Component {
     constructor(props) {
         super(props);
-        let { id, type } = props.navigation.state.params ? props.navigation.state.params : {};
+        let { id, type } = props.route.params ? props.route.params : {};
         this.state = {
             isLoadMore: true,
             refreshing: true,
@@ -117,7 +117,7 @@ class SpareReviewDetail extends React.Component {
     }
 
     render() {
-        let { index: { res, submitdata, userInfo }, navigation, loading } = this.props,
+        let { index: { res, submitdata, userInfo }, navigation,route, loading } = this.props,
             { refreshing, search, postData, isLoadMore, showbtn, visible } = this.state,
             { applyUserName, applyTime, applyTypeName, remark, totalSparePartsValue, status, auditUserName, auditResultTypeName, auditOpinion, auditTime, taskNo, auditUserId } = res.data ? res.data : {},
             getColor = (item) => {
@@ -144,7 +144,7 @@ class SpareReviewDetail extends React.Component {
                 }
                 return color
             }, statusName = { 0: "待审批", 1: "审批通过", 2: "审批未通过", 3: "撤回" }, disabled = userInfo.id !== auditUserId,
-            { type } = navigation.state.params ? navigation.state.params : {};
+            { type } = route.params ? route.params : {};
 
 
         let renderItem = ({ section: section, row: row }) => {

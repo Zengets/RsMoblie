@@ -38,8 +38,8 @@ class PreView extends React.Component {
     }
 
     componentDidMount() {
-        const { index, navigation } = this.props
-        let { sendMessage } = navigation.state.params ? navigation.state.params : { sendMessage }
+        const { index, route } = this.props
+        let { sendMessage } = route.params ? route.params : { sendMessage }
         if (sendMessage) {
             alert(0)
             let { posturl, postdata } = sendMessage ? sendMessage : {};
@@ -49,8 +49,8 @@ class PreView extends React.Component {
 
 
     render() {
-        const { index, navigation, } = this.props
-        let { url, type } = navigation.state.params ? navigation.state.params : { url: "", type: "" },
+        const { index, navigation,route } = this.props;
+        let { url, type } = route.params ? route.params : { url: "", type: "" },
             types = ["docx", "xlsx", "pptx", "doc", "xls", "ppt"];
         return <SafeAreaViewPlus>
             <Header

@@ -37,8 +37,8 @@ class Success extends React.Component {
     }
 
     componentDidMount(){
-        const { index, navigation } = this.props
-        let { sendMessage } = navigation.state.params ? navigation.state.params : { sendMessage }
+        const { index, route } = this.props
+        let { sendMessage } = route.params ? route.params : { sendMessage }
         if(sendMessage){
            let {posturl, postdata} = sendMessage?sendMessage:{};
             this.setNewState(posturl, postdata);//执行成功回调
@@ -50,8 +50,8 @@ class Success extends React.Component {
 
 
     render() {
-        const { index, navigation } = this.props
-        let { btn, description } = navigation.state.params ? navigation.state.params : { btn: [], description: "" }
+        const { index, route } = this.props
+        let { btn, description } = route.params ? route.params : { btn: [], description: "" }
         return <SafeAreaViewPlus>
             <Header
                 title="操作成功"

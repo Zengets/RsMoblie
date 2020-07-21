@@ -6,6 +6,7 @@ import indexModel from './models'
 import { setConfig, setTheme } from './utils/index';
 import SplashScreen from 'react-native-splash-screen';
 import createLoading from 'dva-loading';
+import 'react-native-gesture-handler';
 setConfig();
 setTheme();
 

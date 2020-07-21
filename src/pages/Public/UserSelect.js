@@ -46,7 +46,7 @@ class UserSelect extends React.Component {
   _scrollView = null;
   constructor(props) {
     super(props);
-    let { key } = props.navigation.state.params?props.navigation.state.params:{}
+    let { key } = props.route.params?props.route.params:{}
     this.state = {
       pinyin: [],
       isSpin: true,
@@ -242,7 +242,7 @@ class UserSelect extends React.Component {
 
   render() {
     let { cur, contacts, isSpin, postData, pinyin,selected,userselect } = this.state,
-      { navigation, submitting, index: { res, formdata,userlist }, } = this.props,
+      { navigation,route, submitting, index: { res, formdata,userlist }, } = this.props,
       searchprops = {
         navigation,
         placeholder: "输入姓名查询...",
@@ -338,7 +338,7 @@ class UserSelect extends React.Component {
           })
         },
         color: colors.primaryColor
-      },{ title,key } = navigation.state.params?navigation.state.params:{}
+      },{ title,key } = route.params?route.params:{}
 
     return (
       <SafeAreaViewPlus loading={submitting}>

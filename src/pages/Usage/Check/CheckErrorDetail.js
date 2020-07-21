@@ -66,7 +66,7 @@ class CheckErrorDetail extends Component {
     }
 
     resetData() {
-        let { posturl, postdata } = this.props.navigation.state.params ? this.props.navigation.state.params : { posturl: "", postdata: "" };
+        let { posturl, postdata } = this.props.route.params ? this.props.route.params : { posturl: "", postdata: "" };
         this.setNewState(posturl, postdata);
     }
 
@@ -76,8 +76,8 @@ class CheckErrorDetail extends Component {
 
 
     render() {
-        let { index, navigation, loading } = this.props, { visible } = this.state;
-        let { posturl, postdata } = navigation.state.params ? navigation.state.params : { posturl: "", postdata: "" },
+        let { index, navigation,route, loading } = this.props, { visible } = this.state;
+        let { posturl, postdata } = route.params ? route.params : { posturl: "", postdata: "" },
             {
                 pointCheckTime, pointCheckUserName, equipmentName, positionNo, equipmentNo, pointCheckItem, normalReference, periodTypeName, exceptionRecord, status, equipmentId, id,
                 equipmentPointCheckItemTaskId, pointCheckItemResultType, handleUserName, handleTime, handleTypeName, handleType, handleId

@@ -15,6 +15,7 @@ class SafeAreaViewPlus extends Component {
         enablePlus: PropTypes.bool,
         topInset: PropTypes.bool,
         bottomInset: PropTypes.bool,
+        barStyle: PropTypes.string,
     };
 
     static defaultProps = {
@@ -22,7 +23,8 @@ class SafeAreaViewPlus extends Component {
         bottomColor: '#fff',
         enablePlus: true,
         topInset: true,
-        bottomInset: false
+        bottomInset: false,
+        barStyle:"dark-content"
     };
 
     getTopArea(topColor, topInset) {
@@ -34,7 +36,7 @@ class SafeAreaViewPlus extends Component {
     }
 
     genSafeAreaViewPlus() {
-        const { children, topColor, bottomColor, topInset, bottomInset,textContent, style,loading } = this.props;
+        const { children, topColor, bottomColor, topInset, bottomInset,textContent, style,loading,barStyle } = this.props;
         return <View style={[styles.container, style]}>
             <Spinner
                 visible={loading}
@@ -42,27 +44,25 @@ class SafeAreaViewPlus extends Component {
                 textStyle={styles.spinnerTextStyle}
                 animation="fade"
                 overlayColor={"rgba(0,0,0,0.2)"}
-            />
-            <StatusBar translucent={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
+            /> 
+            <StatusBar translucent={true} backgroundColor={topColor} animated={true} barStyle={barStyle}></StatusBar>
             {this.getTopArea(topColor, topInset)}
             {children}
             {this.getBottomArea(bottomColor, bottomInset)}
-
         </View>
     }
 
     genSafeAreaView() {
-        const { style, children, topColor, bottomColor, topInset, bottomInset,textContent, index,loading } = this.props;
-
+        const { style, children, topColor, bottomColor, topInset, bottomInset,textContent, barStyle,loading } = this.props;
         return <SafeAreaView style={[styles.container, style]} {...this.props}>
-            <Spinner
+             <Spinner
                 visible={loading}
                 textContent={textContent?textContent:'加载中...'}
                 textStyle={styles.spinnerTextStyle}
                 animation="fade"
                 overlayColor={"rgba(0,0,0,0.2)"}
-            />
-            <StatusBar translucent={true} backgroundColor={topColor} animated={false} barStyle='dark-content'></StatusBar>
+            /> 
+            <StatusBar translucent={true} backgroundColor={topColor} animated={true} barStyle={barStyle}></StatusBar>
             {children}
         </SafeAreaView>
     }
@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     topArea: {
-        height: 34,
+        height: 32,
     },
     bottomArea: {
-        height: 34,
+        height: 32,
     },
     spinnerTextStyle: {
         color: '#FFF',

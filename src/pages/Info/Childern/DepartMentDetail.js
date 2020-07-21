@@ -31,21 +31,21 @@ class DepartMentDetail extends React.Component {
 
     componentDidMount() {
         this.setNewState("departmentmore",{
-            "key": this.props.navigation.state.params.key
+            "key": this.props.route.params.key
         })
     }
 
 
     render() {
 
-        let { index, navigation, submitting, index: { departmentmore } } = this.props;
+        let { index, navigation,route, submitting, index: { departmentmore } } = this.props;
 
         return <SafeAreaViewPlus loading={submitting}>
-            <Header title={this.props.navigation.state.params.title} navigation={navigation}>
+            <Header title={this.props.route.params.title} navigation={navigation}>
             </Header>
 
             <TreeShown data={[{
-                title:this.props.navigation.state.params.title,
+                title:this.props.route.params.title,
                 children:departmentmore
             }]}>
             </TreeShown>

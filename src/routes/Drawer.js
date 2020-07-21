@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
-import { SettingMenu,PerCenter } from '../pages/index';
+import { ChangePwd,PerCenter } from '../pages/index';
 import { Dimensions } from 'react-native'
 import BottomTab from './BottomTab'
 
@@ -10,7 +10,9 @@ let RouteConfigs = {
     MainDrawer: {
         screen: BottomTab,
     },
-
+    ChangePwd: {
+        screen: ChangePwd,
+    },
 }
 
 
@@ -25,7 +27,6 @@ const Drawer = createDrawerNavigator(RouteConfigs, {
         activeTintColor:'#ff7226',//改变选中之后的颜色
     },
     contentComponent:PerCenter,
-    drawerType:"slide"
 
 });
 

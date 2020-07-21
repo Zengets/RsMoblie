@@ -48,7 +48,7 @@ class LoginChild extends React.Component {
         password
       }
       AsyncStorage.setItem("@MyApp_user", JSON.stringify(USER));
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Main')
     })
   }
 

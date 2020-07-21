@@ -20,7 +20,7 @@ import moment from 'moment';
 class CheckError extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value,status,equipmentNo } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",status:"",equipmentNo:"" }
+        let { key, value,status,equipmentNo } = props.route.params ? props.route.params : { key: "", value: "",status:"",equipmentNo:"" }
 
         this.state = {
             isLoadMore: true,
@@ -100,8 +100,8 @@ class CheckError extends React.Component {
     }
 
     resetData = (yuan) => {
-        let { index: { done, formdata },navigation } = yuan;
-        let { status } = navigation.state.params ? navigation.state.params : {  }
+        let { index: { done, formdata },navigation,route } = yuan;
+        let { status } = route.params ? route.params : {  }
 
         function getVal(key) {
             let one = {};
@@ -197,9 +197,9 @@ class CheckError extends React.Component {
 
 
     render() {
-        let { index: { res, formdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata }, navigation,route, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-        let { key, title,status } = navigation.state.params ? navigation.state.params : { key: "", title: null }
+        let { key, title,status } = route.params ? route.params : { key: "", title: null }
 
         let searchprops = {
             height,

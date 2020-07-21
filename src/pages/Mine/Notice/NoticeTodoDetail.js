@@ -36,7 +36,7 @@ class NoticeTodoDetail extends React.Component {
 
     resetdata() {
         this.setNewState("noticetododetail", {
-            id: this.props.navigation.state.params.id
+            id: this.props.route.params.id
         })
     }
 
@@ -53,8 +53,7 @@ class NoticeTodoDetail extends React.Component {
     render() {
         let { index: { noticetododetail , userInfo }, navigation, loading } = this.props, { content, files, auditStatus } = this.state,
             {
-                assignmentTitle, assignmentContent, closeDate, assignmentTypeName, statusName, publishUserName, publishTime,
-                attachmentUrlList, remark, status
+                assignmentTitle, assignmentContent, closeDate, assignmentTypeName, statusName, publishUserName, publishTime,executeFinishTime,auditTime,attachmentUrlList, remark, status
             } = noticetododetail.publish ? noticetododetail.publish : {},
             {
                 executeUserName,executeUserId, executeContent, executeUrlList, assignmentUserType, auditUserName, id
@@ -167,7 +166,9 @@ class NoticeTodoDetail extends React.Component {
                                     })}
 
                             </View>} />
+                            <Rows name="完成时间" values={executeFinishTime} />
                             <Rows name="确认人" values={auditUserName} />
+                            <Rows name="确认时间" values={auditTime} />
                             <View padding-12>
                                 {
                                     ustatus == 0 && assignmentUserType == 1 ?
@@ -222,14 +223,14 @@ class NoticeTodoDetail extends React.Component {
                                             <View>
                                                 <Text marginB-12 subheading style={{ color: colors.warnColor }}>验证该任务</Text>
                                                 <View row marginB-12>
-                                                    <Card enableShadow={false} padding-page style={{ backgroundColor: auditStatus == 1 ? colors.primaryColor : "#999" }} onPress={() => {
+                                                    <Card enableShadow={false} padding-12 style={{ backgroundColor: auditStatus == 1 ? colors.primaryColor : "#999" }} onPress={() => {
                                                         this.setState({
                                                             auditStatus: 1
                                                         })
                                                     }}>
                                                         <Text white>通过</Text>
                                                     </Card>
-                                                    <Card marginL-12 enableShadow={false} padding-page style={{ backgroundColor: auditStatus == 2 ? colors.primaryColor : "#999" }} onPress={() => {
+                                                    <Card marginL-12 enableShadow={false} padding-12 style={{ backgroundColor: auditStatus == 2 ? colors.primaryColor : "#999" }} onPress={() => {
                                                         this.setState({
                                                             auditStatus: 2
                                                         })

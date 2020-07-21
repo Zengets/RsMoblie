@@ -100,7 +100,7 @@ export async function repairApply(params) {
     return post(`${ipandport}/equipmentRepair/repairApply`, params);
 }
 
-export async function repairList(params){
+export async function repairList(params) {
     return post(`${ipandport}/equipmentRepair/queryList`, params);
 }
 
@@ -282,7 +282,7 @@ export async function spareaudit(params) {
     return post(`${ipandport}/sparePartsApply/audit`, params);
 }
 
-export async function knowledgelist(params) { 
+export async function knowledgelist(params) {
     return post(`${ipandport}/equipmentKnowledgeBase/queryList`, params);
 }
 
@@ -290,7 +290,7 @@ export async function knowledgedetail(params) {
     return post(`${ipandport}/equipmentKnowledgeBase/queryById`, params);
 }
 
-export async function knowledgehistory(params) { 
+export async function knowledgehistory(params) {
     return post(`${ipandport}/equipmentKnowledgeBaseVersion/queryList`, params);
 }
 

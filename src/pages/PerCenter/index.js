@@ -8,6 +8,7 @@ import AntdIcons from 'react-native-vector-icons/AntDesign';
 import { AsyncStorage } from 'react-native'
 import { colors, ConvertPinyin } from '../../utils';
 import { ScrollView } from 'react-native-gesture-handler';
+import RNPermissions from 'react-native-permissions';
 
 let PartItem = (props) => (
   <View>
@@ -63,7 +64,7 @@ class PerCenter extends React.Component {
   }
 
   componentDidMount() {
-    this.setNewState("test", null)
+    
   }
 
   logout() {
@@ -106,13 +107,19 @@ class PerCenter extends React.Component {
             <Rows padding={0} name="部门" values={userInfo.departmentName}></Rows>
             <Rows padding={0} name="车间" values={userInfo.shopName}></Rows>
             <Rows padding={0} name="分组" values={userInfo.shiftName} noborder={true}></Rows>
-
           </Card>
         </View>
         <PartItem
-          pressfn={() => { navigation.navigate("ChangePwd") }}
+          pressfn={() => { 
+            this.props.navigation.navigate("ChangePwd")
+           }}
           leftIcon={<AntdIcons name={'unlock'} size={16} style={{ marginLeft: -2 }}></AntdIcons>}
           title="修改密码"
+        ></PartItem>
+        <PartItem
+          pressfn={() => { RNPermissions.openSettings() }}
+          leftIcon={<AntdIcons name={'setting'} size={16} style={{ marginLeft: -2 }}></AntdIcons>}
+          title="权限管理"
         ></PartItem>
         <PartItem
           pressfn={() => this.logout()}

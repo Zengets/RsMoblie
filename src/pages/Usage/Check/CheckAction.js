@@ -51,8 +51,8 @@ class CheckAction extends React.Component {
     }
 
     componentDidMount() {
-        let { navigation } = this.props,
-            { id } = navigation.state.params ? navigation.state.params : { id: "" };
+        let { navigation,route } = this.props,
+            { id } = route.params ? route.params : { id: "" };
         this.setNewState("checkdetail", { equipmentId: id }, () => {
             let { index: { checkdetail } } = this.props, { item, equipmentName, positionNo, equipmentNo, serialNo } = checkdetail ? checkdetail : {};
             this.setState({
@@ -75,8 +75,8 @@ class CheckAction extends React.Component {
 
 
     render() {
-        let { index: { checkdetail, userInfo }, navigation, loading } = this.props, { item } = this.state,
-            { title, id } = navigation.state.params ? navigation.state.params : { title: "", id: "" },
+        let { index: { checkdetail, userInfo }, navigation,route, loading } = this.props, { item } = this.state,
+            { title, id } = route.params ? route.params : { title: "", id: "" },
             { equipmentName, positionNo, equipmentNo, serialNo } = checkdetail ? checkdetail : {},
             getdisabled = () => {
                 let bools = true;

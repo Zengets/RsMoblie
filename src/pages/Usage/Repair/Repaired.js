@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class Repaired extends React.Component {
   constructor(props) {
     super(props);
-    let { key, value } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "" }
+    let { key, value } = props.route.params ? props.route.params : { key: "", value: "" }
     this.state = {
       isLoadMore: true,
       height: new Animated.Value(45),
@@ -94,7 +94,7 @@ class Repaired extends React.Component {
   }
 
   resetData = (yuan) => {
-    let { index: { done, formdata },navigation } = yuan
+    let { index: { done, formdata },navigation,route } = yuan
     function getVal(key) {
       let one = {};
       formdata.map((item) => {
@@ -112,7 +112,7 @@ class Repaired extends React.Component {
       }
     }
     if (done == "1" && formdata.length > 0) {
-      let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
+      let { key, title } = route.params ? route.params : { key: "", title: null }
 
       this.setState({
         postData: key?{
@@ -197,9 +197,9 @@ class Repaired extends React.Component {
 
 
   render() {
-    let { index: { res, formdata }, navigation, submitting } = this.props,
+    let { index: { res, formdata }, navigation,route, submitting } = this.props,
       { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-    let { key, title,value } = navigation.state.params ? navigation.state.params : { key: "", title: null,value:"" }
+    let { key, title,value } = route.params ? route.params : { key: "", title: null,value:"" }
 
     let searchprops = {
       height,

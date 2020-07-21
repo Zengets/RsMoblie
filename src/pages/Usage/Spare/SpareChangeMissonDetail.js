@@ -34,7 +34,7 @@ class SpareChangeMissonDetail extends React.Component {
 
     resetdata() {
         this.setNewState("sparechangemissiondetail", {
-            id: this.props.navigation.state.params.id
+            id: this.props.route.params.id
         })
     }
 

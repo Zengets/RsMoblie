@@ -68,7 +68,7 @@ class UpkeepDetail extends Component {
     }
 
     resetData() {
-        let { posturl, postdata, type } = this.props.navigation.state.params ? this.props.navigation.state.params : { posturl: "", postdata: "" };
+        let { posturl, postdata, type } = this.props.route.params ? this.props.route.params : { posturl: "", postdata: "" };
         this.setNewState(posturl, postdata);
     }
 
@@ -79,8 +79,8 @@ class UpkeepDetail extends Component {
 
     render() {
 
-        let { index, navigation, loading } = this.props, { visible } = this.state;
-        let { posturl, postdata, type } = navigation.state.params ? navigation.state.params : { posturl: "", postdata: "" },
+        let { index, navigation,route, loading } = this.props, { visible } = this.state;
+        let { posturl, postdata, type } = route.params ? route.params : { posturl: "", postdata: "" },
             { id, taskNo, equipmentName, equipmentNo, equipmentTypeName, maintainPlanTypeName, status, planStartMaintainDate, maintainHours, equipmentId,
                 totalBudget, planMaintainUserId, planMaintainUserName, remark, detail, executiveUserName, startMaintainTime, endMaintainTime, tatolMaintainCost
             } = index[posturl] ? index[posturl] : {

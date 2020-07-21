@@ -72,7 +72,7 @@ class DevicerRepair extends Component {
 
     componentDidMount() {
         //getRepairDetail
-        let id = this.props.navigation.state.params ? this.props.navigation.state.params.id : null;
+        let id = this.props.route.params ? this.props.route.params.id : null;
         if (id) {
             this.setNewState("getRepairDetail", { id: id })
         }

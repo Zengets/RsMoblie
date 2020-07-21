@@ -143,7 +143,7 @@ class SearchForm extends React.Component {
 
 
     render() {
-        let { index: { formdata }, navigation, loading } = this.props, { curkey, rotate } = this.state;
+        let { index: { formdata }, navigation, route,loading } = this.props, { curkey, rotate } = this.state;
 
         let inputprops = (item) => {
             let { value, placeholder, key } = item;
@@ -356,7 +356,7 @@ class SearchForm extends React.Component {
 
                     <Button onPress={() => {
                         this.setNewState("done", "1", () => {
-                            let { backurl } = navigation.state.params ? navigation.state.params : { backurl: undefined };
+                            let { backurl } = route.params ? route.params : { backurl: undefined };
                             if (backurl) {
                                 navigation.navigate(backurl)
                             } else {

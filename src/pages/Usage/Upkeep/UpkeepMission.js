@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class UpkeepMission extends React.Component {
     constructor(props) {
         super(props);
-        let { key, value,equipmentNo } = props.navigation.state.params ? props.navigation.state.params : { key: "", value: "",equipmentNo:"" }
+        let { key, value,equipmentNo } = props.route.params ? props.route.params : { key: "", value: "",equipmentNo:"" }
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -188,9 +188,9 @@ class UpkeepMission extends React.Component {
 
 
     render() {
-        let { index: { res, formdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata }, navigation,route, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-        let { key, title } = navigation.state.params ? navigation.state.params : { key: "", title: null }
+        let { key, title } = route.params ? route.params : { key: "", title: null }
 
         let searchprops = {
             height,

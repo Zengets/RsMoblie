@@ -35,7 +35,7 @@ class InfoSpareDetail extends React.Component {
 
   componentDidMount() {
     this.setNewState("infosparedetail", {
-      id: this.props.navigation.state.params.id
+      id: this.props.route.params.id
     }, () => {
     })
   }

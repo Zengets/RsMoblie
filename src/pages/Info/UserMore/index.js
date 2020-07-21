@@ -28,8 +28,8 @@ class UserMore extends React.Component {
     }
 
     componentDidMount() {
-        let { index, navigation } = this.props,
-            { id, key, posturl } = navigation.state.params ? navigation.state.params : {};
+        let { index, route } = this.props,
+            { id, key, posturl } = route.params ? route.params : {};
 
         if (posturl) {
             this.setNewState(posturl, { [key]: id },()=>{
@@ -45,8 +45,8 @@ class UserMore extends React.Component {
 
 
     render() {
-        let { index, navigation } = this.props,{resData} = this.state,
-            { id, title, posturl } = navigation.state.params ? navigation.state.params : {};
+        let { index, navigation,route } = this.props,{resData} = this.state,
+            { id, title, posturl } = route.params ? route.params : {};
 
         let getHeight = ()=>{
             if(posturl=="getuserspare"){

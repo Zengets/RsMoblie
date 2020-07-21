@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class SpareOwnerDetail extends React.Component {
     constructor(props) {
         super(props);
-        let { sparePartsId, userId } = props.navigation.state.params ? props.navigation.state.params : {};
+        let { sparePartsId, userId } = props.route.params ? props.route.params : {};
         this.state = {
             isLoadMore: true,
             height: new Animated.Value(45),
@@ -117,9 +117,9 @@ class SpareOwnerDetail extends React.Component {
 
 
     render() {
-        let { index: { res, formdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata }, navigation,route, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state,
-            { userId, userName, sparePartsName, availableStock, totalStock, sparePartsId } = navigation.state.params ? navigation.state.params : {};
+            { userId, userName, sparePartsName, availableStock, totalStock, sparePartsId } = route.params ? route.params : {};
 
 
         let renderItem = ({ section: section, row: row }) => {

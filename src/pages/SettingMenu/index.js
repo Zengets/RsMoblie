@@ -23,7 +23,7 @@ class SettingMenu extends React.Component {
   }
 
   componentDidMount() {
-    this.setNewState("test", null)
+    
   }
 
 

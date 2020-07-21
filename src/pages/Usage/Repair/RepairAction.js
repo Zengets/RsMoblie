@@ -44,8 +44,8 @@ class RepairAction extends React.Component {
     }
 
     componentDidMount() {
-        let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation, loading } = this.props, { } = this.state,
-            { title, type, id } = navigation.state.params ? navigation.state.params : { title: "", type: "", id: "" };
+        let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation,route, loading } = this.props, { } = this.state,
+            { title, type, id } = route.params ? route.params : { title: "", type: "", id: "" };
 
         this.setNewState("repairstep", { id: id }, () => {
             let res2 = this.props.index.res2, submitdatas = [];
@@ -214,8 +214,8 @@ class RepairAction extends React.Component {
 
 
     render() {
-        let { index: { submitdata, res2, repairstep, userInfo }, navigation, loading } = this.props, { loaded } = this.state,
-            { title, type, id, todo } = navigation.state.params ? navigation.state.params : {
+        let { index: { submitdata, res2, repairstep, userInfo }, navigation,route, loading } = this.props, { loaded } = this.state,
+            { title, type, id, todo } = route.params ? route.params : {
                 title: "", type: "", id: "", todo: {
                     url: "",
                     params: {

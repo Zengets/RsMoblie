@@ -33,7 +33,7 @@ class SpareUsageDetail extends React.Component {
 
     resetdata() {
         this.setNewState("spareusagedetail", {
-            id: this.props.navigation.state.params.id
+            id: this.props.route.params.id
         })
     }
 

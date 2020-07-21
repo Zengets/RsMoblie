@@ -19,7 +19,7 @@ class Header extends Component {
                 }
             </View>
             <View flex-1 center>
-                <Text subheading dark style={{ fontWeight: "bold" }}>{title}</Text>
+                <Text subheading dark style={{ fontWeight: "bold",color:mode=="light"?"#fff":"#666" }}>{title}</Text>
             </View>
             <View style={{ width: rightwidth?rightwidth:66 }} right paddingR-12>
                 {

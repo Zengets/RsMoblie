@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 class InfoDevice extends React.Component {
     constructor(props) {
         super(props);
-        let { defaultstatus } = props.navigation.state.params ? props.navigation.state.params : {}
+        let { defaultstatus } = props.route.params ? props.route.params : {}
 
         this.state = {
             isLoadMore: true,
@@ -184,9 +184,9 @@ class InfoDevice extends React.Component {
 
 
     render() {
-        let { index: { res, formdata }, navigation, submitting } = this.props,
+        let { index: { res, formdata }, navigation,route, submitting } = this.props,
             { refreshing, search, postData, height, isLoadMore, showbtn } = this.state;
-        let { defaultstatus } = navigation.state.params ? navigation.state.params : {}
+        let { defaultstatus } = route.params ? route.params : {}
 
         let searchprops = {
             height,

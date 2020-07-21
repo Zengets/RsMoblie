@@ -57,7 +57,7 @@ class Info extends React.Component {
   }
 
   componentDidMount() {
-    this.setNewState("test", null)
+    
   }
   componentWillUnmount() {
     // 在页面消失的时候，取消监听

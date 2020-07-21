@@ -30,8 +30,8 @@ class DepartMent extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.navigation.state.params){
-            this.setNewState(this.props.navigation.state.params.posturl);
+        if(this.props.route.params){
+            this.setNewState(this.props.route.params.posturl);
 
         }else{
             this.setNewState("department");
@@ -42,8 +42,8 @@ class DepartMent extends React.Component {
 
     render() {
 
-        let { index, navigation, submitting, index: { department } } = this.props;
-        let { posturl,can,title } = navigation.state.params?navigation.state.params:{};
+        let { index, navigation,route, submitting, index: { department } } = this.props;
+        let { posturl,can,title } = route.params?route.params:{};
         return <SafeAreaViewPlus loading={submitting}>
             <Header title={title?title:`部门列表`} navigation={navigation}>
             </Header>

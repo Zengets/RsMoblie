@@ -26,7 +26,7 @@ class KnowledgeHistory extends React.Component {
             postData: {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
-                "equipmentKnowledgeBaseId": this.props.navigation.state.params.id
+                "equipmentKnowledgeBaseId": this.props.route.params.id
             },
             resData: [{ items: [] }]
         }

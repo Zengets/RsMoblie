@@ -49,7 +49,7 @@ class InfoDeviceDetail extends React.Component {
 
     componentDidMount() {
         this.setNewState("infodevicedetail", {
-            id: this.props.navigation.state.params.id
+            id: this.props.route.params.id
         })
     }
 

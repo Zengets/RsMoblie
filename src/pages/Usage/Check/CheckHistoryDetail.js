@@ -67,7 +67,7 @@ class CheckHistoryDetail extends Component {
     }
 
     resetData() {
-        let { posturl, postdata } = this.props.navigation.state.params ? this.props.navigation.state.params : { posturl: "", postdata: "" };
+        let { posturl, postdata } = this.props.route.params ? this.props.route.params : { posturl: "", postdata: "" };
         this.setNewState(posturl, postdata);
     }
 
@@ -77,8 +77,8 @@ class CheckHistoryDetail extends Component {
 
 
     render() {
-        let { index, navigation, loading } = this.props, { visible } = this.state;
-        let { posturl, postdata } = navigation.state.params ? navigation.state.params : { posturl: "", postdata: "" },
+        let { index, navigation,route, loading } = this.props, { visible } = this.state;
+        let { posturl, postdata } = route.params ? route.params : { posturl: "", postdata: "" },
             {
                 pointCheckItemDate, pointCheckUserName, taskNo, equipmentName, positionNo, equipmentNo, list
             } = index[posturl] ? index[posturl] : {
