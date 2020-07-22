@@ -36,21 +36,21 @@ class Success extends React.Component {
         })
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const { index, route } = this.props
         let { sendMessage } = route.params ? route.params : { sendMessage }
-        if(sendMessage){
-           let {posturl, postdata} = sendMessage?sendMessage:{};
+        if (sendMessage) {
+            let { posturl, postdata } = sendMessage ? sendMessage : {};
             this.setNewState(posturl, postdata);//执行成功回调
         }
-        this.setNewState("sendUserIdList",[])
-        this.setNewState("executeUserIdList",[])
+        this.setNewState("sendUserIdList", [])
+        this.setNewState("executeUserIdList", [])
 
     }
 
 
     render() {
-        const { index, route } = this.props
+        const { navigation, route } = this.props
         let { btn, description } = route.params ? route.params : { btn: [], description: "" }
         return <SafeAreaViewPlus>
             <Header
@@ -58,18 +58,27 @@ class Success extends React.Component {
             />
             <View flex padding-12>
                 <View center padding-page paddingB-32>
-                    <AntIcons name="checkcircle" size={ 120 } style={ { color: colors.successColor } } />
-                    <Text marginT-24 body>{ description }</Text>
+                    <AntIcons name="checkcircle" size={120} style={{ color: colors.successColor }} />
+                    <Text marginT-24 body>{description}</Text>
                 </View>
 
                 <View row>
                     {
                         btn.map((item, i) => {
-                            return <Card padding-12 center margin-4 flex-1 key={ i } enableShadow={ false } onPress={ () => {
-                                this.jumpToUrl(item.url, item.params)
-                            } }>
-                                <Text subbody center>{ item.name }</Text>
-                            </Card>
+                            if (item.back) {
+                                return <Card padding-12 center margin-4 flex-1 key={i} enableShadow={false} onPress={() => {
+                                    navigation.goBack()
+                                }}>
+                                    <Text subbody center>{item.name}</Text>
+                                </Card>
+                            } else {
+                                return <Card padding-12 center margin-4 flex-1 key={i} enableShadow={false} onPress={() => {
+                                    this.jumpToUrl(item.url, item.params)
+                                }}>
+                                    <Text subbody center>{item.name}</Text>
+                                </Card>
+                            }
+
                         })
                     }
                 </View>

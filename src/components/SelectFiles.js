@@ -42,7 +42,11 @@ class SelectFiles extends Component {
         }, [
             { name: filename, filename: filename, data: RNFetchBlob.wrap(path) },
         ]).then((res) => {
-            let result = JSON.parse(res.text())
+            let result = JSON.parse(res.text());
+            if(result.code!=="0000"){
+                OneToast(result.msg);
+                return
+            }
             let path = result.data.dataList[0],
                 filename = result.data.fileNameList[0];
             let newfiles = JSON.parse(JSON.stringify(this.state.files));
@@ -53,32 +57,33 @@ class SelectFiles extends Component {
             }, () => {
                 this.props.getfiles(newfiles)
             })
-
-
+        }).catch((err) => {
+            console.log(err)
         })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
 
     render() {
-        let { style, navigation, title,color } = this.props, cardwidth = (width - 96) / 5, { files, visible, curitem, index } = this.state;
+        let { style, navigation, title, color } = this.props, cardwidth = (width - 96) / 5, { files, visible, curitem, index } = this.state;
 
         return <View>
-            <Text subbody dark10 style={{color:color?color:"#333"}}>{title ? title : "上传附件"}
+            <Text subbody dark10 style={{ color: color ? color : "#333" }}>{title ? title : "上传附件"}
                 <Text dark40>(长按附件删除)</Text></Text>
             <View marginT-12 row style={[style, { width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }]}>
                 {
                     files && files.length > 0 ?
                         files.map((item, i) => {
-                            return <Card width={cardwidth} height={cardwidth} marginR-12 spread  marginB-12 enableShadow={false} style={{ backgroundColor: colors.primaryColor, alignItems: "center" }}
-                                onPress={() => {
-                                    navigation.navigate("PreView", {
-                                        url: item,
-                                        type: item.split(".")[item.split(".").length - 1]
-                                    })
-                                }}
+                            return <Card 
+                            width={cardwidth} 
+                            height={cardwidth} 
+                            marginR-12 center marginB-12 enableShadow={false} 
+                            style={{ backgroundColor: colors.primaryColor, alignItems: "center" }}
+                                // onPress={() => {
+                                //     navigation.navigate("PreView", {
+                                //         url: item,
+                                //         type: item.split(".")[item.split(".").length - 1]
+                                //     })
+                                // }}
                                 onLongPress={() => {
                                     this.setState({
                                         visible: true,
@@ -88,7 +93,7 @@ class SelectFiles extends Component {
                                 }}
                             >
                                 <AntIcons name="file1" size={16} style={{ color: "#fff" }}></AntIcons>
-                                <Text white style={{fontSize:10}} marginT-6>附件{i + 1}</Text>
+                                <Text white style={{ fontSize: 10 }} marginT-6>附件{i + 1}</Text>
                             </Card>
 
                         }) : null

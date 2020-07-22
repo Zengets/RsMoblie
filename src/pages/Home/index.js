@@ -76,10 +76,10 @@ class Home extends React.Component {
 
   componentWillUnmount() {
     if (this._onfocus) {
-      this._onfocus.remove();
+      this._onfocus();
     }
     if (this._onblur) {
-      this._onblur.remove();
+      this._onblur();
     }
   }
 

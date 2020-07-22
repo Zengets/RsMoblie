@@ -4,7 +4,9 @@ import {
   UserSelect, UserListDetail, DeviceUser, DeviceUserList, InfoSpare,
   InfoSpareDetail, DepartMent, DepartMentDetail, UserMore, Success, PreView,
   ToRepair, Repaired, UpkeepPlan, UpkeepDetail, RepairAction, DevicerRepair, UpkeepMission, UpkeepHistory, InfoDeviceChe, CheckAction, CheckHistory, CheckHistoryDetail, CheckError, CheckErrorDetail, SpareChangeHistory, SpareChangeHistoryDetail, SpareUsage, SpareUsageDetail,
-  SpareAskfor, SpareRevert, SpareLog, SpareLogDetail, SpareOwner, SpareOwnerDetail, SpareChangeMisson, SpareChangeMissonDetail, SpareReview, SpareReviewDetail, Knowledgedetail, KnowledgeHistory, NoticeTodo, NoticeTodoDetail, NoticeToConfirm, NoticeFinished, Publish, PublishTodo, PublishTodoDetail, PublishToConfirm, PublishFinished, SpareMine, OverView
+  SpareAskfor, SpareRevert, SpareLog, SpareLogDetail, SpareOwner, SpareOwnerDetail, SpareChangeMisson, SpareChangeMissonDetail, SpareReview, SpareReviewDetail, PublicBroad, BroadList, BroadDetail,
+
+  Knowledgedetail, KnowledgeHistory, NoticeTodo, NoticeTodoDetail, NoticeToConfirm, NoticeFinished, Publish, PublishTodo, PublishTodoDetail, PublishToConfirm, PublishFinished, SpareMine, OverView
 } from '../pages/index';
 import {
   createDrawerNavigator,
@@ -179,6 +181,16 @@ function MyDrawer() {
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="SpareReviewDetail" component={SpareReviewDetail} />
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="PublicBroad" component={PublicBroad} />
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="BroadList" component={BroadList} />
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="BroadDetail" component={BroadDetail} />
+
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="Knowledgedetail" component={Knowledgedetail} />

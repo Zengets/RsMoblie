@@ -60,7 +60,7 @@ class Usage extends React.Component {
   }
 
   componentDidMount() {
-    
+
   }
 
   jumpToUrl(url, data) {
@@ -342,7 +342,6 @@ class Usage extends React.Component {
 
           </View>
           <View height={1} marginV-12 style={{ backgroundColor: colors.secondaryColor, opacity: 0.2 }}></View>
-
         </AuthBase>
 
         <AuthBase item={getItem("application", "assignment", index.userAccount)}>
@@ -365,7 +364,46 @@ class Usage extends React.Component {
               </CardItem>
             </View>
           </View>
+          <View height={1} marginV-12 style={{ backgroundColor: "#999", opacity: 0.2 }}></View>
         </AuthBase>
+
+        <AuthBase item={getItem("application", "assignment", index.userAccount)}>
+          <View marginB-s4>
+            <View paddingL-8 marginB-s4 marginT-6 style={{ borderLeftWidth: 1, borderColor: colors.textColor, width: 48 }} height={12} center>
+              <Text subheading style={{ color: colors.textColor }}>通知</Text>
+            </View>
+            <View row style={{ width: width, flexWrap: 'wrap', alignItems: 'flex-start', overflow: "hidden" }}>
+              <CardItem pressfn={() => {
+                this.jumpToUrl("PublicBroad")
+              }}
+                getItems={
+                  getItems("application", "assignment", "assignmentApply", index.userAccount)
+                }
+                Icon={
+                  <AntIcons name='edit' size={30} style={{ color: colors.textColor }}></AntIcons>
+                }
+                title={"发布通知"}
+              >
+              </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("BroadList")
+              }}
+                getItems={
+                  getItems("application", "assignment", "assignmentApply", index.userAccount)
+                }
+                Icon={
+                  <AntIcons name='notification' size={30} style={{ color: colors.textColor }}></AntIcons>
+                }
+                title={"通知公告"}
+              >
+              </CardItem>
+
+            </View>
+          </View>
+        </AuthBase>
+
+
 
 
 

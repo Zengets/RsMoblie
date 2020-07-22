@@ -1,11 +1,11 @@
 import {
     test, login, logout,
     infodevice, infodevicecan, infodeviceche, infodevicedetail, deviceuser, deviceuserlist, getshoplist,
-    infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, uploadImg,
+    infospare, sparerevert, infosparedetail, department, shopgrouplist, departmentmore, repairstep, modifyRepairUser, broadsave, uploadImg,
     userlist, userlistdetail, getuserspare, getChildren, repairApply, repairList, repairHisList, repairStart, repairCheck, repairFinish, getRepairDetail, spareaudit, sparerecall, publishaudit,
     upkeeplan, upkeeplandetail, upkeepmission, upkeepmissiondetail, upkeephistory, upkeephistorydetail,
     startAppMaintain, finishAppMaintain, closeAppMaintain, updateAppMaintainUser, queryAppByEqId, checkdetail, checkaction, checkhistory, checkhistorydetail, errortohis, sparechangemission, sparechangemissiondetail, sparechangestart, sparechangefinish, sparechangehistory, sparechangehistorydetail, checkerror, checkerrordetail, checkIgnore, checkRepair, checkRepairAfter, spareasksave, sparelog, sparelogdetail, spareowner, spareownerdetail, spareusage, spareusagedetail, sparereview, sparereviewdetail,
-    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview,
+    knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview, broadqueryList,broadqueryById,
     noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
     homenum, queryOEE, queryJIA, queryMTTR, queryMTBF, changePassword, getcode, verycode, reparePassword,
     checkRepairById, checkById
@@ -64,6 +64,8 @@ export default {
         repairstep: null,
         spareData: {},
         repairList: {},
+        broadqueryList: {},
+        broadqueryById:{},
         repairHisList: {},
         upkeeplan: {},
         upkeeplandetail: {},
@@ -90,6 +92,8 @@ export default {
         getChildren: [],
         getuserspare: [],
         uploadImg: [],
+        modifyRepairUser: [],
+        broadsave: [],
         done: "0",
         verycode: {}
     },
@@ -669,7 +673,26 @@ export default {
             })
             return responese.code == "0000"
         },
-
+        *broadqueryList({ payload }, { call, put }) {//data
+            const responese = yield call(broadqueryList, payload);
+            yield put({
+                type: 'updateState',
+                payload: { broadqueryList: responese.data.page ? responese.data.page : {} }
+            })
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *broadqueryById({ payload }, { call, put }) {//data
+            const responese = yield call(broadqueryById, payload);
+            yield put({
+                type: 'updateState',
+                payload: { broadqueryById: responese.data.data ? responese.data.data : {} }
+            })
+            return responese.code == "0000"
+        },
         *repairList({ payload }, { call, put }) {//data
             const responese = yield call(repairList, payload);
             yield put({
@@ -1012,8 +1035,22 @@ export default {
             })
             return responese.code == "0000"
         },
-
-
+        *modifyRepairUser({ payload }, { call, put }) {//data
+            const responese = yield call(modifyRepairUser, payload);
+            yield put({
+                type: 'updateState',
+                payload: { modifyRepairUser: responese.data ? responese.data : {} }//维修信息
+            })
+            return responese.code == "0000"
+        },
+        *broadsave({ payload }, { call, put }) {//data
+            const responese = yield call(broadsave, payload);
+            yield put({
+                type: 'updateState',
+                payload: { broadsave: responese.data ? responese.data : {} }//维修信息
+            })
+            return responese.code == "0000"
+        },
 
         *uploadImg({ payload }, { call, put }) {//data
             const responese = yield call(uploadImg, payload);

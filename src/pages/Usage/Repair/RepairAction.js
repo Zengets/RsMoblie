@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TextField, TextArea, Text, Card, Button, Colors, AnimatedImage } from 'react-native-ui-lib';
+import { View, TextField, TextArea, Text, Card, Button, Colors, AnimatedImage, Toast } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { colors } from '../../../utils';
 import { ActivityIndicator, Animated, Dimensions } from 'react-native';
-import { SafeAreaViewPlus, Header, OneToast, SubmitForm } from '../../../components';
+import { SafeAreaViewPlus, Header, OneToast, Modal, SubmitForm } from '../../../components';
 
 
 
@@ -26,7 +26,8 @@ let { height, width } = Dimensions.get('window');
 class RepairAction extends React.Component {
 
     state = {
-        loaded: false
+        loaded: false,
+        visible: false
     }
 
     //设置新状态
@@ -44,7 +45,7 @@ class RepairAction extends React.Component {
     }
 
     componentDidMount() {
-        let { index: { submitdata, uploadImg, res2, repairstep, userInfo }, navigation,route, loading } = this.props, { } = this.state,
+        let { index: { submitdata, uploadImg, res2, repairstep, userInfo,queryAppByEqId }, navigation, route, loading } = this.props, { } = this.state,
             { title, type, id } = route.params ? route.params : { title: "", type: "", id: "" };
 
         this.setNewState("repairstep", { id: id }, () => {
@@ -102,72 +103,112 @@ class RepairAction extends React.Component {
                         value: "",
                         placeholder: "请上传故障图片",
                     }]
-
             } else if (type == "1") {//开始维修
-            } else if (type == "2") {//完成维修
                 submitdatas = [
                     {
-                        key: "faultReason",
-                        type: "input",
-                        require: true,
-                        value: "",
-                        placeholder: "请填写故障原因",
-                    },
-                    {
-                        key: "repairContent",
-                        type: "input",
-                        require: true,
-                        value: "",
-                        placeholder: "请填写维修内容",
-                    },
-                    {
-                        key: "repairType",
+                        key: "repairUserId",
                         type: "select",
-                        require: true,
-                        value: "",
-                        placeholder: "请选择维修类型",
-                        option: res2.repairTypeList && res2.repairTypeList
-                    }, {
-                        key: "faultLevel",
-                        type: "select",
-                        require: true,
-                        value: "",
-                        placeholder: "请选择故障等级",
-                        option: res2.faultLevelList && res2.faultLevelList
-                    }, {
-                        key: "spare",
-                        type: "multinput",
-                        require: false,
-                        value: [],
-                        format: {
-                            "id": "userSparePartsId",//备件id
-                            "value": "consumeCount" //使用数量
+                        collspan: true,
+                        value: {
+                            name: res2.repair.repairUserName,
+                            id: res2.repair.repairUserId
                         },
-                        subs: [{
-                            name: "",
-                            key: "sparePartsName",
-                        }, {
-                            name: "类型",
-                            key: "sparePartsTypeName",
-                        }, {
-                            name: "库存",
-                            key: "availableStock",
-                            width:50,
-                            right:true
-                        }
-                        ],
-
-                        placeholder: "请选择消耗备件",
-                        option: res2.spareList && res2.spareList.map((item, i) => {
+                        placeholder: "修改维修负责人",
+                        option: res2.workerList && res2.workerList.map((item) => {
                             return {
-                                ...item,
-                                dicName: item.sparePartsName,
+                                dicName: item.userName,
                                 dicKey: item.id
                             }
-
                         })
-                    }
-                ]
+                    }]
+            } else if (type == "2") {//完成维修
+                this.setNewState("queryAppByEqId", {
+                    "equipmentId": res2.data.id,
+                    "chargeType": "2"
+                }, () => {
+                    submitdatas = [
+                        {
+                            key: "confirmUserId",
+                            type: "select",
+                            require: true,
+                            value: "",
+                            placeholder: "请选择验证负责人",
+                            option: this.props.index.queryAppByEqId && this.props.index.queryAppByEqId.map((item) => {
+                                return {
+                                    dicName: item.userName,
+                                    dicKey: item.userId
+                                }
+                            })
+                        },
+                        {
+                            key: "faultReason",
+                            type: "input",
+                            require: true,
+                            value: "",
+                            placeholder: "请填写故障原因",
+                        },
+                        {
+                            key: "repairContent",
+                            type: "input",
+                            require: true,
+                            value: "",
+                            placeholder: "请填写维修内容",
+                        },
+                        {
+                            key: "repairType",
+                            type: "select",
+                            require: true,
+                            value: "",
+                            placeholder: "请选择维修类型",
+                            option: res2.repairTypeList && res2.repairTypeList
+                        }, {
+                            key: "faultLevel",
+                            type: "select",
+                            require: true,
+                            value: "",
+                            placeholder: "请选择故障等级",
+                            option: res2.faultLevelList && res2.faultLevelList
+                        }, {
+                            key: "spare",
+                            type: "multinput",
+                            require: false,
+                            value: [],
+                            format: {
+                                "id": "userSparePartsId",//备件id
+                                "value": "consumeCount" //使用数量
+                            },
+                            subs: [{
+                                name: "",
+                                key: "sparePartsName",
+                            }, {
+                                name: "类型",
+                                key: "sparePartsTypeName",
+                            }, {
+                                name: "库存",
+                                key: "availableStock",
+                                width: 50,
+                                right: true
+                            }
+                            ],
+    
+                            placeholder: "请选择消耗备件",
+                            option: res2.spareList && res2.spareList.map((item, i) => {
+                                return {
+                                    ...item,
+                                    dicName: item.sparePartsName,
+                                    dicKey: item.id
+                                }
+    
+                            })
+                        }
+                    ]
+                    this.setNewState("submitdata", submitdatas, () => {
+                        this.setState({
+                            loaded: true
+                        })
+                    })
+                })
+               
             } else if (type == "3") {//验证
                 submitdatas = [
                     {
@@ -214,7 +255,7 @@ class RepairAction extends React.Component {
 
 
     render() {
-        let { index: { submitdata, res2, repairstep, userInfo }, navigation,route, loading } = this.props, { loaded } = this.state,
+        let { index: { submitdata, res2, repairstep, userInfo }, navigation, route, loading } = this.props, { loaded, visible } = this.state,
             { title, type, id, todo } = route.params ? route.params : {
                 title: "", type: "", id: "", todo: {
                     url: "",
@@ -241,11 +282,55 @@ class RepairAction extends React.Component {
                 return !bools
             }
         repairstep = repairstep ? repairstep : {};
-
-
+        let _it = this;
+        function getVal(key) {
+            let one = {};
+            _it.props.index.submitdata.map((item) => {
+                if (item.key == key) {
+                    one = item
+                }
+            });
+            if (!one.type) {
+                return
+            }
+            if (one.type.indexOf("select") == -1) {
+                return one.value && one.value
+            } else {
+                return one.value && one.value.id
+            }
+        }
         return <SafeAreaViewPlus
             loading={!loaded}
         >
+            <Modal
+                visible={visible}
+                height={height * 0.75}
+                hide={() => {
+                    this.setState({
+                        visible: false
+                    })
+                }}
+                renderTitle={<View row spread padding-page>
+                    <Text subheading>修改维修负责人</Text>
+                    {/* <Text red10 onPress={this.resetData}>清空</Text> */}
+                </View>}
+            >
+                <View style={{ backgroundColor: "#f0f0f0" }} flex-1>
+                    <View flex-1 paddingV-12>
+                        <SubmitForm></SubmitForm>
+                    </View>
+                    <Button label="确认" margin-12 marginT-0 onPress={() => {
+                        let repairUserId = getVal("repairUserId");
+                        this.setNewState("modifyRepairUser", { id: res2.repair.id, repairUserId }, () => {
+                            this.setState({
+                                visible: false,
+                            })
+                            OneToast("修改成功")
+                        })
+                    }}></Button>
+                </View>
+            </Modal>
+
             <Header title={title} navigation={navigation}
                 headerRight={() => (submitdata.length > 0 ? <Card enableShadow={false} paddingV-12 onPress={this.resetData}>
                     <Text dark40>重置</Text>
@@ -255,7 +340,7 @@ class RepairAction extends React.Component {
 
             <View row padding-12 paddingB-0 marginB-12>
                 <Card paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={false} onPress={() => {
-                    navigation.navigate("InfoDeviceDetail", { id: res2.data && res2.data.id })
+                    navigation.navigate("InfoDeviceDetail", { id: id })
                 }}>
                     <Text>
                         设备{repairstep.equipmentName}详情
@@ -275,26 +360,24 @@ class RepairAction extends React.Component {
                     </Card> : null
                 }
             </View>
-            <SubmitForm></SubmitForm>
+            {
+                (type !== "1" && loaded) && <SubmitForm></SubmitForm>
+            }
+            {
+                (type == "1" && loaded) && <Button margin-12 backgroundColor={colors.primaryColor} onPress={() => {
+                    this.setState({
+                        visible: true
+                    })
+                }}>
+                    <Text white marginV-4 body>
+                        修改维修负责人
+                    </Text>
+                </Button>
+            }
+
 
             <Button disabled={getdisabled() || loading.effects[`index/repairApply`] || loading.effects[`index/repairCheck`] || loading.effects[`index/repairFinish`] || loading.effects[`index/repairStart`]} onPress={() => {
-                let _it = this;
-                function getVal(key) {
-                    let one = {};
-                    _it.props.index.submitdata.map((item) => {
-                        if (item.key == key) {
-                            one = item
-                        }
-                    });
-                    if (!one.type) {
-                        return
-                    }
-                    if (one.type.indexOf("select") == -1) {
-                        return one.value && one.value
-                    } else {
-                        return one.value && one.value.id
-                    }
-                }
+
                 if (type == "0") {
                     let postData = {
                         "equipmentId": res2.data.id ? res2.data.id : null,//设备id，必填
@@ -350,6 +433,7 @@ class RepairAction extends React.Component {
                 } else if (type == "2") {
                     let postData = {
                         "id": repairstep.id ? repairstep.id : null,
+                        "confirmUserId": getVal("confirmUserId"),//故障原因，必填
                         "faultReason": getVal("faultReason"),//故障原因，必填
                         "repairContent": getVal("repairContent"),//维修内容，必填
                         "repairType": getVal("repairType"),//维修类型，必填
@@ -398,7 +482,6 @@ class RepairAction extends React.Component {
                         <ActivityIndicator color="white" style={{ paddingRight: 8 }} />
                         : null
                 }
-
                 <Text white marginV-4 body>{getdisabled() ? "您没有操作权限" : "确定"}</Text>
             </Button>
 

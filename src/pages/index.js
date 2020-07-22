@@ -44,6 +44,10 @@ import SpareUsage from './Usage/Spare/SpareUsage'
 import SpareUsageDetail from './Usage/Spare/SpareUsageDetail'
 import SpareReview from './Usage/Spare/SpareReview'
 import SpareReviewDetail from './Usage/Spare/SpareReviewDetail'
+import PublicBroad from './Usage/Broadcoast/PublicBroad'
+import BroadList from './Usage/Broadcoast/BroadList'
+import BroadDetail from './Usage/Broadcoast/BroadDetail'
+
 import Knowledge from './Knowledge';
 import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
 import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
@@ -84,7 +88,7 @@ export {
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,SpareMine,
-
+    PublicBroad,BroadList,BroadDetail,
     Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,OverView,
     
     Mine,

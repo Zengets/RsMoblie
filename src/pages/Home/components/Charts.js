@@ -207,13 +207,13 @@ class Charts extends React.Component {
                 </View>}
             >
                 <View style={{ backgroundColor: "#f0f0f0" }} flex-1>
-                    <View flex-1 padding-12>
+                    <View flex-1 paddingV-12>
                         <SubmitForm></SubmitForm>
                     </View>
                     <Button label="确认" margin-12 marginT-0 onPress={() => {
                         function getVal(key) {
                             let one = {};
-                            submitdata.map((item) => {
+                            _it.props.index.submitdata.map((item) => {
                                 if (item.key == key) {
                                     one = item
                                 }
@@ -221,7 +221,11 @@ class Charts extends React.Component {
                             if (!one.type) {
                                 return
                             }
-                            return one.value && one.value
+                            if (one.type.indexOf("select") == -1) {
+                                return one.value && one.value
+                            } else {
+                                return one.value && one.value.id
+                            }
                         }
                         let newpostDatas = postDatas.map((it, i) => {
                             if (selectedIndex == i) {
@@ -319,7 +323,7 @@ class Charts extends React.Component {
                             <View width={180}>
                                 <Text>
                                     选择部门/车间
-    </Text>
+                                </Text>
                             </View>
 
                             <View row right flex-1>
@@ -348,7 +352,7 @@ class Charts extends React.Component {
                         </View>
                         <View row>
                             {
-                                timeline.map((item,i) => {
+                                timeline.map((item, i) => {
                                     return <Card key={i} flex-1 style={{ backgroundColor: postDatas[selectedIndex].unit == item ? "#FFFFFF" : "#ddd", borderRadius: 0 }} enableShadow={false} center padding-12 onPress={() => {
                                         let newpostDatas = postDatas.map((it, i) => {
                                             if (selectedIndex == i) {

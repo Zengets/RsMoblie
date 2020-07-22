@@ -80,9 +80,26 @@ export async function getshoplist(params) {
 export async function getuserspare(params) {
     return post(`${ipandport}/spareParts/queryListByWarnNoticeUserId`, params);
 }
-
+//报修流程
 export async function repairstep(params) {
     return post(`${ipandport}/equipmentRepair/queryByEquipmentId`, params);
+}
+//修改维修负责人
+export async function modifyRepairUser(params) {
+    return post(`${ipandport}/equipmentRepair/modifyRepairUser`, params);
+}
+
+//新增通知公告
+export async function broadsave(params) {
+    return post(`${ipandport}/sysAnnouncement/save`, params);
+}
+//通知公告列表
+export async function broadqueryList(params) {
+    return post(`${ipandport}/sysAnnouncement/queryList`, params);
+}
+//通知公告列表
+export async function broadqueryById(params) {
+    return post(`${ipandport}/sysAnnouncement/queryById`, params);
 }
 
 export async function getChildren(params) {
