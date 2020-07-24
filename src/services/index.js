@@ -189,6 +189,10 @@ export async function queryAppByEqId(params) {
     return post(`${ipandport}/userEquipment/queryAppByEqId`, params);
 }
 
+export async function queryKnowledgeByFaultId(params) {
+    return post(`${ipandport}/equipmentKnowledgeBase/queryKnowledgeByFaultId`, params);
+}
+
 export async function checkdetail(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/queryAppByEquipId`, params);
 }
@@ -227,6 +231,15 @@ export async function checkRepairAfter(params) {
 
 export async function errortohis(params) {
     return post(`${ipandport}/equipmentPointCheckItemTask/queryAppExceptionToHis`, params);
+}
+//论坛帖子列表
+export async function ChatqueryList(params) {
+    return post(`${ipandport}/equipmentForum/queryList`, params);
+}
+
+//论坛
+export async function ChatqueryListByForumId(params) {
+    return post(`${ipandport}/equipmentForumComment/queryListByForumId`, params);
 }
 
 

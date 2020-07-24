@@ -12,7 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions, ScrollView, Alert, StyleSheet } from 'react-native';
 import { colors, getItem, getItems } from '../../utils';
 
-let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 3, roundwidth = (width - 125) / 4;
+let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 4.3, roundwidth = (width - 125) / 4;
 let styles = StyleSheet.create({
   mainitem: {
     width: width,
@@ -28,17 +28,17 @@ class CardItem extends React.Component {
   render() {
     let { pressfn, label, title, Icon, getItems } = this.props;
     return <AuthBase item={getItems ? getItems : {}}>
-      <Card width={cardwidth} style={{ position: "relative" }} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+      <Card width={cardwidth} style={{ position: "relative" }} marginR-12 center padding-6 paddingB-12 marginB-12 enableShadow={false} onPress={() => {
         pressfn ? pressfn() : null
       }}>
         {
           false ? <Badge
             size={"small"}
             containerStyle={{ position: "absolute", right: -4, top: -4 }}
-            backgroundColor={Colors.red30}
+            backgroundColor={Colors.red25}
           /> : null
         }
-        <View center style={{ width: 48, height: 48 }} paddingB-8>
+        <View center style={{ width: 48, height: 48 }} >
           {Icon ? Icon : null}
         </View>
         <Text style={{fontSize:12}} dark10>{title} <Text style={{color:label>99?colors.errorColor:"#aaa"}}>{label>99?"99+":label}</Text></Text>
@@ -133,7 +133,7 @@ class Mine extends React.Component {
                   this.jumpToUrl("NoticeTodo")
                 }}
                 label={executeToDo}
-                Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
+                Icon={<Ionicons name='ios-time' size={23} style={{ color: colors.warnColor }}></Ionicons>}
                 title={"未完成"}
               ></CardItem>
 
@@ -143,7 +143,7 @@ class Mine extends React.Component {
                   this.jumpToUrl("NoticeToConfirm")
                 }}
                 label={executeToAudit}
-                Icon={<FontAwesome5 name='pen' size={24} style={{ color: colors.primaryColor }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='pen' size={18} style={{ color: colors.primaryColor }}></FontAwesome5>}
                 title={"未审核"}
               ></CardItem>
 
@@ -153,7 +153,7 @@ class Mine extends React.Component {
                   this.jumpToUrl("NoticeFinished")
                 }}
                 label={executeFinish}
-                Icon={<AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>}
+                Icon={<AntIcons name='checkcircle' size={18} style={{ color: "#999" }}></AntIcons>}
                 title={"已完成"}
               ></CardItem>
             </View>
@@ -184,7 +184,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myassignment", "assignmentToDo", index.userAccount)}
                 label={assignmentToDo}
-                Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
+                Icon={<Ionicons name='ios-time' size={23} style={{ color: colors.warnColor }}></Ionicons>}
                 title={"未完成"}
               ></CardItem>
 
@@ -193,7 +193,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myassignment", "assignmentToAudit", index.userAccount)}
                 label={assignmentToAudit}
-                Icon={<FontAwesome5 name='pen' size={24} style={{ color: colors.primaryColor }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='pen' size={18} style={{ color: colors.primaryColor }}></FontAwesome5>}
                 title={"审核"}
               ></CardItem>
               <CardItem pressfn={() => {
@@ -201,7 +201,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myassignment", "assignmentFinish", index.userAccount)}
                 label={assignmentFinish}
-                Icon={<AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>}
+                Icon={<AntIcons name='checkcircle' size={18} style={{ color: "#999" }}></AntIcons>}
                 title={"已完成"}
               ></CardItem>
             </View>
@@ -222,7 +222,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myRepair", "repairToDo", index.userAccount)}
                 label={repairToDo}
-                Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
+                Icon={<Ionicons name='ios-time' size={23} style={{ color: colors.warnColor }}></Ionicons>}
                 title={"未完成"}
               ></CardItem>
 
@@ -231,7 +231,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myRepair", "repairFinish", index.userAccount)}
                 label={repairFinish}
-                Icon={<AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>}
+                Icon={<AntIcons name='checkcircle' size={18} style={{ color: "#999" }}></AntIcons>}
                 title={"已完成"}
               ></CardItem>
 
@@ -252,7 +252,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myMaintain", "maintainToDo", index.userAccount)}
                 label={maintainToDoList}
-                Icon={<Ionicons name='ios-time' size={33} style={{ color: colors.warnColor }}></Ionicons>}
+                Icon={<Ionicons name='ios-time' size={23} style={{ color: colors.warnColor }}></Ionicons>}
                 title={"未完成"}
               ></CardItem>
 
@@ -261,7 +261,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myMaintain", "maintainFinish", index.userAccount)}
                 label={maintainFinishList}
-                Icon={<AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>}
+                Icon={<AntIcons name='checkcircle' size={18} style={{ color: "#999" }}></AntIcons>}
                 title={"已完成"}
               ></CardItem>
 
@@ -283,7 +283,7 @@ class Mine extends React.Component {
               }}
                 label={pointCheckFinish}
                 getItems={getItems("my", "myPointCheck", "pointCheckFinish", index.userAccount)}
-                Icon={<AntIcons name='checkcircle' size={27} style={{ color: "#999" }}></AntIcons>}
+                Icon={<AntIcons name='checkcircle' size={18} style={{ color: "#999" }}></AntIcons>}
                 title={"已完成"}
               ></CardItem>
               <CardItem pressfn={() => {
@@ -291,7 +291,7 @@ class Mine extends React.Component {
               }}
                 label={pointCheckExceptionToDo}
                 getItems={getItems("my", "myPointCheck", "pointCheckExceptionToDo", index.userAccount)}
-                Icon={<MaterialIcons name='error' size={33} style={{ color: colors.errorColor }}></MaterialIcons>}
+                Icon={<MaterialIcons name='error' size={20} style={{ color: colors.errorColor }}></MaterialIcons>}
                 title={"异常待处理"}
               ></CardItem>
 
@@ -300,7 +300,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "myPointCheck", "pointCheckExceptionFinish", index.userAccount)}
                 label={pointCheckExceptionFinish}
-                Icon={<MaterialCommunityIcons name='shield-check' size={33} style={{ color: colors.successColor }}></MaterialCommunityIcons>}
+                Icon={<MaterialCommunityIcons name='shield-check' size={19} style={{ color: colors.successColor }}></MaterialCommunityIcons>}
                 title={"异常已处理"}
               ></CardItem>
 
@@ -322,7 +322,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareApply", index.userAccount)}
                 label={spareApply}
-                Icon={<MaterialCommunityIcons name='file-move' size={30} style={{ color: "#999" }}></MaterialCommunityIcons>}
+                Icon={<MaterialCommunityIcons name='file-move' size={20} style={{ color: "#999" }}></MaterialCommunityIcons>}
                 title={"申请记录"}
               ></CardItem>
 
@@ -331,7 +331,7 @@ class Mine extends React.Component {
               }}
                 label={spareAudit}
                 getItems={getItems("my", "mySpare", "spareAudit", index.userAccount)}
-                Icon={<FontAwesome5 name='pen' size={24} style={{ color: colors.primaryColor }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='pen' size={18} style={{ color: colors.primaryColor }}></FontAwesome5>}
                 title={"审批"}
               ></CardItem>
 
@@ -340,7 +340,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "userSpare", index.userAccount)}
                 label={userSpare}
-                Icon={<FontAwesome5 name='user-cog' size={23} style={{ color: "#999" }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='user-cog' size={18} style={{ color: "#999" }}></FontAwesome5>}
                 title={"我的备件"}
               ></CardItem>
 
@@ -349,7 +349,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareReplaceToDo", index.userAccount)}
                 label={spareReplaceToDo}
-                Icon={<EntypoIcons name='retweet' size={30} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                Icon={<EntypoIcons name='retweet' size={23} style={{ color: colors.primaryColor }}></EntypoIcons>}
                 title={"更换任务"}
               ></CardItem>
 
@@ -358,7 +358,7 @@ class Mine extends React.Component {
               }}
                 getItems={getItems("my", "mySpare", "spareReplaceFinish", index.userAccount)}
                 label={spareReplaceFinish}
-                Icon={<FontAwesome5 name='history' size={23} style={{ color: "#999" }}></FontAwesome5>}
+                Icon={<FontAwesome5 name='history' size={18} style={{ color: "#999" }}></FontAwesome5>}
                 title={"更换历史"}
               ></CardItem>
 

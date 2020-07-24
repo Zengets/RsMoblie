@@ -47,10 +47,14 @@ import SpareReviewDetail from './Usage/Spare/SpareReviewDetail'
 import PublicBroad from './Usage/Broadcoast/PublicBroad'
 import BroadList from './Usage/Broadcoast/BroadList'
 import BroadDetail from './Usage/Broadcoast/BroadDetail'
+import ChatList from './Usage/Chat/ChatList'
+import ChatDetail from './Usage/Chat/ChatDetail'
+
 
 import Knowledge from './Knowledge';
 import Knowledgedetail from './Knowledge/Children/Knowledgedetail';
 import KnowledgeHistory from './Knowledge/Children/KnowledgeHistory';
+import KnowledgeinDevice from './Knowledge/KnowledgeinDevice';
 
 import Mine from './Mine';
 import OverView from './Mine/OverView';
@@ -88,8 +92,8 @@ export {
     DevicerRepair,InfoDeviceChe,CheckAction,CheckHistory,CheckHistoryDetail,CheckError,CheckErrorDetail,
     SpareAskfor,SpareRevert,SpareLog,SpareLogDetail,SpareOwner,SpareOwnerDetail,SpareChangeMisson,SpareChangeMissonDetail,
     SpareChangeHistory,SpareChangeHistoryDetail,SpareUsage,SpareUsageDetail,SpareReview,SpareReviewDetail,SpareMine,
-    PublicBroad,BroadList,BroadDetail,
-    Knowledge,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,OverView,
+    PublicBroad,BroadList,BroadDetail,ChatDetail,ChatList,
+    Knowledge,KnowledgeinDevice,Knowledgedetail,KnowledgeHistory,NoticeTodo,NoticeTodoDetail,NoticeToConfirm,NoticeFinished,Publish,PublishTodo,PublishTodoDetail,PublishToConfirm,PublishFinished,OverView,
     
     Mine,
     SettingMenu,

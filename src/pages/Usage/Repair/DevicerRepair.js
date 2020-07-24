@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { View, Text, Card, TabBar, AnimatedImage } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaViewPlus, Header, OneToast, SpareItem,Rows, Empty } from '../../../components';
-import { ScrollView,Dimensions } from 'react-native';
+import { SafeAreaViewPlus, Header, OneToast, SpareItem, Rows, Empty } from '../../../components';
+import { ScrollView, Dimensions } from 'react-native';
 import { colors } from '../../../utils';
 let { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -74,67 +74,71 @@ class DevicerRepair extends Component {
         //getRepairDetail
         let id = this.props.route.params ? this.props.route.params.id : null;
         if (id) {
-            this.setNewState("getRepairDetail", { id: id })
+            this.setNewState("getRepairDetail", { id: id }, () => {
+                
+            })
         }
 
     }
 
 
     render() {
-        let { navigation, index: { repairstep, spareData }, submitting } = this.props;
-        let { equipmentId,equipmentName,applyRepairUserName,applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
-            confirmUserName,confirmTime, confirmResult, confirmDesc
+        let { navigation, index: { repairstep, spareData, queryKnowledgeByFaultId }, submitting } = this.props;
+        let { equipmentId, equipmentName, applyRepairUserName, applyRepairTime, faultClassifyName, faultTypeName, repairUserName, faultDesc, faultPicUrl, repairStartTime, repairEndTime, faultLevelName, faultReason, repairTypeName, repairContent,
+            confirmUserName, confirmTime, confirmResult, confirmDesc
         } = repairstep ? repairstep : {};
 
 
         let baoxiu = () => (
-            <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="报修人" values={ applyRepairUserName } />
-                <Rows name="报修时间" values={ applyRepairTime } />
-                <Rows name="故障分类" values={ faultClassifyName } />
-                <Rows name="故障名称" values={ faultTypeName } />
-                <Rows name="故障描述" values={ faultDesc } />
+            <Card borderRadius={8} style={{ width: "100%" }} enableShadow={false}>
+                <Rows name="报修人" values={applyRepairUserName} />
+                <Rows name="报修时间" values={applyRepairTime} />
+                <Rows name="故障分类" values={faultClassifyName} />
+                <Rows name="故障名称" values={faultTypeName} />
+                <Rows name="故障描述" values={faultDesc} />
                 <View left padding-12>
                     <Text >
                         故障图片:
                     </Text>
                     <AnimatedImage
-                        containerStyle={ { width: "100%", height: width-48, borderRadius: 8, backgroundColor: "#f9f9f9", marginTop: 12 } }
-                        style={ { resizeMode: 'contain', height: width-48, width: "100%" } }
-                        source={ faultPicUrl ? { uri: faultPicUrl } : require("../../../assets/404.png") }
-                        loader={ <ActivityIndicator /> }
+                        containerStyle={{ width: "100%", height: width - 48, borderRadius: 8, backgroundColor: "#f9f9f9", marginTop: 12 }}
+                        style={{ resizeMode: 'contain', height: width - 48, width: "100%" }}
+                        source={faultPicUrl ? { uri: faultPicUrl } : require("../../../assets/404.png")}
+                        loader={<ActivityIndicator />}
                     />
                 </View>
+
+
             </Card>
         ), weixiu = () => (
-            <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="维修人" values={ repairUserName } />
-                <Rows name="开始维修时间" values={ repairStartTime } />
-                <Rows name="结束维修时间" values={ repairEndTime } />
-                <Rows name="故障等级" values={ faultLevelName } />
-                <Rows name="故障原因" values={ faultReason } />
-                <Rows name="维修类型" values={ repairTypeName } />
-                <Rows name="维修内容" values={ repairContent } />
+            <Card borderRadius={8} style={{ width: "100%" }} enableShadow={false}>
+                <Rows name="维修人" values={repairUserName} />
+                <Rows name="开始维修时间" values={repairStartTime} />
+                <Rows name="结束维修时间" values={repairEndTime} />
+                <Rows name="故障等级" values={faultLevelName} />
+                <Rows name="故障原因" values={faultReason} />
+                <Rows name="维修类型" values={repairTypeName} />
+                <Rows name="维修内容" values={repairContent} />
                 <View left padding-12>
                     <Text subheading>
                         消耗备件:
                     </Text>
-                    <View style={ { width: "100%", backgroundColor: "#f0f0f0",borderRadius:8 } } flex-1 padding-12 marginT-10>
+                    <View style={{ width: "100%", backgroundColor: "#f0f0f0", borderRadius: 8 }} flex-1 padding-12 marginT-10>
                         {
-                            spareData&&spareData.length>0?
-                            spareData.map((item, i) => {
-                                return <SpareItem item={ item } navigation={ navigation } lastRender={ { name: "消耗数量", key: "consumeCount" } } />
-                            }):<Empty/>
+                            spareData && spareData.length > 0 ?
+                                spareData.map((item, i) => {
+                                    return <SpareItem item={item} navigation={navigation} lastRender={{ name: "消耗数量", key: "consumeCount" }} />
+                                }) : <Empty />
                         }
                     </View>
                 </View>
             </Card>
         ), yanzheng = () => (
-            <Card borderRadius={ 8 } style={ { width: "100%" } } enableShadow={ false }>
-                <Rows name="验证人" values={ confirmUserName } />
-                <Rows name="验证时间" values={ confirmTime } />
-                <Rows name="验证结果" values={ confirmResult } />
-                <Rows name="验证描述" values={ confirmDesc } noborder={ true }/>
+            <Card borderRadius={8} style={{ width: "100%" }} enableShadow={false}>
+                <Rows name="验证人" values={confirmUserName} />
+                <Rows name="验证时间" values={confirmTime} />
+                <Rows name="验证结果" values={confirmResult} />
+                <Rows name="验证描述" values={confirmDesc} noborder={true} />
 
             </Card>
         )
@@ -143,50 +147,62 @@ class DevicerRepair extends Component {
 
 
 
-        return <SafeAreaViewPlus loading={ submitting }>
-            <Header title={ "维修记录" } navigation={ navigation }>
+        return <SafeAreaViewPlus loading={submitting}>
+            <Header title={"维修记录"} navigation={navigation}>
             </Header>
-            <ScrollView  keyboardShouldPersistTaps="handled" ref={ (scrollview) => this.scrollview = scrollview }>
+            <ScrollView keyboardShouldPersistTaps="handled" ref={(scrollview) => this.scrollview = scrollview}>
                 <TabBar
-                    selectedIndex={ this.state.selectedIndex }
-                    onChangeIndex={ index => {
+                    selectedIndex={this.state.selectedIndex}
+                    onChangeIndex={index => {
                         this.scrollview && this.scrollview.scrollTo({ x: 0, y: 0, animated: true }, 1)
                         this.setState({ selectedIndex: index })
-                    } }
-                    style={ styles.tabbar }
-                    enableShadow={ false }
-                    indicatorStyle={ { borderBottomWidth: 2, borderColor: colors.primaryColor } }>
+                    }}
+                    style={styles.tabbar}
+                    enableShadow={false}
+                    indicatorStyle={{ borderBottomWidth: 2, borderColor: colors.primaryColor }}>
                     <TabBar.Item
-                        label={ `报修信息` }
-                        labelStyle={ { textTransform: 'capitalize' } }
-                        selectedLabelStyle={ {
+                        label={`报修信息`}
+                        labelStyle={{ textTransform: 'capitalize' }}
+                        selectedLabelStyle={{
                             color: colors.primaryColor
-                        } }
+                        }}
                     />
-                    <TabBar.Item selectedLabelColor={ colors.primaryColor }
-                        label={ `维修信息` }
-                        labelStyle={ { textTransform: 'capitalize' } }
-                        selectedLabelStyle={ {
+                    <TabBar.Item selectedLabelColor={colors.primaryColor}
+                        label={`维修信息`}
+                        labelStyle={{ textTransform: 'capitalize' }}
+                        selectedLabelStyle={{
                             color: colors.primaryColor
-                        } }
+                        }}
                     />
-                    <TabBar.Item selectedLabelColor={ colors.primaryColor }
-                        label={ `验证信息` }
-                        labelStyle={ { textTransform: 'capitalize' } }
-                        selectedLabelStyle={ {
+                    <TabBar.Item selectedLabelColor={colors.primaryColor}
+                        label={`验证信息`}
+                        labelStyle={{ textTransform: 'capitalize' }}
+                        selectedLabelStyle={{
                             color: colors.primaryColor
-                        } }
+                        }}
                     />
                 </TabBar>
 
                 <View padding-12>
-                    <Card marginB-12 paddingV-page paddingR-12 paddingL-12 flex-1 center enableShadow={ false } onPress={ () => {
-                        navigation.navigate("InfoDeviceDetail", { id: equipmentId })
-                    } }>
-                        <Text>
-                            设备{ equipmentName }详情
-                        </Text>
-                    </Card>
+                    <View marginB-12 row spread>
+                        <Card paddingV-page marginR-12 flex-1 center enableShadow={false} onPress={() => {
+                            navigation.navigate("InfoDeviceDetail", { id: equipmentId })
+                        }}>
+                            <Text>
+                                设备{equipmentName}详情
+                            </Text>
+                        </Card>
+
+                        <Card row paddingV-page flex-1 center enableShadow={false} onPress={() => {
+                            navigation.navigate("KnowledgeinDevice", { id: this.props.index.repairstep.faultType })
+                        }}>
+                            <AntIcons name="file1"></AntIcons>
+                            <Text marginL-6>
+                                指导文件
+                            </Text>
+                        </Card>
+                    </View>
+
                     {
                         this.state.selectedIndex == 0 && baoxiu()
                     }

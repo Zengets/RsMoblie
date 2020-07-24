@@ -12,14 +12,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions, ScrollView } from 'react-native';
 import { colors, getItem, getItems } from '../../utils';
 
-let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 3;
+let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 4.3;
 
 class CardItem extends React.Component {
 
   render() {
     let { pressfn, title, Icon, getItems } = this.props;
     return <AuthBase item={getItems ? getItems : {}}>
-      <Card width={cardwidth} style={{ position: "relative" }} marginR-12 center padding-12 marginB-12 enableShadow={false} onPress={() => {
+      <Card width={cardwidth} style={{ position: "relative" }} marginH-6 center padding-6 paddingB-12 marginB-12 enableShadow={false} onPress={() => {
         pressfn ? pressfn() : null
       }}>
         {
@@ -29,7 +29,7 @@ class CardItem extends React.Component {
             backgroundColor={Colors.red30}
           /> : null
         }
-        <View center style={{ width: 48, height: 48 }} paddingB-8>
+        <View center style={{ width: 48, height: 48 }}>
           {Icon ? Icon : null}
         </View>
         <Text style={{ fontSize: 13 }} dark10>{title}</Text>
@@ -69,7 +69,7 @@ class Usage extends React.Component {
     })
   }
   render() {
-    const { index, navigation } = this.props, cardwidth = (width - 48) / 3;
+    const { index, navigation } = this.props;
 
     return <SafeAreaViewPlus>
       <Header
@@ -100,7 +100,7 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "repair", "equipRepair", index.userAccount)
                 }
-                Icon={<EntypoIcons name='tools' size={25} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                Icon={<EntypoIcons name='tools' size={18} style={{ color: colors.primaryColor }}></EntypoIcons>}
                 title={"报修设备"}
               >
               </CardItem>
@@ -111,7 +111,7 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "repair", "repairTask", index.userAccount)
                 }
-                Icon={<EntypoIcons name='clipboard' size={25} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                Icon={<EntypoIcons name='clipboard' size={18} style={{ color: colors.primaryColor }}></EntypoIcons>}
                 title={"维修任务"}
               >
               </CardItem>
@@ -122,10 +122,23 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "repair", "repairHis", index.userAccount)
                 }
-                Icon={<MaterialIcons name='history' size={30} style={{ color: colors.primaryColor }}></MaterialIcons>}
+                Icon={<MaterialIcons name='history' size={22} style={{ color: colors.primaryColor }}></MaterialIcons>}
                 title={"维修历史"}
               >
               </CardItem>
+
+              <CardItem pressfn={() => {
+                this.jumpToUrl("ChatList")
+              }}
+                getItems={
+                  getItems("application", "repair", "repairHis", index.userAccount)
+                }
+                Icon={<EntypoIcons name='chat' size={18} style={{ color: colors.primaryColor }}></EntypoIcons>}
+                title={"设备论坛"}
+              >
+              </CardItem>
+
+
             </View>
           </View>
           <View height={1} marginV-12 style={{ backgroundColor: colors.primaryColor, opacity: 0.2 }}></View>
@@ -144,7 +157,7 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "maintain", "maintainPlan", index.userAccount)
                 }
-                Icon={<MaterialCommunityIcons name='timer' size={30} style={{ color: colors.warnColor }}></MaterialCommunityIcons>}
+                Icon={<MaterialCommunityIcons name='timer' size={22} style={{ color: colors.warnColor }}></MaterialCommunityIcons>}
                 title={"维保计划"}
               >
               </CardItem>
@@ -155,7 +168,7 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "maintain", "maintainTask", index.userAccount)
                 }
-                Icon={<EntypoIcons name='clipboard' size={30} style={{ color: colors.warnColor }}></EntypoIcons>}
+                Icon={<EntypoIcons name='clipboard' size={18} style={{ color: colors.warnColor }}></EntypoIcons>}
                 title={"维保任务"}
               >
               </CardItem>
@@ -166,7 +179,7 @@ class Usage extends React.Component {
                 getItems={
                   getItems("application", "maintain", "maintainHis", index.userAccount)
                 }
-                Icon={<MaterialIcons name='history' size={30} style={{ color: colors.warnColor }}></MaterialIcons>}
+                Icon={<MaterialIcons name='history' size={22} style={{ color: colors.warnColor }}></MaterialIcons>}
                 title={"维保历史"}
               >
               </CardItem>
@@ -190,7 +203,7 @@ class Usage extends React.Component {
                   getItems("application", "check", "checkPlan", index.userAccount)
                 }
                 Icon={
-                  <MaterialCommunityIcons name='database-check' size={30} style={{ color: colors.secondaryColor }}></MaterialCommunityIcons>
+                  <MaterialCommunityIcons name='database-check' size={22} style={{ color: colors.secondaryColor }}></MaterialCommunityIcons>
                 }
                 title={"点检设备"}
               >
@@ -203,7 +216,7 @@ class Usage extends React.Component {
                   getItems("application", "check", "checkHis", index.userAccount)
                 }
                 Icon={
-                  <MaterialIcons name='history' size={30} style={{ color: colors.secondaryColor }}></MaterialIcons>
+                  <MaterialIcons name='history' size={22} style={{ color: colors.secondaryColor }}></MaterialIcons>
                 }
                 title={"点检历史"}
               >
@@ -216,7 +229,7 @@ class Usage extends React.Component {
                   getItems("application", "check", "checkException", index.userAccount)
                 }
                 Icon={
-                  <MaterialIcons name='error' size={30} style={{ color: colors.secondaryColor }}></MaterialIcons>
+                  <MaterialIcons name='error' size={22} style={{ color: colors.secondaryColor }}></MaterialIcons>
                 }
                 title={"点检异常"}
               >
@@ -241,7 +254,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "applySpare", index.userAccount)
                 }
                 Icon={
-                  <MaterialCommunityIcons name='basket-fill' size={30} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                  <MaterialCommunityIcons name='basket-fill' size={22} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
                 }
                 title={"备件申请"}
               >
@@ -254,7 +267,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareRecoil", index.userAccount)
                 }
                 Icon={
-                  <MaterialCommunityIcons name='basket-unfill' size={30} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                  <MaterialCommunityIcons name='basket-unfill' size={22} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
                 }
                 title={"备件回冲"}
               >
@@ -267,7 +280,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareApproval", index.userAccount)
                 }
                 Icon={
-                  <MaterialCommunityIcons name='lead-pencil' size={25} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
+                  <MaterialCommunityIcons name='lead-pencil' size={20} style={{ color: colors.thirdColor }}></MaterialCommunityIcons>
                 }
                 title={"备件审批"}
               >
@@ -280,7 +293,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareOutorWare", index.userAccount)
                 }
                 Icon={
-                  <AntIcons name='filetext1' size={26} style={{ color: colors.thirdColor }}></AntIcons>
+                  <AntIcons name='filetext1' size={18} style={{ color: colors.thirdColor }}></AntIcons>
                 }
                 title={"出入库记录"}
               >
@@ -293,7 +306,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "sapreHold", index.userAccount)
                 }
                 Icon={
-                  <FontAwesome5 name='user-cog' size={24} style={{ color: colors.thirdColor }}></FontAwesome5>
+                  <FontAwesome5 name='user-cog' size={16} style={{ color: colors.thirdColor }}></FontAwesome5>
                 }
                 title={"持有总览"}
               >
@@ -306,7 +319,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareReplaceTask", index.userAccount)
                 }
                 Icon={
-                  <EntypoIcons name='retweet' size={30} style={{ color: colors.thirdColor }}></EntypoIcons>
+                  <EntypoIcons name='retweet' size={20} style={{ color: colors.thirdColor }}></EntypoIcons>
                 }
                 title={"更换任务"}
               >
@@ -319,7 +332,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareReplaceHis", index.userAccount)
                 }
                 Icon={
-                  <FontAwesome5 name='history' size={24} style={{ color: colors.thirdColor }}></FontAwesome5>
+                  <FontAwesome5 name='history' size={16} style={{ color: colors.thirdColor }}></FontAwesome5>
                 }
                 title={"更换历史"}
               >
@@ -332,7 +345,7 @@ class Usage extends React.Component {
                   getItems("application", "spare", "spareUseHis", index.userAccount)
                 }
                 Icon={
-                  <MaterialIcons name='history' size={30} style={{ color: colors.thirdColor }}></MaterialIcons>
+                  <MaterialIcons name='history' size={22} style={{ color: colors.thirdColor }}></MaterialIcons>
                 }
                 title={"使用历史"}
               >
@@ -357,7 +370,7 @@ class Usage extends React.Component {
                   getItems("application", "assignment", "assignmentApply", index.userAccount)
                 }
                 Icon={
-                  <AntIcons name='edit' size={30} style={{ color: colors.textColor }}></AntIcons>
+                  <AntIcons name='edit' size={18} style={{ color: colors.textColor }}></AntIcons>
                 }
                 title={"发布任务"}
               >
@@ -380,7 +393,7 @@ class Usage extends React.Component {
                   getItems("application", "assignment", "assignmentApply", index.userAccount)
                 }
                 Icon={
-                  <AntIcons name='edit' size={30} style={{ color: colors.textColor }}></AntIcons>
+                  <AntIcons name='edit' size={18} style={{ color: colors.textColor }}></AntIcons>
                 }
                 title={"发布通知"}
               >
@@ -393,7 +406,7 @@ class Usage extends React.Component {
                   getItems("application", "assignment", "assignmentApply", index.userAccount)
                 }
                 Icon={
-                  <AntIcons name='notification' size={30} style={{ color: colors.textColor }}></AntIcons>
+                  <AntIcons name='notification' size={18} style={{ color: colors.textColor }}></AntIcons>
                 }
                 title={"通知公告"}
               >

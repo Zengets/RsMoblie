@@ -47,7 +47,7 @@ async function get(url, params) {
       .then(checkStatus)
       .then(parseJSON)
       .catch(error => {
-        return "error"
+        console.log('get error')
       })
   } catch (e) {
     console.log('get error')
@@ -76,7 +76,7 @@ async function post(url, body) {
       .then(checkStatus)
       .then(parseJSON)
       .catch(error => {
-        return "error"
+        console.log('get error')
       })
   } catch (e) {
     console.log('get error')

@@ -32,8 +32,8 @@ class UserItem extends Component {
     >
       <Avatar {...avatar}></Avatar>
       <View paddingL-12 spread flex-1>
-        <Text dark20 body numberOfLines={1}>{item.userName}<Text body>{item.jobTitle ? `(${item.jobTitle})` : null}</Text></Text>
-        <Text dark40 body marginT-4 numberOfLines={1}>{item.departmentName}</Text>
+        <Text dark20 subbody numberOfLines={1}>{item.userName}<Text subbody>{item.jobTitle ? `(${item.jobTitle})` : null}</Text></Text>
+        <Text dark40 subbody marginT-4 numberOfLines={1}>{item.departmentName}</Text>
       </View>
       {
         device ? <View spread flex-1 right paddingR-12>

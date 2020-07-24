@@ -96,10 +96,11 @@ export default class Atoz extends Component {
                 onMoveShouldSetResponder={returnTrue}
                 onResponderMove={this.select_nav}
                 onResponderRelease={this.select_null}
+                onPress={this.select_nav}
             >
                 {
                     this.props.pinyin.map((item) => {
-                        return <TouchableHighlight onPress={this.select_nav}><View style={styles.oit} ref={item}><Text dark style={styles.text}>{item}</Text></View></TouchableHighlight>
+                        return <TouchableHighlight><View style={styles.oit} ref={item}><Text dark style={styles.text}>{item}</Text></View></TouchableHighlight>
                     })
                 }
             </View>

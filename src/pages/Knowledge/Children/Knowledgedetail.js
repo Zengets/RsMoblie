@@ -55,8 +55,8 @@ class Knowledgedetail extends React.Component {
                 <View padding-12 paddingT-0>
                     <View style={{ overflow: "hidden" }} row={false} spread left>
                         <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
-                            <Rows name="上传人" values={updateUserName} />
-                            <Rows name="上传时间" values={updateTime} />
+                            <Rows name="发布人" values={updateUserName} />
+                            <Rows name="发布时间" values={updateTime} />
                         </Card>
                         <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
                             <Rows name="文件名" values={knowledgeBaseName} />
@@ -66,10 +66,10 @@ class Knowledgedetail extends React.Component {
                             <Rows name="设备类型" values={equipmentTypeName} />
                             <Rows name="描述" values={knowledgeBaseDescribe} />
                             <View padding-12 row>
-                                <Button flex-1 label='历史记录' outline onPress={()=>{
+                                <Button size="medium" flex-1 label='历史版本' outline onPress={()=>{
                                     navigation.navigate("KnowledgeHistory",{id:id})
                                 }}></Button>
-                                <Button flex-1 label="下载文件"  marginL-12 onPress={()=>{
+                                <Button size='medium' flex-1 label="下载文件"  marginL-12 onPress={()=>{
                                     downloadFile(knowledgeBaseUrl)
                                 }}></Button>
 

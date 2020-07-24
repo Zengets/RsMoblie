@@ -146,28 +146,9 @@ class InfoDeviceDetail extends React.Component {
 
 
             <View style={{ position: "relative" }}>
-                {
-                    !showbtn ? <View style={{ position: "absolute", top: 0, width: "100%", zIndex: 99999 }}>
-                        <ImageBackground
-                            style={{ width: width, height: 120 }}
-                            source={require("../../../assets/jianban.png")}>
-                        </ImageBackground>
-                    </View> : null
-                }
+               
 
-                <Header
-                    style={{ position: "absolute", top: 34, width: "100%", zIndex: 99999 }}
-                    backgroundColor="transparent"
-                    navigation={navigation}
-                    mode='light'
-                    headerRight={() => (
-                        <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
-                            <AntdIcons name="ellipsis1" size={22} style={{ color: "#fff" }} />
-                        </Card>
-
-                    )}
-                >
-                </Header>
+               
                 <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}
                     ref={ref => (this._list = ref)}
                     onScroll={({ nativeEvent: { contentOffset: { x, y } } }) => {
@@ -375,7 +356,28 @@ class InfoDeviceDetail extends React.Component {
 
 
                 </Animated.View>
+                
+                {
+                    !showbtn ? <View style={{ position: "absolute", top: 0, width: "100%", zIndex: 99999 }}>
+                        <ImageBackground
+                            style={{ width: width, height: 120 }}
+                            source={require("../../../assets/jianban.png")}>
+                        </ImageBackground>
+                    </View> : null
+                }
+                <Header
+                    style={{ position: "absolute", top: 34, width: "100%", zIndex: 99999 }}
+                    backgroundColor="transparent"
+                    navigation={navigation}
+                    mode='light'
+                    headerRight={() => (
+                        <Card center containerStyle={{ backgroundColor: "transparent", height: "100%" }} enableShadow={false} onPress={() => this.setState({ showHint: !showHint })}>
+                            <AntdIcons name="ellipsis1" size={22} style={{ color: "#fff" }} />
+                        </Card>
 
+                    )}
+                >
+                </Header>                    
             </View>
 
 

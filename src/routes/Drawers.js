@@ -4,9 +4,9 @@ import {
   UserSelect, UserListDetail, DeviceUser, DeviceUserList, InfoSpare,
   InfoSpareDetail, DepartMent, DepartMentDetail, UserMore, Success, PreView,
   ToRepair, Repaired, UpkeepPlan, UpkeepDetail, RepairAction, DevicerRepair, UpkeepMission, UpkeepHistory, InfoDeviceChe, CheckAction, CheckHistory, CheckHistoryDetail, CheckError, CheckErrorDetail, SpareChangeHistory, SpareChangeHistoryDetail, SpareUsage, SpareUsageDetail,
-  SpareAskfor, SpareRevert, SpareLog, SpareLogDetail, SpareOwner, SpareOwnerDetail, SpareChangeMisson, SpareChangeMissonDetail, SpareReview, SpareReviewDetail, PublicBroad, BroadList, BroadDetail,
+  SpareAskfor, SpareRevert, SpareLog, SpareLogDetail, SpareOwner, SpareOwnerDetail, SpareChangeMisson, SpareChangeMissonDetail, SpareReview, SpareReviewDetail, PublicBroad, BroadList, BroadDetail,ChatList,ChatDetail,
 
-  Knowledgedetail, KnowledgeHistory, NoticeTodo, NoticeTodoDetail, NoticeToConfirm, NoticeFinished, Publish, PublishTodo, PublishTodoDetail, PublishToConfirm, PublishFinished, SpareMine, OverView
+  Knowledgedetail, KnowledgeHistory,KnowledgeinDevice, NoticeTodo, NoticeTodoDetail, NoticeToConfirm, NoticeFinished, Publish, PublishTodo, PublishTodoDetail, PublishToConfirm, PublishFinished, SpareMine, OverView
 } from '../pages/index';
 import {
   createDrawerNavigator,
@@ -187,9 +187,18 @@ function MyDrawer() {
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="BroadList" component={BroadList} />
+      
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="BroadDetail" component={BroadDetail} />
+
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="ChatList" component={ChatList} />
+      
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="ChatDetail" component={ChatDetail} />
 
       <Drawer.Screen options={{
         unmountOnBlur: true
@@ -197,6 +206,9 @@ function MyDrawer() {
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="KnowledgeHistory" component={KnowledgeHistory} />
+      <Drawer.Screen options={{
+        unmountOnBlur: true
+      }} name="KnowledgeinDevice" component={KnowledgeinDevice} />
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="NoticeTodo" component={NoticeTodo} />
