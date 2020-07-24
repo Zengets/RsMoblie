@@ -34,11 +34,13 @@ export default class Modal extends React.Component {
 
         return <Dialog
             migrate
-            useSafeArea
+            useSafeArea={true}
             key={"2s"}
+            width="100%"
+            bottom={true}
             height={height}
             panDirection={panDirection}
-            containerStyle={styles.roundedDialog}
+            containerStyle={styles.dialog}
             visible={visible}
             onDismiss={hide}
             renderPannableHeader={this.renderPannableHeader}
@@ -60,5 +62,8 @@ const styles = StyleSheet.create({
         marginBottom: Constants.isIphoneX ? 0 : 20,
         borderRadius: 12
     },
-
+    dialog: {
+        width: "100%",
+        backgroundColor: Colors.white
+    },
 });

@@ -8,7 +8,8 @@ import {
     knowledgelist, knowledgedetail, knowledgehistory, knowledgehisdetail, noticetodo, noticetododetail, noticetodostart, noticetodosubmit, minenum, overview, broadqueryList, broadqueryById,
     noticetoconfirm, noticefinish, publish, publishtodo, publishtododetail, publishtoconfirm, publishfinish,
     homenum, queryOEE, queryJIA, queryMTTR, queryMTBF, changePassword, getcode, verycode, reparePassword,
-    checkRepairById, checkById, queryKnowledgeByFaultId,ChatqueryList,ChatqueryListByForumId
+    checkRepairById, checkById, queryKnowledgeByFaultId, ChatqueryList, ChatqueryListByForumId,ChatdeleteById,
+    queryListByParentId,replysave
 
 } from '../services/index'
 export default {
@@ -66,8 +67,8 @@ export default {
         spareData: {},
         repairList: {},
         broadqueryList: {},
-        ChatqueryList:{},
-        ChatqueryListByForumId:{},
+        ChatqueryList: {},
+        ChatqueryListByForumId: {},
         broadqueryById: {},
         repairHisList: {},
         upkeeplan: {},
@@ -81,6 +82,7 @@ export default {
         sparechangemissiondetail: {},
         sparechangehistorydetail: {},
         spareusagedetail: {},
+        queryListByParentId:[],
         checkdetail: {},
         sparelogdetail: {},
         queryAppByEqId: [],
@@ -180,7 +182,7 @@ export default {
             const responese = yield call(infodevice, payload);
             yield put({
                 type: 'updateState',
-                payload: { infodevice: responese.data? responese.data.page : {} }
+                payload: { infodevice: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -192,7 +194,7 @@ export default {
             const responese = yield call(sparechangemission, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparechangemission: responese.data? responese.data.page : {} }
+                payload: { sparechangemission: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -204,7 +206,7 @@ export default {
             const responese = yield call(sparechangehistory, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparechangehistory: responese.data? responese.data.page : {} }
+                payload: { sparechangehistory: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -216,7 +218,7 @@ export default {
             const responese = yield call(noticetodo, payload);
             yield put({
                 type: 'updateState',
-                payload: { noticetodo: responese.data? responese.data.page : {} }
+                payload: { noticetodo: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -228,7 +230,7 @@ export default {
             const responese = yield call(publishtodo, payload);
             yield put({
                 type: 'updateState',
-                payload: { publishtodo: responese.data? responese.data.page : {} }
+                payload: { publishtodo: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -240,7 +242,7 @@ export default {
             const responese = yield call(noticetoconfirm, payload);
             yield put({
                 type: 'updateState',
-                payload: { noticetoconfirm: responese.data? responese.data.page : {} }
+                payload: { noticetoconfirm: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -252,7 +254,7 @@ export default {
             const responese = yield call(publishtoconfirm, payload);
             yield put({
                 type: 'updateState',
-                payload: { publishtoconfirm: responese.data? responese.data.page : {} }
+                payload: { publishtoconfirm: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -264,7 +266,7 @@ export default {
             const responese = yield call(noticefinish, payload);
             yield put({
                 type: 'updateState',
-                payload: { noticefinish: responese.data? responese.data.page : {} }
+                payload: { noticefinish: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -292,7 +294,7 @@ export default {
             const responese = yield call(publishfinish, payload);
             yield put({
                 type: 'updateState',
-                payload: { publishfinish: responese.data? responese.data.page : {} }
+                payload: { publishfinish: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -304,7 +306,7 @@ export default {
             const responese = yield call(spareusage, payload);
             yield put({
                 type: 'updateState',
-                payload: { spareusage: responese.data? responese.data.page : {} }
+                payload: { spareusage: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -316,7 +318,7 @@ export default {
             const responese = yield call(sparereview, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparereview: responese.data? responese.data.page : {} }
+                payload: { sparereview: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -328,7 +330,7 @@ export default {
             const responese = yield call(knowledgelist, payload);
             yield put({
                 type: 'updateState',
-                payload: { knowledgelist: responese.data? responese.data.page : {} }
+                payload: { knowledgelist: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -340,7 +342,7 @@ export default {
             const responese = yield call(knowledgehistory, payload);
             yield put({
                 type: 'updateState',
-                payload: { knowledgehistory: responese.data? responese.data.page : {} }
+                payload: { knowledgehistory: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -352,7 +354,7 @@ export default {
             const responese = yield call(infodevicecan, payload);
             yield put({
                 type: 'updateState',
-                payload: { infodevicecan: responese.data? responese.data.page : {} }
+                payload: { infodevicecan: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -364,7 +366,7 @@ export default {
             const responese = yield call(infodeviceche, payload);
             yield put({
                 type: 'updateState',
-                payload: { infodeviceche: responese.data? responese.data.page : {} }
+                payload: { infodeviceche: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -376,7 +378,7 @@ export default {
             const responese = yield call(infospare, payload);
             yield put({
                 type: 'updateState',
-                payload: { infospare: responese.data? responese.data.page : {} }
+                payload: { infospare: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -388,7 +390,7 @@ export default {
             const responese = yield call(sparerevert, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparerevert: responese.data? responese.data.page : {} }
+                payload: { sparerevert: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -400,7 +402,7 @@ export default {
             const responese = yield call(sparelog, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparelog: responese.data? responese.data.page : {} }
+                payload: { sparelog: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -412,7 +414,7 @@ export default {
             const responese = yield call(spareowner, payload);
             yield put({
                 type: 'updateState',
-                payload: { spareowner: responese.data? responese.data.page : {} }
+                payload: { spareowner: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -424,7 +426,7 @@ export default {
             const responese = yield call(spareownerdetail, payload);
             yield put({
                 type: 'updateState',
-                payload: { spareownerdetail: responese.data? responese.data.page : {} }
+                payload: { spareownerdetail: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -436,7 +438,7 @@ export default {
             const responese = yield call(sparereviewdetail, payload);
             yield put({
                 type: 'updateState',
-                payload: { sparereviewdetail: responese.data? responese.data.page : {} }
+                payload: { sparereviewdetail: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -457,7 +459,7 @@ export default {
             const responese = yield call(queryKnowledgeByFaultId, payload);
             yield put({
                 type: 'updateState',
-                payload: { queryKnowledgeByFaultId: responese.data? responese.data.page : [] }
+                payload: { queryKnowledgeByFaultId: responese.data ? responese.data.page : [] }
             })
             yield put({
                 type: 'updateState',
@@ -691,7 +693,7 @@ export default {
             const responese = yield call(ChatqueryList, payload);
             yield put({
                 type: 'updateState',
-                payload: { ChatqueryList: responese.data? responese.data.page : {} }
+                payload: { ChatqueryList: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -703,7 +705,7 @@ export default {
             const responese = yield call(ChatqueryListByForumId, payload);
             yield put({
                 type: 'updateState',
-                payload: { ChatqueryListByForumId: responese.data? responese.data.page : {} }
+                payload: { ChatqueryListByForumId: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -711,11 +713,19 @@ export default {
             })
             return responese.code == "0000"
         },
+        *queryListByParentId({ payload }, { call, put }) {//data
+            const responese = yield call(queryListByParentId, payload);
+            yield put({
+                type: 'updateState',
+                payload: { queryListByParentId: responese.data ? responese.data.dataList : {} }
+            })
+            return responese.code == "0000"
+        },
         *broadqueryList({ payload }, { call, put }) {//data
             const responese = yield call(broadqueryList, payload);
             yield put({
                 type: 'updateState',
-                payload: { broadqueryList: responese.data? responese.data.page : {} }
+                payload: { broadqueryList: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -735,7 +745,7 @@ export default {
             const responese = yield call(repairList, payload);
             yield put({
                 type: 'updateState',
-                payload: { repairList: responese.data? responese.data.page : {} }
+                payload: { repairList: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -747,7 +757,7 @@ export default {
             const responese = yield call(repairHisList, payload);
             yield put({
                 type: 'updateState',
-                payload: { repairHisList: responese.data? responese.data.page : {} }
+                payload: { repairHisList: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -759,7 +769,7 @@ export default {
             const responese = yield call(upkeeplan, payload);
             yield put({
                 type: 'updateState',
-                payload: { upkeeplan: responese.data? responese.data.page : {} }
+                payload: { upkeeplan: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -787,7 +797,7 @@ export default {
             const responese = yield call(upkeepmission, payload);
             yield put({
                 type: 'updateState',
-                payload: { upkeepmission: responese.data? responese.data.page : {} }
+                payload: { upkeepmission: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -871,7 +881,7 @@ export default {
             const responese = yield call(upkeephistory, payload);
             yield put({
                 type: 'updateState',
-                payload: { upkeephistory: responese.data? responese.data.page : {} }
+                payload: { upkeephistory: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -883,7 +893,7 @@ export default {
             const responese = yield call(checkhistory, payload);
             yield put({
                 type: 'updateState',
-                payload: { checkhistory: responese.data? responese.data.page : {} }
+                payload: { checkhistory: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -895,7 +905,7 @@ export default {
             const responese = yield call(checkerror, payload);
             yield put({
                 type: 'updateState',
-                payload: { checkerror: responese.data? responese.data.page : {} }
+                payload: { checkerror: responese.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
@@ -1065,6 +1075,25 @@ export default {
             })
             return responese.code == "0000"
         },
+        *replysave({ payload }, { call, put }) {//data
+            const responese = yield call(replysave, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+        *ChatdeleteById({ payload }, { call, put }) {//data
+            const responese = yield call(ChatdeleteById, payload);
+            console.log(responese)
+            yield put({
+                type: 'updateState',
+                payload: { res: responese.data ? responese.data : {} }
+            })
+            return responese.code == "0000"
+        },
+
         *queryAppByEqId({ payload }, { call, put }) {//data
             const responese = yield call(queryAppByEqId, payload);
             yield put({

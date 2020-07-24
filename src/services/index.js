@@ -241,7 +241,18 @@ export async function ChatqueryList(params) {
 export async function ChatqueryListByForumId(params) {
     return post(`${ipandport}/equipmentForumComment/queryListByForumId`, params);
 }
-
+//论坛
+export async function ChatdeleteById(params) {
+    return post(`${ipandport}/equipmentForumComment/deleteById`, params);
+}
+//论坛详情
+export async function queryListByParentId(params) {
+    return post(`${ipandport}/equipmentForumComment/queryListByParentId`, params);
+}
+//论坛详情
+export async function replysave(params) {
+    return post(`${ipandport}/equipmentForumComment/save`, params);
+}
 
 export async function spareasksave(params) {
     return post(`${ipandport}/sparePartsApply/save`, params);
