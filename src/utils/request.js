@@ -4,6 +4,17 @@ import {
   Platform
 } from 'react-native'
 import { OneToast } from '../components';
+import * as RootNavigation from '../routes/RootNavigation';
+import { AsyncStorage } from 'react-native'
+
+
+function jumpurl(url) {
+  AsyncStorage.clear().then(()=>{
+    RootNavigation.navigate(url,{ reload: 'yes' });
+  })
+  return null
+}
+
 
 const os = Platform.OS;
 
@@ -17,13 +28,22 @@ function checkStatus(response) {
   }
 }
 
+
+
 function parseJSON(response) {
   let res = response.json()
-  return res.then((data)=>{
-    if(data.code!=="0000"){
-      OneToast(data.msg,"rgba(254,162,0,0.6)")
+  return res.then((data) => {
+    switch (data.code) {
+      case "0007":
+        jumpurl("Login");
+        break;
+      case "0000":
+        //成功
+        break;   
+      default:
+        OneToast(data.msg, "rgba(254,162,0,0.6)")
+        break
     }
-
     return data
   })
 }
@@ -43,7 +63,7 @@ async function get(url, params) {
     }
     return fetch(url, {
       headers: headers
-    }) 
+    })
       .then(checkStatus)
       .then(parseJSON)
       .catch(error => {
@@ -57,8 +77,8 @@ async function get(url, params) {
 
 async function post(url, body) {
   try {
-    let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
-    if(Access_Token){
+    let Access_Token = await Storage.get('@MyApp_user'), TOKEN = "";
+    if (Access_Token) {
       TOKEN = JSON.parse(Access_Token).token
     }
     let fetchOptions = {
@@ -67,7 +87,7 @@ async function post(url, body) {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=utf-8',
         'token': TOKEN,
-        'Connection':"close",
+        'Connection': "close",
         'UserAgent': os
       },
       body: JSON.stringify(body)
@@ -93,7 +113,7 @@ async function del(url, params) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Connection':"close",
+      'Connection': "close",
       'Access_Token': Access_Token ? Access_Token : '',
       'UserAgent': os
     }
@@ -110,7 +130,7 @@ async function update(url, body) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Connection':"close",
+      'Connection': "close",
       'Access_Token': Access_Token ? Access_Token : '',
       'UserAgent': os
     },
@@ -122,15 +142,15 @@ async function update(url, body) {
 }
 
 async function uploadFile(url, params) {
-  let Access_Token = await Storage.get('@MyApp_user'),TOKEN = "";
-  if(Access_Token){
+  let Access_Token = await Storage.get('@MyApp_user'), TOKEN = "";
+  if (Access_Token) {
     TOKEN = JSON.parse(Access_Token).token
   }
   const fetchOptions = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Connection':"close",
+      'Connection': "close",
       'token': TOKEN,
       'UserAgent': os
     },

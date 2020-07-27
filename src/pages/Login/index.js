@@ -158,7 +158,7 @@ class Login extends React.Component {
 
 
   render() {
-    let { navigation } = this.props, { checkshow: { camera, notice },showCustom } = this.state;
+    let { navigation,route } = this.props, { checkshow: { camera, notice },showCustom } = this.state;
     let avatar = {
       onPress:()=>{
         this.donotice();
@@ -189,25 +189,23 @@ class Login extends React.Component {
         <View flex-1>
           <View padding-44 paddingT-0>
             {
-              this.state.ispage ? <LoginChild navigation={navigation}></LoginChild> : <FogotChild navigation={navigation} tologin={() => {
+              this.state.ispage ? <LoginChild reload={route?.params?.reload} navigation={navigation}></LoginChild> : <FogotChild navigation={navigation} tologin={() => {
                 this.setState({
                   ispage: true
                 })
               }}></FogotChild>
             }
             <View row right marginT-12>
-              <Text onPress={() => {
+              {/* <Text onPress={() => {
                 JPush.addLocalNotification({
                   messageID: "123456789",
                   title: "title123",
                   content: "content123",
                   extras: { "key123": "value123" }
                 })
-
-
               }}>
                 本地推送
-              </Text>
+              </Text> */}
               <Text style={{ color: this.state.ispage ? "#999" : colors.primaryColor }} onPress={() => {
                 this.setState({
                   ispage: !this.state.ispage

@@ -54,10 +54,10 @@ class NoticeTodoDetail extends React.Component {
         let { index: { noticetododetail , userInfo }, navigation, loading } = this.props, { content, files, auditStatus } = this.state,
             {
                 assignmentTitle, assignmentContent, closeDate, assignmentTypeName, statusName, publishUserName, publishTime,executeFinishTime,auditTime,attachmentUrlList, remark, status
-            } = noticetododetail.publish ? noticetododetail.publish : {},
+            } = noticetododetail?.publish ? noticetododetail?.publish : {},
             {
                 executeUserName,executeUserId, executeContent, executeUrlList, assignmentUserType, auditUserName, id
-            } = noticetododetail.myWork ? noticetododetail.myWork : {},
+            } = noticetododetail?.myWork ? noticetododetail?.myWork : {},
             textareaprops = {
                 title: "执行内容",
                 placeholder: "请填写执行内容",
@@ -94,7 +94,7 @@ class NoticeTodoDetail extends React.Component {
                     break;
             }
             return color
-        }, statustypeName = { 1: "执行人", 2: "抄送人" }, ustatus = noticetododetail.myWork ? noticetododetail.myWork.status : "",
+        }, statustypeName = { 1: "执行人", 2: "抄送人" }, ustatus = noticetododetail?.myWork ? noticetododetail?.myWork.status : "",
         disabled = userInfo.id !== executeUserId;
 
         return <SafeAreaViewPlus loading={loading.effects['index/noticetododetail']}>
@@ -141,7 +141,7 @@ class NoticeTodoDetail extends React.Component {
                         <Card marginT-12 style={{ width: "100%" }} enableShadow={false}>
                             <Rows color={assignmentUserType == 1 ? colors.primaryColor : colors.warnColor} name={statustypeName[assignmentUserType]} values={executeUserName} />
                             <Rows name="状态" rightRender={<View row center>
-                                <Text subbody dark100 marginR-3 style={{ color: getColor(ustatus) }}>{noticetododetail.myWork && noticetododetail.myWork.statusName}</Text>
+                                <Text subbody dark100 marginR-3 style={{ color: getColor(ustatus) }}>{noticetododetail?.myWork && noticetododetail?.myWork.statusName}</Text>
                                 <Badge size='small' backgroundColor={getColor(ustatus)}></Badge>
                             </View>} />
                             <Rows name="执行内容" values={executeContent} />

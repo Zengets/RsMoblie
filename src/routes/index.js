@@ -1,16 +1,11 @@
 import * as React from 'react';
 import {
-    Scan, Login, SearchForm,
-    InfoDevice, InfoDeviceCan, InfoDeviceDetail, UserList,
-    UserSelect, UserListDetail, DeviceUser, DeviceUserList, InfoSpare,
-    InfoSpareDetail, DepartMent, DepartMentDetail, UserMore, Success, PreView,
-    ToRepair, Repaired, UpkeepPlan, UpkeepDetail, RepairAction, DevicerRepair, UpkeepMission, UpkeepHistory, InfoDeviceChe, CheckAction, CheckHistory, CheckHistoryDetail, CheckError, CheckErrorDetail, SpareChangeHistory, SpareChangeHistoryDetail, SpareUsage, SpareUsageDetail,
-    SpareAskfor, SpareRevert, SpareLog, SpareLogDetail, SpareOwner, SpareOwnerDetail, SpareChangeMisson, SpareChangeMissonDetail, SpareReview, SpareReviewDetail, Knowledgedetail, KnowledgeHistory, NoticeTodo, NoticeTodoDetail, NoticeToConfirm, NoticeFinished, Publish, PublishTodo, PublishTodoDetail, PublishToConfirm, PublishFinished, SpareMine, OverView
+     Login
 } from '../pages/index';
 import Drawers from './Drawers'
-import { View, Button, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { navigationRef } from './RootNavigation';
 
 const config = {
     animation: 'spring',
@@ -50,7 +45,7 @@ function MyStack() {
 
 export default function App() {
     return (
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
             <MyStack />
         </NavigationContainer>
     );

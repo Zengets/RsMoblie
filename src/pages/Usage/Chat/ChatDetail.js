@@ -172,6 +172,7 @@ let { height, width } = Dimensions.get('window');
                         this.setState({
                             curitem: item,
                             scrollIndex: { section, row },
+                            replyvalue:`回复${item.commentUserName}：`
                         })
                         this.textarea && this.textarea.focus();
                         this._list && this._list.scrollToIndexPath({ section, row: row - 1 })
@@ -265,6 +266,7 @@ let { height, width } = Dimensions.get('window');
                             reportItem={() => {
                                 this.setState({
                                     curitem: curitemdef,
+                                    replyvalue:`回复${curitemdef.commentUserName}：`
                                 })
                             }}
                             deleteItem={() => {
@@ -284,6 +286,7 @@ let { height, width } = Dimensions.get('window');
                                 reportItem={() => {
                                     this.setState({
                                         curitem: item,
+                                        replyvalue:`回复${item.commentUserName}：`
                                     })
                                 }}
                                 deleteItem={() => {
@@ -294,11 +297,10 @@ let { height, width } = Dimensions.get('window');
                                 }}
                                 item={item}
                                 navigation={this.props.navigation}
-                                type="history"></ChatListItem>
+                                type="needreply"></ChatListItem>
                         })
 
                     }
-
                 </ScrollView>
                 <View height={50}></View>
                 {
@@ -391,11 +393,10 @@ let { height, width } = Dimensions.get('window');
                                             <Text style={{ fontSize: 16 }} marginL-6>{res?.forum?.commentCount ? res.forum.commentCount : "回复"}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-
                                 </View> : <View>
                                         <Text body dark10 marginB-10>{res.forum && res.forum.title}</Text>
                                         <Text subbody dark40>{res.forum && res.forum.comment}</Text>
-                                        <View paddingV-6 paddingT-0 marginT-18 style={{ borderTopColor: "#ddd", borderTopWidth: 1 }}>
+                                        <View paddingV-6 paddingT-0 marginT-18 style={{ borderTopColor: res?.forum?.attachmentUrlList.length>0?"#ddd":"transparent", borderTopWidth: 1 }}>
                                             {
                                                 res.forum && res.forum.attachmentUrlList.map((item, i) => {
                                                     return (<TouchableHighlight
@@ -424,12 +425,11 @@ let { height, width } = Dimensions.get('window');
                                             this.scrollToTop();
                                             this.textarea && this.textarea.focus()
                                         }}>
-                                            <View right marginT-18 row style={{ alignItems: "center" }}>
+                                            <View right  row style={{ alignItems: "center" }}>
                                                 <AntIcons name="message1" size={18}></AntIcons>
                                                 <Text style={{ fontSize: 16 }} marginL-6>{res?.forum?.commentCount ? res.forum.commentCount : "回复"}</Text>
                                             </View>
                                         </TouchableWithoutFeedback>
-
                                     </View>
 
 

@@ -693,13 +693,13 @@ export default {
             const responese = yield call(ChatqueryList, payload);
             yield put({
                 type: 'updateState',
-                payload: { ChatqueryList: responese.data ? responese.data.page : {} }
+                payload: { ChatqueryList: responese?.data ? responese.data.page : {} }
             })
             yield put({
                 type: 'updateState',
-                payload: { res: responese.data ? responese.data : {} }
+                payload: { res: responese?.data ? responese?.data : {} }
             })
-            return responese.code == "0000"
+            return responese?.code == "0000"
         },
         *ChatqueryListByForumId({ payload }, { call, put }) {//data
             const responese = yield call(ChatqueryListByForumId, payload);

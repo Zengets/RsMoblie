@@ -1,4 +1,4 @@
-import { ImageBackground, Dimensions,ActivityIndicator } from 'react-native';
+import { ImageBackground, Dimensions, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { SafeAreaViewPlus, OneToast } from '../../components';
 import { Button, TextField, Text, View, Avatar } from 'react-native-ui-lib';
@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 let { height, width } = Dimensions.get('window');
 
-@connect(({ index,loading }) => ({ index,loading }))
+@connect(({ index, loading }) => ({ index, loading }))
 class LoginChild extends React.Component {
   constructor(props) {
     super(props)
@@ -52,49 +52,55 @@ class LoginChild extends React.Component {
     })
   }
 
-  componentDidMount() {
-    let getItem = async () => {
-      let currentUser = await AsyncStorage.getItem('@MyApp_user'), now = new Date().getTime();
-      currentUser = JSON.parse(currentUser ? currentUser : "{}");
-      if (currentUser.token) {
-        if (parseInt(currentUser.userTime) < parseInt(now)) {
-          await AsyncStorage.clear();
-          this.setNewState("settoken", 1);
-          OneToast("您的登录已过期，请重新登录...");
-          let { username, password } = this.props.index.userInfo;
-          this.setState({
-            username,
-            password
-          })
-        } else {
-          let { username, password } = currentUser;
-          this.setNewState("settoken", currentUser.token);
-          this.setState({
-            username,
-            password
-          }, () => {
-            this.login()
-          })
-        }
-      } else {
+  componentWillReceiveProps(np) {
+    if (this.props.reload !== np.reload && np.reload == "yes") {
+      this.getItem()
+    }
+  }
+
+  getItem = async () => {
+    let currentUser = await AsyncStorage.getItem('@MyApp_user'), now = new Date().getTime();
+    currentUser = JSON.parse(currentUser ? currentUser : "{}");
+    console.log(currentUser)
+    if (currentUser.token) {
+      if (parseInt(currentUser.userTime) < parseInt(now)) {
+        await AsyncStorage.clear();
+        this.setNewState("settoken", 1);
+        OneToast("您的登录已过期，请重新登录...");
         let { username, password } = this.props.index.userInfo;
         this.setState({
           username,
-          password: null
+          password
+        })
+      } else {
+        let { username, password } = currentUser;
+        this.setNewState("settoken", currentUser.token);
+        this.setState({
+          username,
+          password
+        }, () => {
+          this.login()
         })
       }
+    } else {
+      let { username, password } = this.props.index.userInfo;
+      this.setNewState("settoken", 1);
+      OneToast("您的登录已过期，请重新登录...");
+      this.setState({
+        username,
+        password: null
+      })
     }
+  }
 
-    getItem();
-
-
-
+  componentDidMount() {
+    this.getItem();
   }
 
 
 
   render() {
-    let { username, password, see } = this.state, { navigation, index: { token },loading } = this.props;
+    let { username, password, see } = this.state, { navigation, index: { token }, loading } = this.props;
     let textfieldprops = {
       floatingPlaceholder: true,
       floatOnFocus: true,

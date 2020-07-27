@@ -48,6 +48,7 @@ class ChangePwd extends React.Component {
             }, 400)
         })
     }
+    
     render() {
         let { index, navigation, loading } = this.props, { see, see1, oldpwd, newpwd } = this.state;
         let textfieldprops = {

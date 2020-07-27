@@ -56,8 +56,17 @@ class ChatListItem extends Component {
                 </Text>
                 <Text dark40 subbody marginT-4 numberOfLines={1}>{item.commentUserDepartmentName}</Text>
               </View>
-              <View row spread top paddingV-8 style={{ alignItems: "center" }}>
-                <Text subbody numberOfLines={1}>{item.comment && item.comment.replace(/\n/g, "")}</Text>
+              <View row left top paddingV-8 style={{ alignItems: "center" }}>
+                {
+                  type == "needreply" && <Text>
+                    回复 <Text blue20>
+                      {item.replyedUserName}
+                    </Text>：
+                  </Text>
+                }
+                <Text subbody numberOfLines={1}>
+                  {item.comment && item.comment.replace(/\n/g, "")}
+                </Text>
               </View>
             </View>
           </TouchableWithoutFeedback>
