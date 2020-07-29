@@ -225,7 +225,7 @@ class BroadList extends React.Component {
                         option: "minimumDate",
                     },
                     value: "",
-                    placeholder: "请选择开始处理时间"
+                    placeholder: "请选择发布日期(开始)"
                 },
                 {
                     key: "endTime",
@@ -238,8 +238,8 @@ class BroadList extends React.Component {
                         key: "startTime",
                         option: "maximumDate"
                     },
-                    placeholder: "请选择处理结束时间"
-                },
+                    placeholder: "请选择发布日期(结束)"
+                }
                 ]
 
 

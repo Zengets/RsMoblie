@@ -34,7 +34,7 @@ class ChatListItem extends Component {
     }
 
     return <Card borderRadius={0} enableShadow={false} bg-white
-      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: hidden ? 70 : 120 }}
+      style={{ borderBottomWidth: 1, borderColor: "#f9f9f9", height: type == "needreply" ? "auto" : 120 }}
       paddingL-12 paddingR-12
       onPress={() => {
         navigation.navigate("ChatDetail", item)
@@ -58,15 +58,17 @@ class ChatListItem extends Component {
               </View>
               <View row left top paddingV-8 style={{ alignItems: "center" }}>
                 {
-                  type == "needreply" && <Text>
-                    回复 <Text blue20>
+                  type == "needreply" ? <Text subbody>
+                    回复
+                      <Text blue20>
                       {item.replyedUserName}
                     </Text>：
-                  </Text>
+                    {item.comment && item.comment.replace(/\n/g, "")}
+                  </Text> : <Text subbody numberOfLines={1}>
+                      {item.comment && item.comment.replace(/\n/g, "")}
+                    </Text>
                 }
-                <Text subbody numberOfLines={1}>
-                  {item.comment && item.comment.replace(/\n/g, "")}
-                </Text>
+
               </View>
             </View>
           </TouchableWithoutFeedback>

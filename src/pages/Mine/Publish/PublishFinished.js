@@ -217,7 +217,7 @@ class PublishFinished extends React.Component {
         return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
             <Header
                 navigation={navigation}
-                title="我的发布(未完成)"
+                title="我的发布(已完成)"
                 rightwidth={70}
                 headerRight={() => <Card height={"100%"} enableShadow={false} row center onPress={() => {
                     let postData = JSON.parse(JSON.stringify(this.state.postData));

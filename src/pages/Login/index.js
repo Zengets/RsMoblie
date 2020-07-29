@@ -9,7 +9,6 @@ import FogotChild from './FogotChild'
 import { colors } from '../../utils';
 import RNPermissions, { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
 import JPush from 'jpush-react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 
 class Login extends React.Component {
@@ -23,15 +22,16 @@ class Login extends React.Component {
     checkshow: {
       camera: false,
       notice: false,
+      file: false
     }
   }
 
 
 
   resetCustom() {
-    let { checkshow: { camera, notice } } = this.state;
+    let { checkshow: { camera, notice, file } } = this.state;
     this.setState({
-      showCustom: camera || notice
+      showCustom: camera || notice || file
     })
   }
 
@@ -88,6 +88,58 @@ class Login extends React.Component {
     })
   }
 
+  docfile(fn) {
+    check(Platform.OS === 'ios' ? PERMISSIONS.IOS.WRITE_EXTERNAL_STORAGE : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(result => {
+      switch (result) {
+        case RESULTS.UNAVAILABLE:
+          console.log('This feature is not available (on this device / in this context)');
+          this.setState({
+            checkshow: {
+              ...this.state.checkshow,
+              file: true
+            }
+          })
+          break;
+        case RESULTS.DENIED:
+          console.log('开始请求权限');
+          if (fn) {
+            fn()
+          } else {
+            this.setState({
+              checkshow: {
+                ...this.state.checkshow,
+                file: true
+              }
+            }, () => {
+              this.resetCustom()
+            })
+          }
+          break;
+        case RESULTS.GRANTED:
+          console.log('已通过');
+          this.setState({
+            checkshow: {
+              ...this.state.checkshow,
+              file: false
+            }
+          }, () => {
+            this.resetCustom()
+          })
+          break;
+        case RESULTS.BLOCKED:
+          console.log('没有请求权限');
+          this.setState({
+            checkshow: {
+              ...this.state.checkshow,
+              file: true
+            }
+          }, () => {
+            this.resetCustom()
+          })
+          break;
+      }
+    })
+  }
 
   donotice(fn) {
     RNPermissions.requestNotifications().then(({ settings, status }) => {
@@ -121,7 +173,8 @@ class Login extends React.Component {
   componentDidMount() {
     this.docamera();//相机权限
     this.donotice();//通知权限
-
+    this.docfile();
+    //RNPermissions.openSettings()  
     JPush.init();
     //连接状态
     this.connectListener = result => {
@@ -158,13 +211,14 @@ class Login extends React.Component {
 
 
   render() {
-    let { navigation,route } = this.props, { checkshow: { camera, notice },showCustom } = this.state;
+    let { navigation, route } = this.props, { checkshow: { camera, notice, file }, showCustom } = this.state;
     let avatar = {
-      onPress:()=>{
+      onPress: () => {
         this.donotice();
         this.docamera();
+        this.docfile();
       },
-      backgroundColor:"#fff",
+      backgroundColor: "#fff",
       title: 'Smaller size, Badge ("offline")',
       size: 100,
       source: require("../../assets/logo.png"),
@@ -173,7 +227,7 @@ class Login extends React.Component {
         size: 'small',
         borderWidth: 1.5,
         borderColor: "#fff",
-        iconStyle: {backgroundColor:showCustom?colors.primaryColor:"#999" },
+        iconStyle: { backgroundColor: showCustom ? colors.primaryColor : "#999" },
       },
     }
 
@@ -228,16 +282,26 @@ class Login extends React.Component {
           options={[
             camera && {
               label: '相机权限', onPress: () => {
-                this.docamera(()=>{
+                this.docamera(() => {
                   request(Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA).then(result => {
                   });
                 })
               }
             },
-            notice && { label: '通知权限', onPress: () => {
-              this.donotice(()=>{RNPermissions.openSettings()})
-            }},
-          ].filter(item=>item.label)}
+            notice && {
+              label: '通知权限', onPress: () => {
+                this.donotice(() => { RNPermissions.openSettings() })
+              }
+            },
+            file && {
+              label: '文件写入权限', onPress: () => {
+                this.docfile(() => {
+                  request(Platform.OS === 'ios' ? PERMISSIONS.IOS.WRITE_EXTERNAL_STORAGE : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(result => {
+                  });
+                })
+              }
+            },
+          ].filter(item => item.label)}
           visible={this.state.showCustom}
           onDismiss={() => this.setState({ showCustom: false })}
         />

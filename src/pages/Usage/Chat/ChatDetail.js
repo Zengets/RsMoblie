@@ -31,7 +31,7 @@ let { height, width } = Dimensions.get('window');
             showbtn: false,
             value: "",
             curitem: {},
-            curitemdef: {id:null},
+            curitemdef: { id: null },
             simplemodle: false,
             kbs: false,
             postData: {
@@ -172,7 +172,7 @@ let { height, width } = Dimensions.get('window');
                         this.setState({
                             curitem: item,
                             scrollIndex: { section, row },
-                            replyvalue:`回复${item.commentUserName}：`
+                            replyvalue: `回复${item.commentUserName}`
                         })
                         this.textarea && this.textarea.focus();
                         this._list && this._list.scrollToIndexPath({ section, row: row - 1 })
@@ -182,7 +182,8 @@ let { height, width } = Dimensions.get('window');
                         curitem: item,
                         curitemdef: item,
                         scrollIndex: { section, row },
-                        defv: true
+                        defv: true,
+                        replyvalue: `回复${item.commentUserName}`
                     }, () => {
                         this.getChild(item.id)
                     })
@@ -199,61 +200,45 @@ let { height, width } = Dimensions.get('window');
                 type="history"></ChatListItem> : <View></View>
         }
 
-        let renderRepeat = () => {
+        let renderRepeat = (key) => {
             return <View row padding-6 style={{ position: "absolute", bottom: 0, backgroundColor: "#f0f0f0", alignItems: "flex-end" }}>
                 <View flex-1 style={{ backgroundColor: "#fff", height: kbs ? "auto" : 40, overflow: "hidden" }}>
-                    {
-                        defv ?
-                            <TextArea
-                                title="回复内容"
-                                placeholder="回复内容"
-                                value={value}
-                                onChangeText={(val) => {
-                                    this.setState({
-                                        value: val
-                                    })
-                                }}
-                                ref={input => {
-                                    this.textareas = input
-                                }}
-                            ></TextArea> :
-                            <TextArea
-                                title="回复内容"
-                                placeholder="回复内容"
-                                value={value}
-                                onChangeText={(val) => {
-                                    this.setState({
-                                        value: val
-                                    })
-                                }}
-                                ref={input => {
-                                    this.textarea = input
-                                }}
-                            ></TextArea>
-                    }
-
+                    <TextArea
+                        title={this.state.replyvalue ? this.state.replyvalue :"回复内容"}
+                        placeholder={this.state.replyvalue ? this.state.replyvalue :"回复内容"}
+                        value={value}
+                        onChangeText={(val) => {
+                            this.setState({
+                                value: val
+                            })
+                        }}
+                        ref={input => {
+                            this[key] = input;
+                        }}
+                    ></TextArea>
                 </View>
                 <Button onPress={() => {
                     this.textarea && this.textarea.clear();
                     this.textareas && this.textareas.clear();
-                    this.setState({value:null})
+                    this.setState({ value: null })
                     let postData = {
                         "equipmentForumId": this.props.route.params.id,//论坛id,回复论坛时必填
                         "comment": value,//评论内容，必填
                         "parentId": curitem.id,//评论id，回复评论时必填
                     }
                     this.setNewState("replysave", postData, () => {
-                        OneToast("发布成功");
                         if (this.state.defv) {
-                            this.getChild(curitem.id);
-                            this._lists && this._lists.scrollTo({ x: 0, y: 1000, animated: true })
+                            this.getChild(curitemdef.id);
+                            this._lists && this._lists.scrollTo({ x: 0, y: 0, animated: true });
+                            this.onRefresh();
+                            Keyboard.dismiss()
                         } else {
-                            this.resetData();
                             this.onRefresh();
                             this.scrollToTop();
+                            Keyboard.dismiss()
                         }
                     })
-                }} label='回复' marginL-4 style={{ height: 40 }} borderRadius={0} size='medium' />
+                }} label={"回复"} marginL-4 style={{ height: 40 }} borderRadius={0} size='medium' />
             </View>
         }
 
@@ -266,7 +251,7 @@ let { height, width } = Dimensions.get('window');
                             reportItem={() => {
                                 this.setState({
                                     curitem: curitemdef,
-                                    replyvalue:`回复${curitemdef.commentUserName}：`
+                                    replyvalue: `回复${curitemdef.commentUserName}`
                                 })
                             }}
                             deleteItem={() => {
@@ -286,7 +271,7 @@ let { height, width } = Dimensions.get('window');
                                 reportItem={() => {
                                     this.setState({
                                         curitem: item,
-                                        replyvalue:`回复${item.commentUserName}：`
+                                        replyvalue: `回复${item.commentUserName}`
                                     })
                                 }}
                                 deleteItem={() => {
@@ -304,14 +289,14 @@ let { height, width } = Dimensions.get('window');
                 </ScrollView>
                 <View height={50}></View>
                 {
-                    renderRepeat()
+                    renderRepeat("textareas")
                 }
             </View>
 
         };
 
 
-        return <SafeAreaViewPlus loading={submitting && isLoadMore && refreshing}>
+        return <SafeAreaViewPlus>
 
             <Modal
                 visible={this.state.defv}
@@ -333,7 +318,6 @@ let { height, width } = Dimensions.get('window');
                         cfv: false
                     }, () => {
                         this.setNewState("ChatdeleteById", { id: curitem.id }, () => {
-                            OneToast("删除成功");
                             if (curitemdef.id == curitem.id) {
                                 this.setState({
                                     defv: false
@@ -346,7 +330,7 @@ let { height, width } = Dimensions.get('window');
                             } else {
                                 this._list.scrollToIndexPath({
                                     ...scrollIndex,
-                                    row:scrollIndex.row-2
+                                    row: scrollIndex.row - 2
                                 });
                                 this.onRefresh();
                             }
@@ -384,6 +368,7 @@ let { height, width } = Dimensions.get('window');
                                     <TouchableWithoutFeedback onPress={() => {
                                         this.setState({
                                             curitem: {},
+                                            replyvalue: `回复${res?.forum?.uploadUserName}`
                                         })
                                         this.scrollToTop();
                                         this.textarea && this.textarea.focus()
@@ -396,7 +381,7 @@ let { height, width } = Dimensions.get('window');
                                 </View> : <View>
                                         <Text body dark10 marginB-10>{res.forum && res.forum.title}</Text>
                                         <Text subbody dark40>{res.forum && res.forum.comment}</Text>
-                                        <View paddingV-6 paddingT-0 marginT-18 style={{ borderTopColor: res?.forum?.attachmentUrlList.length>0?"#ddd":"transparent", borderTopWidth: 1 }}>
+                                        <View paddingV-6 paddingT-0 marginT-18 style={{ borderTopColor: res?.forum?.attachmentUrlList.length > 0 ? "#ddd" : "transparent", borderTopWidth: 1 }}>
                                             {
                                                 res.forum && res.forum.attachmentUrlList.map((item, i) => {
                                                     return (<TouchableHighlight
@@ -421,11 +406,13 @@ let { height, width } = Dimensions.get('window');
                                         <TouchableWithoutFeedback onPress={() => {
                                             this.setState({
                                                 curitem: {},
+                                                replyvalue: `回复${res?.forum?.uploadUserName}`
+
                                             })
                                             this.scrollToTop();
                                             this.textarea && this.textarea.focus()
                                         }}>
-                                            <View right  row style={{ alignItems: "center" }}>
+                                            <View right row style={{ alignItems: "center" }}>
                                                 <AntIcons name="message1" size={18}></AntIcons>
                                                 <Text style={{ fontSize: 16 }} marginL-6>{res?.forum?.commentCount ? res.forum.commentCount : "回复"}</Text>
                                             </View>
@@ -488,7 +475,7 @@ let { height, width } = Dimensions.get('window');
 
                 </View>
                 {
-                    renderRepeat()
+                    renderRepeat("textarea")
                 }
             </View>
             {

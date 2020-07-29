@@ -100,7 +100,7 @@ class Info extends React.Component {
               getItem("message", "equipmentList", index.userAccount)
             }
             Icon={<MaterialIcons name='devices' size={25} style={{ color: colors.primaryColor }}></MaterialIcons>}
-            title={"设备列表"}
+            title={"设备信息"}
           >
           </CardItem>
 
@@ -111,7 +111,7 @@ class Info extends React.Component {
               getItem("message", "userList", index.userAccount)
             }
             Icon={<Feather name='users' size={25} style={{ color: colors.primaryColor }}></Feather>}
-            title={"用户列表"}
+            title={"用户信息"}
           >
           </CardItem>
 
@@ -133,7 +133,7 @@ class Info extends React.Component {
               getItem("message", "spareList", index.userAccount)
             }
             Icon={<FontAwesome name='hdd-o' size={25} style={{ color: colors.primaryColor }}></FontAwesome>}
-            title={"备件列表"}
+            title={"备件信息"}
           >
           </CardItem>
 
@@ -144,7 +144,7 @@ class Info extends React.Component {
               getItem("message", "deaprtmentList", index.userAccount)
             }
             Icon={<Feather name='codepen' size={25} style={{ color: colors.primaryColor }}></Feather>}
-            title={"部门列表"}
+            title={"部门信息"}
           >
           </CardItem>
 

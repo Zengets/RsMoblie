@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Avatar, View, Text, Card, AnimatedImage, ThemeManager, BorderRadiuses, Badge, Colors } from 'react-native-ui-lib';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-import { ActivityIndicator, StyleSheet,Dimensions, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet, Dimensions, Alert } from 'react-native';
 import { colors, downloadFile } from '../utils';
 import Modal from './Modal';
 
@@ -60,17 +60,21 @@ class KnowledgeItem extends Component {
           navigation.navigate("Knowledgedetail", item)
         }
       }}
-      onLongPress={()=>{
-        downloadFile(item.knowledgeBaseUrl)
-        
+      onLongPress={() => {
+        //downloadFile(item.knowledgeBaseUrl)
+        let url = item.knowledgeBaseUrl;
+        navigation.navigate("PreView", {
+          url,
+          type: url.split(".")[url.split(".").length - 1]
+        })
       }}
     >
-     
+
 
       <View row spread top paddingV-12 paddingB-12>
         <View left flex-1>
           <Text body dark10 numberOfLines={1}><Text style={{ color: getColor(item) }}>| </Text>{item.knowledgeBaseName}</Text>
-          <Text subbody dark40 marginT-2>长按下载文件</Text>
+          <Text subbody dark40 marginT-2>长按查看文件</Text>
         </View>
         <View row right width={100}>
           <Text body style={{ color: getColor(item) }} numberOfLines={1}>{item.purposeTypeName}</Text>

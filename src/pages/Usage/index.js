@@ -12,14 +12,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions, ScrollView } from 'react-native';
 import { colors, getItem, getItems } from '../../utils';
 
-let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 4.3;
+let { height, width } = Dimensions.get('window'), cardwidth = (width - 56) / 4;
 
 class CardItem extends React.Component {
 
   render() {
     let { pressfn, title, Icon, getItems } = this.props;
     return <AuthBase item={getItems ? getItems : {}}>
-      <Card width={cardwidth} style={{ position: "relative" }} marginH-6 center padding-6 paddingB-12 marginB-12 enableShadow={false} onPress={() => {
+      <Card width={cardwidth} style={{ position: "relative" }} margin-4 center padding-6 paddingB-12 enableShadow={false} onPress={() => {
         pressfn ? pressfn() : null
       }}>
         {
@@ -29,10 +29,10 @@ class CardItem extends React.Component {
             backgroundColor={Colors.red30}
           /> : null
         }
-        <View center style={{ width: 48, height: 48 }}>
+        <View center style={{ width: 48, height: 38 }}>
           {Icon ? Icon : null}
         </View>
-        <Text style={{ fontSize: 13 }} dark10>{title}</Text>
+        <Text style={{ fontSize:title=="出入库记录"?12: 13 }} dark10>{title}</Text>
       </Card>
     </AuthBase>
   }
@@ -131,7 +131,7 @@ class Usage extends React.Component {
                 this.jumpToUrl("ChatList")
               }}
                 getItems={
-                  getItems("application", "repair", "repairHis", index.userAccount)
+                  getItems("application", "repair", "equipmentForum", index.userAccount)
                 }
                 Icon={<EntypoIcons name='chat' size={18} style={{ color: colors.primaryColor }}></EntypoIcons>}
                 title={"设备论坛"}
@@ -380,7 +380,7 @@ class Usage extends React.Component {
           <View height={1} marginV-12 style={{ backgroundColor: "#999", opacity: 0.2 }}></View>
         </AuthBase>
 
-        <AuthBase item={getItem("application", "assignment", index.userAccount)}>
+        <AuthBase item={getItem("application", "notice", index.userAccount)}>
           <View marginB-s4>
             <View paddingL-8 marginB-s4 marginT-6 style={{ borderLeftWidth: 1, borderColor: colors.textColor, width: 48 }} height={12} center>
               <Text subheading style={{ color: colors.textColor }}>通知</Text>
@@ -390,7 +390,7 @@ class Usage extends React.Component {
                 this.jumpToUrl("PublicBroad")
               }}
                 getItems={
-                  getItems("application", "assignment", "assignmentApply", index.userAccount)
+                  getItems("application", "notice", "releaseNotice", index.userAccount)
                 }
                 Icon={
                   <AntIcons name='edit' size={18} style={{ color: colors.textColor }}></AntIcons>
@@ -403,7 +403,7 @@ class Usage extends React.Component {
                 this.jumpToUrl("BroadList")
               }}
                 getItems={
-                  getItems("application", "assignment", "assignmentApply", index.userAccount)
+                  getItems("application", "notice", "announcement", index.userAccount)
                 }
                 Icon={
                   <AntIcons name='notification' size={18} style={{ color: colors.textColor }}></AntIcons>

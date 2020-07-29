@@ -68,13 +68,13 @@ class KnowledgeinDevice extends React.Component {
                     this._list.endLoading();
                     if (refreshing) {
                         this.setState({
-                            resData: [{ items: this.props.index.queryKnowledgeByFaultId.list }],
+                            resData: [{ items: this.props.index.queryKnowledgeByFaultId.list?this.props.index.queryKnowledgeByFaultId.list:[] }],
                             refreshing: false,
                             isLoadMore: false
                         })
                     } else {
                         this.setState({
-                            resData: this.state.resData.concat([{ items: this.props.index.queryKnowledgeByFaultId.list }]),
+                            resData: this.state.resData.concat([{ items: this.props.index.queryKnowledgeByFaultId.list?this.props.index.queryKnowledgeByFaultId.list:[] }]),
                             isLoadMore: false
                         })
                     }

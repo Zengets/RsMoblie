@@ -142,7 +142,8 @@ async function update(url, body) {
 }
 
 async function uploadFile(url, params) {
-  let Access_Token = await Storage.get('@MyApp_user'), TOKEN = "";
+  let Access_Token = await Storage.get('@MyApp_user'), 
+      TOKEN = "";
   if (Access_Token) {
     TOKEN = JSON.parse(Access_Token).token
   }

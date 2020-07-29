@@ -12,7 +12,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions, ScrollView, Alert, StyleSheet } from 'react-native';
 import { colors, getItem, getItems } from '../../utils';
 
-let { height, width } = Dimensions.get('window'), cardwidth = (width - 48) / 4.3, roundwidth = (width - 125) / 4;
+let { height, width } = Dimensions.get('window'), cardwidth = (width - 56) / 4, roundwidth = (width - 125) / 4;
 let styles = StyleSheet.create({
   mainitem: {
     width: width,
@@ -25,23 +25,30 @@ let styles = StyleSheet.create({
 
 class CardItem extends React.Component {
 
+
+
+
   render() {
     let { pressfn, label, title, Icon, getItems } = this.props;
+    label = label ? parseInt(label) : null;
+
     return <AuthBase item={getItems ? getItems : {}}>
-      <Card width={cardwidth} style={{ position: "relative" }} marginR-12 center padding-6 paddingB-12 marginB-12 enableShadow={false} onPress={() => {
+      <Card width={cardwidth} style={{ position: "relative" }} margin-4 center padding-6 paddingB-12 enableShadow={false} onPress={() => {
         pressfn ? pressfn() : null
       }}>
         {
-          false ? <Badge
+          label > 0 && <Badge
             size={"small"}
             containerStyle={{ position: "absolute", right: -4, top: -4 }}
-            backgroundColor={Colors.red25}
-          /> : null
+            backgroundColor={label > 20 ? "#388be8" : "#71b4ff"}
+            label={label > 99 ? "99+" : label}
+          />
         }
-        <View center style={{ width: 48, height: 48 }} >
+
+        <View center style={{ width: 48, height: 38 }} >
           {Icon ? Icon : null}
         </View>
-        <Text style={{fontSize:12}} dark10>{title} <Text style={{color:label>99?colors.errorColor:"#aaa"}}>{label>99?"99+":label}</Text></Text>
+        <Text style={{ fontSize: 12 }} dark10>{title} </Text>
       </Card>
     </AuthBase>
   }
@@ -70,7 +77,9 @@ class Mine extends React.Component {
   }
 
   componentDidMount() {
-    this.setNewState("minenum")
+    this._onfocus = this.props.navigation.addListener('focus', () => {
+      this.setNewState("minenum");
+    });
   }
 
   jumpToUrl(url, data) {
@@ -79,6 +88,11 @@ class Mine extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    if (this._onfocus) {
+      this._onfocus();
+    }
+  }
 
 
   render() {
@@ -92,7 +106,7 @@ class Mine extends React.Component {
     }, index = this.props.index;
 
 
-    return <SafeAreaViewPlus loading={loading.effects['index/minenum']}>
+    return <SafeAreaViewPlus>
       <Header
         title="我的"
         headerLeft={() => {

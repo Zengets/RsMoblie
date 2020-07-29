@@ -34,7 +34,6 @@ class Confirm extends Component {
                 ><Text subheading style={{ color: label == "删除" ? "red" : "#999" }}>{label}</Text></Card>)
             }}
             visible={visible}
-            optionsStyle={{ textAlign: "center" }}
             onDismiss={() => {
                 onDismiss()
             }}

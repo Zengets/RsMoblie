@@ -224,9 +224,9 @@ function MyDrawer() {
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="NoticeFinished" component={NoticeFinished} />
-      <Drawer.Screen options={{
-        unmountOnBlur: true
-      }} name="Publish" component={Publish} />
+
+      <Drawer.Screen name="Publish" component={Publish} />
+      
       <Drawer.Screen options={{
         unmountOnBlur: true
       }} name="PublishTodo" component={PublishTodo} />

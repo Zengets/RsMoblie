@@ -9,8 +9,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Dimensions, ActivityIndicator } from 'react-native';
 import { colors, getItem, downloadFile } from '../../utils';
 import { OfficeViewer } from '@sishuguojixuefu/react-native-office-viewer'
-
+import Pdf from 'react-native-pdf';
 let { height, width } = Dimensions.get('window');
+import RNFetchBlob from 'rn-fetch-blob';
+
 
 @connect(({ index }) => ({ index }))
 class PreView extends React.Component {
@@ -49,9 +51,16 @@ class PreView extends React.Component {
 
 
     render() {
-        const { index, navigation,route } = this.props;
+        const { index, navigation, route } = this.props;
         let { url, type } = route.params ? route.params : { url: "", type: "" },
-            types = ["docx", "xlsx", "pptx", "doc", "xls", "ppt"];
+            types = ["docx", "xlsx", "pptx", "doc", "xls", "ppt", "pdf", "png", "jpg", "jpeg", "txt"];
+        const source = { uri: url, cache: true };
+
+        if (type == "txt") {
+
+        }
+
+
         return <SafeAreaViewPlus>
             <Header
                 navigation={navigation}
@@ -59,23 +68,36 @@ class PreView extends React.Component {
             />
             <View flex padding-12>
                 {
-                    type == "jpg" || type == "png" ?
-                        <AnimatedImage
-                            containerStyle={{ flex: 1, borderRadius: 8, backgroundColor: "#f9f9f9" }}
-                            style={{ resizeMode: 'contain', flex: 1 }}
-                            source={url ? { uri: url } : require("../../assets/404.png")}
-                            loader={<ActivityIndicator />}
-                        /> :
-                        types.indexOf(type) == -1 ?
+                    type == 'pdf' ?
+                        <Pdf
+                            source={source}
+                            onLoadComplete={(numberOfPages, filePath) => {
+                                console.log(`number of pages: ${numberOfPages}`);
+                            }}
+                            onPageChanged={(page, numberOfPages) => {
+                                console.log(`current page: ${page}`);
+                            }}
+                            onError={(error) => {
+                                console.log(error);
+                            }}
+                            onPressLink={(uri) => {
+                                console.log(`Link presse: ${uri}`)
+                            }}
+                            style={{ flex: 1 }} /> :
+                            types.indexOf(type) == -1 ?
                             <View center height={400}>
-                                <AntIcons name={"file1"} size={88}></AntIcons>
-                                <Button style={{width:"100%"}} marginT-68 label="下载文件" onPress={()=>{
-                                    downloadFile(url)
-                                }}></Button>
+                                <AntIcons name={"file1"} size={42}></AntIcons>
+                                {/* <Button style={{ width: "100%" }} marginT-68 label="下载文件" onPress={() => {
+                                    downloadFile(url, (path) => {
+                                        RNFetchBlob.fs.readFile(path).then((data) => {
+                                                alert(data)
+                                        })
+                                    })
+                                }}></Button> */}
+                                <Text marginT-33 style={{ fontSize: 18 }}>该文件暂不支持预览</Text>
                             </View>
                             :
                             <OfficeViewer containerStyle={{ flex: 1 }} source={url ? url : null} />
-
                 }
 
 

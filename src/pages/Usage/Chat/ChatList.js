@@ -27,6 +27,7 @@ class ChatList extends React.Component {
             postData: {
                 "pageIndex": "1",  //--------页码*
                 "pageSize": "10",  //--------每页条数*
+                "equipmentTypeId":"",
                 "title": "",//标题
             },
             resData: [{ items: [] }]
@@ -103,6 +104,7 @@ class ChatList extends React.Component {
                     "pageIndex": "1",  //--------页码*
                     "pageSize": "10",  //--------每页条数*
                     "title": getVal("title"),//设备论坛标题，筛选条件
+                    "equipmentTypeId":getVal("equipmentTypeId")
                 },
             }, () => {
                 this.onRefresh()
@@ -202,7 +204,16 @@ class ChatList extends React.Component {
                     require: false,
                     value: postData.title,
                     placeholder: "请输入设备论坛标题"
-                }]
+                },{
+                    key: "equipmentTypeId",
+                    type: "treeselect",//equipmentTypeList
+                    require: false,
+                    value: postData.equipmentTypeId,
+                    option:res.equipmentTypeList,
+                    placeholder: "请选择设备类型"
+                }
+            
+                ]
                 this.setNewState("formdata", formdata.length > 0 ? formdata : formdatas, () => {
                     fn ? fn() : null
                 })

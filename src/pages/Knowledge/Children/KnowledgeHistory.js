@@ -164,8 +164,13 @@ class KnowledgeHistory extends React.Component {
                         <Rows name="设备类型" values={equipmentTypeName} />
                         <Rows name="描述" values={knowledgeBaseDescribe} />
                         <View padding-12 row>
-                            <Button flex-1 label="下载文件" onPress={()=>{
-                                downloadFile(knowledgeBaseUrl)
+                            <Button flex-1 label="查看文件" onPress={()=>{
+                                //downloadFile(knowledgeBaseUrl)
+                                let url = knowledgeBaseUrl;
+                                navigation.navigate("PreView", {
+                                  url,
+                                  type: url.split(".")[url.split(".").length - 1]
+                                })
                             }}></Button>
                         </View>
                     </Card>

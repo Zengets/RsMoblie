@@ -69,10 +69,9 @@ class PerCenter extends React.Component {
 
   logout() {
     this.setNewState("logout", {}, async () => {
-      await AsyncStorage.clear();
-      setTimeout(() => {
+      await AsyncStorage.clear().then(()=>{
         this.props.navigation.navigate('Login')
-      }, 400)
+      });
     })
   }
 

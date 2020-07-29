@@ -69,8 +69,13 @@ class Knowledgedetail extends React.Component {
                                 <Button size="medium" flex-1 label='历史版本' outline onPress={()=>{
                                     navigation.navigate("KnowledgeHistory",{id:id})
                                 }}></Button>
-                                <Button size='medium' flex-1 label="下载文件"  marginL-12 onPress={()=>{
-                                    downloadFile(knowledgeBaseUrl)
+                                <Button size='medium' flex-1 label="查看文件"  marginL-12 onPress={()=>{
+                                    //downloadFile(knowledgeBaseUrl)
+                                    let url = knowledgeBaseUrl;
+                                    navigation.navigate("PreView", {
+                                      url,
+                                      type: url.split(".")[url.split(".").length - 1]
+                                    })
                                 }}></Button>
 
                             </View>
